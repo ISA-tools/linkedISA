@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.isatools</groupId>
+  <artifactId>isa2owl</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>isa2owl</name>
+  <description>Converst an ISAtab datasets into OWL.</description>
+  
+  <build>
+	<sourceDirectory>src/main</sourceDirectory>
+    <testSourceDirectory>src/test</testSourceDirectory>
+    <plugins>
+    	<plugin>
+        	<groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>1.6</source>
+                <target>1.6</target>
+            </configuration>
+        </plugin>                                                            
+    </plugins>
+  </build>
+  
+  <repositories>
+        <repository>
+            <id>oerc</id>
+            <url>http://frog.oerc.ox.ac.uk:8080/artifactory/repo/</url>
+        </repository>
+        
+        <repository>
+                <id>Sonatype repository</id>
+                <name>Sonatype's Maven repository</name>
+                <url>https://oss.sonatype.org/content/repositories/releases/</url>
+        </repository>
+
+   </repositories>
+    
+   <dependencies>
+		<dependency>
+            <groupId>org.isatools</groupId>
+            <artifactId>ISAcreator</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+        
+        <dependency>
+                <groupId>net.sourceforge.owlapi</groupId>
+                <artifactId>owlapi-reasoner</artifactId>
+                <version>3.3</version>
+        </dependency>
+        
+        <dependency>
+                <groupId>net.sourceforge.owlapi</groupId>
+                <artifactId>owlapi-apibinding</artifactId>
+                <version>3.3</version>
+        </dependency>
+        
+	</dependencies>
+  
+</project>
