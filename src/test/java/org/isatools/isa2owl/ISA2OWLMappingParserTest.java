@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.After;
 
 /**
- * Test class for ISA2OWLMapping
+ * Test class for ISA2OWLMappingParser.
  * 
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *
@@ -29,8 +29,10 @@ public class ISA2OWLMappingParserTest {
 		
 	@Test
 	public void testReadCSVMappingFile() throws Exception{
+		//TODO add assertions
 		URL fileURL = getClass().getClassLoader().getResource(ISA2OWLMappingParserTest.ISA_BFO_OWL_MAPPING_FILENAME);
 		parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
+		System.out.println(parser.getMapping());
 	}
 
 }

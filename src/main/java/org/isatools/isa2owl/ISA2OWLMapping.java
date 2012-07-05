@@ -2,11 +2,12 @@ package org.isatools.isa2owl;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.net.URL;
 
 import org.semanticweb.owlapi.model.*;
 
 /**
- * Encapsulates ISA to OWL mapping information.
+ * Encapsulates ISA to OWL mapping information. All data validation is done in this class.
  * 
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *
@@ -17,7 +18,7 @@ public class ISA2OWLMapping {
 	Map<String, String> defMappings = null;
 	Map<String, IRI> equivclassMappings = null;
 	Map<String, IRI> subclassMappings = null;
-	Map<String, String> propertyMappings = null;
+	Map<String, Map<IRI, IRI>> propertyMappings = null;
 	Map<String, String> patternMappings = null;
 	
 
@@ -30,14 +31,17 @@ public class ISA2OWLMapping {
 		defMappings = new HashMap<String, String>();
 		equivclassMappings = new HashMap<String, IRI>();
 		subclassMappings = new HashMap<String, IRI>();
+		propertyMappings = new HashMap<String, Map<IRI,IRI>>();
+		
 	}
 
 	/**
 	 * 
 	 * @param iri ontology IRI 
 	 */
-	public void addOntology(String name,IRI iri){
-		sourceOntoIRIs.put(name,iri);
+	public void addOntology(String name,String iri){
+		if (!iri.equals(""))
+			sourceOntoIRIs.put(name,IRI.create(iri));
 	}
 
 	/**
@@ -52,16 +56,26 @@ public class ISA2OWLMapping {
 		return sourceOntoIRIs.get(ontoID);
 	}
 	
-	public void addSubClassMapping(String label, IRI type){
-		subclassMappings.put(label, type);
+	public void addSubClassMapping(String label, String type){
+		if (!type.equals(""))
+			subclassMappings.put(label, IRI.create(type));
 	}
 
-	public void addEquivClassMapping(String label, IRI type){
-		equivclassMappings.put(label, type);
+	public void addEquivClassMapping(String label, String type){
+		if (!type.equals(""))
+		equivclassMappings.put(label, IRI.create(type));
 	}
 
 	public void addDefMapping(String label, String definition){
 		defMappings.put(label, definition);
+	}
+	
+	public void addPropertyMapping(String subject, String predicate, String object){
+		Map<IRI,IRI> predobj = propertyMappings.get(subject);
+		if (predobj==null)
+			predobj = new HashMap<IRI,IRI>();
+		if (!predicate.equals("") && !object.equals(""))
+			predobj.put(IRI.create(predicate), IRI.create(object));
 	}
 	
 	/**
@@ -72,7 +86,11 @@ public class ISA2OWLMapping {
 		return subclassMappings;
 	}
 	
-	public Map<String, String> getPropertyMappings(){
+	public Map<String,IRI> getEquivClassMappings(){
+		return equivclassMappings;
+	}
+	
+	public Map<String, Map<IRI,IRI>> getPropertyMappings(){
 		return propertyMappings;
 	}
 	

@@ -2,7 +2,6 @@ package org.isatools.isa2owl;
 
 import java.net.URL;
 
-import org.isatools.owl.OWLUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

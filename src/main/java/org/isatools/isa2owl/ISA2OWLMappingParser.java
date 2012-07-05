@@ -109,8 +109,7 @@ public class ISA2OWLMappingParser {
 	private void parseOntology(String[] line){
 		//ONTOLOGY LINE FORMAT
 		//name	version	IRI
-		
-		mapping.addOntology(line[0],IRI.create(line[2]));
+		mapping.addOntology(line[0],line[2]);
 		
 	}
 	
@@ -123,8 +122,15 @@ public class ISA2OWLMappingParser {
         //MAPPING LINE FORMAT
         //label; definition; uri of equiv class; uri of superclass; string; uri of property; string; uri of object; string; ...
 		mapping.addDefMapping(line[0], line[1]);
-		mapping.addEquivClassMapping(line[0], IRI.create(line[2]));
-		mapping.addSubClassMapping(line[0], IRI.create(line[3]));
+		mapping.addEquivClassMapping(line[0], line[2]);
+		mapping.addSubClassMapping(line[0], line[3]);
+		
+		int i = 5;
+		while(i<(line.length-2) && !line[i].equals("") && !line[i+2].equals("")){
+			mapping.addPropertyMapping(line[0], line[i], line[i+2]);
+			System.out.println("Property mapping="+line[i]+","+line[i+2]);
+			i = i+4;
+		} 
 		
 	}
 	
