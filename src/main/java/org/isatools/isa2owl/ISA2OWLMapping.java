@@ -74,8 +74,10 @@ public class ISA2OWLMapping {
 		Map<IRI,IRI> predobj = propertyMappings.get(subject);
 		if (predobj==null)
 			predobj = new HashMap<IRI,IRI>();
-		if (!predicate.equals("") && !object.equals(""))
+		if (!predicate.equals("") && !object.equals("")){
 			predobj.put(IRI.create(predicate), IRI.create(object));
+		}
+		propertyMappings.put(subject, predobj);
 	}
 	
 	/**
