@@ -33,6 +33,11 @@ public class ISA2OWLConverter {
 	private List<OWLOntology> sourceOntos = null;
 	
 	
+	//ontologies IRIs
+	public static String BFO_IRI = "http://purl.obolibrary.org/bfo.owl";
+	public static String OBI_IRI = "http://purl.obolibrary.org/obo/obi.owl";
+	
+	
 	/**
 	 * Constructor
 	 */
@@ -44,8 +49,8 @@ public class ISA2OWLConverter {
 		
 		//TODO add AutoIRIMapper
 		//adding mapper for local ontologies
-		 manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://purl.obolibrary.org/bfo.owl"), IRI.create(getClass().getClassLoader().getResource("owl/ruttenberg-bfo2.owl"))));
-		 manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://purl.obolibrary.org/obo/obi.owl"), IRI.create(getClass().getClassLoader().getResource("owl/obi.owl"))));
+		 manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISA2OWLConverter.BFO_IRI), IRI.create(getClass().getClassLoader().getResource("owl/ruttenberg-bfo2.owl"))));
+		 manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISA2OWLConverter.OBI_IRI), IRI.create(getClass().getClassLoader().getResource("owl/obi.owl"))));
 		 
 		
 	}
