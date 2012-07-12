@@ -24,9 +24,11 @@ public class ISA2OWLInstancePopulatorTest {
     public void setUp() throws Exception {
 		
 		String baseDir = System.getProperty("basedir");
-		System.out.println(baseDir);
-    	configDir = baseDir + "/Configurations/isaconfig-default_v2011-02-18/";
-        isatabParentDir = baseDir + "/src/test/resources/test-data/BII-I-1";
+		System.out.println("baseDir="+baseDir);
+    	configDir = baseDir + "src/test/resources/configurations/isaconfig-default_v2011-02-18/";
+    	System.out.println("configDir="+configDir);
+        isatabParentDir = baseDir + "/src/test/resources/BII-I-1-URI";
+        System.out.println("isatabParentDir="+isatabParentDir);
 		populator = new ISA2OWLInstancePopulator(configDir);
     }
 
@@ -35,8 +37,8 @@ public class ISA2OWLInstancePopulatorTest {
     }
 
     @Test
-    public void testConvert() throws Exception{  	
-    	
+    public void testPopulate() { 
+    	populator.populateOntology(isatabParentDir);
     }
 	
 }
