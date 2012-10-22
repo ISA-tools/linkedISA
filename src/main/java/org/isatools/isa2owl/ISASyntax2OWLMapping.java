@@ -1,6 +1,8 @@
 package org.isatools.isa2owl;
 
 import org.semanticweb.owlapi.model.*;
+import org.isatools.isacreator.model.*;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,25 +13,21 @@ import java.util.Map;
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *
  */
-public class ISA2OWLMapping {
+public class ISASyntax2OWLMapping {
 	
 	Map<String,IRI> sourceOntoIRIs = null;
-	Map<String, String> defMappings = null;
-	Map<String, IRI> equivclassMappings = null;
-	Map<String, IRI> subclassMappings = null;
+	Map<String, IRI> typeMappings = null;
 	Map<String, Map<IRI, IRI>> propertyMappings = null;
 	Map<String, String> patternMappings = null;
 	
 
-	public ISA2OWLMapping(){
+	public ISASyntax2OWLMapping(){
 		init();
 	}
 	
 	private void init(){
 		sourceOntoIRIs = new HashMap<String,IRI>();
-		defMappings = new HashMap<String, String>();
-		equivclassMappings = new HashMap<String, IRI>();
-		subclassMappings = new HashMap<String, IRI>();
+		typeMappings = new HashMap<String, IRI>();
 		propertyMappings = new HashMap<String, Map<IRI,IRI>>();
 		
 	}
@@ -54,19 +52,13 @@ public class ISA2OWLMapping {
 	public IRI getOntoIRI(String ontoID){
 		return sourceOntoIRIs.get(ontoID);
 	}
-	
-	public void addSubClassMapping(String label, String type){
-		if (!type.equals(""))
-			subclassMappings.put(label, IRI.create(type));
-	}
 
-	public void addEquivClassMapping(String label, String type){
-		if (!type.equals(""))
-		equivclassMappings.put(label, IRI.create(type));
-	}
+    public IRI getTypeMapping(String label){
+        return typeMappings.get(label);
+    }
 
-	public void addDefMapping(String label, String definition){
-		defMappings.put(label, definition);
+	public void addTypeMapping(String label, String type){
+		typeMappings.put(label, IRI.create(type));
 	}
 	
 	public void addPropertyMapping(String subject, String predicate, String object){
@@ -79,17 +71,7 @@ public class ISA2OWLMapping {
 		propertyMappings.put(subject, predobj);
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public Map<String,IRI> getSubClassMappings(){
-		return subclassMappings;
-	}
-	
-	public Map<String,IRI> getEquivClassMappings(){
-		return equivclassMappings;
-	}
+
 	
 	public Map<String, Map<IRI,IRI>> getPropertyMappings(){
 		return propertyMappings;
@@ -101,11 +83,9 @@ public class ISA2OWLMapping {
 		StringBuilder builder = new StringBuilder();
 		builder.append("MAPPING OBJECT(");
 		builder.append("ONTOLOGIES=");
-		builder.append("\nDEFINITION MAPPINGS=");
-		builder.append(this.mapToString(defMappings));
-		builder.append("\nTYPE MAPPINGS=");
-		builder.append(this.mapToString(subclassMappings));
-		builder.append("\nPROPERTY MAPPINGS=");
+        builder.append("\nTYPE MAPPINGS=\n");
+        builder.append(this.mapToString(typeMappings));
+		builder.append("\nPROPERTY MAPPINGS=\n");
 		builder.append(this.mapToString(propertyMappings));
 		builder.append("\nPATTERNS");
 		
@@ -117,7 +97,7 @@ public class ISA2OWLMapping {
 			return "";
 		StringBuilder builder = new StringBuilder();
 		for(A key: map.keySet()){
-			builder.append(key+ "," + map.get(key));
+			builder.append(key+ "," + map.get(key)+"\n");
 		}
 		return builder.toString();
 	}
