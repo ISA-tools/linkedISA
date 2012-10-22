@@ -4,6 +4,11 @@ import org.apache.log4j.Logger;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.io.importisa.ISAtabImporter;
 import org.isatools.isacreator.model.*;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import java.util.Map;
 
@@ -14,12 +19,18 @@ import java.util.Map;
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *
  */
-public class ISA2OWLInstancePopulator {
+public class ISAtab2OWLConverter {
 	
-	private static final Logger log = Logger.getLogger(ISA2OWLInstancePopulator.class.getName());
+	private static final Logger log = Logger.getLogger(ISAtab2OWLConverter.class);
 	
 	private ISAtabImporter importer = null;
 	private String configDir = null;
+    private ISASyntax2OWLMapping mapping = null;
+
+    private OWLOntology ontology = null;
+    private OWLOntologyManager manager = null;
+    private OWLDataFactory factory = null;
+    private IRI ontoIRI = null;
 	
 	
 	/**
@@ -27,10 +38,14 @@ public class ISA2OWLInstancePopulator {
 	 * 
 	 * @param cDir directory where the ISA configuration file can be found
 	 */
-	public ISA2OWLInstancePopulator(String cDir){
+	public ISAtab2OWLConverter(String cDir, ISASyntax2OWLMapping mapping){
 		configDir = cDir;
+        log.debug("configDir="+configDir);
 		importer = new ISAtabFilesImporter(configDir);
 		System.out.println("importer="+importer);
+        manager = OWLManager.createOWLOntologyManager();
+        factory = manager.getOWLDataFactory();
+
 	}
 	
 	
@@ -43,15 +58,16 @@ public class ISA2OWLInstancePopulator {
 	 * @param parentDir
 	 */
 	public boolean populateOntology(String parentDir){
-        System.out.println("In populateOntology....");
-		System.out.println("parentDir="+parentDir);
+        log.debug("In populateOntology....");
+		log.debug("parentDir=" + parentDir);
 		if (!readInISAFiles(parentDir)){
             System.out.println(importer.getMessagesAsString());
         }
 		Investigation investigation = importer.getInvestigation();
-        System.out.println("investigation="+investigation);
+        System.out.println("investigation=" + investigation);
+        log.debug("investigation=" + investigation);
 		Map<String,Study> studies = investigation.getStudies();
-        System.out.println("number of studies="+studies.keySet().size());
+        System.out.println("number of studies=" + studies.keySet().size());
 		for(String key: studies.keySet()){
 			populateStudy(studies.get(key));
 		}
@@ -62,7 +78,20 @@ public class ISA2OWLInstancePopulator {
 	private void populateStudy(Study study){
         System.out.println("study id"+study.getStudyId());
 		System.out.println("study desc="+study.getStudyDesc());
+
+
+        //Study
+        IRI type = mapping.getTypeMapping("Study");
+        factory.getOWLNamedIndividual(ontoIRI.create(study.getStudyId()));
+
+
+
+        System.out.println("ASSAYS..." + study.getAssays());
 		
 	}
+
+    private void populateAssay(Assay assay){
+
+    }
 
 }
