@@ -2,6 +2,7 @@
 package org.isatools.isa2owl;
 
 import au.com.bytecode.opencsv.CSVReader;
+import org.apache.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,6 +17,8 @@ import java.io.IOException;
  *
  */
 public class ISA2OWLMappingParser {
+
+    private static final Logger log = Logger.getLogger(ISA2OWLMappingParser.class);
 	
 	
 	private ISASyntax2OWLMapping mapping = null;
@@ -110,6 +113,7 @@ public class ISA2OWLMappingParser {
 	private void parseOntology(String[] line){
 		//ONTOLOGY LINE FORMAT
 		//name	version	IRI
+        log.debug("*********adding ontology " + line[0] + "," + line[2]);
 		mapping.addOntology(line[0],line[2]);
 		
 	}
