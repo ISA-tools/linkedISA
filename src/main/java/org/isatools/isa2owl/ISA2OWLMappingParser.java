@@ -18,7 +18,7 @@ import java.io.IOException;
 public class ISA2OWLMappingParser {
 	
 	
-	private ISA2OWLMapping mapping = null;
+	private ISASyntax2OWLMapping mapping = null;
 		
 	private static enum MappingFileField {
 		ONTOLOGIES,
@@ -47,11 +47,11 @@ public class ISA2OWLMappingParser {
 	
 	
 	public ISA2OWLMappingParser(){
-		mapping = new ISA2OWLMapping();
+		mapping = new ISASyntax2OWLMapping();
 	}
 	
 	
-	public ISA2OWLMapping getMapping(){
+	public ISASyntax2OWLMapping getMapping(){
 		return mapping;
 	}
 	
@@ -65,11 +65,11 @@ public class ISA2OWLMappingParser {
 	    MappingFileField currentField = null;
 	    
 	    	while ((nextLine = csvReader.readNext()) != null) {
-	    		
+	    		//System.out.println("nextLine="+nextLine[0]);
+
 	    		if (nextLine!=null && MappingFileField.isMappingField(nextLine[0])){
 	    			currentField = MappingFileField.getField(nextLine[0]);
 	    			System.out.println("currentField="+currentField);
-	    			
 	    			
 	    		}else{
 	    			if (nextLine[0].equals(""))
@@ -87,6 +87,9 @@ public class ISA2OWLMappingParser {
 	    			case PATTERNS:	
 	    				parsePatterns(nextLine);
 	    				break;
+                    default:
+                        parsePatterns(nextLine);
+                        break;
 	    			}
 	    			
 	    		}
@@ -118,15 +121,19 @@ public class ISA2OWLMappingParser {
 	private void parseMapping(String[] line){
 
         //MAPPING LINE FORMAT
-        //label; definition; uri of equiv class; uri of superclass; string; uri of property; string; uri of object; string; ...
-		mapping.addDefMapping(line[0], line[1]);
-		mapping.addEquivClassMapping(line[0], line[2]);
-		mapping.addSubClassMapping(line[0], line[3]);
-		
-		int i = 5;
+        //ISA syntax - label - URI - label - URI
+		//mapping.addDefMapping(line[0], line[1]);
+		//mapping.addEquivClassMapping(line[0], line[1]);
+		//mapping.addSubClassMapping(line[0], line[3]);
+        System.out.println("Type mapping="+line[0]+","+line[2]);
+        mapping.addTypeMapping(line[0], line[2]);
+
+		//parsing property mappings
+		int i = 4;
 		while(i<(line.length-2) && !line[i].equals("") && !line[i+2].equals("")){
 			mapping.addPropertyMapping(line[0], line[i], line[i+2]);
-			System.out.println("Property mapping="+line[i]+","+line[i+2]);
+            System.out.println("Property mapping="+line[i-1]+","+line[i+1]);
+			System.out.println(""+line[i]+","+line[i+2]);
 			i = i+4;
 		} 
 		
