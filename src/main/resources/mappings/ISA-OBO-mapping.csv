@@ -1,3 +1,8 @@
+ONTOLOGIES,,,,,,,,
+BFO,"""1.0""",http://purl.obolibrary.org/bfo.owl,,,,,,
+IAO: information artefact ontology,,http://purl.obolibrary.org/obo/iao.owl,,,,,,
+OBI: ontology of biological investigation,,http://purl.obolibrary.org/obo/obi.owl,,,,,,
+,,,,,,,,
 MAPPINGS,OBO Term Label,URI,OBO Property Label,URI ,OBO Term Label,URI,,
 Study,investigation,http://purl.obolibrary.org/obo/OBI_0000066,,,,,,
 Study Identifier,CRID symbol,http://purl.obolibrary.org/obo/IAO_0000028,is_about,http://purl.obolibrary.org/obo/IAO_0000136,investigation,http://purl.obolibrary.org/obo/OBI_0000066,,
