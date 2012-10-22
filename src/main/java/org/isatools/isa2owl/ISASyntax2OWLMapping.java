@@ -1,5 +1,6 @@
 package org.isatools.isa2owl;
 
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.*;
 import org.isatools.isacreator.model.*;
 
@@ -14,6 +15,8 @@ import java.util.Map;
  *
  */
 public class ISASyntax2OWLMapping {
+
+    private static final Logger log = Logger.getLogger(ISASyntax2OWLMapping.class);
 	
 	Map<String,IRI> sourceOntoIRIs = null;
 	Map<String, IRI> typeMappings = null;
@@ -60,6 +63,10 @@ public class ISASyntax2OWLMapping {
 	public void addTypeMapping(String label, String type){
 		typeMappings.put(label, IRI.create(type));
 	}
+
+    public Map<IRI,IRI> getPropertyMappings(String subject){
+        return propertyMappings.get(subject);
+    }
 	
 	public void addPropertyMapping(String subject, String predicate, String object){
 		Map<IRI,IRI> predobj = propertyMappings.get(subject);
@@ -76,13 +83,14 @@ public class ISASyntax2OWLMapping {
 	public Map<String, Map<IRI,IRI>> getPropertyMappings(){
 		return propertyMappings;
 	}
-	
-	
-	@Override
+
+
+    @Override
 	public String toString(){
 		StringBuilder builder = new StringBuilder();
 		builder.append("MAPPING OBJECT(");
 		builder.append("ONTOLOGIES=");
+        builder.append(this.mapToString(sourceOntoIRIs));
         builder.append("\nTYPE MAPPINGS=\n");
         builder.append(this.mapToString(typeMappings));
 		builder.append("\nPROPERTY MAPPINGS=\n");
