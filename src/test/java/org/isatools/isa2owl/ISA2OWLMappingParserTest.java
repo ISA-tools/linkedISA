@@ -15,7 +15,7 @@ import java.net.URL;
 public class ISA2OWLMappingParserTest {
 	
 	private ISA2OWLMappingParser parser = null;
-	public static final String ISA_BFO_OWL_MAPPING_FILENAME = "ISA-BFO-OWLmapping.csv";
+	public static final String ISA_OBO_MAPPING_FILENAME = "mappings/ISA-OBO-mapping.csv";
 	
 	@Before
     public void setUp() {
@@ -30,7 +30,7 @@ public class ISA2OWLMappingParserTest {
 	@Test
 	public void testReadCSVMappingFile() throws Exception{
 		//TODO add assertions
-		URL fileURL = getClass().getClassLoader().getResource(ISA2OWLMappingParserTest.ISA_BFO_OWL_MAPPING_FILENAME);
+		URL fileURL = getClass().getClassLoader().getResource(ISA2OWLMappingParserTest.ISA_OBO_MAPPING_FILENAME);
 		parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
 		System.out.println(parser.getMapping());
 	}

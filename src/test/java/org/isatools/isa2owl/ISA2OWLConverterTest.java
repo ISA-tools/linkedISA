@@ -17,14 +17,14 @@ public class ISA2OWLConverterTest {
 	
 	
 	private ISA2OWLMappingParser parser = null;
-	private ISA2OWLMapping mapping = null;
+	private ISASyntax2OWLMapping mapping = null;
 	private ISA2OWLConverter converter = null;
 	
 	
 	@Before
     public void setUp() throws Exception {
 		parser = new ISA2OWLMappingParser();
-		URL fileURL = getClass().getClassLoader().getResource(ISA2OWLMappingParserTest.ISA_BFO_OWL_MAPPING_FILENAME);
+		URL fileURL = getClass().getClassLoader().getResource(ISA2OWLMappingParserTest.ISA_OBO_MAPPING_FILENAME);
 		parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
 		mapping = parser.getMapping();
 		System.out.println(mapping.toString());
