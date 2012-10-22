@@ -21,7 +21,7 @@ import java.util.Map;
 public class ISA2OWLConverter {
 	
 	//mapping file
-	private ISA2OWLMapping mapping = null;
+	private ISASyntax2OWLMapping mapping = null;
 	
 	private OWLOntology ontology = null;
 	private OWLOntologyManager manager = null;
@@ -39,7 +39,7 @@ public class ISA2OWLConverter {
 	/**
 	 * Constructor
 	 */
-	public ISA2OWLConverter(ISA2OWLMapping m) throws Exception{
+	public ISA2OWLConverter(ISASyntax2OWLMapping m) throws Exception{
 		mapping = m;
 		manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();
@@ -119,6 +119,7 @@ public class ISA2OWLConverter {
 	 */
 	private void processMappings(){
 		
+		/*
 		//EquivalentClass Mappings
 		Map<String,IRI> equivClassMappings = mapping.getEquivClassMappings();
 		
@@ -137,7 +138,9 @@ public class ISA2OWLConverter {
 			}
 		
 		}//for
-		
+		*/
+
+        /*
 		//SubClass Mappings
 		Map<String,IRI> subClassMappings = mapping.getSubClassMappings();
 		
@@ -156,6 +159,7 @@ public class ISA2OWLConverter {
 			}
 		
 		}//for
+		*/
 		
 		
 		//SubClass Mappings
