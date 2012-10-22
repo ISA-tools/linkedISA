@@ -13,7 +13,7 @@ import java.net.URL;
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *
  */
-public class ISA2OWLInstancePopulatorTest {
+public class ISAtab2OWLConverterTest {
 
     private String baseDir = null;
 	private String configDir = null;
