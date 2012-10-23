@@ -12,6 +12,7 @@ import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
 import org.semanticweb.owlapi.model.*;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 
@@ -163,11 +164,37 @@ public class ISAtab2OWLConverter {
         OWLClassAssertionAxiom study_description_class_assertion = factory.getOWLClassAssertionAxiom(study_description_class, study_description_individual);
         manager.addAxiom(ontology,study_description_class_assertion);
 
+        //Study file name
+        IRI study_filename_iri = mapping.getTypeMapping(Study.STUDY_SAMPLE_FILE);
+        OWLNamedIndividual study_filename_individual = factory.getOWLNamedIndividual(ontoIRI.create(study.getStudyId()+"_filename"));
+        OWLClass study_filename_class = factory.getOWLClass(study_filename_iri);
+        OWLClassAssertionAxiom study_filename_class_assertion = factory.getOWLClassAssertionAxiom(study_filename_class, study_filename_individual);
+        manager.addAxiom(ontology,study_filename_class_assertion);
+
+
+        //publication
+        List<Publication> publicationList = study.getPublications();
+        convertPublications(study, publicationList);
+
 
 
         System.out.println("ASSAYS..." + study.getAssays());
 		
 	}
+
+    private void convertPublications(Study study, List<Publication> publicationList){
+
+        for(Publication pub: publicationList){
+            StudyPublication publication = (StudyPublication) pub;
+            //Study PubMed ID
+            IRI study_publication_iri = mapping.getTypeMapping(StudyPublication.PUBMED_ID);
+            OWLNamedIndividual study_publication_individual = factory.getOWLNamedIndividual(ontoIRI.create(study.getStudyId()+publication.getPubmedId()));
+            OWLClass study_publication_class = factory.getOWLClass(study_publication_iri);
+            OWLClassAssertionAxiom study_publication_class_assertion = factory.getOWLClassAssertionAxiom(study_publication_class, study_publication_individual);
+            manager.addAxiom(ontology,study_publication_class_assertion);
+        }
+
+    }
 
     private void populateAssay(Assay assay){
 
