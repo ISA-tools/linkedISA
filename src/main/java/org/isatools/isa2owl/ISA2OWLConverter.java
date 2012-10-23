@@ -160,17 +160,17 @@ public class ISA2OWLConverter {
 		
 		}//for
 		*/
-		
-		
+
+        /*
 		//SubClass Mappings
-		Map<String,Map<IRI,IRI>> propertyMappings = mapping.getPropertyMappings();
+		Map<String,Map<IRI,String>> propertyMappings = mapping.getPropertyMappings();
 
 		System.out.println("Dealing with property mappings...");
 		for(String key: propertyMappings.keySet()){
 			OWLClass keyClass = factory.getOWLClass(IRI.create(ontoIRI+"/"+key.replaceAll(" ", "_")));
 					
 			System.out.println("key="+key);
-			Map<IRI,IRI> predObjMap = propertyMappings.get(key);
+			Map<IRI,String> predObjMap = propertyMappings.get(key);
 			for(IRI propIRI: predObjMap.keySet()){
 				OWLObjectProperty prop = factory.getOWLObjectProperty(propIRI);
 				OWLClass objClass = factory.getOWLClass(predObjMap.get(propIRI));
@@ -181,6 +181,7 @@ public class ISA2OWLConverter {
 			}
 				
 		}//for
+		*/
 		
 	}//processMappings
 
