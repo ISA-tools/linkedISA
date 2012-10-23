@@ -20,7 +20,7 @@ public class ISASyntax2OWLMapping {
 	
 	Map<String,IRI> sourceOntoIRIs = null;
 	Map<String, IRI> typeMappings = null;
-	Map<String, Map<IRI, IRI>> propertyMappings = null;
+	Map<String, Map<IRI, String>> propertyMappings = null;
 	Map<String, String> patternMappings = null;
 	
 
@@ -31,7 +31,7 @@ public class ISASyntax2OWLMapping {
 	private void init(){
 		sourceOntoIRIs = new HashMap<String,IRI>();
 		typeMappings = new HashMap<String, IRI>();
-		propertyMappings = new HashMap<String, Map<IRI,IRI>>();
+		propertyMappings = new HashMap<String, Map<IRI,String>>();
 		
 	}
 
@@ -64,23 +64,23 @@ public class ISASyntax2OWLMapping {
 		typeMappings.put(label, IRI.create(type));
 	}
 
-    public Map<IRI,IRI> getPropertyMappings(String subject){
+    public Map<IRI,String> getPropertyMappings(String subject){
         return propertyMappings.get(subject);
     }
 	
 	public void addPropertyMapping(String subject, String predicate, String object){
-		Map<IRI,IRI> predobj = propertyMappings.get(subject);
+		Map<IRI,String> predobj = propertyMappings.get(subject);
 		if (predobj==null)
-			predobj = new HashMap<IRI,IRI>();
+			predobj = new HashMap<IRI,String>();
 		if (!predicate.equals("") && !object.equals("")){
-			predobj.put(IRI.create(predicate), IRI.create(object));
+			predobj.put(IRI.create(predicate), object);
 		}
 		propertyMappings.put(subject, predobj);
 	}
 	
 
 	
-	public Map<String, Map<IRI,IRI>> getPropertyMappings(){
+	public Map<String, Map<IRI,String>> getPropertyMappings(){
 		return propertyMappings;
 	}
 
