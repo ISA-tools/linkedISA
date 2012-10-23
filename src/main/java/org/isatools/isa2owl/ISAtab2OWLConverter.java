@@ -149,7 +149,7 @@ public class ISAtab2OWLConverter {
 
 
         //Study
-        createClassAssertion("Study",study.getStudyId(),study.getStudyId());
+        createClassAssertion(ExtendedISASyntax.STUDY,study.getStudyId(),study.getStudyId());
 
         //Study identifier
         createClassAssertion(Study.STUDY_ID,study.getStudyId()+"_identifier",study.getStudyId());
@@ -184,7 +184,7 @@ public class ISAtab2OWLConverter {
             StudyPublication publication = (StudyPublication) pub;
 
             //Publication
-            createClassAssertion("Publication",publication.getIdentifier(),publication.getIdentifier());
+            createClassAssertion(ExtendedISASyntax.PUBLICATION,publication.getIdentifier(),publication.getIdentifier());
 
             //Study PubMed ID
             createClassAssertion(StudyPublication.PUBMED_ID,publication.getIdentifier()+"_pubmed", publication.getPubmedId());
