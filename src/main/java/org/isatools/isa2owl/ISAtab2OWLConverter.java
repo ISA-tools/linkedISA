@@ -15,6 +15,7 @@ import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +42,8 @@ public class ISAtab2OWLConverter {
     //ontologies IRIs
     public static String BFO_IRI = "http://purl.obolibrary.org/bfo.owl";
     public static String OBI_IRI = "http://purl.obolibrary.org/obo/obi.owl";
+
+    private Map<String, OWLNamedIndividual> individualMap = new HashMap<String, OWLNamedIndividual>();
 
 
 
@@ -148,37 +151,71 @@ public class ISAtab2OWLConverter {
 		System.out.println("study desc="+study.getStudyDesc());
 
 
+
         //Study
-        createClassAssertion(ExtendedISASyntax.STUDY,study.getStudyId(),study.getStudyId());
+        OWLNamedIndividual studyIndividual = createClassAssertion(ExtendedISASyntax.STUDY,study.getStudyId(),study.getStudyId());
+        individualMap.put(ExtendedISASyntax.STUDY,studyIndividual);
 
         //Study identifier
-        createClassAssertion(Study.STUDY_ID,study.getStudyId()+"_identifier",study.getStudyId());
-
-        //properties for Study identifier
-        //TODO
+        OWLNamedIndividual studyIdentifierIndividual = createClassAssertion(Study.STUDY_ID,study.getStudyId()+"_identifier",study.getStudyId());
+        individualMap.put(Study.STUDY_ID,studyIdentifierIndividual);
 
         //Study title
-        createClassAssertion(Study.STUDY_TITLE,study.getStudyId()+"_title",study.getStudyTitle());
-
-        //TODO add properties for title
+        OWLNamedIndividual studyTitleIndividual = createClassAssertion(Study.STUDY_TITLE,study.getStudyId()+"_title",study.getStudyTitle());
+        individualMap.put(Study.STUDY_TITLE,studyTitleIndividual);
 
         //Study description
-        createClassAssertion(Study.STUDY_DESC,study.getStudyId()+"_description",study.getStudyDesc());
+        OWLNamedIndividual studyDescriptionIndividual = createClassAssertion(Study.STUDY_DESC,study.getStudyId()+"_description",study.getStudyDesc());
+        individualMap.put(Study.STUDY_DESC,studyDescriptionIndividual);
+
+        //Study file
+        OWLNamedIndividual studyFile = createClassAssertion(ExtendedISASyntax.STUDY_FILE,study.getStudyId()+"_file",study.getStudyDesc());
+        individualMap.put(ExtendedISASyntax.STUDY_FILE,studyFile);
+
 
         //Study file name
-        createClassAssertion(Study.STUDY_SAMPLE_FILE,study.getStudyId()+"_filename",study.getStudySampleFileIdentifier());
+        OWLNamedIndividual studyFileName = createClassAssertion(Study.STUDY_SAMPLE_FILE,study.getStudyId()+"_filename",study.getStudySampleFileIdentifier());
+        individualMap.put(Study.STUDY_SAMPLE_FILE,studyFileName);
 
 
         //Publications
         List<Publication> publicationList = study.getPublications();
-        convertPublications(study, publicationList);
+        convertPublications(publicationList);
 
+        //Study Person
+        OWLNamedIndividual studyPerson = createClassAssertion(ExtendedISASyntax.STUDY_PERSON,study.getStudyId()+"_person","study person");
+        individualMap.put(ExtendedISASyntax.STUDY_PERSON,studyPerson);
+
+
+        Map<String, Map<IRI, String>> propertyMappings = mapping.getPropertyMappings();
+        for(String subjectString: propertyMappings.keySet()){
+           System.out.println("subjectString="+subjectString);
+
+            Map<IRI, String> predicateObjects = propertyMappings.get(subjectString);
+            OWLNamedIndividual subject = individualMap.get(subjectString);
+            for(IRI predicate: predicateObjects.keySet()){
+                OWLObjectProperty property = factory.getOWLObjectProperty(predicate);
+
+                String objectString = predicateObjects.get(predicate);
+                System.out.println("objectString="+objectString);
+                OWLNamedIndividual object = individualMap.get(objectString);
+
+                System.out.println("property="+property);
+                System.out.println("subject="+subject);
+                System.out.println("object="+object);
+
+                OWLObjectPropertyAssertionAxiom axiom = factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
+                manager.addAxiom(ontology, axiom);
+            }
+
+
+        }
 
         System.out.println("ASSAYS..." + study.getAssays());
 		
 	}
 
-    private void convertPublications(Study study, List<Publication> publicationList){
+    private void convertPublications(List<Publication> publicationList){
 
         for(Publication pub: publicationList){
             StudyPublication publication = (StudyPublication) pub;
