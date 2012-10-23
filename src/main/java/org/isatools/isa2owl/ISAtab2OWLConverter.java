@@ -10,8 +10,11 @@ import org.semanticweb.owlapi.io.OWLOntologyDocumentTarget;
 import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
 import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.util.SimpleIRIMapper;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
@@ -34,9 +37,14 @@ public class ISAtab2OWLConverter {
     private OWLOntologyManager manager = null;
     private OWLDataFactory factory = null;
     private IRI ontoIRI = null;
-	
-	
-	/**
+
+    //ontologies IRIs
+    public static String BFO_IRI = "http://purl.obolibrary.org/bfo.owl";
+    public static String OBI_IRI = "http://purl.obolibrary.org/obo/obi.owl";
+
+
+
+    /**
 	 * Constructor
 	 * 
 	 * @param cDir directory where the ISA configuration file can be found
@@ -49,8 +57,17 @@ public class ISAtab2OWLConverter {
 		System.out.println("importer="+importer);
         manager = OWLManager.createOWLOntologyManager();
         factory = manager.getOWLDataFactory();
+
         try{
+        //TODO add AutoIRIMapper
+        //adding mapper for local ontologies
+        manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISAtab2OWLConverter.BFO_IRI), IRI.create(getClass().getClassLoader().getResource("owl/ruttenberg-bfo2.owl"))));
+        manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISAtab2OWLConverter.OBI_IRI), IRI.create(getClass().getClassLoader().getResource("owl/obi.owl"))));
+
+
         ontology = manager.createOntology(ontoIRI);
+        }catch(URISyntaxException e){
+            e.printStackTrace();
         }catch(OWLOntologyCreationException e){
             e.printStackTrace();
         }
@@ -64,15 +81,15 @@ public class ISAtab2OWLConverter {
 
         //TODO check imports from ontologies where the import chain implies that ontologies are duplicated
         for(IRI iri: sourceOntoIRIs.values()){
-            try{
+            //try{
                 System.out.println("iri="+iri);
-                onto = manager.loadOntology(iri);
+                //onto = manager.loadOntology(iri);
                 OWLImportsDeclaration importDecl = factory.getOWLImportsDeclaration(iri);
                 manager.applyChange(new AddImport(ontology, importDecl));
 
-            }catch(OWLOntologyCreationException oocrex){
+            //}catch(OWLOntologyCreationException oocrex){
                 //oocrex.printStackTrace();
-            }
+            //}
         }
 
     }
@@ -132,50 +149,29 @@ public class ISAtab2OWLConverter {
 
 
         //Study
-        IRI study_class_iri = mapping.getTypeMapping("Study");
-        OWLNamedIndividual study_individual = factory.getOWLNamedIndividual(ontoIRI.create(study.getStudyId()));
-        OWLClass study_class = factory.getOWLClass(study_class_iri);
-        OWLClassAssertionAxiom study_class_assertion = factory.getOWLClassAssertionAxiom(study_class, study_individual);
-        manager.addAxiom(ontology,study_class_assertion);
+        createClassAssertion("Study",study.getStudyId(),study.getStudyId());
 
         //Study identifier
-        IRI study_identifier_class_iri = mapping.getTypeMapping(Study.STUDY_ID);
-        OWLNamedIndividual study_identifier_individual = factory.getOWLNamedIndividual(ontoIRI.create(study.getStudyId()+"_identifier"));
-        OWLClass study_identifier_class = factory.getOWLClass(study_identifier_class_iri);
-        OWLClassAssertionAxiom study_identifier_class_assertion = factory.getOWLClassAssertionAxiom(study_identifier_class, study_identifier_individual);
-        manager.addAxiom(ontology,study_identifier_class_assertion);
+        createClassAssertion(Study.STUDY_ID,study.getStudyId()+"_identifier",study.getStudyId());
 
         //properties for Study identifier
         //TODO
 
         //Study title
-        IRI study_title_iri = mapping.getTypeMapping(Study.STUDY_TITLE);
-        OWLNamedIndividual study_title_individual = factory.getOWLNamedIndividual(ontoIRI.create(study.getStudyId()+"_title"));
-        OWLClass study_title_class = factory.getOWLClass(study_title_iri);
-        OWLClassAssertionAxiom study_title_class_assertion = factory.getOWLClassAssertionAxiom(study_title_class, study_title_individual);
-        manager.addAxiom(ontology,study_title_class_assertion);
+        createClassAssertion(Study.STUDY_TITLE,study.getStudyId()+"_title",study.getStudyTitle());
 
         //TODO add properties for title
 
         //Study description
-        IRI study_description_iri = mapping.getTypeMapping(Study.STUDY_DESC);
-        OWLNamedIndividual study_description_individual = factory.getOWLNamedIndividual(ontoIRI.create(study.getStudyId()+"_description"));
-        OWLClass study_description_class = factory.getOWLClass(study_description_iri);
-        OWLClassAssertionAxiom study_description_class_assertion = factory.getOWLClassAssertionAxiom(study_description_class, study_description_individual);
-        manager.addAxiom(ontology,study_description_class_assertion);
+        createClassAssertion(Study.STUDY_DESC,study.getStudyId()+"_description",study.getStudyDesc());
 
         //Study file name
-        IRI study_filename_iri = mapping.getTypeMapping(Study.STUDY_SAMPLE_FILE);
-        OWLNamedIndividual study_filename_individual = factory.getOWLNamedIndividual(ontoIRI.create(study.getStudyId()+"_filename"));
-        OWLClass study_filename_class = factory.getOWLClass(study_filename_iri);
-        OWLClassAssertionAxiom study_filename_class_assertion = factory.getOWLClassAssertionAxiom(study_filename_class, study_filename_individual);
-        manager.addAxiom(ontology,study_filename_class_assertion);
+        createClassAssertion(Study.STUDY_SAMPLE_FILE,study.getStudyId()+"_filename",study.getStudySampleFileIdentifier());
 
 
-        //publication
+        //Publications
         List<Publication> publicationList = study.getPublications();
         convertPublications(study, publicationList);
-
 
 
         System.out.println("ASSAYS..." + study.getAssays());
@@ -186,14 +182,36 @@ public class ISAtab2OWLConverter {
 
         for(Publication pub: publicationList){
             StudyPublication publication = (StudyPublication) pub;
+
+            //Publication
+            createClassAssertion("Publication",publication.getIdentifier(),publication.getIdentifier());
+
             //Study PubMed ID
-            IRI study_publication_iri = mapping.getTypeMapping(StudyPublication.PUBMED_ID);
-            OWLNamedIndividual study_publication_individual = factory.getOWLNamedIndividual(ontoIRI.create(study.getStudyId()+publication.getPubmedId()));
-            OWLClass study_publication_class = factory.getOWLClass(study_publication_iri);
-            OWLClassAssertionAxiom study_publication_class_assertion = factory.getOWLClassAssertionAxiom(study_publication_class, study_publication_individual);
-            manager.addAxiom(ontology,study_publication_class_assertion);
+            createClassAssertion(StudyPublication.PUBMED_ID,publication.getIdentifier()+"_pubmed", publication.getPubmedId());
         }
 
+    }
+
+
+
+    private OWLNamedIndividual createClassAssertion(String typeMappingLabel, String individualIdentifier, String individualLabel){
+
+
+        IRI owlClassIRI = mapping.getTypeMapping(typeMappingLabel);
+        if (owlClassIRI==null){
+            System.err.println("No IRI for type " + typeMappingLabel);
+            System.exit(-1);
+        }
+        OWLNamedIndividual individual = factory.getOWLNamedIndividual(ontoIRI.create(individualIdentifier));
+        OWLAnnotation annotation = factory.getOWLAnnotation(factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),factory.getOWLLiteral(individualLabel));
+        OWLAnnotationAssertionAxiom annotationAssertionAxiom = factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
+        manager.addAxiom(ontology, annotationAssertionAxiom);
+
+        OWLClass owlClass = factory.getOWLClass(owlClassIRI);
+        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(owlClass, individual);
+        manager.addAxiom(ontology,classAssertion);
+
+        return individual;
     }
 
     private void populateAssay(Assay assay){
