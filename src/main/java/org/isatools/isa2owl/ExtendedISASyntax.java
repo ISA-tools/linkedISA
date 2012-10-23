@@ -11,6 +11,9 @@ package org.isatools.isa2owl;
 public class ExtendedISASyntax {
 
    public static String STUDY = "Study";
+   public static String STUDY_FILE = "Study File";
    public static String PUBLICATION = "Publication";
+   public static String STUDY_PERSON = "Study Person";
+
 
 }
