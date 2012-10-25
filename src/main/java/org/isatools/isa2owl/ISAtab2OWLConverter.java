@@ -153,27 +153,27 @@ public class ISAtab2OWLConverter {
 
 
         //Study
-        createClassAssertion(ExtendedISASyntax.STUDY,study.getStudyId(),study.getStudyId());
+        createClassAssertion(ExtendedISASyntax.STUDY,study.getStudyId());
 
 
         //Study identifier
-       createClassAssertion(Study.STUDY_ID,study.getStudyId()+"_identifier",study.getStudyId());
+       createClassAssertion(Study.STUDY_ID,study.getStudyId());
 
 
         //Study title
-        createClassAssertion(Study.STUDY_TITLE,study.getStudyId()+"_title",study.getStudyTitle());
+        createClassAssertion(Study.STUDY_TITLE, study.getStudyTitle());
 
 
         //Study description
-        createClassAssertion(Study.STUDY_DESC,study.getStudyId()+"_description",study.getStudyDesc());
+        createClassAssertion(Study.STUDY_DESC, study.getStudyDesc());
 
 
         //Study File
-        createClassAssertion(ExtendedISASyntax.STUDY_FILE,study.getStudyId()+"_file",study.getStudySampleFileIdentifier());
+        createClassAssertion(ExtendedISASyntax.STUDY_FILE, study.getStudySampleFileIdentifier());
 
 
         //Study file name
-        createClassAssertion(Study.STUDY_SAMPLE_FILE,study.getStudyId()+"_filename",study.getStudySampleFileIdentifier());
+        createClassAssertion(Study.STUDY_SAMPLE_FILE,study.getStudySampleFileIdentifier());
 
 
         //Publications
@@ -182,6 +182,10 @@ public class ISAtab2OWLConverter {
 
        List<Contact> contactList = study.getContacts();
        convertContacts(contactList);
+
+        List<Factor> factorList = study.getFactors();
+        convertFactors(factorList);
+
 
        //dealing with all property mappings
        Map<String, Map<IRI, String>> propertyMappings = mapping.getPropertyMappings();
@@ -203,8 +207,14 @@ public class ISAtab2OWLConverter {
                 System.out.println("subject="+subject);
                 System.out.println("object="+object);
 
-                OWLObjectPropertyAssertionAxiom axiom = factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
-                manager.addAxiom(ontology, axiom);
+                if (subject==null || object==null || property==null){
+
+                    System.err.println("At least one is null...");
+
+                }else{
+                    OWLObjectPropertyAssertionAxiom axiom = factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
+                    manager.addAxiom(ontology, axiom);
+                    }
             }
         }
 
@@ -218,19 +228,19 @@ public class ISAtab2OWLConverter {
             StudyPublication publication = (StudyPublication) pub;
 
             //Publication
-            createClassAssertion(ExtendedISASyntax.PUBLICATION,publication.getIdentifier(),publication.getIdentifier());
+            createClassAssertion(ExtendedISASyntax.PUBLICATION,publication.getIdentifier());
 
             //Study PubMed ID
-            createClassAssertion(StudyPublication.PUBMED_ID,publication.getIdentifier()+"_pubmed", publication.getPubmedId());
+            createClassAssertion(StudyPublication.PUBMED_ID, publication.getPubmedId());
 
             //Study Publication DOI
-            createClassAssertion(StudyPublication.PUBLICATION_DOI,publication.getIdentifier()+"_doi", publication.getPublicationDOI());
+            createClassAssertion(StudyPublication.PUBLICATION_DOI, publication.getPublicationDOI());
 
             //Study Publication Author List
-            createClassAssertion(StudyPublication.PUBLICATION_AUTHOR_LIST,publication.getIdentifier()+"_authorlist", publication.getPublicationAuthorList());
+            createClassAssertion(StudyPublication.PUBLICATION_AUTHOR_LIST, publication.getPublicationAuthorList());
 
             //Study Publication Title
-            createClassAssertion(StudyPublication.PUBLICATION_TITLE,publication.getIdentifier()+"_title", publication.getPublicationTitle());
+            createClassAssertion(StudyPublication.PUBLICATION_TITLE, publication.getPublicationTitle());
 
 
         }
@@ -243,43 +253,67 @@ public class ISAtab2OWLConverter {
             StudyContact contact = (StudyContact) contact0;
 
             //Study Person
-            createClassAssertion(ExtendedISASyntax.STUDY_PERSON,contact.getFirstName()+"_person","study person");
+            createClassAssertion(ExtendedISASyntax.STUDY_PERSON,"study person");
 
             //Study Person Last Name
-            createClassAssertion(StudyContact.CONTACT_LAST_NAME,contact.getFirstName()+"last_name",contact.getLastName());
+            createClassAssertion(StudyContact.CONTACT_LAST_NAME, contact.getLastName());
 
             //Study Person First Name
-            createClassAssertion(StudyContact.CONTACT_FIRST_NAME, contact.getFirstName()+"first_name", contact.getFirstName());
+            createClassAssertion(StudyContact.CONTACT_FIRST_NAME, contact.getFirstName());
 
             //Study Person Mid Initials
-            createClassAssertion(StudyContact.CONTACT_MID_INITIAL, contact.getFirstName()+"mid_initials", contact.getFirstName());
+            createClassAssertion(StudyContact.CONTACT_MID_INITIAL, contact.getFirstName());
 
             //Study Person Email
-            createClassAssertion(StudyContact.CONTACT_EMAIL, contact.getFirstName()+"email", contact.getEmail());
+            createClassAssertion(StudyContact.CONTACT_EMAIL, contact.getEmail());
 
             //Study Person Phone
-            createClassAssertion(StudyContact.CONTACT_PHONE,  contact.getFirstName()+"email", contact.getPhone());
+            createClassAssertion(StudyContact.CONTACT_PHONE, contact.getPhone());
 
             //Study Person Fax
-            createClassAssertion(StudyContact.CONTACT_FAX,  contact.getFirstName()+"fax", contact.getFax());
+            createClassAssertion(StudyContact.CONTACT_FAX, contact.getFax());
 
             //Study Person Address
-            createClassAssertion(StudyContact.CONTACT_ADDRESS,  contact.getFirstName()+"address", contact.getAddress());
+            createClassAssertion(StudyContact.CONTACT_ADDRESS,  contact.getAddress());
 
             //Study Person Affiliation
-            createClassAssertion(StudyContact.CONTACT_AFFILIATION,  contact.getFirstName()+"affiliation", contact.getAffiliation());
+            createClassAssertion(StudyContact.CONTACT_AFFILIATION,   contact.getAffiliation());
 
             //Study Person Roles
-            createClassAssertion(StudyContact.CONTACT_ROLE,  contact.getFirstName()+"role", contact.getRole());
+            createClassAssertion(StudyContact.CONTACT_ROLE, contact.getRole());
             //for the role, if there is a term accession, identify it
 
 
         }
     }
 
+    private void convertFactors(List<Factor> factorList){
+
+        for(Factor factor: factorList){
+
+            //Study Factor
+            createClassAssertion(ExtendedISASyntax.STUDY_FACTOR, factor.getFactorName());
+
+            //Study Factor Name
+            createClassAssertion(Factor.FACTOR_NAME, factor.getFactorName());
+
+            //if there is a type that is an ontology term, use it as the type for the factor
+            System.out.println("FACTOR TYPE ="+factor.getFactorType());
+
+            System.out.println("FACTOR TYPE ACCESSION NUMBER="+factor.getFactorTypeTermAccession());
+
+            System.out.println("FACTOR TYPE TERM SOURCE"+factor.getFactorTypeTermSource());
+
+            //if (factor.getFactorType()){
+
+            //}
+
+        }
+
+    }
 
 
-    private void createClassAssertion(String typeMappingLabel, String individualIdentifier, String individualLabel){
+    private void createClassAssertion(String typeMappingLabel, String individualLabel){
 
 
         IRI owlClassIRI = mapping.getTypeMapping(typeMappingLabel);
@@ -287,7 +321,7 @@ public class ISAtab2OWLConverter {
             System.err.println("No IRI for type " + typeMappingLabel);
             System.exit(-1);
         }
-        OWLNamedIndividual individual = factory.getOWLNamedIndividual(ontoIRI.create(individualIdentifier));
+        OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(ontoIRI));
         OWLAnnotation annotation = factory.getOWLAnnotation(factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),factory.getOWLLiteral(individualLabel));
         OWLAnnotationAssertionAxiom annotationAssertionAxiom = factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
         manager.addAxiom(ontology, annotationAssertionAxiom);
