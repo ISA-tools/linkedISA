@@ -18,7 +18,7 @@ public class ISAtab2OWLConverterTest {
     private String baseDir = null;
 	private String configDir = null;
 	private String isatabParentDir = null;
-    private ISAtab2OWLConverter populator = null;
+    private ISAtab2OWLConverter converter = null;
     private ISA2OWLMappingParser parser = null;
     private ISASyntax2OWLMapping mapping = null;
 	
@@ -30,12 +30,14 @@ public class ISAtab2OWLConverterTest {
     	configDir = baseDir + "/src/test/resources/configurations/isaconfig-default_v2011-02-18/";
     	System.out.println("configDir="+configDir);
 
+        System.out.println("Parsing the mapping...");
+
         parser = new ISA2OWLMappingParser();
         URL fileURL = getClass().getClassLoader().getResource(ISA2OWLMappingParserTest.ISA_OBO_MAPPING_FILENAME);
         parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
         mapping = parser.getMapping();
 
-		populator = new ISAtab2OWLConverter(configDir, mapping);
+		converter = new ISAtab2OWLConverter(configDir, mapping);
 
 
     }
@@ -48,7 +50,10 @@ public class ISAtab2OWLConverterTest {
     public void testPopulate() {
         isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/BII-I-1";
         System.out.println("isatabParentDir="+isatabParentDir);
-        assert(populator.populateOntology(isatabParentDir));
+
+        System.out.println("Converting the ISA-tab dataset into OWL");
+
+        assert(converter.populateOntology(isatabParentDir));
 
     }
 	
