@@ -168,8 +168,8 @@ public class ISAtab2OWLConverter {
         createClassAssertion(Study.STUDY_DESC,study.getStudyId()+"_description",study.getStudyDesc());
 
 
-        //Study file
-        createClassAssertion(ExtendedISASyntax.STUDY_FILE,study.getStudyId()+"_file",study.getStudyDesc());
+        //Study File
+        createClassAssertion(ExtendedISASyntax.STUDY_FILE,study.getStudyId()+"_file",study.getStudySampleFileIdentifier());
 
 
         //Study file name
