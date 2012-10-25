@@ -172,27 +172,25 @@ public class ISAtab2OWLConverter {
         createClassAssertion(ExtendedISASyntax.STUDY_FILE,study.getStudyId()+"_file",study.getStudyDesc());
 
 
-
         //Study file name
         createClassAssertion(Study.STUDY_SAMPLE_FILE,study.getStudyId()+"_filename",study.getStudySampleFileIdentifier());
-
 
 
         //Publications
         List<Publication> publicationList = study.getPublications();
         convertPublications(publicationList);
 
-        //Study Person
-       createClassAssertion(ExtendedISASyntax.STUDY_PERSON,study.getStudyId()+"_person","study person");
+       List<Contact> contactList = study.getContacts();
+       convertContacts(contactList);
 
-
-        Map<String, Map<IRI, String>> propertyMappings = mapping.getPropertyMappings();
-        for(String subjectString: propertyMappings.keySet()){
+       //dealing with all property mappings
+       Map<String, Map<IRI, String>> propertyMappings = mapping.getPropertyMappings();
+       for(String subjectString: propertyMappings.keySet()){
            System.out.println("subjectString="+subjectString);
 
-            Map<IRI, String> predicateObjects = propertyMappings.get(subjectString);
-            OWLNamedIndividual subject = individualMap.get(subjectString);
-            for(IRI predicate: predicateObjects.keySet()){
+           Map<IRI, String> predicateObjects = propertyMappings.get(subjectString);
+           OWLNamedIndividual subject = individualMap.get(subjectString);
+           for(IRI predicate: predicateObjects.keySet()){
                 OWLObjectProperty property = factory.getOWLObjectProperty(predicate);
 
                 String objectString = predicateObjects.get(predicate);
@@ -208,8 +206,6 @@ public class ISAtab2OWLConverter {
                 OWLObjectPropertyAssertionAxiom axiom = factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
                 manager.addAxiom(ontology, axiom);
             }
-
-
         }
 
         System.out.println("ASSAYS..." + study.getAssays());
@@ -239,6 +235,46 @@ public class ISAtab2OWLConverter {
 
         }
 
+    }
+
+    private void convertContacts(List<Contact> contactsList){
+        for(Contact contact0: contactsList){
+
+            StudyContact contact = (StudyContact) contact0;
+
+            //Study Person
+            createClassAssertion(ExtendedISASyntax.STUDY_PERSON,contact.getFirstName()+"_person","study person");
+
+            //Study Person Last Name
+            createClassAssertion(StudyContact.CONTACT_LAST_NAME,contact.getFirstName()+"last_name",contact.getLastName());
+
+            //Study Person First Name
+            createClassAssertion(StudyContact.CONTACT_FIRST_NAME, contact.getFirstName()+"first_name", contact.getFirstName());
+
+            //Study Person Mid Initials
+            createClassAssertion(StudyContact.CONTACT_MID_INITIAL, contact.getFirstName()+"mid_initials", contact.getFirstName());
+
+            //Study Person Email
+            createClassAssertion(StudyContact.CONTACT_EMAIL, contact.getFirstName()+"email", contact.getEmail());
+
+            //Study Person Phone
+            createClassAssertion(StudyContact.CONTACT_PHONE,  contact.getFirstName()+"email", contact.getPhone());
+
+            //Study Person Fax
+            createClassAssertion(StudyContact.CONTACT_FAX,  contact.getFirstName()+"fax", contact.getFax());
+
+            //Study Person Address
+            createClassAssertion(StudyContact.CONTACT_ADDRESS,  contact.getFirstName()+"address", contact.getAddress());
+
+            //Study Person Affiliation
+            createClassAssertion(StudyContact.CONTACT_AFFILIATION,  contact.getFirstName()+"affiliation", contact.getAffiliation());
+
+            //Study Person Roles
+            createClassAssertion(StudyContact.CONTACT_ROLE,  contact.getFirstName()+"role", contact.getRole());
+            //for the role, if there is a term accession, identify it
+
+
+        }
     }
 
 

@@ -20,7 +20,7 @@ Study Publication Author List,author list,http://purl.obolibrary.org/obo/IAO_000
 Study Publication Title,document title,http://purl.obolibrary.org/obo/IAO_0000305,is_about,http://purl.obolibrary.org/obo/IAO_0000136,publication,Publication,,,
 Study Publication Status,,,,,,,,,
 ,,,,,,,,,
-Study Person,Homo Sapiens,http://purl.obolibrary.org/obo/NCBITaxon_9606,has role,http://purl.obolibrary.org/obo/BFO_0000087,role(http://purl.obolibrary.org/obo/BFO_0000023),Study Person Role,is member of organization,http://purl.obolibrary.org/obo/OBI_0000846,Study Person Affiliation
+Study Person,Homo Sapiens,http://purl.obolibrary.org/obo/NCBITaxon_9606,has role,http://purl.obolibrary.org/obo/BFO_0000087,role(http://purl.obolibrary.org/obo/BFO_0000023),Study Person Roles,is member of organization,http://purl.obolibrary.org/obo/OBI_0000846,Study Person Affiliation
 Study Person Last Name,author identification,http://purl.obolibrary.org/obo/IAO_0000302,is_about,http://purl.obolibrary.org/obo/IAO_0000136,Homo Sapiens,Study Person,,,
 Study Person First Name,author identification,http://purl.obolibrary.org/obo/IAO_0000302,is_about,http://purl.obolibrary.org/obo/IAO_0000136,Homo Sapiens,Study Person,,,
 Study Person Mid Initials,author identification,http://purl.obolibrary.org/obo/IAO_0000302,is_about,http://purl.obolibrary.org/obo/IAO_0000136,Homo Sapiens,Study Person,,,
