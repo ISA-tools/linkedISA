@@ -20,7 +20,12 @@ public class ISASyntax2OWLMapping {
 	
 	Map<String,IRI> sourceOntoIRIs = null;
 	Map<String, IRI> typeMappings = null;
+
+    //keep all property mappings
 	Map<String, Map<IRI, String>> propertyMappings = null;
+
+    Map<String,Map<IRI, String>> contactMappings = null;
+
 	Map<String, String> patternMappings = null;
 	
 
@@ -32,6 +37,7 @@ public class ISASyntax2OWLMapping {
 		sourceOntoIRIs = new HashMap<String,IRI>();
 		typeMappings = new HashMap<String, IRI>();
 		propertyMappings = new HashMap<String, Map<IRI,String>>();
+            contactMappings = new HashMap<String, Map<IRI,String>>();
 		
 	}
 
@@ -64,8 +70,17 @@ public class ISASyntax2OWLMapping {
 		typeMappings.put(label, IRI.create(type));
 	}
 
+
+    public Map<String, Map<IRI,String>> getPropertyMappings(){
+        return propertyMappings;
+    }
+
     public Map<IRI,String> getPropertyMappings(String subject){
         return propertyMappings.get(subject);
+    }
+
+    public Map<String,Map<IRI, String>> getContactMappings(){
+        return contactMappings;
     }
 	
 	public void addPropertyMapping(String subject, String predicate, String object){
@@ -76,13 +91,14 @@ public class ISASyntax2OWLMapping {
 			predobj.put(IRI.create(predicate), object);
 		}
 		propertyMappings.put(subject, predobj);
-	}
-	
 
-	
-	public Map<String, Map<IRI,String>> getPropertyMappings(){
-		return propertyMappings;
+        if (subject.startsWith(ExtendedISASyntax.STUDY_PERSON)){
+            contactMappings.put(subject, predobj);
+        }
+
+
 	}
+
 
 
     @Override

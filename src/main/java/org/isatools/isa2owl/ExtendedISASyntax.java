@@ -15,10 +15,13 @@ public class ExtendedISASyntax {
    public static String PUBLICATION = "Publication";
    public static String STUDY_PERSON = "Study Person";
    public static String STUDY_FACTOR = "Study Factor";
+   public static String STUDY_PROTOCOL_PARAMETER = "Study Protocol Parameter";
+
    public static String SOURCE = "Source";
    public static String SAMPLE = "Sample";
    public static String EXTRACT = "Extract";
    public static String LABELED_EXTRACT = "Labeled Extract";
+
 
 
 }
