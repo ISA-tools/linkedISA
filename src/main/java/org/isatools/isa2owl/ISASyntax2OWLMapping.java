@@ -111,6 +111,8 @@ public class ISASyntax2OWLMapping {
         builder.append(this.mapToString(typeMappings));
 		builder.append("\nPROPERTY MAPPINGS=\n");
 		builder.append(this.mapToString(propertyMappings));
+        builder.append("\nCONTACT MAPPINGS=\n");
+        builder.append(this.mapToString(contactMappings));
 		builder.append("\nPATTERNS");
 		
 		return builder.toString();
