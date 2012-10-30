@@ -129,15 +129,15 @@ public class ISA2OWLMappingParser {
 		//mapping.addDefMapping(line[0], line[1]);
 		//mapping.addEquivClassMapping(line[0], line[1]);
 		//mapping.addSubClassMapping(line[0], line[3]);
-        System.out.println("Type mapping="+line[0]+","+line[2]);
+        //System.out.println("Type mapping="+line[0]+","+line[2]);
         mapping.addTypeMapping(line[0], line[2]);
 
 		//parsing property mappings
 		int i = 4;
 		while(i<(line.length-2) && !line[i].equals("") && !line[i+2].equals("")){
 			mapping.addPropertyMapping(line[0], line[i], line[i+2]);
-            System.out.println("Property mapping="+line[i-1]+","+line[i+1]);
-			System.out.println(""+line[i]+","+line[i+2]);
+            //System.out.println("Property mapping="+line[i-1]+","+line[i+1]);
+			//System.out.println(""+line[i]+","+line[i+2]);
 			i = i+4;
 		} 
 		
