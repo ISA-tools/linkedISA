@@ -46,8 +46,8 @@ public class ISAtab2OWLConverterTest {
     public void tearDown() {
     }
 
-    @Test
-    public void testPopulate() {
+    //@Test
+    public void testConvertBII_I_1() {
         isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/BII-I-1";
         System.out.println("isatabParentDir="+isatabParentDir);
 
@@ -56,5 +56,16 @@ public class ISAtab2OWLConverterTest {
         assert(isatab2owl.convert(isatabParentDir));
 
     }
-	
+
+
+    @Test
+    public void testConvertMTBLS6() {
+        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/MTBLS6";
+        System.out.println("isatabParentDir="+isatabParentDir);
+
+        System.out.println("Converting the ISA-tab dataset into OWL");
+
+        assert(isatab2owl.convert(isatabParentDir));
+
+    }
 }
