@@ -5,6 +5,10 @@ import org.coode.owlapi.manchesterowlsyntax.ManchesterOWLSyntaxOntologyFormat;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.io.importisa.ISAtabImporter;
 import org.isatools.isacreator.model.*;
+import org.isatools.isacreator.ontologymanager.BioPortalClient;
+import org.isatools.isacreator.ontologymanager.OntologyManager;
+import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
+import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.OWLOntologyDocumentTarget;
 import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
@@ -76,8 +80,8 @@ public class ISAtab2OWLConverter {
         ontology = manager.createOntology(ontoIRI);
 
         //only import extended-obi.owl
-        //OWLImportsDeclaration importDecl = factory.getOWLImportsDeclaration(IRI.create("http://purl.obolibrary.org/obo/extended-obi.owl"));
-        //manager.applyChange(new AddImport(ontology, importDecl));
+        OWLImportsDeclaration importDecl = factory.getOWLImportsDeclaration(IRI.create("http://purl.obolibrary.org/obo/extended-obi.owl"));
+        manager.applyChange(new AddImport(ontology, importDecl));
 
 
         }catch(URISyntaxException e){
@@ -131,6 +135,7 @@ public class ISAtab2OWLConverter {
 		Investigation investigation = importer.getInvestigation();
         System.out.println("investigation=" + investigation);
         log.debug("investigation=" + investigation);
+
 		Map<String,Study> studies = investigation.getStudies();
         System.out.println("number of studies=" + studies.keySet().size());
 
@@ -420,22 +425,50 @@ public class ISAtab2OWLConverter {
         for(Factor factor: factorList){
 
             //Study Factor
-            createIndividual(ExtendedISASyntax.STUDY_FACTOR, factor.getFactorName());
+            OWLNamedIndividual factorIndividual = createIndividual(ExtendedISASyntax.STUDY_FACTOR, factor.getFactorName());
 
             //Study Factor Name
             createIndividual(Factor.FACTOR_NAME, factor.getFactorName());
 
-            //if there is a type that is an ontology term, use it as the type for the factor
+            System.out.println("FACTOR NAME ="+factor.getFactorName());
             System.out.println("FACTOR TYPE ="+factor.getFactorType());
-
             System.out.println("FACTOR TYPE ACCESSION NUMBER="+factor.getFactorTypeTermAccession());
-
             System.out.println("FACTOR TYPE TERM SOURCE"+factor.getFactorTypeTermSource());
 
-            //if (factor.getFactorType()){
 
-            //}
+            //use term source and term accession to declare a more specific type for the factor
+            if (factor.getFactorTypeTermAccession()!=null && !factor.getFactorTypeTermAccession().equals("")
+                    && factor.getFactorTypeTermSource()!=null && factor.getFactorTypeTermSource().equals("")){
 
+
+                List<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
+                System.out.println("ONTOLOGIES USED = "+ontologiesUsed);
+
+                OntologySourceRefObject ontologySourceRefObject = null;
+                for(OntologySourceRefObject ontologyRef: ontologiesUsed){
+                    if (factor.getFactorTypeTermSource()!=null && factor.getFactorTypeTermSource().equals(ontologyRef.getSourceName())){
+                        ontologySourceRefObject = ontologyRef;
+                        break;
+                    }
+                }
+
+                if (ontologySourceRefObject!=null){
+                    BioPortalClient client = new BioPortalClient();
+                    OntologyTerm term = client.getTermInformation(factor.getFactorTypeTermAccession(), ontologySourceRefObject.getSourceVersion());
+
+
+                    System.out.println("term====>"+term);
+                    if (term!=null) {
+                        String purl = term.getOntologyPurl();
+
+                        addOWLClassAssertion(IRI.create(purl), factorIndividual);
+
+                    }//term not null
+
+            } //ontologySourceRefObject not null
+
+
+        }//factors attributes not null
         }
 
     }
@@ -509,9 +542,7 @@ public class ISAtab2OWLConverter {
         OWLAnnotationAssertionAxiom annotationAssertionAxiom = factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
         manager.addAxiom(ontology, annotationAssertionAxiom);
 
-        OWLClass owlClass = factory.getOWLClass(owlClassIRI);
-        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(owlClass, individual);
-        manager.addAxiom(ontology,classAssertion);
+        OWLClass owlClass = addOWLClassAssertion(owlClassIRI, individual);
 
         System.out.println("HERE-> "+individualLabel + " rdf:type " + owlClass );
 
@@ -529,6 +560,13 @@ public class ISAtab2OWLConverter {
         typeIdIndividualMap.put(typeMappingLabel,map);
 
         return individual;
+    }
+
+    private OWLClass addOWLClassAssertion(IRI owlClassIRI, OWLNamedIndividual individual) {
+        OWLClass owlClass = factory.getOWLClass(owlClassIRI);
+        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(owlClass, individual);
+        manager.addAxiom(ontology,classAssertion);
+        return owlClass;
     }
 
 }
