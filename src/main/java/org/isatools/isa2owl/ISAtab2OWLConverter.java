@@ -462,10 +462,9 @@ public class ISAtab2OWLConverter {
         //Study Design Type
         OWLNamedIndividual studyDesignIndividual = createIndividual(StudyDesign.STUDY_DESIGN_TYPE, studyDesign.getStudyDesignType());
 
-
         //use term source and term accession to declare a more specific type for the factor
         if (studyDesign.getStudyDesignTypeTermAcc()!=null && !studyDesign.getStudyDesignTypeTermAcc().equals("")
-                && studyDesign.getStudyDesignTypeTermSourceRef()!=null && studyDesign.getStudyDesignTypeTermSourceRef().equals("")){
+                && studyDesign.getStudyDesignTypeTermSourceRef()!=null && !studyDesign.getStudyDesignTypeTermSourceRef().equals("")){
 
             findOntologyTermAndAddClassAssertion(studyDesign.getStudyDesignTypeTermSourceRef(), studyDesign.getStudyDesignTypeTermAcc(), studyDesignIndividual);
 
@@ -491,8 +490,24 @@ public class ISAtab2OWLConverter {
 
         //searching term in bioportal
         if (ontologySourceRefObject!=null){
+
+            System.out.println("Found ontology "+ontologySourceRefObject);
+
+            System.out.println("version..."+ ontologySourceRefObject.getSourceVersion());
+            System.out.println("description..."+ontologySourceRefObject.getSourceDescription());
+
             BioPortalClient client = new BioPortalClient();
-            OntologyTerm term = client.getTermInformation(termAccession, ontologySourceRefObject.getSourceVersion());
+
+            OntologyTerm term = null;
+            if (ontologySourceRefObject.getSourceVersion()!=null && !ontologySourceRefObject.getSourceVersion().equals("")){
+
+                term = client.getTermInformation(termAccession, ontologySourceRefObject.getSourceVersion());
+
+            }else{
+                String ontologyVersion = client.getLatestOntologyVersion(ontologySourceRefObject.getSourceName());
+                term = client.getTermInformation(termAccession, ontologyVersion);
+            }
+
 
 
             System.out.println("term====>"+term);
