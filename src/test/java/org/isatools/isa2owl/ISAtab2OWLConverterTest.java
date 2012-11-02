@@ -37,6 +37,9 @@ public class ISAtab2OWLConverterTest {
         parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
         mapping = parser.getMapping();
 
+        System.out.println("MAPPING-----");
+        System.out.println(mapping);
+
 		isatab2owl = new ISAtab2OWLConverter(configDir, mapping, "http://isa-tools.org/owl/" );
 
 
