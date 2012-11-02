@@ -177,12 +177,13 @@ public class ISAtab2OWLConverter {
         return true;
 	}
 
+
     /**
      * It converts each of the ISA Study elements into OWL
      *
      * @param study
      */
-	private void convertStudy(Study study){
+    private void convertStudy(Study study){
         log.info("Converting study " + study.getStudyId() + "...");
 
         //Study
@@ -223,50 +224,56 @@ public class ISAtab2OWLConverter {
         Map<String, Assay> assayMap = study.getAssays();
         convertAssays(assayMap);
 
-       //dealing with all property mappings
-       Map<String, Map<IRI, String>> propertyMappings = mapping.getPropertyMappings();
-       for(String subjectString: propertyMappings.keySet()){
-           System.out.println("subjectString="+subjectString);
+        //dealing with all property mappings
+        Map<String, Map<IRI, String>> propertyMappings = mapping.getPropertyMappings();
+        for(String subjectString: propertyMappings.keySet()){
+            System.out.println("subjectString="+subjectString);
 
-           //skip Study Person properties as they are dealt with in the Contact mappings
-           if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON))
-               continue;
+            //skip Study Person properties as they are dealt with in the Contact mappings
+            if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON))
+                continue;
 
-           Map<IRI, String> predicateObjects = propertyMappings.get(subjectString);
-           Set<OWLNamedIndividual> subjects = typeIndividualMap.get(subjectString);
+            Map<IRI, String> predicateObjects = propertyMappings.get(subjectString);
+            Set<OWLNamedIndividual> subjects = typeIndividualMap.get(subjectString);
 
-           if (subjects==null)
-               continue;
+            if (subjects==null)
+                continue;
 
-           for(OWLIndividual subject: subjects){
+            for(OWLIndividual subject: subjects){
 
-            for(IRI predicate: predicateObjects.keySet()){
-               OWLObjectProperty property = factory.getOWLObjectProperty(predicate);
+                for(IRI predicate: predicateObjects.keySet()){
+                    OWLObjectProperty property = factory.getOWLObjectProperty(predicate);
 
-               String objectString = predicateObjects.get(predicate);
+                    String objectString = predicateObjects.get(predicate);
 
-               System.out.println("objectString="+objectString);
-               Set<OWLNamedIndividual> objects = typeIndividualMap.get(objectString);
+                    System.out.println("objectString="+objectString);
+                    Set<OWLNamedIndividual> objects = typeIndividualMap.get(objectString);
 
-               if (objects==null)
-                   continue;
+                    if (objects==null)
+                        continue;
 
-               for(OWLNamedIndividual object: objects){
-                   System.out.println("property="+property);
-                   System.out.println("subject="+subject);
-                   System.out.println("object="+object);
+                    for(OWLNamedIndividual object: objects){
+                        System.out.println("property="+property);
+                        System.out.println("subject="+subject);
+                        System.out.println("object="+object);
 
-                   if (subject==null || object==null || property==null){
+                        if (subject==null || object==null || property==null){
 
-                       System.err.println("At least one is null...");
+                            System.err.println("At least one is null...");
 
-                }else{
-                    OWLObjectPropertyAssertionAxiom axiom = factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
-                    manager.addAxiom(ontology, axiom);
-                }
-               }//for
+                        }else{
+                            OWLObjectPropertyAssertionAxiom axiom = factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
+                            manager.addAxiom(ontology, axiom);
+                        }
+                    }//for
+                } //for
             } //for
-           } //for
+        }
+
+
+        List<StudyDesign> studyDesignList = study.getStudyDesigns();
+        for(StudyDesign studyDesign: studyDesignList){
+            convertStudyDesign(studyDesign);
         }
 
         System.out.println("ASSAYS..." + study.getAssays());
@@ -440,36 +447,63 @@ public class ISAtab2OWLConverter {
             if (factor.getFactorTypeTermAccession()!=null && !factor.getFactorTypeTermAccession().equals("")
                     && factor.getFactorTypeTermSource()!=null && factor.getFactorTypeTermSource().equals("")){
 
+                findOntologyTermAndAddClassAssertion(factor.getFactorTypeTermSource(), factor.getFactorTypeTermAccession(), factorIndividual);
 
-                List<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
-                System.out.println("ONTOLOGIES USED = "+ontologiesUsed);
-
-                OntologySourceRefObject ontologySourceRefObject = null;
-                for(OntologySourceRefObject ontologyRef: ontologiesUsed){
-                    if (factor.getFactorTypeTermSource()!=null && factor.getFactorTypeTermSource().equals(ontologyRef.getSourceName())){
-                        ontologySourceRefObject = ontologyRef;
-                        break;
-                    }
-                }
-
-                if (ontologySourceRefObject!=null){
-                    BioPortalClient client = new BioPortalClient();
-                    OntologyTerm term = client.getTermInformation(factor.getFactorTypeTermAccession(), ontologySourceRefObject.getSourceVersion());
-
-
-                    System.out.println("term====>"+term);
-                    if (term!=null) {
-                        String purl = term.getOntologyPurl();
-
-                        addOWLClassAssertion(IRI.create(purl), factorIndividual);
-
-                    }//term not null
-
-            } //ontologySourceRefObject not null
 
 
         }//factors attributes not null
         }
+
+    }
+
+
+    private void convertStudyDesign(StudyDesign studyDesign){
+
+        //Study Design Type
+        OWLNamedIndividual studyDesignIndividual = createIndividual(StudyDesign.STUDY_DESIGN_TYPE, studyDesign.getStudyDesignType());
+
+
+        //use term source and term accession to declare a more specific type for the factor
+        if (studyDesign.getStudyDesignTypeTermAcc()!=null && !studyDesign.getStudyDesignTypeTermAcc().equals("")
+                && studyDesign.getStudyDesignTypeTermSourceRef()!=null && studyDesign.getStudyDesignTypeTermSourceRef().equals("")){
+
+            findOntologyTermAndAddClassAssertion(studyDesign.getStudyDesignTypeTermSourceRef(), studyDesign.getStudyDesignTypeTermAcc(), studyDesignIndividual);
+
+
+        }
+    }
+
+
+    private void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
+
+        System.out.println("Find ontology term...");
+
+        List<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
+        System.out.println("ONTOLOGIES USED = "+ontologiesUsed);
+
+        OntologySourceRefObject ontologySourceRefObject = null;
+        for(OntologySourceRefObject ontologyRef: ontologiesUsed){
+            if (termSourceRef!=null && termSourceRef.equals(ontologyRef.getSourceName())){
+                ontologySourceRefObject = ontologyRef;
+                break;
+            }
+        }
+
+        //searching term in bioportal
+        if (ontologySourceRefObject!=null){
+            BioPortalClient client = new BioPortalClient();
+            OntologyTerm term = client.getTermInformation(termAccession, ontologySourceRefObject.getSourceVersion());
+
+
+            System.out.println("term====>"+term);
+            if (term!=null) {
+                String purl = term.getOntologyPurl();
+
+                addOWLClassAssertion(IRI.create(purl), individual);
+
+            }//term not null
+
+        } //ontologySourceRefObject not null
 
     }
 
