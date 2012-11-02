@@ -52,7 +52,9 @@ public class ISAtab2OWLConverter {
 
     private Map<Publication, OWLNamedIndividual> publicationIndividualMap = null;
     private Map<Contact, OWLNamedIndividual> contactIndividualMap = null;
+    private Map<Protocol, OWLNamedIndividual> protocolIndividualMap = null;
 
+    private List<org.isatools.isacreator.configuration.Ontology> allOntologies = null;
 
 
     /**
@@ -144,6 +146,7 @@ public class ISAtab2OWLConverter {
         typeIdIndividualMap = new HashMap<String, Map<String, OWLNamedIndividual>>();
         publicationIndividualMap = new HashMap<Publication, OWLNamedIndividual>();
         contactIndividualMap = new HashMap<Contact, OWLNamedIndividual>();
+        protocolIndividualMap = new HashMap<Protocol, OWLNamedIndividual>();
 
         //convert each study
 		for(String key: studies.keySet()){
@@ -208,6 +211,12 @@ public class ISAtab2OWLConverter {
         List<Publication> publicationList = study.getPublications();
         convertPublications(publicationList);
 
+        //Study design
+        List<StudyDesign> studyDesignList = study.getStudyDesigns();
+        for(StudyDesign studyDesign: studyDesignList){
+            convertStudyDesign(studyDesign);
+        }
+
         //Study Person
         List<Contact> contactList = study.getContacts();
         convertContacts(contactList);
@@ -220,6 +229,10 @@ public class ISAtab2OWLConverter {
         List<Protocol> protocolList = study.getProtocols();
         convertProtocols(protocolList);
 
+
+
+        System.out.println("ASSAYS..." + study.getAssays());
+
         //Study Assays
         Map<String, Assay> assayMap = study.getAssays();
         convertAssays(assayMap);
@@ -230,7 +243,7 @@ public class ISAtab2OWLConverter {
             System.out.println("subjectString="+subjectString);
 
             //skip Study Person properties as they are dealt with in the Contact mappings
-            if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON))
+            if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON) || subjectString.startsWith(ExtendedISASyntax.STUDY_PROTOCOL))
                 continue;
 
             Map<IRI, String> predicateObjects = propertyMappings.get(subjectString);
@@ -271,12 +284,7 @@ public class ISAtab2OWLConverter {
         }
 
 
-        List<StudyDesign> studyDesignList = study.getStudyDesigns();
-        for(StudyDesign studyDesign: studyDesignList){
-            convertStudyDesign(studyDesign);
-        }
 
-        System.out.println("ASSAYS..." + study.getAssays());
 
         log.info("... end of conversion for Study "+study.getStudyId()+".");
 
@@ -477,6 +485,9 @@ public class ISAtab2OWLConverter {
 
         System.out.println("Find ontology term...");
 
+        System.out.println("termAccession="+termAccession);
+        System.out.println("termSourceRef="+termSourceRef);
+
         List<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
         System.out.println("ONTOLOGIES USED = "+ontologiesUsed);
 
@@ -497,6 +508,10 @@ public class ISAtab2OWLConverter {
             System.out.println("description..."+ontologySourceRefObject.getSourceDescription());
 
             BioPortalClient client = new BioPortalClient();
+
+            if (allOntologies==null){
+                allOntologies = client.getAllOntologies();
+            }
 
             OntologyTerm term = null;
             if (ontologySourceRefObject.getSourceVersion()!=null && !ontologySourceRefObject.getSourceVersion().equals("")){
@@ -529,6 +544,53 @@ public class ISAtab2OWLConverter {
      */
     private void convertProtocols(List<Protocol> protocolList){
 
+        Map<String, OWLNamedIndividual> protocolIndividuals = null;
+        Map<String,Map<IRI, String>> protocolMappings = mapping.getProtocolMappings();
+
+        for(Protocol protocol: protocolList){
+            protocolIndividuals = new HashMap<String, OWLNamedIndividual>();
+
+            //Study Protocol
+            createIndividual(ExtendedISASyntax.STUDY_PROTOCOL, protocol.getProtocolName(), protocolIndividuals);
+
+            //Study Protocol Name
+            createIndividual(Protocol.PROTOCOL_NAME, protocol.getProtocolName(), protocolIndividuals);
+
+            //Study Protocol Type
+            createIndividual(Protocol.PROTOCOL_TYPE, protocol.getProtocolType(), protocolIndividuals);
+
+            //Study Protocol Description
+            createIndividual(Protocol.PROTOCOL_DESCRIPTION, protocol.getProtocolDescription(), protocolIndividuals);
+
+            //Study Protocol URI
+            createIndividual(Protocol.PROTOCOL_URI, protocol.getProtocolURL(), protocolIndividuals);
+
+            //Study Protocol Version
+            createIndividual(Protocol.PROTOCOL_VERSION, protocol.getProtocolVersion(), protocolIndividuals);
+
+            String[] parameterNames = protocol.getProtocolParameterNames();
+            String[] termAccessions = protocol.getProtocolParameterNameAccessions();
+            String[] termSources = protocol.getProtocolParameterNameSources();
+
+            boolean annotated = false;
+            if (parameterNames.length==termAccessions.length && parameterNames.length==termSources.length)
+                annotated = true;
+
+            int i = 0;
+            for(String parameterName: parameterNames){
+
+                //Study Protocol Parameter
+                OWLNamedIndividual parameterNameIndividual = createIndividual(ExtendedISASyntax.STUDY_PROTOCOL_PARAMETER, parameterName, protocolIndividuals);
+
+                createIndividual(Protocol.PROTOCOL_PARAMETER_NAME, parameterName, protocolIndividuals);
+
+                if (annotated)
+                    findOntologyTermAndAddClassAssertion(termSources[i], termAccessions[i], parameterNameIndividual);
+                i++;
+            }
+            convertProperties(protocolMappings, protocolIndividuals);
+        }
+
     }
 
     /**
@@ -537,6 +599,25 @@ public class ISAtab2OWLConverter {
      * @param assayMap
      */
     private void convertAssays(Map<String, Assay> assayMap){
+
+        for(String assayRef: assayMap.keySet()){
+            Assay assay = assayMap.get(assayRef);
+
+            //Study Assay
+            createIndividual(ExtendedISASyntax.STUDY_ASSAY, assay.getIdentifier());
+
+            //Study Assay Measurement Type
+            createIndividual(Assay.MEASUREMENT_ENDPOINT, assay.getMeasurementEndpoint());
+
+            //Study Assay Technology Type
+            createIndividual(Assay.TECHNOLOGY_TYPE, assay.getTechnologyType());
+
+            //Study Assay File
+            createIndividual(ExtendedISASyntax.STUDY_ASSAY_FILE, assay.getAssayReference());
+
+            //Study Assay File Name
+            createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference());
+        }
 
     }
 
