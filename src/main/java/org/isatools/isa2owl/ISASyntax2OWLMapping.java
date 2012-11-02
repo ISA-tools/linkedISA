@@ -25,6 +25,7 @@ public class ISASyntax2OWLMapping {
 	Map<String, Map<IRI, String>> propertyMappings = null;
 
     Map<String,Map<IRI, String>> contactMappings = null;
+    Map<String,Map<IRI, String>> protocolMappings = null;
 
 	Map<String, String> patternMappings = null;
 	
@@ -37,7 +38,8 @@ public class ISASyntax2OWLMapping {
 		sourceOntoIRIs = new HashMap<String,IRI>();
 		typeMappings = new HashMap<String, IRI>();
 		propertyMappings = new HashMap<String, Map<IRI,String>>();
-            contactMappings = new HashMap<String, Map<IRI,String>>();
+        contactMappings = new HashMap<String, Map<IRI,String>>();
+        protocolMappings = new HashMap<String, Map<IRI,String>>();
 		
 	}
 
@@ -82,6 +84,10 @@ public class ISASyntax2OWLMapping {
     public Map<String,Map<IRI, String>> getContactMappings(){
         return contactMappings;
     }
+
+    public Map<String,Map<IRI, String>> getProtocolMappings(){
+        return protocolMappings;
+    }
 	
 	public void addPropertyMapping(String subject, String predicate, String object){
 		Map<IRI,String> predobj = propertyMappings.get(subject);
@@ -96,6 +102,9 @@ public class ISASyntax2OWLMapping {
             contactMappings.put(subject, predobj);
         }
 
+        if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL)){
+            protocolMappings.put(subject, predobj);
+        }
 
 	}
 
@@ -113,6 +122,8 @@ public class ISASyntax2OWLMapping {
 		builder.append(this.mapToString(propertyMappings));
         builder.append("\nCONTACT MAPPINGS=\n");
         builder.append(this.mapToString(contactMappings));
+        builder.append("\nPROTOCOL MAPPINGS=\n");
+        builder.append(this.mapToString(protocolMappings));
 		builder.append("\nPATTERNS");
 		
 		return builder.toString();
