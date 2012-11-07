@@ -1,5 +1,8 @@
-package org.isatools.isa2owl;
+package org.isatools.isa2owl.converter;
 
+import org.isatools.isa2owl.mapping.ISA2OWLMappingParserTest;
+import org.isatools.isa2owl.mapping.ISA2OWLMappingParser;
+import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

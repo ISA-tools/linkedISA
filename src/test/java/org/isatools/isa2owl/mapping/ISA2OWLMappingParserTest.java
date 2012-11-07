@@ -1,4 +1,4 @@
-package org.isatools.isa2owl;
+package org.isatools.isa2owl.mapping;
 
 import org.junit.After;
 import org.junit.Before;
