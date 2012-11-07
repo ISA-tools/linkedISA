@@ -1,8 +1,8 @@
-package org.isatools.isa2owl;
+package org.isatools.isa2owl.mapping;
 
 import org.apache.log4j.Logger;
+import org.isatools.isa2owl.converter.ExtendedISASyntax;
 import org.semanticweb.owlapi.model.*;
-import org.isatools.isacreator.model.*;
 
 
 import java.util.HashMap;
@@ -21,9 +21,8 @@ public class ISASyntax2OWLMapping {
 	Map<String,IRI> sourceOntoIRIs = null;
 	Map<String, IRI> typeMappings = null;
 
-    //keep all property mappings
+    //property mappings
 	Map<String, Map<IRI, String>> propertyMappings = null;
-
     Map<String,Map<IRI, String>> contactMappings = null;
     Map<String,Map<IRI, String>> protocolMappings = null;
 

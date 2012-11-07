@@ -1,7 +1,8 @@
-package org.isatools.isa2owl;
+package org.isatools.isa2owl.converter;
 
 import org.apache.log4j.Logger;
 import org.coode.owlapi.manchesterowlsyntax.ManchesterOWLSyntaxOntologyFormat;
+import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.io.importisa.ISAtabImporter;
 import org.isatools.isacreator.model.*;
@@ -55,7 +56,6 @@ public class ISAtab2OWLConverter {
     private Map<Protocol, OWLNamedIndividual> protocolIndividualMap = null;
 
     private List<org.isatools.isacreator.configuration.Ontology> allOntologies = null;
-
 
     /**
 	 * Constructor
@@ -135,11 +135,50 @@ public class ISAtab2OWLConverter {
         //processSourceOntologies();
 
 		Investigation investigation = importer.getInvestigation();
+
         System.out.println("investigation=" + investigation);
         log.debug("investigation=" + investigation);
 
 		Map<String,Study> studies = investigation.getStudies();
+
         System.out.println("number of studies=" + studies.keySet().size());
+
+        for(String key: studies.keySet()){
+            Study study = studies.get(key);
+
+            System.out.println("key="+key);
+            System.out.println("study="+study);
+
+            Map<String,Assay> assayMap =study.getAssays();
+            System.out.println("assay keys..."+assayMap.keySet());
+
+
+            System.out.println("STUDY... ");
+            Object[][] data = study.getStudySampleDataMatrix();
+
+
+            for(int i=0; i<data.length; i++){
+                for(int j=0; j<data[i].length; j++){
+                    System.out.println("data["+i+"]["+j+"]="+data[i][j]);
+                }
+            }
+
+            for(String assayKey: assayMap.keySet()){
+                System.out.println("assayKey="+assayKey);
+                Assay assay = assayMap.get(assayKey);
+                data = assay.getTableReferenceObject().getDataAsArray();
+
+
+                for(int i=0; i<data.length; i++){
+                    for(int j=0; j<data[i].length; j++){
+                        System.out.println("data["+i+"]["+j+"]="+data[i][j]);
+                    }
+                }
+            }
+
+        }
+        System.out.println("After printing");
+
 
         //initialise the map of individuals
         typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
@@ -228,8 +267,6 @@ public class ISAtab2OWLConverter {
         //Study Protocol
         List<Protocol> protocolList = study.getProtocols();
         convertProtocols(protocolList);
-
-
 
         System.out.println("ASSAYS..." + study.getAssays());
 

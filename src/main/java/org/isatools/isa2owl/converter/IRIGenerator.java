@@ -1,4 +1,4 @@
-package org.isatools.isa2owl;
+package org.isatools.isa2owl.converter;
 
 import org.semanticweb.owlapi.model.IRI;
 

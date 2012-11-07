@@ -1,5 +1,5 @@
  
-package org.isatools.isa2owl;
+package org.isatools.isa2owl.mapping;
 
 import au.com.bytecode.opencsv.CSVReader;
 import org.apache.log4j.Logger;
