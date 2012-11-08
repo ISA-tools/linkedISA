@@ -34,11 +34,11 @@ public class ProcessNode extends Node {
         outputNodes.add(outputNode);
     }
 
-    public List<Node> getInputNode() {
+    public List<Node> getInputNodes() {
         return inputNodes;
     }
 
-    public List<Node> getOutputNode() {
+    public List<Node> getOutputNodes() {
         return outputNodes;
     }
 }

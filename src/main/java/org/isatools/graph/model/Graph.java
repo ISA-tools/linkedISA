@@ -69,13 +69,13 @@ public class Graph {
                 ProcessNode node = (ProcessNode) n;
                 System.out.println("ProcessNode: "+n.getName());
 
-                if (node.getInputNode() != null) {
-                    for (Node inputNode : node.getInputNode()) {
+                if (node.getInputNodes() != null) {
+                    for (Node inputNode : node.getInputNodes()) {
                         System.out.println("\t input: " + inputNode.getName());
                     }
                 }
-                if (node.getOutputNode() != null) {
-                    for (Node outputNode : node.getOutputNode()) {
+                if (node.getOutputNodes() != null) {
+                    for (Node outputNode : node.getOutputNodes()) {
                         System.out.println("\t output: " + outputNode.getName());
                     }
                 }
