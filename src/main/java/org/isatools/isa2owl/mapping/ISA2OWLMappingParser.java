@@ -121,30 +121,56 @@ public class ISA2OWLMappingParser {
 	private void parseAuthor(String[] line){
 		
 	}
-	
-	private void parseMapping(String[] line){
 
-        //MAPPING LINE FORMAT
-        //ISA syntax - label - URI - label - URI
-		//mapping.addDefMapping(line[0], line[1]);
-		//mapping.addEquivClassMapping(line[0], line[1]);
-		//mapping.addSubClassMapping(line[0], line[3]);
-        //System.out.println("Type mapping="+line[0]+","+line[2]);
-        mapping.addTypeMapping(line[0], line[2]);
+    private void parseMapping(String[] line){
 
-		//parsing property mappings
-		int i = 4;
-		while(i<(line.length-2) && !line[i].equals("") && !line[i+2].equals("")){
-			mapping.addPropertyMapping(line[0], line[i], line[i+2]);
-            //System.out.println("Property mapping="+line[i-1]+","+line[i+1]);
-			//System.out.println(""+line[i]+","+line[i+2]);
-			i = i+4;
-		} 
-		
-	}
+        if (!line[0].startsWith("{")){
+
+            mapping.addTypeMapping(line[0], line[2]);
+
+            //parsing property mappings
+            int i = 4;
+            while(i<(line.length-2) && !line[i].equals("") && !line[i+2].equals("")){
+                mapping.addPropertyMapping(line[0], line[i], line[i+2]);
+                i = i+4;
+            }
+
+        }else{
+
+            String element = line[0];
+            element = element.substring(1,element.length()-1);
+            String[] types = element.split("\\|");
+
+            for(int i=0; i<types.length; i++){
+                mapping.addTypeMapping(types[i],line[2]);
+            }
+
+            //parsing property mappings
+            int i = 4;
+            while(i<(line.length-2) && !line[i].equals("") && !line[i+2].equals("")){
+
+                String object = line[i+2];
+
+                if (!object.startsWith("{")){
+
+                    for(int j=0; j<types.length; j++)
+                        mapping.addPropertyMapping(types[j], line[i],object);
+
+                }else{
+                    object = object.substring(1, object.length()-1);
+                    String[] objects = object.split("\\|");
+
+                    for(int j=0; j<types.length; j++){
+                        mapping.addPropertyMapping(types[j], line[i], objects[j]);
+                    }
+                }
+                i = i+4;
+            }
+        }
+    }
 	
 	private void parsePatterns(String[] line){
-		
+
 	}
 	
 }
