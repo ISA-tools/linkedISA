@@ -21,6 +21,7 @@ import java.util.List;
 public class Assay2OWLConverter {
 
     private GraphParser graphParser = null;
+    private Object[][] data = null;
 
     public Assay2OWLConverter(){
 
@@ -28,12 +29,24 @@ public class Assay2OWLConverter {
 
     public void convert(Assay assay, OWLNamedIndividual assayIndividual){
 
+        data = assay.getAssayDataMatrix();
+
+        for(int i=0; i<data.length; i++){
+            for (int j=0; j< data[i].length; j++){
+                System.out.println("data["+i+","+j+"]="+data[i][j]);
+            }
+        }
+
+
+        System.out.println("data.length="+data.length);
+
+        System.out.println("data[0].length="+data[0].length);
+
         graphParser = new GraphParser(assay.getAssayDataMatrix());
-
         graphParser.parse();
-
         Graph graph = graphParser.getGraph();
 
+        //print graph
         graph.outputGraph();
 
         //Material Nodes
@@ -41,15 +54,29 @@ public class Assay2OWLConverter {
 
         for(Node node: materialNodes){
             MaterialNode materialNode = (MaterialNode) node;
+            int col = materialNode.getIndex();
 
-            System.out.println("CONVERT MATERIAL NODE");
+
+            System.out.println("CONVERT MATERIAL NODE whose index is "+ col);
+
             System.out.println(materialNode.getMaterialNodeType());
-            System.out.println(materialNode.getMaterialNodeName());
-            //Material Node
-            ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), materialNode.getMaterialNodeName());
 
-            //Material Node Name
-            ISA2OWL.createIndividual(ExtendedISASyntax.MATERIAL_NODE, materialNode.getName());
+            System.out.println(materialNode.getMaterialNodeType());
+
+
+            for(int row=1; row < data.length-1; row++){
+
+                System.out.println("data[i][j]="+(data[row][col]).toString());
+
+                if (data[row][col].toString().equals(""))
+                    continue;
+
+                //Material Node
+                ISA2OWL.createIndividual(materialNode.getMaterialNodeType(),(data[row][col]).toString(), materialNode.getMaterialNodeType());
+
+                //Material Node Name
+                ISA2OWL.createIndividual(materialNode.getName(),(data[row][col]).toString());
+            }
         }
 
 

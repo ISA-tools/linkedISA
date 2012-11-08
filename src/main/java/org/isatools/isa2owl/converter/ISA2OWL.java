@@ -20,12 +20,6 @@ import java.util.Set;
  */
 public class ISA2OWL {
 
-//    private static ISA2OWL instance = new ISA2OWL();
-//
-//    public static ISA2OWL getInstance() {
-//        return instance;
-//    }
-
     public static  OWLOntology ontology = null;
     public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
     public static OWLDataFactory factory = manager.getOWLDataFactory();
@@ -47,6 +41,14 @@ public class ISA2OWL {
         OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(owlClass, individual);
         manager.addAxiom(ontology,classAssertion);
         return owlClass;
+    }
+
+    public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, String comment){
+        OWLNamedIndividual individual = createIndividual(typeMappingLabel,individualLabel);
+        OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
+        OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
+        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
+        return individual;
     }
 
     /**
