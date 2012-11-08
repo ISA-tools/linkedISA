@@ -26,7 +26,7 @@ public class Graph {
         return graphStructure;
     }
 
-    public List<Node> findInstancesOfNode(NodeType nodeType) {
+    public List<Node> getNodes(NodeType nodeType) {
         List<Node> nodes = new ArrayList<Node>();
 
         for (Node n : graphStructure) {
@@ -67,7 +67,7 @@ public class Graph {
         for (Node n : getGraph()) {
             if (n instanceof ProcessNode) {
                 ProcessNode node = (ProcessNode) n;
-                System.out.println(n.getName());
+                System.out.println("ProcessNode: "+n.getName());
 
                 if (node.getInputNode() != null) {
                     for (Node inputNode : node.getInputNode()) {
@@ -81,15 +81,15 @@ public class Graph {
                 }
             } else if (n instanceof MaterialNode) {
 
-                System.out.println(n.getName());
+                System.out.println("MaterialNode: "+n.getName());
 
                 MaterialNode node = (MaterialNode) n;
 
-                for (Node mp : node.getMaterialProperties()) {
+                for (Node mp : node.getMaterialAttributes()) {
                     System.out.println("\t property: " + mp.getName());
                 }
             } else {
-                System.out.println(n.getName());
+                System.out.println("DataNode: "+n.getName());
             }
         }
     }

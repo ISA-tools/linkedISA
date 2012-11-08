@@ -1,5 +1,8 @@
 package org.isatools.graph.model;
 
+import org.isatools.isa2owl.converter.ExtendedISASyntax;
+import org.isatools.isacreator.model.GeneralFieldTypes;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,19 +17,37 @@ import java.util.List;
  */
 public class MaterialNode extends Node {
 
-    private List<Node> materialProperties;
+    //TODO change Node to MaterialAttribute?
+    private List<Node> materialAttributes;
 
     public MaterialNode(int index, String name) {
         super(index, name);
-
-        materialProperties = new ArrayList<Node>();
+        materialAttributes = new ArrayList<Node>();
     }
 
-    public void addMaterialProperty(Node property) {
-        materialProperties.add(property);
+    public void addMaterialAttribute(Node property) {
+        materialAttributes.add(property);
     }
 
-    public List<Node> getMaterialProperties() {
-        return materialProperties;
+    public List<Node> getMaterialAttributes() {
+        return materialAttributes;
     }
+
+    public String getMaterialNodeType(){
+
+        System.out.println("MATERIAL NODE NAME "+getName());
+
+        if (getName().equals(GeneralFieldTypes.SAMPLE_NAME)){
+            return ExtendedISASyntax.SAMPLE;
+        }
+        if (getName().equals(GeneralFieldTypes.SOURCE_NAME)){
+            return ExtendedISASyntax.SOURCE;
+        }
+        return null;
+    }
+
+    public String getMaterialNodeName(){
+        return getName().substring(0,getName().length()-4);
+    }
+
 }

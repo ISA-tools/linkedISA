@@ -8,9 +8,9 @@ package org.isatools.graph.model;
  *         Date: 11/10/2011
  *         Time: 13:22
  */
-public class MaterialProperty extends Node {
+public class MaterialAttribute extends Node {
 
-    public MaterialProperty(int index, String name) {
+    public MaterialAttribute(int index, String name) {
         super(index, name);
     }
 }
