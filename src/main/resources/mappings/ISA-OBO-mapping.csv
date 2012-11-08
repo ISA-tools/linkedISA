@@ -56,8 +56,12 @@ Study Protocol Parameter,controlled variable specification(http://purl.obolibrar
 Study Protocol Parameters Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,controlled variable specification,Study Protocol Parameter,,,,
 Study Protocol Components Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,device(http://purl.obolibrary.org/obo/OBI_0000968),http://purl.obolibrary.org/obo/OBI_0000968,,,,
 Study Protocol Components Type,,,,,,,,,,
-Source,material entity,http://purl.obolibrary.org/obo/BFO_0000040,denotes,http://purl.obolibrary.org/obo/IAO_0000219,material entity(http://purl.obolibrary.org/obo/BFO_0000040),Source
+Source,material entity,http://purl.obolibrary.org/obo/BFO_0000040,
+Source Name, written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,material entity(http://purl.obolibrary.org/obo/BFO_0000040),Source
 Sample,processed material,http://purl.obolibrary.org/obo/OBI_0000047
 Extract,processed material,http://purl.obolibrary.org/obo/OBI_0000047
 Labeled Extract,processed material,http://purl.obolibrary.org/obo/OBI_0000047
 {Sample Name|Extract Name|Labeled Extract Name},written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,processed material,{Sample|Extract|Labeled Extract}
+Protocol REF,material processing(http://purl.obolibrary.org/obo/OBI_0000094),http://purl.obolibrary.org/obo/OBI_0000094,chain(realizes, concretizes),chain(http://purl.obolibrary.org/obo/BFO_0010037,http://purl.obolibrary.org/obo/BFO_0010034),plan specification,Protocol
+Protocol REF Input,,Material Node,is specified input of,http://purl.obolibrary.org/obo/BFO_0000295,protocol,Protocol REF
+Protocol REF Output,,Material Node,is specified output of,http://purl.obolibrary.org/obo/BFO_0000312,protocol,Protocol REF,derives from,http://purl.obolibrary.org/obo/RO_0001000,Protocol REF Input
