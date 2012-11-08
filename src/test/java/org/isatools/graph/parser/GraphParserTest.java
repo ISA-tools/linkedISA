@@ -1,12 +1,12 @@
 package org.isatools.graph.parser;
 
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
+import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.Investigation;
 import org.isatools.isacreator.model.Study;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -37,7 +37,8 @@ public class GraphParserTest {
         //Import ISAtab dataset
         ISAtabFilesImporter importer = new ISAtabFilesImporter(configDir);
 
-        String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/MTBLS6";
+        //String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/MTBLS6";
+        String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
         System.out.println("isatabParentDir="+isatabParentDir);
 
         importer.importFile(isatabParentDir);
@@ -58,7 +59,31 @@ public class GraphParserTest {
             GraphParser parser = new GraphParser(data);
             parser.parse();
 
+            System.out.println("GRAPH...");
+            parser.getGraph().outputGraph();
+
             System.out.println("GROUPS=" + parser.getGroups());
+
+            System.out.println("Material attributes..."+parser.extractMaterialAttributes());
+
+            Map<String, Assay> assayMap = study.getAssays();
+
+            for(String assayId: assayMap.keySet()){
+
+                System.out.println("Assay id="+assayId);
+                Assay assay = assayMap.get(assayId);
+
+                data = assay.getAssayDataMatrix();
+
+                parser = new GraphParser(data);
+                parser.parse();
+
+                System.out.println("GRAPH...");
+                parser.getGraph().outputGraph();
+
+                System.out.println("GROUPS=" + parser.getGroups());
+                System.out.println("Material attributes..."+parser.extractMaterialAttributes());
+            }
 
         }
 
