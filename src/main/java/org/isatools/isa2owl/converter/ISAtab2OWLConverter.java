@@ -41,7 +41,7 @@ public class ISAtab2OWLConverter {
 
     private Map<Publication, OWLNamedIndividual> publicationIndividualMap = null;
     private Map<Contact, OWLNamedIndividual> contactIndividualMap = null;
-    private Map<Protocol, OWLNamedIndividual> protocolIndividualMap = null;
+    private Map<String, OWLNamedIndividual> protocolIndividualMap = null;
 
     private List<org.isatools.isacreator.configuration.Ontology> allOntologies = null;
 
@@ -133,7 +133,7 @@ public class ISAtab2OWLConverter {
         ISA2OWL.typeIdIndividualMap = new HashMap<String, Map<String, OWLNamedIndividual>>();
         publicationIndividualMap = new HashMap<Publication, OWLNamedIndividual>();
         contactIndividualMap = new HashMap<Contact, OWLNamedIndividual>();
-        protocolIndividualMap = new HashMap<Protocol, OWLNamedIndividual>();
+        protocolIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
         //convert each study
 		for(String key: studies.keySet()){
@@ -177,7 +177,7 @@ public class ISAtab2OWLConverter {
         log.info("Converting study " + study.getStudyId() + "...");
 
         //Study
-        ISA2OWL.createIndividual(ExtendedISASyntax.STUDY,study.getStudyId());
+        ISA2OWL.createIndividual(ExtendedISASyntax.STUDY, study.getStudyId());
 
         //Study identifier
         ISA2OWL.createIndividual(Study.STUDY_ID, study.getStudyId());
@@ -215,6 +215,9 @@ public class ISAtab2OWLConverter {
         //Study Protocol
         List<Protocol> protocolList = study.getProtocols();
         convertProtocols(protocolList);
+
+        Assay2OWLConverter assay2OWLConverter = new Assay2OWLConverter();
+        assay2OWLConverter.convert(study.getStudySample(), null, protocolIndividualMap);
 
         System.out.println("ASSAYS..." + study.getAssays());
 
@@ -373,43 +376,11 @@ public class ISAtab2OWLConverter {
 
             System.out.println("contactIndividuals="+contactIndividuals);
 
-            convertProperties(contactMappings, contactIndividuals);
+            ISA2OWL.convertProperties(contactMappings, contactIndividuals);
 
         }
     }
 
-    private void convertProperties(Map<String, Map<IRI, String>> propertyMappings, Map<String, OWLNamedIndividual> typeIndividualM){
-
-        for(String subjectString: propertyMappings.keySet()){
-            System.out.println("subjectString="+subjectString);
-
-            Map<IRI, String> predicateObjects = propertyMappings.get(subjectString);
-            OWLNamedIndividual subject = typeIndividualM.get(subjectString);
-
-
-                for(IRI predicate: predicateObjects.keySet()){
-                    OWLObjectProperty property = ISA2OWL.factory.getOWLObjectProperty(predicate);
-
-                    String objectString = predicateObjects.get(predicate);
-
-                    System.out.println("objectString="+objectString);
-                    OWLNamedIndividual object = typeIndividualM.get(objectString);
-
-                        System.out.println("property="+property);
-                        System.out.println("subject="+subject);
-                        System.out.println("object="+object);
-
-                        if (subject==null || object==null || property==null){
-
-                            System.err.println("At least one is null...");
-
-                        }else{
-                            OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
-                            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
-                        }
-                    }//for
-        }
-    }
 
 
     /**
@@ -528,12 +499,14 @@ public class ISAtab2OWLConverter {
 
         Map<String, OWLNamedIndividual> protocolIndividuals = null;
         Map<String,Map<IRI, String>> protocolMappings = ISA2OWL.mapping.getProtocolMappings();
+        OWLNamedIndividual individual = null;
 
         for(Protocol protocol: protocolList){
             protocolIndividuals = new HashMap<String, OWLNamedIndividual>();
 
             //Study Protocol
-            ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_PROTOCOL, protocol.getProtocolName(), protocolIndividuals);
+            individual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_PROTOCOL, protocol.getProtocolName(), protocolIndividuals);
+            protocolIndividualMap.put(protocol.getProtocolName(),individual);
 
             //Study Protocol Name
             ISA2OWL.createIndividual(Protocol.PROTOCOL_NAME, protocol.getProtocolName(), protocolIndividuals);
@@ -570,7 +543,7 @@ public class ISAtab2OWLConverter {
                     findOntologyTermAndAddClassAssertion(termSources[i], termAccessions[i], parameterNameIndividual);
                 i++;
             }
-            convertProperties(protocolMappings, protocolIndividuals);
+            ISA2OWL.convertProperties(protocolMappings, protocolIndividuals);
         }
 
     }
@@ -601,15 +574,10 @@ public class ISAtab2OWLConverter {
             ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference());
 
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
-            assayConverter.convert(assay, studyAssayIndividual);
+            assayConverter.convert(assay, studyAssayIndividual, protocolIndividualMap);
         }
 
     }
-
-
-
-
-
 
 
 }

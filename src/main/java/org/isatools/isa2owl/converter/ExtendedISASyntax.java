@@ -7,6 +7,9 @@ package org.isatools.isa2owl.converter;
  * Time: 11:23
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
+ *
+ * Terms used in the ISA2OWL mappings that are not part of the ISA syntax
+ *
  */
 public class ExtendedISASyntax {
 
@@ -27,5 +30,8 @@ public class ExtendedISASyntax {
    public static String SAMPLE = "Sample";
    public static String EXTRACT = "Extract";
    public static String LABELED_EXTRACT = "Labeled Extract";
+
+   public static String PROTOCOL_REF_INPUT = "Protocol REF Input";
+   public static String PROTOCOL_REF_OUTPUT = "Protocol REF Output";
 
 }

@@ -17,6 +17,9 @@ import java.util.Map;
 public class ISASyntax2OWLMapping {
 
     private static final Logger log = Logger.getLogger(ISASyntax2OWLMapping.class);
+
+    public static String SEPARATOR_REGEXPR = "\\|";
+    public static String CHAIN_PROPERTY = "chain";
 	
 	Map<String,IRI> sourceOntoIRIs = null;
 	Map<String, IRI> typeMappings = null;

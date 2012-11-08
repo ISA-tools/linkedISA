@@ -158,7 +158,7 @@ public class ISA2OWLMappingParser {
 
                 }else{
                     object = object.substring(1, object.length()-1);
-                    String[] objects = object.split("\\|");
+                    String[] objects = object.split(ISASyntax2OWLMapping.SEPARATOR_REGEXPR);
 
                     for(int j=0; j<types.length; j++){
                         mapping.addPropertyMapping(types[j], line[i], objects[j]);

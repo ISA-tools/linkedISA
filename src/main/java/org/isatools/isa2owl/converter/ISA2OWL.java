@@ -121,6 +121,39 @@ public class ISA2OWL {
         map.put(typeMappingLabel, individual);
         return individual;
     }
+
+    public static void convertProperties(Map<String, Map<IRI, String>> propertyMappings, Map<String, OWLNamedIndividual> typeIndividualM){
+
+        for(String subjectString: propertyMappings.keySet()){
+            System.out.println("subjectString="+subjectString);
+
+            Map<IRI, String> predicateObjects = propertyMappings.get(subjectString);
+            OWLNamedIndividual subject = typeIndividualM.get(subjectString);
+
+
+            for(IRI predicate: predicateObjects.keySet()){
+                OWLObjectProperty property = ISA2OWL.factory.getOWLObjectProperty(predicate);
+
+                String objectString = predicateObjects.get(predicate);
+
+                System.out.println("objectString="+objectString);
+                OWLNamedIndividual object = typeIndividualM.get(objectString);
+
+                System.out.println("property="+property);
+                System.out.println("subject="+subject);
+                System.out.println("object="+object);
+
+                if (subject==null || object==null || property==null){
+
+                    System.err.println("At least one is null...");
+
+                }else{
+                    OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
+                    ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
+                }
+            }//for
+        }
+    }
 }
 
 
