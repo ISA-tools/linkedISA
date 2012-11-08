@@ -35,19 +35,20 @@ public class MaterialNode extends Node {
 
     public String getMaterialNodeType(){
 
-        System.out.println("MATERIAL NODE NAME "+getName());
-
-        if (getName().equals(GeneralFieldTypes.SAMPLE_NAME)){
+        if (getName().equals(GeneralFieldTypes.SAMPLE_NAME.toString()))
             return ExtendedISASyntax.SAMPLE;
-        }
-        if (getName().equals(GeneralFieldTypes.SOURCE_NAME)){
-            return ExtendedISASyntax.SOURCE;
-        }
-        return null;
-    }
 
-    public String getMaterialNodeName(){
-        return getName().substring(0,getName().length()-4);
+        if (getName().equals(GeneralFieldTypes.SOURCE_NAME.toString()))
+            return ExtendedISASyntax.SOURCE;
+
+        if (getName().equals(GeneralFieldTypes.EXTRACT_NAME.toString()))
+            return ExtendedISASyntax.EXTRACT;
+
+        if (getName().equals(GeneralFieldTypes.LABELED_EXTRACT_NAME.toString()))
+            return ExtendedISASyntax.LABELED_EXTRACT;
+
+        return null;
+
     }
 
 }

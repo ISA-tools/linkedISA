@@ -66,9 +66,11 @@ public class GraphParser {
                 if (lastMaterialOrData != null && lastMaterialOrData instanceof MaterialNode) {
                     ((MaterialNode) graph.getNode(lastMaterialOrData.getIndex())).addMaterialAttribute(materialProperty);
                 }
-            } else if (!column.matches("(Factor.*)|(Parameter.*)|(Comment.*)|(Unit.*)|(Term.*)|(Material.*)|(Array\\sDesign.*)|(Label.*)|(Date.*)|(Provider.*)")) {
-                //material nodes
+            } else if (column.matches("(Source.*)|(Sample.*)|(Extract.*)|(Labeled Extract.*)")) {
 
+            //if (!column.matches("(Factor.*)|(Parameter.*)|(Comment.*)|(Unit.*)|(Term.*)|(Material.*)|(Array\\sDesign.*)|(Label.*)|(Date.*)|(Provider.*)")) {
+
+                //material nodes
                 Node materialNode = new MaterialNode(index, column);
                 graph.addNode(materialNode);
                 lastMaterialOrData = materialNode;
