@@ -2,7 +2,6 @@ package org.isatools.graph.parser;
 
 
 import org.isatools.graph.model.*;
-import org.isatools.manipulator.SpreadsheetManipulation;
 
 import java.util.*;
 
@@ -24,7 +23,6 @@ public class GraphParser {
     private Object[][] assayTable;
 
     private Graph graph;
-
     private Map<String, Set<String>> groups;
 
     public GraphParser(Object[][] assayTable) {
@@ -64,11 +62,13 @@ public class GraphParser {
                     lastProcess = null;
                 }
             } else if (column.matches("(Characteristic.*)")) {
-                Node materialProperty = new MaterialProperty(index, column);
+                Node materialProperty = new MaterialAttribute(index, column);
                 if (lastMaterialOrData != null && lastMaterialOrData instanceof MaterialNode) {
-                    ((MaterialNode) graph.getNode(lastMaterialOrData.getIndex())).addMaterialProperty(materialProperty);
+                    ((MaterialNode) graph.getNode(lastMaterialOrData.getIndex())).addMaterialAttribute(materialProperty);
                 }
             } else if (!column.matches("(Factor.*)|(Parameter.*)|(Comment.*)|(Unit.*)|(Term.*)|(Material.*)|(Array\\sDesign.*)|(Label.*)|(Date.*)|(Provider.*)")) {
+                //material nodes
+
                 Node materialNode = new MaterialNode(index, column);
                 graph.addNode(materialNode);
                 lastMaterialOrData = materialNode;
@@ -92,21 +92,25 @@ public class GraphParser {
     /**
      * @return Returns a Map of the data files present, and a count of how many times that data was used.
      */
-    public Map<String, Integer> extractData() {
+    public Map<String, Integer> extractDataNodes() {
         return extractNodes(NodeType.DATA_NODE);
     }
 
-    public Map<String, Map<String, Integer>> extractMaterials() {
+    /**
+     *
+     * @return Map with structure: < attribute name , < attribute value , row count >>
+     */
+    public Map<String, Map<String, Integer>> extractMaterialAttributes() {
         Map<String, Map<String, Integer>> resultNodes
                 = new HashMap<String, Map<String, Integer>>();
 
-        List<Node> node = graph.findInstancesOfNode(NodeType.MATERIAL_NODE);
+        List<Node> node = graph.getNodes(NodeType.MATERIAL_NODE);
 
         for (Node nodeOfInterest : node) {
             // extract the values!
             MaterialNode materialNode = (MaterialNode) nodeOfInterest;
 
-            for (Node property : materialNode.getMaterialProperties()) {
+            for (Node property : materialNode.getMaterialAttributes()) {
 
                 for (int rowIndex = 1; rowIndex < assayTable.length; rowIndex++) {
 
@@ -134,15 +138,21 @@ public class GraphParser {
         return resultNodes;
     }
 
+    /**
+     *
+     * @param type
+     * @return a map whose keys are the values corresponding to nodes of type 'type' and the values are the number of them
+     */
     private Map<String, Integer> extractNodes(NodeType type) {
         Map<String, Integer> resultNodes = new HashMap<String, Integer>();
 
-        List<Node> node = graph.findInstancesOfNode(type);
+        List<Node> node = graph.getNodes(type);
 
         for (Node nodeOfInterest : node) {
             // extract the values!
             for (int rowIndex = 1; rowIndex < assayTable.length; rowIndex++) {
                 if (nodeOfInterest.getIndex() < assayTable[rowIndex].length) {
+
                     String[] row = Arrays.copyOf(assayTable[rowIndex], assayTable[rowIndex].length, String[].class);
                     String value = row[nodeOfInterest.getIndex()];
                     if (value != null && !value.equals("")) {
@@ -152,6 +162,7 @@ public class GraphParser {
                             int newCount = resultNodes.get(value) + 1;
                             resultNodes.put(value, newCount);
                         }
+
                     }
                 }
             }
@@ -173,7 +184,7 @@ public class GraphParser {
     }
 
 
-    public  Map<String, Set<String>> getDataGroupsWithTypeByColumn(Object[][] fileContents, String group, boolean exactMatch, boolean includeColumnNames) {
+    private Map<String, Set<String>> getDataGroupsWithTypeByColumn(Object[][] fileContents, String group, boolean exactMatch, boolean includeColumnNames) {
         Map<String, Set<String>> groups = new HashMap<String, Set<String>>();
 
         String[] columnNames = Arrays.copyOf(fileContents[0],fileContents[0].length, String[].class);
@@ -219,7 +230,7 @@ public class GraphParser {
         return groups;
     }
 
-    public  String getColValAtRow(Object[][] fileContents, String[] columnNames, String colName, int rowNumber) {
+    private String getColValAtRow(Object[][] fileContents, String[] columnNames, String colName, int rowNumber) {
         for (int col = 0; col < columnNames.length; col++) {
 
             if (columnNames[col].equalsIgnoreCase(colName)) {
