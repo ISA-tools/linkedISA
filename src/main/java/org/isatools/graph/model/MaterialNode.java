@@ -17,19 +17,20 @@ import java.util.List;
  */
 public class MaterialNode extends Node {
 
-    //TODO change Node to MaterialAttribute?
-    private List<Node> materialAttributes;
+    public static final String REGEXP = "(Source.*)|(Sample.*)|(Extract.*)|(Labeled Extract.*)";
+
+    private List<MaterialAttribute> materialAttributes;
 
     public MaterialNode(int index, String name) {
         super(index, name);
-        materialAttributes = new ArrayList<Node>();
+        materialAttributes = new ArrayList<MaterialAttribute>();
     }
 
-    public void addMaterialAttribute(Node property) {
-        materialAttributes.add(property);
+    public void addMaterialAttribute(MaterialAttribute attribute) {
+        materialAttributes.add(attribute);
     }
 
-    public List<Node> getMaterialAttributes() {
+    public List<MaterialAttribute> getMaterialAttributes() {
         return materialAttributes;
     }
 

@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class ProcessNode extends Node {
 
+    public static final String REGEXP = "Protocol REF";
+
     private List<Node> inputNodes = new ArrayList<Node>();
     private List<Node> outputNodes = new ArrayList<Node>();
 

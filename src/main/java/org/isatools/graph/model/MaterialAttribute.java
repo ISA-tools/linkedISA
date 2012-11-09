@@ -10,6 +10,8 @@ package org.isatools.graph.model;
  */
 public class MaterialAttribute extends Node {
 
+    public static final String REGEXP = "(Characteristic.*)";
+
     public MaterialAttribute(int index, String name) {
         super(index, name);
     }
