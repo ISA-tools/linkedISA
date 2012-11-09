@@ -45,7 +45,7 @@ public class GraphParser {
 
         // todo look at this and improve how the graph is constructed.
         for (String column : columns) {
-            if (column.equalsIgnoreCase("Protocol REF")) {
+            if (column.equalsIgnoreCase(ProcessNode.REGEXP)) {
                 ProcessNode processNode = new ProcessNode(index, column);
                 graph.addNode(processNode);
                 if (lastMaterialOrData != null) {
@@ -61,16 +61,13 @@ public class GraphParser {
                     lastProcess.addOutputNode(dataNode);
                     lastProcess = null;
                 }
-            } else if (column.matches("(Characteristic.*)")) {
-                Node materialProperty = new MaterialAttribute(index, column);
+            } else if (column.matches(MaterialAttribute.REGEXP)) {
+                MaterialAttribute materialAttribute = new MaterialAttribute(index, column);
                 if (lastMaterialOrData != null && lastMaterialOrData instanceof MaterialNode) {
-                    ((MaterialNode) graph.getNode(lastMaterialOrData.getIndex())).addMaterialAttribute(materialProperty);
+                    ((MaterialNode) graph.getNode(lastMaterialOrData.getIndex())).addMaterialAttribute(materialAttribute);
                 }
-            } else if (column.matches("(Source.*)|(Sample.*)|(Extract.*)|(Labeled Extract.*)")) {
+            } else if (column.matches(MaterialNode.REGEXP)) {
 
-            //if (!column.matches("(Factor.*)|(Parameter.*)|(Comment.*)|(Unit.*)|(Term.*)|(Material.*)|(Array\\sDesign.*)|(Label.*)|(Date.*)|(Provider.*)")) {
-
-                //material nodes
                 Node materialNode = new MaterialNode(index, column);
                 graph.addNode(materialNode);
                 lastMaterialOrData = materialNode;
