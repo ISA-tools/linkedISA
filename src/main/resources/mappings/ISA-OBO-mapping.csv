@@ -68,6 +68,6 @@ Labeled Extract,processed material,http://purl.obolibrary.org/obo/OBI_0000047,,,
 {Sample Name|Extract Name|Labeled Extract Name},written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,processed material,{Sample|Extract|Labeled Extract},,,,
 Characteristics[],quality(http://purl.obolibrary.org/obo/BFO_0000019),http://purl.obolibrary.org/obo/BFO_0000019,,,,,,,,
 ,,,,,,,,,,
-Protocol REF,material processing(http://purl.obolibrary.org/obo/OBI_0000094),http://purl.obolibrary.org/obo/OBI_0000094,
+Protocol REF,material processing(http://purl.obolibrary.org/obo/OBI_0000094),http://purl.obolibrary.org/obo/OBI_0000094,chain(realizes o concretizes) = executes,http://isa-tools.org/isa/ISA0000001,plan specification,Study Protocol,,,
 Protocol REF Input,,,is specified input of ,http://purl.obolibrary.org/obo/OBI_0000295,protocol,Protocol REF,,,,
 Protocol REF Output,,,is specified output of ,http://purl.obolibrary.org/obo/OBI_0000312,protocol,Protocol REF,derives from,http://purl.obolibrary.org/obo/RO_0001000,input,Protocol REF Input
