@@ -110,7 +110,7 @@ public class ISA2OWL {
 
         OWLClass owlClass = ISA2OWL.addOWLClassAssertion(owlClassIRI, individual);
 
-        System.out.println("HERE-> "+individualLabel + " rdf:type " + owlClass );
+        System.out.println("CREATE INDIVIDUAL-> "+individualLabel + " rdf:type " + owlClass + "("+ typeMappingLabel +")");
 
         Set<OWLNamedIndividual> list = typeIndividualMap.get(typeMappingLabel);
         if (list ==null){

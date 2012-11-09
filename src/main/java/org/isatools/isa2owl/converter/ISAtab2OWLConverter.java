@@ -2,6 +2,7 @@ package org.isatools.isa2owl.converter;
 
 import org.apache.log4j.Logger;
 import org.coode.owlapi.manchesterowlsyntax.ManchesterOWLSyntaxOntologyFormat;
+import org.isatools.graph.model.MaterialNode;
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.io.importisa.ISAtabImporter;
@@ -231,7 +232,10 @@ public class ISAtab2OWLConverter {
             System.out.println("subjectString="+subjectString);
 
             //skip Study Person properties as they are dealt with in the Contact mappings
-            if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON) || subjectString.startsWith(ExtendedISASyntax.STUDY_PROTOCOL) || subjectString.startsWith(GeneralFieldTypes.PROTOCOL_REF.toString()))
+            if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON) ||
+                    subjectString.startsWith(ExtendedISASyntax.STUDY_PROTOCOL) ||
+                    subjectString.startsWith(GeneralFieldTypes.PROTOCOL_REF.toString()) ||
+                    subjectString.matches(MaterialNode.REGEXP))
                 continue;
 
             Map<IRI, String> predicateObjects = propertyMappings.get(subjectString);
