@@ -1,0 +1,1711 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://isa-tools.org/owl/"
+     xml:base="http://isa-tools.org/owl/"
+     xmlns:obo="http://purl.obolibrary.org/obo/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:isa="http://isa-tools.org/isa/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://isa-tools.org/owl/">
+        <owl:imports rdf:resource="http://purl.obolibrary.org/obo/extended-obi.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://isa-tools.org/isa/ISA0000001 -->
+
+    <owl:ObjectProperty rdf:about="http://isa-tools.org/isa/ISA0000001"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000050 -->
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000050"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000219 -->
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000219"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0000295 -->
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/OBI_0000295"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0000312 -->
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/OBI_0000312"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/RO_0001000 -->
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/RO_0001000"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!--  -->
+
+    <owl:Class rdf:about=""/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000040 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/BFO_0000040"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000005 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000005"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000030 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000030"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000300 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000300"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000305 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000305"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000311 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000311"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000321 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000321"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000577 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000577"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000590 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000590"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0000047 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0000047"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0000066 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0000066"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0000094 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0000094"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0000272 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0000272"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0000437 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0000437"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0000443 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0000443"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0000750 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0000750"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0000785 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0000785"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0001615 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0001615"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0001617 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0001617"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0001622 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0001622"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0500000 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0500000"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://isa-tools.org/owl/008118f0-38ad-4a01-acca-045197ec90c9 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/008118f0-38ad-4a01-acca-045197ec90c9">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT4</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/01a9993d-7139-495f-8560-d3efda008f19"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/01a9993d-7139-495f-8560-d3efda008f19 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/01a9993d-7139-495f-8560-d3efda008f19">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT4</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/01e0fb5a-4364-4b48-af62-b908123f461c -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/01e0fb5a-4364-4b48-af62-b908123f461c">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO4</rdfs:label>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/7cde2003-2452-4c32-b275-2bdfd3374a44"/>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/03223620-9524-4b0a-81e5-b538c04f8a29 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/03223620-9524-4b0a-81e5-b538c04f8a29">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_12</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/80daa735-e86c-428f-9e52-e9c4f5c3c7f8"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/03951b7b-e0c3-4204-a2c8-09bc2ba104b6 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/03951b7b-e0c3-4204-a2c8-09bc2ba104b6">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000300"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A 2:1:1 CHCl3/MeOH/1% NaCl solution (8 mL per brain and 4 mL per spinal cord in 8 mL vials) was prepared for tissue extraction to isolate organic soluble metabolites (25, 26). For targeted LC-MS measurements, deuterated standards were included in the mixture as described previously (10). FAAH(+/+) and FAAH(-/-) mice (3-6 months of age) were sacrificed at the same time of day and tissues immediately isolated, weighed, placed into the CHCl3/MeOH/1% NaCl solution, and homogenized using dounce tissue grinders. Each sample was then centrifuged at 2500 rpm for 10 min at 4 degree C in a glass vial. After centrifugation, the organic (bottom) and aqueous layers (top) were clearly distinguishable with a layer of insoluble material between them. The organic layer was carefully removed and transferred to another vial. The aqueous layer was extracted with an additional 1 mL of CHCl3, 0.5 mL of MeOH, and 1 mL of a 1% NaCl/1% formic acid mixture. This solution was mixed vigorously for 30-60 s and then centrifuged at 2500 rpm for 10 min at 4 degree C. The organic layers from the first and second extractions were combined and concentrated under a stream of nitrogen. Samples were stored at -80 degree C (always for less than 1 day) and dissolved in 120 uL of CHCl3 prior to analysis by LC-MS.</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/467b1131-4169-4dff-b43c-f7b2d5bf3a15"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/04781569-ba93-444d-a9d8-91e5a6632799 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/04781569-ba93-444d-a9d8-91e5a6632799">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT3</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/6bb37989-72ef-415b-9669-5ef84170216f"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/0672c513-77d2-4d65-a814-fd07b79a58a1 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/0672c513-77d2-4d65-a814-fd07b79a58a1">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_8</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/a5da886a-cccf-454a-989b-60e4b493f3ba"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/07b61a9a-6b3b-4f2c-ac0c-134f0ab8f8bd -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/07b61a9a-6b3b-4f2c-ac0c-134f0ab8f8bd">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT6</rdfs:label>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/0cf98332-9367-4ab8-9329-421df5ee4bfb"/>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/086da9a4-feb0-4514-89e8-5cd60d59a878 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/086da9a4-feb0-4514-89e8-5cd60d59a878">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000311"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15533037</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/12841675-d9d2-42fd-ba02-fea7f2327220"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/0b89d8da-0d06-486d-8255-ec1f058cf59f -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/0b89d8da-0d06-486d-8255-ec1f058cf59f">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_4</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/e884b9f0-fe76-4b25-ae8e-410c890265ee"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/0c7af402-6d64-45c5-8a69-cd5e0f6af41f -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/0c7af402-6d64-45c5-8a69-cd5e0f6af41f">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT5</rdfs:label>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/fb3579e7-4e90-4f20-b948-d88da33b0b14"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/0cbd5561-e047-49fd-9505-348f4e2b076d -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/0cbd5561-e047-49fd-9505-348f4e2b076d">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000437"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">metabolite profiling</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/e7e9a318-385e-41c8-9838-99021191457e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/0cbfbaac-c545-4a7e-bfac-cf74266b0ff9 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/0cbfbaac-c545-4a7e-bfac-cf74266b0ff9">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000300"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The analysis of the resulting total ion chromatogram was performed manually by generating extracted ion chromatograms (EICs) in 5 Da increments (e.g., 200-205, 205-210, ..., 1195-1200). EICs of FAAH(+/+) and FAAH(-/-) samples were compared in a pairwise manner to identify changes (i.e., new peaks or changes in the magnitude of peaks) between samples for a given mass range and retention time. After peaks that were not shared by all samples had been discarded, the remaining peaks were quantified using the area under the peaks. The measured areas were then normalized to the amount of tissue and averaged (N = 6) to afford the mean area for a given peak in the chromatogram. Finally, the peak ratios between FAAH(+/+) and FAAH(-/-) samples provide a quantitative measure of the relative metabolite levels. With signals that fell below the limit of detection in FAAH(+/+) samples, a lower cutoff ion intensity of 32 500 was used. In those cases where this lower limit was used, the average ion intensity values are reported to be greater than or equal to the calculated ion intensity and resulting FAAH(-/-)/FAAH(+/+) ratios are reported to be greater than or equal to the calculated ratio.</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/8731fd4f-df9b-4b77-8af5-f9bb50466bd5"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/0cf98332-9367-4ab8-9329-421df5ee4bfb -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/0cf98332-9367-4ab8-9329-421df5ee4bfb">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT6</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/0e128bea-4198-4649-8463-f1b4369447ed -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/0e128bea-4198-4649-8463-f1b4369447ed">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO3</rdfs:label>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/6355724c-452c-4785-a654-bbda4b0febe2"/>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/0e9a89fc-9c52-43a6-af5b-fd8d59309faf -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/0e9a89fc-9c52-43a6-af5b-fd8d59309faf">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO6</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/637a3076-9578-4cbc-af39-f96a05b16d6f"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/0ff105f3-b47c-427d-8312-c0522b2901b8 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/0ff105f3-b47c-427d-8312-c0522b2901b8">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000577"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10.1021/bi0480335</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/086da9a4-feb0-4514-89e8-5cd60d59a878"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/119b84c0-ebcd-4475-b58f-e657de27d790 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/119b84c0-ebcd-4475-b58f-e657de27d790">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">extraction</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/467b1131-4169-4dff-b43c-f7b2d5bf3a15"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/12114cab-c112-4342-87c3-ef53518d6f54 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/12114cab-c112-4342-87c3-ef53518d6f54">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO3</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/4be953f2-6498-469d-9ca7-18d0d4ac9849"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/12640f42-70e7-4463-b9df-d65e41a366a6 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/12640f42-70e7-4463-b9df-d65e41a366a6">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT2</rdfs:label>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/e5ab9c1b-3ae4-4986-a886-c51180781a09"/>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/126c9efe-d3cf-45b3-9ad4-42a5b05d45b0 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/126c9efe-d3cf-45b3-9ad4-42a5b05d45b0">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO4</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/01e0fb5a-4364-4b48-af62-b908123f461c"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/12841675-d9d2-42fd-ba02-fea7f2327220 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/12841675-d9d2-42fd-ba02-fea7f2327220">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000066"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Global metabolite profiling of faah(-/-) mice</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/15d08f47-e0cd-4e4d-be1d-64bbf405f851 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/15d08f47-e0cd-4e4d-be1d-64bbf405f851">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_11</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/fb3579e7-4e90-4f20-b948-d88da33b0b14"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/17e0b834-d2b0-40cd-8f06-009213e0a02a -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/17e0b834-d2b0-40cd-8f06-009213e0a02a">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000005"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">identification</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/8731fd4f-df9b-4b77-8af5-f9bb50466bd5"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/18d985e5-c47c-4132-9275-2154ac621dc7 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/18d985e5-c47c-4132-9275-2154ac621dc7">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">sample collection</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/574e3b5e-0937-4ec1-8038-e44c7536549e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/199ae833-4d64-468d-8ff6-e2428a6535fc -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/199ae833-4d64-468d-8ff6-e2428a6535fc">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO3</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/203b3639-59b0-4c03-a2fc-8a85eb506469"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/1c8013fb-fc3c-4f61-b549-c6c087424f88 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/1c8013fb-fc3c-4f61-b549-c6c087424f88">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT5</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/1fb26a50-33f3-4f44-a899-1dd7ca5f165c -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/1fb26a50-33f3-4f44-a899-1dd7ca5f165c">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_3</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/6355724c-452c-4785-a654-bbda4b0febe2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/203b3639-59b0-4c03-a2fc-8a85eb506469 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/203b3639-59b0-4c03-a2fc-8a85eb506469">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO3</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/237d002c-c996-4120-ad34-b7d9cc79ee04 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/237d002c-c996-4120-ad34-b7d9cc79ee04">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO2</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/ec4e2254-ff97-4dd3-a7ac-d2105c533f51"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/28ba4535-1b02-4862-942b-1165317ffb77 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/28ba4535-1b02-4862-942b-1165317ffb77">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT1</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/726647b9-937e-4353-ba79-7eaf35e0225c"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/28dc7b38-31c7-4b02-9737-0fc7454d1b27 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/28dc7b38-31c7-4b02-9737-0fc7454d1b27">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_9</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/29ee23b2-38dd-49d2-90b9-611dcd05b7ca -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/29ee23b2-38dd-49d2-90b9-611dcd05b7ca">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000030"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">s_Proteomic profiling of yeast TFs.txt</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/12841675-d9d2-42fd-ba02-fea7f2327220"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/2bde5b93-0dd2-4692-9673-9572f9acd839 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/2bde5b93-0dd2-4692-9673-9572f9acd839">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000785"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">detector</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/4e51c838-07e8-47bd-b6c9-996f25d25d3c"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/2c301017-ea8b-47e7-ab4f-4bb23c453a1d -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/2c301017-ea8b-47e7-ab4f-4bb23c453a1d">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT3</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/35b02406-9682-4653-b43b-4f8a48836651"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/2ccdd041-9737-4245-8db1-9e2db36c90e6 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/2ccdd041-9737-4245-8db1-9e2db36c90e6">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO6</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/4d890ef4-159e-499a-9646-07282ea67ab7"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000094"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">extraction</rdfs:label>
+        <isa:ISA0000001 rdf:resource="http://isa-tools.org/owl/467b1131-4169-4dff-b43c-f7b2d5bf3a15"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/2e930aca-924d-40b9-ae07-bc2d43db02d0 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/2e930aca-924d-40b9-ae07-bc2d43db02d0">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT4</rdfs:label>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/a24f1309-4651-42e0-a72e-97c29ffa705f"/>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/30128207-c037-4313-9d80-2d21e094db45 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/30128207-c037-4313-9d80-2d21e094db45">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT5</rdfs:label>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/1c8013fb-fc3c-4f61-b549-c6c087424f88"/>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/35b02406-9682-4653-b43b-4f8a48836651 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/35b02406-9682-4653-b43b-4f8a48836651">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT3</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/360767d0-9a55-4c49-9c3e-2b20d301a48d -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/360767d0-9a55-4c49-9c3e-2b20d301a48d">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">instrument</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/36e67f1a-a756-4c1b-a35d-1257c99a7650 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/36e67f1a-a756-4c1b-a35d-1257c99a7650">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT4</rdfs:label>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/01a9993d-7139-495f-8560-d3efda008f19"/>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/3a818da3-5c6e-4729-a768-e05891bfad3c -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/3a818da3-5c6e-4729-a768-e05891bfad3c">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT6</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/07b61a9a-6b3b-4f2c-ac0c-134f0ab8f8bd"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/3d2d9b29-4f4a-47f7-8181-e0a89540e343 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/3d2d9b29-4f4a-47f7-8181-e0a89540e343">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT4</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/2e930aca-924d-40b9-ae07-bc2d43db02d0"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/3f31986e-55a4-429e-aa45-21e7e0addf6a -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/3f31986e-55a4-429e-aa45-21e7e0addf6a">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">a_metabolite.txt</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/adef8439-8523-4bea-926a-d4219f7c7d56"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/3f94138e-4655-47ea-8523-568fd60fc52b -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/3f94138e-4655-47ea-8523-568fd60fc52b">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Genotype</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/58f8a44a-dd8f-4f6b-9c75-43cf25b9f846"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/42b7908b-41bd-4cb7-9272-8be3fdd63e0e -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/42b7908b-41bd-4cb7-9272-8be3fdd63e0e">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT1</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/99ac71d5-35f1-4257-8766-641879c8463f"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/430c52d3-c490-4231-b306-7c3c4569084e -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/430c52d3-c490-4231-b306-7c3c4569084e">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_7</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/467b1131-4169-4dff-b43c-f7b2d5bf3a15 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/467b1131-4169-4dff-b43c-f7b2d5bf3a15">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000272"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">extraction</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/469a05d1-9bfa-42c1-a3a4-700628d233c0 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/469a05d1-9bfa-42c1-a3a4-700628d233c0">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT2</rdfs:label>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/a5da886a-cccf-454a-989b-60e4b493f3ba"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/47ee6dc5-6e70-4c0b-9317-90821ea4bbc2 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/47ee6dc5-6e70-4c0b-9317-90821ea4bbc2">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO6</rdfs:label>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/637a3076-9578-4cbc-af39-f96a05b16d6f"/>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/48f46366-fc6d-42eb-b3d7-03de25294362 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/48f46366-fc6d-42eb-b3d7-03de25294362">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_6</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/4be953f2-6498-469d-9ca7-18d0d4ac9849 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/4be953f2-6498-469d-9ca7-18d0d4ac9849">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO3</rdfs:label>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/203b3639-59b0-4c03-a2fc-8a85eb506469"/>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/4d890ef4-159e-499a-9646-07282ea67ab7 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/4d890ef4-159e-499a-9646-07282ea67ab7">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO6</rdfs:label>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/48f46366-fc6d-42eb-b3d7-03de25294362"/>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/4e51c838-07e8-47bd-b6c9-996f25d25d3c -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/4e51c838-07e8-47bd-b6c9-996f25d25d3c">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000272"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mass spectrometry</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/4f11fbfe-3e6e-482b-b19b-3ea0a9a6e174 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/4f11fbfe-3e6e-482b-b19b-3ea0a9a6e174">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT5</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/30128207-c037-4313-9d80-2d21e094db45"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/511a2877-afef-4b60-be24-872ffe257a53 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/511a2877-afef-4b60-be24-872ffe257a53">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT6</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/fe109b18-1bc7-435c-ac7a-77a63874d351"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/535fab69-37bd-4939-aa41-1acca9aede1a -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/535fab69-37bd-4939-aa41-1acca9aede1a">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0001622"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Global metabolite profiling of faah(-/-) mice</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/12841675-d9d2-42fd-ba02-fea7f2327220"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/54e026bd-90f6-4930-8d09-51680fe34d4a -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/54e026bd-90f6-4930-8d09-51680fe34d4a">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO2</rdfs:label>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/e9b287d4-e7cc-4fa0-9513-a0d1ea7e8f2a"/>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/574e3b5e-0937-4ec1-8038-e44c7536549e -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/574e3b5e-0937-4ec1-8038-e44c7536549e">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000272"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">sample collection</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/58f8a44a-dd8f-4f6b-9c75-43cf25b9f846 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/58f8a44a-dd8f-4f6b-9c75-43cf25b9f846">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000750"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Genotype</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/12841675-d9d2-42fd-ba02-fea7f2327220"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/5a5d7212-9937-4e0d-99ad-34b58b18252f -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/5a5d7212-9937-4e0d-99ad-34b58b18252f">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">labeling</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/7a708140-2fe0-4818-89d1-94001f62123f"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/5b4930c7-7d4f-480b-9d6d-79a8abc117d5 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/5b4930c7-7d4f-480b-9d6d-79a8abc117d5">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO5</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/a9ae056b-c805-4465-a45b-6638a7456048"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/5db71fb3-7433-49be-a1c2-5ac758bed70c -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/5db71fb3-7433-49be-a1c2-5ac758bed70c">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ionization mode</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/5dd6a6fc-00bb-4f0c-8e53-3f9a47eb6848 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/5dd6a6fc-00bb-4f0c-8e53-3f9a47eb6848">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_5</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/606cec34-9b9c-4d0f-9593-461de2f8497e -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/606cec34-9b9c-4d0f-9593-461de2f8497e">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_6</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/48f46366-fc6d-42eb-b3d7-03de25294362"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/6355724c-452c-4785-a654-bbda4b0febe2 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/6355724c-452c-4785-a654-bbda4b0febe2">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_3</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/637a3076-9578-4cbc-af39-f96a05b16d6f -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/637a3076-9578-4cbc-af39-f96a05b16d6f">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO6</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/64f61d6f-9c95-4c1a-8eb8-c22be004ea79 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/64f61d6f-9c95-4c1a-8eb8-c22be004ea79">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT2</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/469a05d1-9bfa-42c1-a3a4-700628d233c0"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/674b571e-1147-4092-8e7f-7aa6b7c2481d -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/674b571e-1147-4092-8e7f-7aa6b7c2481d">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT3</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/9c9c3155-3ea0-4855-96e9-712ce9ff185a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/67d23162-a641-48dd-87f8-da993fddeb5f -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/67d23162-a641-48dd-87f8-da993fddeb5f">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO1</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/babcb4da-ceee-41de-96cb-2af8ebcb496c"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/6a648fa0-a0cb-49c3-8119-a28bd5219e40 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/6a648fa0-a0cb-49c3-8119-a28bd5219e40">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT6</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/0cf98332-9367-4ab8-9329-421df5ee4bfb"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/6b72bc52-1f97-4ad9-a113-e1751dd74d24 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/6b72bc52-1f97-4ad9-a113-e1751dd74d24">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO5</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/a286f8e7-640c-4cb9-af83-1afa3ba992f1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/6bb37989-72ef-415b-9669-5ef84170216f -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/6bb37989-72ef-415b-9669-5ef84170216f">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT3</rdfs:label>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/28dc7b38-31c7-4b02-9737-0fc7454d1b27"/>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/726647b9-937e-4353-ba79-7eaf35e0225c -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/726647b9-937e-4353-ba79-7eaf35e0225c">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT1</rdfs:label>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/89cec1a9-c049-48e4-8505-f823674438d3"/>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/727bbfc4-f53d-4a54-876a-f92a7a9e8c9d -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/727bbfc4-f53d-4a54-876a-f92a7a9e8c9d">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO2</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/e9b287d4-e7cc-4fa0-9513-a0d1ea7e8f2a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/72e4e311-434a-4488-ae35-0474b682aff8 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/72e4e311-434a-4488-ae35-0474b682aff8">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ion source</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/74aa0cb2-d296-4e6e-b1a9-21ebd2a59113 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/74aa0cb2-d296-4e6e-b1a9-21ebd2a59113">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT1</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/89cec1a9-c049-48e4-8505-f823674438d3"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/77239ee4-3248-4f40-9f03-120db7be4354 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/77239ee4-3248-4f40-9f03-120db7be4354">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT4</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/36e67f1a-a756-4c1b-a35d-1257c99a7650"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/773958fe-3429-4fdb-978b-ba75a4fc791b -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/773958fe-3429-4fdb-978b-ba75a4fc791b">
+        <rdf:type rdf:resource=""/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mass spectrometry</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/7a708140-2fe0-4818-89d1-94001f62123f -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/7a708140-2fe0-4818-89d1-94001f62123f">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000272"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">labeling</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/7cde2003-2452-4c32-b275-2bdfd3374a44 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/7cde2003-2452-4c32-b275-2bdfd3374a44">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO4</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/7eed88e9-1018-4fb1-9e10-6db9141c3975 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/7eed88e9-1018-4fb1-9e10-6db9141c3975">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO6</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/47ee6dc5-6e70-4c0b-9317-90821ea4bbc2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/80daa735-e86c-428f-9e52-e9c4f5c3c7f8 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/80daa735-e86c-428f-9e52-e9c4f5c3c7f8">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_12</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/83c58bda-91cc-4353-b8e5-6e5b5a419cda -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/83c58bda-91cc-4353-b8e5-6e5b5a419cda">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_9</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/28dc7b38-31c7-4b02-9737-0fc7454d1b27"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/84b2778a-dd86-49c7-a120-815a92250a78 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/84b2778a-dd86-49c7-a120-815a92250a78">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT5</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/0c7af402-6d64-45c5-8a69-cd5e0f6af41f"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/86e86a52-da5e-4671-90c4-dac4cfac62be -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/86e86a52-da5e-4671-90c4-dac4cfac62be">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000577"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Global metabolite profiling of faah(-/-) mice</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/12841675-d9d2-42fd-ba02-fea7f2327220"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/8731fd4f-df9b-4b77-8af5-f9bb50466bd5 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/8731fd4f-df9b-4b77-8af5-f9bb50466bd5">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000272"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">identification</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/89744c6d-295d-4083-b5b0-af00d8344bcd -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/89744c6d-295d-4083-b5b0-af00d8344bcd">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_2</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/89cec1a9-c049-48e4-8505-f823674438d3 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/89cec1a9-c049-48e4-8505-f823674438d3">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT1</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/8d004c37-972e-43a4-83b2-a62b92c1d9fb -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/8d004c37-972e-43a4-83b2-a62b92c1d9fb">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0500000"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">OBI:parallel group design</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/93e3356f-b2f5-4f8f-884b-3678f49e14ae -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/93e3356f-b2f5-4f8f-884b-3678f49e14ae">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_1</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/ba95c756-8c32-46ad-90f1-36060a35d07e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/93ec79d2-0c3a-4ec3-98cf-43e49386c8cf -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/93ec79d2-0c3a-4ec3-98cf-43e49386c8cf">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO4</rdfs:label>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/e884b9f0-fe76-4b25-ae8e-410c890265ee"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/93fdd632-7303-4265-941c-d511210636fe -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/93fdd632-7303-4265-941c-d511210636fe">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000785"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ionization mode</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/9411c044-a59b-461c-828e-8e916c86c709 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/9411c044-a59b-461c-828e-8e916c86c709">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000005"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">extraction</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/467b1131-4169-4dff-b43c-f7b2d5bf3a15"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/99ac71d5-35f1-4257-8766-641879c8463f -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/99ac71d5-35f1-4257-8766-641879c8463f">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT1</rdfs:label>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/430c52d3-c490-4231-b306-7c3c4569084e"/>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/9a48a4aa-25ad-4748-aaa2-21ac8fe1f386 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/9a48a4aa-25ad-4748-aaa2-21ac8fe1f386">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000785"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">instrument</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/9b724c60-fcfd-402c-968a-f2986dbad01d -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/9b724c60-fcfd-402c-968a-f2986dbad01d">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT2</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/e5ab9c1b-3ae4-4986-a886-c51180781a09"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/9c9c3155-3ea0-4855-96e9-712ce9ff185a -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/9c9c3155-3ea0-4855-96e9-712ce9ff185a">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT3</rdfs:label>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/35b02406-9682-4653-b43b-4f8a48836651"/>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/a1af44f8-5a75-4511-a7f5-7daf19a1621f -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/a1af44f8-5a75-4511-a7f5-7daf19a1621f">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000321"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghatelian A, Trauger SA, Want EJ, Hawkins EG, Siuzdak G, Cravatt BF.</rdfs:label>
+        <obo:BFO_0000050 rdf:resource="http://isa-tools.org/owl/086da9a4-feb0-4514-89e8-5cd60d59a878"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/a24f1309-4651-42e0-a72e-97c29ffa705f -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/a24f1309-4651-42e0-a72e-97c29ffa705f">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_10</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/a286f8e7-640c-4cb9-af83-1afa3ba992f1 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/a286f8e7-640c-4cb9-af83-1afa3ba992f1">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO5</rdfs:label>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/5dd6a6fc-00bb-4f0c-8e53-3f9a47eb6848"/>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000094"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">sample collection</rdfs:label>
+        <isa:ISA0000001 rdf:resource="http://isa-tools.org/owl/574e3b5e-0937-4ec1-8038-e44c7536549e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/a5da886a-cccf-454a-989b-60e4b493f3ba -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/a5da886a-cccf-454a-989b-60e4b493f3ba">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_8</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/a9ae056b-c805-4465-a45b-6638a7456048 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/a9ae056b-c805-4465-a45b-6638a7456048">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO5</rdfs:label>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/c1bb3cb8-537b-406b-8284-2755bad5123e"/>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/adef8439-8523-4bea-926a-d4219f7c7d56 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/adef8439-8523-4bea-926a-d4219f7c7d56">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000030"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">a_metabolite.txt</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/ae0dcbec-c839-4a91-bd5d-01c717729d8a -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/ae0dcbec-c839-4a91-bd5d-01c717729d8a">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_2</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/89744c6d-295d-4083-b5b0-af00d8344bcd"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/afa9436c-d2c0-4a8f-8250-739111a39a60 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/afa9436c-d2c0-4a8f-8250-739111a39a60">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT5</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/1c8013fb-fc3c-4f61-b549-c6c087424f88"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/b224a44e-7000-49e0-80fa-f7642c3b995a -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/b224a44e-7000-49e0-80fa-f7642c3b995a">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_10</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/a24f1309-4651-42e0-a72e-97c29ffa705f"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/b4066a87-76a2-408a-b0b2-8dc2451f9197 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/b4066a87-76a2-408a-b0b2-8dc2451f9197">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000005"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mass spectrometry</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/4e51c838-07e8-47bd-b6c9-996f25d25d3c"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/ba95c756-8c32-46ad-90f1-36060a35d07e -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/ba95c756-8c32-46ad-90f1-36060a35d07e">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_1</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/babcb4da-ceee-41de-96cb-2af8ebcb496c -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/babcb4da-ceee-41de-96cb-2af8ebcb496c">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO1</rdfs:label>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/c02607c6-7063-4ce0-ac47-cd3ba77ee257"/>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/bfd0533f-8f8b-40c7-8d87-7d9641ca91aa -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/bfd0533f-8f8b-40c7-8d87-7d9641ca91aa">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0001617"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15533037</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/086da9a4-feb0-4514-89e8-5cd60d59a878"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/bfd2bcfa-d654-4f25-a5af-073feb8cc322 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/bfd2bcfa-d654-4f25-a5af-073feb8cc322">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000305"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Assignment of endogenous substrates to enzymes by global metabolite profiling</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/086da9a4-feb0-4514-89e8-5cd60d59a878"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/c02607c6-7063-4ce0-ac47-cd3ba77ee257 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/c02607c6-7063-4ce0-ac47-cd3ba77ee257">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO1</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/c0858a51-6f84-4636-a7aa-49f511736f52 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/c0858a51-6f84-4636-a7aa-49f511736f52">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO3</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/0e128bea-4198-4649-8463-f1b4369447ed"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/c194a508-87c7-4387-bf80-9c7dd8f0102f -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/c194a508-87c7-4387-bf80-9c7dd8f0102f">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000005"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">labeling</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/7a708140-2fe0-4818-89d1-94001f62123f"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/c1bb3cb8-537b-406b-8284-2755bad5123e -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/c1bb3cb8-537b-406b-8284-2755bad5123e">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO5</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/c532875d-5b74-4854-892a-b528ba721662 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/c532875d-5b74-4854-892a-b528ba721662">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO4</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/7cde2003-2452-4c32-b275-2bdfd3374a44"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/cd57824c-4074-449d-b9a6-3f2459e839b7 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/cd57824c-4074-449d-b9a6-3f2459e839b7">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000005"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">sample collection</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/574e3b5e-0937-4ec1-8038-e44c7536549e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/cd6fa3bf-cc1f-46af-a9f6-911ba2f8ecac -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/cd6fa3bf-cc1f-46af-a9f6-911ba2f8ecac">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT2</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/12640f42-70e7-4463-b9df-d65e41a366a6"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/cf139a50-a943-431b-a4a3-d1baead89eaf -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/cf139a50-a943-431b-a4a3-d1baead89eaf">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO1</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/ff42b0d4-5613-4ec2-9228-e03132e9cfa2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/d391dbe5-bb32-4fb0-ac17-3818eed52e49 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/d391dbe5-bb32-4fb0-ac17-3818eed52e49">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO1</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/c02607c6-7063-4ce0-ac47-cd3ba77ee257"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/d8e2084d-79e0-47dd-86cd-62583dbaf83f -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/d8e2084d-79e0-47dd-86cd-62583dbaf83f">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mass spectrometry</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/4e51c838-07e8-47bd-b6c9-996f25d25d3c"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/db4ac41d-54bd-4683-8df6-8607ca58c09e -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/db4ac41d-54bd-4683-8df6-8607ca58c09e">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO2</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/54e026bd-90f6-4930-8d09-51680fe34d4a"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/dbeb96fb-dd64-4aa0-9491-9d87ed936409 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/dbeb96fb-dd64-4aa0-9491-9d87ed936409">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000785"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ion source</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/deebce87-44d9-408d-a48a-645152ed70b5 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/deebce87-44d9-408d-a48a-645152ed70b5">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">identification</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/8731fd4f-df9b-4b77-8af5-f9bb50466bd5"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/e1141d16-493f-44e6-818d-cf43cffaed47 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/e1141d16-493f-44e6-818d-cf43cffaed47">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000300"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LC-MS analysis was performed using an Agilent 1100 LC-MSD SL instrument. For the LC analysis, a HAISIL 300 C18 column (5 um, 4.6 mm x 100 mm) from Higgins Analytical was used together with a precolumn (C18, 3.5 um, 2 mm x 20 mm). Mobile phase A consisted of a 95:5 water/methanol mixture, and mobile phase B was made up of 2-propanol, methanol, and water in a 50:45:5 ratio. Solvent modifiers such as 0.1% formic acid, for the positive ionization mode, and 0.1% ammonium hydroxide, for the negative ionization mode, were used to assist ion formation as well as improve the LC resolution. The flow rate for each run started at 0.1 mL/min for 5 min, to alleviate the backpressure associated with injecting CHCl3, followed by a flow rate of 0.4 mL/min for the duration of the gradient. The gradient started at 0% B and then linearly increased to 100% B over the course of 60 min followed by an isocratic gradient of 100% B for 30 min before equilibration for 10 min at 0% B. The total analysis time, including 5 min at 0.1 mL/min, was 105 min. MS analysis was performed with an electrospray ionization (ESI) source. The capillary voltage was set to 3.0 kV and the fragmentor voltage to 100 V. The drying gas temperature was 350 degree C, the drying gas flow rate was 10 L/min, and the nebulizer pressure was 35 psi. Data were collected using a mass range of 200-1200 Da, and each run was performed using 40 uL injections of tissue metabolite extract.</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/4e51c838-07e8-47bd-b6c9-996f25d25d3c"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/e178f108-082d-4306-9c75-cd724d394b0a -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/e178f108-082d-4306-9c75-cd724d394b0a">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_7</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/430c52d3-c490-4231-b306-7c3c4569084e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/e5ab9c1b-3ae4-4986-a886-c51180781a09 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/e5ab9c1b-3ae4-4986-a886-c51180781a09">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT2</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/e6c64b9b-9541-49af-8a10-80bbcb386826 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/e6c64b9b-9541-49af-8a10-80bbcb386826">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO4</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/93ec79d2-0c3a-4ec3-98cf-43e49386c8cf"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/e7e9a318-385e-41c8-9838-99021191457e -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/e7e9a318-385e-41c8-9838-99021191457e">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000443"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">a_metabolite.txt</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/e884b9f0-fe76-4b25-ae8e-410c890265ee -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/e884b9f0-fe76-4b25-ae8e-410c890265ee">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_4</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/e91b6813-3b73-48b8-a8f6-3dbab2a517aa -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/e91b6813-3b73-48b8-a8f6-3dbab2a517aa">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">s_Proteomic profiling of yeast TFs.txt</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/29ee23b2-38dd-49d2-90b9-611dcd05b7ca"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/e9b287d4-e7cc-4fa0-9513-a0d1ea7e8f2a -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/e9b287d4-e7cc-4fa0-9513-a0d1ea7e8f2a">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO2</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/2d34bcbc-2fea-488c-92c9-b7367e1a64bc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/ec4e2254-ff97-4dd3-a7ac-d2105c533f51 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/ec4e2254-ff97-4dd3-a7ac-d2105c533f51">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO2</rdfs:label>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/89744c6d-295d-4083-b5b0-af00d8344bcd"/>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/f170633c-4660-4300-87ae-94c7a714d9d1 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/f170633c-4660-4300-87ae-94c7a714d9d1">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000094"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mass spectrometry</rdfs:label>
+        <isa:ISA0000001 rdf:resource="http://isa-tools.org/owl/4e51c838-07e8-47bd-b6c9-996f25d25d3c"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/f19a36e4-8761-4f12-8316-9cd465d3d6df -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/f19a36e4-8761-4f12-8316-9cd465d3d6df">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">detector</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/2bde5b93-0dd2-4692-9673-9572f9acd839"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/f3106dea-90f0-4927-810a-d334e3213588 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/f3106dea-90f0-4927-810a-d334e3213588">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0001615"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Enzymes regulate biological processes through the conversion of specific substrates to products. Therefore, of fundamental interest for every enzyme is the elucidation of its natural substrates. Here, we describe a general strategy for identifying endogenous substrates of enzymes by untargeted liquid chromatography-mass spectrometry (LC-MS) analysis of tissue metabolomes from wild-type and enzyme-inactivated organisms. We use this method to discover several brain lipids regulated by the mammalian enzyme fatty acid amide hydrolase (FAAH) in vivo, including known signaling molecules (e.g., the endogenous cannabinoid anandamide) and a novel family of nervous system-enriched natural products, the taurine-conjugated fatty acids.</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/12841675-d9d2-42fd-ba02-fea7f2327220"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/f3773a30-ba8c-4f7f-95f6-666fe679559a">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000094"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">labeling</rdfs:label>
+        <isa:ISA0000001 rdf:resource="http://isa-tools.org/owl/7a708140-2fe0-4818-89d1-94001f62123f"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/f4adbb2d-3f53-42ed-a46a-2949d361af32 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/f4adbb2d-3f53-42ed-a46a-2949d361af32">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_5</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/5dd6a6fc-00bb-4f0c-8e53-3f9a47eb6848"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/fb3579e7-4e90-4f20-b948-d88da33b0b14 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/fb3579e7-4e90-4f20-b948-d88da33b0b14">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Saghantelian_11</rdfs:label>
+        <obo:OBI_0000295 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/fe109b18-1bc7-435c-ac7a-77a63874d351 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/fe109b18-1bc7-435c-ac7a-77a63874d351">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WT6</rdfs:label>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/80daa735-e86c-428f-9e52-e9c4f5c3c7f8"/>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/ff0821d5-7793-4f4a-ab74-3c6ea74ebf27 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/ff0821d5-7793-4f4a-ab74-3c6ea74ebf27">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000590"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO5</rdfs:label>
+        <obo:IAO_0000219 rdf:resource="http://isa-tools.org/owl/c1bb3cb8-537b-406b-8284-2755bad5123e"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://isa-tools.org/owl/ff42b0d4-5613-4ec2-9228-e03132e9cfa2 -->
+
+    <owl:NamedIndividual rdf:about="http://isa-tools.org/owl/ff42b0d4-5613-4ec2-9228-e03132e9cfa2">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000047"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KO1</rdfs:label>
+        <obo:OBI_0000312 rdf:resource="http://isa-tools.org/owl/a4915951-46fe-490c-96ef-cd0910d7848e"/>
+        <obo:RO_0001000 rdf:resource="http://isa-tools.org/owl/ba95c756-8c32-46ad-90f1-36060a35d07e"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version [Not Released]) http://owlapi.sourceforge.net -->
+
