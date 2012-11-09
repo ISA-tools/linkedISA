@@ -68,6 +68,7 @@ public class Assay2OWLConverter {
             System.out.println("CONVERT MATERIAL NODE whose index is "+ col);
             System.out.println(materialNode.getMaterialNodeType());
 
+            //Map<String, OWLNamedIndividual> contactIndividuals = new HashMap<String, OWLNamedIndividual>();
 
             for(int row=1; row < data.length-1; row++){
 

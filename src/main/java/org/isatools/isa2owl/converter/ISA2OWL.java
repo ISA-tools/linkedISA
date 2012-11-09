@@ -43,11 +43,23 @@ public class ISA2OWL {
         return owlClass;
     }
 
+    public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, Map<String, OWLNamedIndividual> map){
+       return createIndividual(typeMappingLabel, individualLabel, null, map);
+    }
+
+    public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, String comment, Map<String, OWLNamedIndividual> map){
+        OWLNamedIndividual individual = createIndividual(typeMappingLabel, individualLabel, comment);
+        map.put(typeMappingLabel, individual);
+        return individual;
+    }
+
     public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, String comment){
         OWLNamedIndividual individual = createIndividual(typeMappingLabel,individualLabel);
-        OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
-        OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
-        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
+        if (comment!=null && comment.equals("")) {
+            OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
+            OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
+        }
         return individual;
     }
 
@@ -113,12 +125,6 @@ public class ISA2OWL {
         map.put(individualLabel, individual);
         typeIdIndividualMap.put(typeMappingLabel,map);
 
-        return individual;
-    }
-
-    public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, Map<String, OWLNamedIndividual> map){
-        OWLNamedIndividual individual = createIndividual(typeMappingLabel, individualLabel);
-        map.put(typeMappingLabel, individual);
         return individual;
     }
 

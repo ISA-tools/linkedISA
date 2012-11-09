@@ -2,6 +2,7 @@ package org.isatools.isa2owl.mapping;
 
 import org.apache.log4j.Logger;
 import org.isatools.isa2owl.converter.ExtendedISASyntax;
+import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.semanticweb.owlapi.model.*;
 
 
@@ -28,6 +29,7 @@ public class ISASyntax2OWLMapping {
 	Map<String, Map<IRI, String>> propertyMappings = null;
     Map<String,Map<IRI, String>> contactMappings = null;
     Map<String,Map<IRI, String>> protocolMappings = null;
+    Map<String,Map<IRI, String>> protocolREFMappings = null;
 
 	Map<String, String> patternMappings = null;
 	
@@ -42,6 +44,7 @@ public class ISASyntax2OWLMapping {
 		propertyMappings = new HashMap<String, Map<IRI,String>>();
         contactMappings = new HashMap<String, Map<IRI,String>>();
         protocolMappings = new HashMap<String, Map<IRI,String>>();
+        protocolREFMappings = new HashMap<String, Map<IRI,String>>();
 		
 	}
 
@@ -106,6 +109,10 @@ public class ISASyntax2OWLMapping {
 
         if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL)){
             protocolMappings.put(subject, predobj);
+        }
+
+        if (subject.startsWith(GeneralFieldTypes.PROTOCOL_REF.toString())){
+            protocolREFMappings.put(subject, predobj);
         }
 
 	}

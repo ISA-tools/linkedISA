@@ -231,7 +231,7 @@ public class ISAtab2OWLConverter {
             System.out.println("subjectString="+subjectString);
 
             //skip Study Person properties as they are dealt with in the Contact mappings
-            if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON) || subjectString.startsWith(ExtendedISASyntax.STUDY_PROTOCOL))
+            if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON) || subjectString.startsWith(ExtendedISASyntax.STUDY_PROTOCOL) || subjectString.startsWith(GeneralFieldTypes.PROTOCOL_REF.toString()))
                 continue;
 
             Map<IRI, String> predicateObjects = propertyMappings.get(subjectString);
