@@ -59,7 +59,7 @@ public class GraphParserTest {
             GraphParser parser = new GraphParser(data);
             parser.parse();
 
-            System.out.println("GRAPH...");
+            System.out.println("STUDY SAMPLE GRAPH...");
             parser.getGraph().outputGraph();
 
             System.out.println("GROUPS=" + parser.getGroups());
@@ -78,7 +78,7 @@ public class GraphParserTest {
                 parser = new GraphParser(data);
                 parser.parse();
 
-                System.out.println("GRAPH...");
+                System.out.println("ASSAY GRAPH...");
                 parser.getGraph().outputGraph();
 
                 System.out.println("GROUPS=" + parser.getGroups());

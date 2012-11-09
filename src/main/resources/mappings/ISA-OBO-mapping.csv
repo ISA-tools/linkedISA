@@ -33,15 +33,16 @@ Study Person Affiliation,organization(http://purl.obolibrary.org/obo/OBI_0000245
 Study Person Roles,investigation agent role(http://purl.obolibrary.org/obo/OBI_0000202),http://purl.obolibrary.org/obo/OBI_0000202,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Homo Sapiens,Study Person,,,,
 ,,,,,,,,,,
 Study Factor,independent variable specification(http://purl.obolibrary.org/obo/OBI_0000750),http://purl.obolibrary.org/obo/OBI_0000750,denotes,http://purl.obolibrary.org/obo/IAO_0000219,investigation,Study,,,,
-Study Factor Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,independent variable specification,http://purl.obolibrary.org/obo/OBI_0000750,,,,
+Study Factor Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,independent variable specification,Study Factor,,,,
 Study Factor Type,,,,,,,,,,
 ,,,,,,,,,,
-Study Design Execution,study design execurtion,http://purl.obolibrary.org/obo/OBI_0000471,,,,,,,,
+Study Design Execution,study design execution,http://purl.obolibrary.org/obo/OBI_0000471,,,,,,,,
 Study Design Type,study design(http://purl.obolibrary.org/obo/OBI_0500000),http://purl.obolibrary.org/obo/OBI_0500000,is realized by,http://purl.obolibrary.org/obo/OBI_0000471,study design execution(http://purl.obolibrary.org/obo/OBI_0000471),http://purl.obolibrary.org/obo/OBI_0000471,,,,
 ,,,,,,,,,,
-Study Assay,assay(http://purl.obolibrary.org/obo/OBI_0000070),http://purl.obolibrary.org/obo/OBI_0000070,,,,,,,,
-Study Assay Measurement Type,planned process(http://purl.obolibrary.org/obo/OBI_0000011),http://purl.obolibrary.org/obo/OBI_0000011,denotes,http://purl.obolibrary.org/obo/IAO_0000219,assay,Study Assay,,,,
-Study Assay Technology Type,planned process,http://purl.obolibrary.org/obo/OBI_0000011,denotes,http://purl.obolibrary.org/obo/IAO_0000219,assay,Study Assay,,,,
+Study Assay,analyte assay(http://purl.obolibrary.org/obo/OBI_0000443),http://purl.obolibrary.org/obo/OBI_0000443,achives plan objective ,,assay measurement type,Study Assay Measurement Type,,,,
+Study Assay Measurement,dependent variable specification,,,,,,,,,
+Study Assay Measurement Type,analyte measurement objective(http://purl.obolibrary.org/obo/OBI_0000437),http://purl.obolibrary.org/obo/OBI_0000437,denotes,http://purl.obolibrary.org/obo/IAO_0000219,assay,Study Assay,,,,
+Study Assay Technology Type,planned process,,is part of,,,,,,,
 Study Assay Technology Platform,organization,http://purl.obolibrary.org/obo/OBI_0000245,has role,http://purl.obolibrary.org/obo/BFO_0000087,manufacturer role,,,,,
 Study Assay File,information content entity,http://purl.obolibrary.org/obo/IAO_0000030,,,,,,,,
 Study Assay File Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,information content entity,Study Assay File,,,,
@@ -54,14 +55,19 @@ Study Protocol URI,written name,http://purl.obolibrary.org/obo/IAO_0000590,denot
 Study Protocol Version,version number,http://purl.obolibrary.org/obo/IAO_00000129,denotes,http://purl.obolibrary.org/obo/IAO_0000219,protocol,Study Protocol,,,,
 Study Protocol Parameter,controlled variable specification(http://purl.obolibrary.org/obo/OBI_0000785),http://purl.obolibrary.org/obo/OBI_0000785,denotes,http://purl.obolibrary.org/obo/IAO_0000219,protocol,Study Protocol,,,,
 Study Protocol Parameters Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,controlled variable specification,Study Protocol Parameter,,,,
+Study Protocol Component,,,,,,,,,,
 Study Protocol Components Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,device(http://purl.obolibrary.org/obo/OBI_0000968),http://purl.obolibrary.org/obo/OBI_0000968,,,,
 Study Protocol Components Type,,,,,,,,,,
-Source,material entity,http://purl.obolibrary.org/obo/BFO_0000040,
-Source Name, written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,material entity(http://purl.obolibrary.org/obo/BFO_0000040),Source
-Sample,processed material,http://purl.obolibrary.org/obo/OBI_0000047
-Extract,processed material,http://purl.obolibrary.org/obo/OBI_0000047
-Labeled Extract,processed material,http://purl.obolibrary.org/obo/OBI_0000047
-{Sample Name|Extract Name|Labeled Extract Name},written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,processed material,{Sample|Extract|Labeled Extract}
-Protocol REF,material processing(http://purl.obolibrary.org/obo/OBI_0000094),http://purl.obolibrary.org/obo/OBI_0000094,chain(realizes, concretizes),chain(http://purl.obolibrary.org/obo/BFO_0010037,http://purl.obolibrary.org/obo/BFO_0010034),plan specification,Protocol
-Protocol REF Input,,Material Node,is specified input of,http://purl.obolibrary.org/obo/BFO_0000295,protocol,Protocol REF
-Protocol REF Output,,Material Node,is specified output of,http://purl.obolibrary.org/obo/BFO_0000312,protocol,Protocol REF,derives from,http://purl.obolibrary.org/obo/RO_0001000,Protocol REF Input
+,,,,,,,,,,
+Source,material entity,http://purl.obolibrary.org/obo/BFO_0000040,,,,,,,,
+Source Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,material entity(http://purl.obolibrary.org/obo/BFO_0000040),Source,,,,
+,,,,,,,,,,
+Sample,processed material,http://purl.obolibrary.org/obo/OBI_0000047,,,,,,,,
+Extract,processed material,http://purl.obolibrary.org/obo/OBI_0000047,,,,,,,,
+Labeled Extract,processed material,http://purl.obolibrary.org/obo/OBI_0000047,,,,,,,,
+{Sample Name|Extract Name|Labeled Extract Name},written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,processed material,{Sample|Extract|Labeled Extract},,,,
+Characteristics[],quality(http://purl.obolibrary.org/obo/BFO_0000019),http://purl.obolibrary.org/obo/BFO_0000019,,,,,,,,
+,,,,,,,,,,
+Protocol REF,material processing(http://purl.obolibrary.org/obo/OBI_0000094),http://purl.obolibrary.org/obo/OBI_0000094,
+Protocol REF Input,,,is specified input of ,http://purl.obolibrary.org/obo/OBI_0000295,protocol,Protocol REF,,,,
+Protocol REF Output,,,is specified output of ,http://purl.obolibrary.org/obo/OBI_0000312,protocol,Protocol REF,derives from,http://purl.obolibrary.org/obo/RO_0001000,input,Protocol REF Input
