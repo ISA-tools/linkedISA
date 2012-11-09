@@ -1,6 +1,7 @@
 package org.isatools.isa2owl.mapping;
 
 import org.apache.log4j.Logger;
+import org.isatools.graph.model.MaterialNode;
 import org.isatools.isa2owl.converter.ExtendedISASyntax;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.semanticweb.owlapi.model.*;
@@ -27,9 +28,10 @@ public class ISASyntax2OWLMapping {
 
     //property mappings
 	Map<String, Map<IRI, String>> propertyMappings = null;
-    Map<String,Map<IRI, String>> contactMappings = null;
-    Map<String,Map<IRI, String>> protocolMappings = null;
-    Map<String,Map<IRI, String>> protocolREFMappings = null;
+    Map<String,Map<IRI, String>> contactPropertyMappings = null;
+    Map<String,Map<IRI, String>> protocolPropertyMappings = null;
+    Map<String,Map<IRI, String>> protocolREFPropertyMappings = null;
+    Map<String,Map<IRI, String>> materialNodePropertyMappings = null;
 
 	Map<String, String> patternMappings = null;
 	
@@ -42,9 +44,10 @@ public class ISASyntax2OWLMapping {
 		sourceOntoIRIs = new HashMap<String,IRI>();
 		typeMappings = new HashMap<String, IRI>();
 		propertyMappings = new HashMap<String, Map<IRI,String>>();
-        contactMappings = new HashMap<String, Map<IRI,String>>();
-        protocolMappings = new HashMap<String, Map<IRI,String>>();
-        protocolREFMappings = new HashMap<String, Map<IRI,String>>();
+        contactPropertyMappings = new HashMap<String, Map<IRI,String>>();
+        protocolPropertyMappings = new HashMap<String, Map<IRI,String>>();
+        protocolREFPropertyMappings = new HashMap<String, Map<IRI,String>>();
+        materialNodePropertyMappings = new HashMap<String, Map<IRI,String>>();
 		
 	}
 
@@ -87,11 +90,19 @@ public class ISASyntax2OWLMapping {
     }
 
     public Map<String,Map<IRI, String>> getContactMappings(){
-        return contactMappings;
+        return contactPropertyMappings;
     }
 
     public Map<String,Map<IRI, String>> getProtocolMappings(){
-        return protocolMappings;
+        return protocolPropertyMappings;
+    }
+
+    public Map<String,Map<IRI, String>> getProtocolREFMappings(){
+        return protocolREFPropertyMappings;
+    }
+
+    public Map<String,Map<IRI, String>> getMaterialNodePropertyMappings(){
+        return materialNodePropertyMappings;
     }
 	
 	public void addPropertyMapping(String subject, String predicate, String object){
@@ -104,15 +115,19 @@ public class ISASyntax2OWLMapping {
 		propertyMappings.put(subject, predobj);
 
         if (subject.startsWith(ExtendedISASyntax.STUDY_PERSON)){
-            contactMappings.put(subject, predobj);
+            contactPropertyMappings.put(subject, predobj);
         }
 
         if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL)){
-            protocolMappings.put(subject, predobj);
+            protocolPropertyMappings.put(subject, predobj);
         }
 
         if (subject.startsWith(GeneralFieldTypes.PROTOCOL_REF.toString())){
-            protocolREFMappings.put(subject, predobj);
+            protocolREFPropertyMappings.put(subject, predobj);
+        }
+
+        if (subject.matches(MaterialNode.REGEXP)){
+            materialNodePropertyMappings.put(subject, predobj);
         }
 
 	}
@@ -129,10 +144,14 @@ public class ISASyntax2OWLMapping {
         builder.append(this.mapToString(typeMappings));
 		builder.append("\nPROPERTY MAPPINGS=\n");
 		builder.append(this.mapToString(propertyMappings));
-        builder.append("\nCONTACT MAPPINGS=\n");
-        builder.append(this.mapToString(contactMappings));
-        builder.append("\nPROTOCOL MAPPINGS=\n");
-        builder.append(this.mapToString(protocolMappings));
+        builder.append("\nCONTACT PROPERTY MAPPINGS=\n");
+        builder.append(this.mapToString(contactPropertyMappings));
+        builder.append("\nPROTOCOL PROPERTY MAPPINGS=\n");
+        builder.append(this.mapToString(protocolPropertyMappings));
+        builder.append("\nPROTOCOL REF PROPERTY MAPPINGS=\n");
+        builder.append(this.mapToString(protocolREFPropertyMappings));
+        builder.append("\nMATERIAL NODE PROPERTY MAPPINGS=\n");
+        builder.append(this.mapToString(materialNodePropertyMappings));
 		builder.append("\nPATTERNS");
 		
 		return builder.toString();

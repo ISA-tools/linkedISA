@@ -39,6 +39,8 @@ public class Assay2OWLConverter {
 
     public void convert(Assay assay, OWLNamedIndividual assayIndividual, Map<String, OWLNamedIndividual> protocolIndividualMap){
 
+        System.out.println("CONVERTING ASSAY");
+
         data = assay.getAssayDataMatrix();
 
         //TODO remove
@@ -111,15 +113,21 @@ public class Assay2OWLConverter {
 
         for(Node node: processNodes){
 
+            ProcessNode processNode = (ProcessNode) node;
+            int processCol = processNode.getIndex();
+            System.out.println("processNode.getName()="+node.getName()+" processCol="+processCol);
+
             //keeping all the individuals relevant for this processNode
             Map<String, OWLNamedIndividual> protocolREFIndividuals = new HashMap<String,OWLNamedIndividual>();
 
-            ProcessNode processNode = (ProcessNode) node;
-            int processCol = processNode.getIndex();
 
             for(int processRow=1; processRow < data.length; processRow ++){
 
+                System.out.println("processRow="+processRow);
+
                 String processName = (data[processRow][processCol]).toString();
+
+                System.out.println("processName="+processName);
 
                 OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(processName);
 
@@ -131,8 +139,11 @@ public class Assay2OWLConverter {
 
                 OWLNamedIndividual processIndividual = processIndividualMap.get(processCol);
 
+                System.out.println("processIndividual="+processIndividual);
+
                 //material processing as the execution of the protocol
                 if (processIndividual==null){
+                    System.out.println("creating the process individual -"+ processName+" - this should happen only once");
                     processIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.PROTOCOL_REF.toString(),processName);
                     processIndividualMap.put(processCol, processIndividual);
                 }
@@ -143,30 +154,31 @@ public class Assay2OWLConverter {
                 List<Node> inputs = processNode.getInputNodes();
                 for(Node input: inputs){
                     int inputCol = input.getIndex();
+                    System.out.println("inputCol="+inputCol);
+                    //for(int row=1; row < data.length; row++){
 
-                    for(int row=1; row < data.length; row++){
+                    if (!data[processRow][inputCol].toString().equals("")){
+                        protocolREFIndividuals.put(ExtendedISASyntax.PROTOCOL_REF_INPUT, individualMatrix[processRow][inputCol]);
+                        System.out.println("INPUT = "+individualMatrix[processRow][inputCol]);
+                    }
 
-                        if (data[row][inputCol].toString().equals(""))
-                            continue;
-
-                        protocolREFIndividuals.put(ExtendedISASyntax.PROTOCOL_REF_INPUT, individualMatrix[row][inputCol]);
-
-                    }//for row
+                    //}//for row
 
                 }//for inputs
 
                 List<Node> outputs = processNode.getOutputNodes();
                 for(Node output: outputs){
                     int outputCol = output.getIndex();
+                    System.out.println("outputCol="+outputCol);
 
-                    for(int row=1; row < data.length; row++){
+                    //for(int row=1; row < data.length; row++){
 
-                        if (data[row][outputCol].toString().equals(""))
-                            continue;
+                     if (!data[processRow][outputCol].toString().equals("")){
+                        protocolREFIndividuals.put(ExtendedISASyntax.PROTOCOL_REF_OUTPUT, individualMatrix[processRow][outputCol]);
+                        System.out.println("OUTPUT = "+individualMatrix[processRow][outputCol]);
+                     }
 
-                        protocolREFIndividuals.put(ExtendedISASyntax.PROTOCOL_REF_OUTPUT, individualMatrix[row][outputCol]);
-
-                    }//for row
+                    //}//for row
 
                 }//for inputs
 
@@ -174,9 +186,9 @@ public class Assay2OWLConverter {
 
                 Map<String, Map<IRI,String>> protocolREFmapping = ISA2OWL.mapping.getProtocolREFMappings();
                 ISA2OWL.convertProperties(protocolREFmapping, protocolREFIndividuals);
-            }
+            }//processRow
 
-        }
+        }//processNode
 
 
     }
