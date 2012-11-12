@@ -75,9 +75,20 @@ public class ISAtab2OWLConverterTest {
 
     }
 
-    @Test
+   // @Test
     public void testConvertFaahKO() {
         isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
+        System.out.println("isatabParentDir="+isatabParentDir);
+
+        System.out.println("Converting the ISA-tab dataset into OWL");
+
+        assert(isatab2owl.convert(isatabParentDir));
+
+    }
+
+    @Test
+    public void testConvertFaahKO_curated() {
+        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faah_archive_curated";
         System.out.println("isatabParentDir="+isatabParentDir);
 
         System.out.println("Converting the ISA-tab dataset into OWL");
