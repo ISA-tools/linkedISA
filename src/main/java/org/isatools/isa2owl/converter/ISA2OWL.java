@@ -1,14 +1,15 @@
 package org.isatools.isa2owl.converter;
 
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
+import org.isatools.isacreator.ontologymanager.BioPortalClient;
+import org.isatools.isacreator.ontologymanager.OntologyManager;
+import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
+import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by the ISATeam.
@@ -30,6 +31,9 @@ public class ISA2OWL {
     //<type, individual>
     public static Map<String, Set<OWLNamedIndividual>> typeIndividualMap = null;
     public static ISASyntax2OWLMapping mapping = null;
+
+    //this list will be populated only once with a query to bioportal
+    private static List<org.isatools.isacreator.configuration.Ontology> allOntologies = null;
 
 
     public static void setIRI(String iri){
@@ -159,6 +163,81 @@ public class ISA2OWL {
                 }
             }//for
         }
+    }
+
+
+    public static void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
+
+        System.out.println("Find ontology term...");
+
+        System.out.println("termAccession="+termAccession);
+        System.out.println("termSourceRef="+termSourceRef);
+
+        List<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
+        System.out.println("ONTOLOGIES USED = "+ontologiesUsed);
+
+        OntologySourceRefObject ontologySourceRefObject = null;
+        for(OntologySourceRefObject ontologyRef: ontologiesUsed){
+            if (termSourceRef!=null && termSourceRef.equals(ontologyRef.getSourceName())){
+                ontologySourceRefObject = ontologyRef;
+                break;
+            }
+        }
+
+        //searching term in bioportal
+        if (ontologySourceRefObject!=null){
+
+            System.out.println("Found ontology "+ontologySourceRefObject);
+
+            BioPortalClient client = new BioPortalClient();
+
+            if (allOntologies==null){
+                getAllOntologies(client);
+            }
+
+            String ontologyVersion = getOntologyVersion(ontologySourceRefObject.getSourceName());
+            termAccession = completeTermAccession(termAccession, ontologySourceRefObject.getSourceName());
+
+            OntologyTerm term = null;
+
+            if (termAccession!=null)
+                term = client.getTermInformation(termAccession, ontologyVersion);
+
+            System.out.println("term====>"+term);
+            if (term!=null) {
+                String purl = term.getOntologyPurl();
+
+                ISA2OWL.addOWLClassAssertion(IRI.create(purl), individual);
+
+            }//term not null
+
+        } //ontologySourceRefObject not null
+
+    }
+
+    private static void getAllOntologies(BioPortalClient client) {
+        allOntologies = client.getAllOntologies();
+
+        System.out.println("ALL ONTOLOGIES="+allOntologies);
+    }
+
+    private static String completeTermAccession(String termAccession, String ontologyAbbreviation){
+
+        if (ontologyAbbreviation.equals("OBI"))
+            return "obo:OBI_"+termAccession;
+        return null;
+
+    }
+
+    private static String getOntologyVersion(String ontologyAbbreviation){
+        for(org.isatools.isacreator.configuration.Ontology ontology: allOntologies ){
+
+            if (ontology.getOntologyAbbreviation().equals(ontologyAbbreviation)){
+                return ontology.getOntologyVersion();
+            }
+
+        }
+        return null;
     }
 }
 

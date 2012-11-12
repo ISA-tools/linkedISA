@@ -5,6 +5,7 @@ import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.isatools.isacreator.model.Protocol;
+import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
@@ -79,17 +80,34 @@ public class Assay2OWLConverter {
 
                 System.out.println("data[row]["+col+"]="+(data[row][col]).toString());
 
-                if (data[row][col].toString().equals(""))
+                String dataValue = (String) data[row][col];
+
+                if (dataValue.equals(""))
                     continue;
 
                 //Material Node
-                individual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), (data[row][col]).toString(), materialNode.getMaterialNodeType());
+                individual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), dataValue, materialNode.getMaterialNodeType());
                 individualMatrix[row][col] = individual;
                 materialNodeIndividuals.put(materialNode.getMaterialNodeType(), individual);
 
+                //Material Node Annotation
+                System.out.println("=====Material Node Annotation=====");
+                String purl = OntologyManager.getOntologyTermPurl(dataValue);
+                if (purl!=null && !purl.equals("")){
+                   System.out.println("If there is a PURL, use it!");
+                }else{
+
+                    String source = OntologyManager.getOntologyTermSource(dataValue);
+                    String accession = OntologyManager.getOntologyTermAccession(dataValue);
+                    ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, individual);
+
+                }
+
                 //Material Node Name
-                individual = ISA2OWL.createIndividual(materialNode.getName(),(data[row][col]).toString());
+                individual = ISA2OWL.createIndividual(materialNode.getName(),dataValue);
                 materialNodeIndividuals.put(materialNode.getName(), individual);
+
+
 
                 //material node attributes
                 //materialNode.getMaterialAttributes();

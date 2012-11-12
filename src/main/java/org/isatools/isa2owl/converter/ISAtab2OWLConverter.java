@@ -44,7 +44,7 @@ public class ISAtab2OWLConverter {
     private Map<Contact, OWLNamedIndividual> contactIndividualMap = null;
     private Map<String, OWLNamedIndividual> protocolIndividualMap = null;
 
-    private List<org.isatools.isacreator.configuration.Ontology> allOntologies = null;
+
 
     /**
 	 * Constructor
@@ -412,7 +412,7 @@ public class ISAtab2OWLConverter {
             if (factor.getFactorTypeTermAccession()!=null && !factor.getFactorTypeTermAccession().equals("")
                     && factor.getFactorTypeTermSource()!=null && factor.getFactorTypeTermSource().equals("")){
 
-                findOntologyTermAndAddClassAssertion(factor.getFactorTypeTermSource(), factor.getFactorTypeTermAccession(), factorIndividual);
+                ISA2OWL.findOntologyTermAndAddClassAssertion(factor.getFactorTypeTermSource(), factor.getFactorTypeTermAccession(), factorIndividual);
 
 
 
@@ -431,68 +431,12 @@ public class ISAtab2OWLConverter {
         if (studyDesign.getStudyDesignTypeTermAcc()!=null && !studyDesign.getStudyDesignTypeTermAcc().equals("")
                 && studyDesign.getStudyDesignTypeTermSourceRef()!=null && !studyDesign.getStudyDesignTypeTermSourceRef().equals("")){
 
-            findOntologyTermAndAddClassAssertion(studyDesign.getStudyDesignTypeTermSourceRef(), studyDesign.getStudyDesignTypeTermAcc(), studyDesignIndividual);
+            ISA2OWL.findOntologyTermAndAddClassAssertion(studyDesign.getStudyDesignTypeTermSourceRef(), studyDesign.getStudyDesignTypeTermAcc(), studyDesignIndividual);
 
 
         }
     }
 
-
-    private void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
-
-        System.out.println("Find ontology term...");
-
-        System.out.println("termAccession="+termAccession);
-        System.out.println("termSourceRef="+termSourceRef);
-
-        List<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
-        System.out.println("ONTOLOGIES USED = "+ontologiesUsed);
-
-        OntologySourceRefObject ontologySourceRefObject = null;
-        for(OntologySourceRefObject ontologyRef: ontologiesUsed){
-            if (termSourceRef!=null && termSourceRef.equals(ontologyRef.getSourceName())){
-                ontologySourceRefObject = ontologyRef;
-                break;
-            }
-        }
-
-        //searching term in bioportal
-        if (ontologySourceRefObject!=null){
-
-            System.out.println("Found ontology "+ontologySourceRefObject);
-
-            System.out.println("version..."+ ontologySourceRefObject.getSourceVersion());
-            System.out.println("description..."+ontologySourceRefObject.getSourceDescription());
-
-            BioPortalClient client = new BioPortalClient();
-
-            if (allOntologies==null){
-                allOntologies = client.getAllOntologies();
-            }
-
-            OntologyTerm term = null;
-            if (ontologySourceRefObject.getSourceVersion()!=null && !ontologySourceRefObject.getSourceVersion().equals("")){
-
-                term = client.getTermInformation(termAccession, ontologySourceRefObject.getSourceVersion());
-
-            }else{
-                String ontologyVersion = client.getLatestOntologyVersion(ontologySourceRefObject.getSourceName());
-                term = client.getTermInformation(termAccession, ontologyVersion);
-            }
-
-
-
-            System.out.println("term====>"+term);
-            if (term!=null) {
-                String purl = term.getOntologyPurl();
-
-                ISA2OWL.addOWLClassAssertion(IRI.create(purl), individual);
-
-            }//term not null
-
-        } //ontologySourceRefObject not null
-
-    }
 
     /**
      *
@@ -544,7 +488,7 @@ public class ISAtab2OWLConverter {
                 ISA2OWL.createIndividual(Protocol.PROTOCOL_PARAMETER_NAME, parameterName, protocolIndividuals);
 
                 if (annotated)
-                    findOntologyTermAndAddClassAssertion(termSources[i], termAccessions[i], parameterNameIndividual);
+                    ISA2OWL.findOntologyTermAndAddClassAssertion(termSources[i], termAccessions[i], parameterNameIndividual);
                 i++;
             }
             ISA2OWL.convertProperties(protocolMappings, protocolIndividuals);
