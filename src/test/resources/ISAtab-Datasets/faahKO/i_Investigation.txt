@@ -41,7 +41,7 @@ Study Public Release Date	"16/11/2004"
 Study File Name	"s_Proteomic profiling of yeast TFs.txt"
 STUDY DESIGN DESCRIPTORS
 Study Design Type	"parallel group design"
-Study Design Type Term Accession Number	"500006"
+Study Design Type Term Accession Number	"0500006"
 Study Design Type Term Source REF	"OBI"
 STUDY PUBLICATIONS
 Study PubMed ID	"15533037"
