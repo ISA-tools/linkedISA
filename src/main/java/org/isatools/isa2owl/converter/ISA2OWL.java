@@ -57,7 +57,15 @@ public class ISA2OWL {
         return individual;
     }
 
+    /**
+     *
+     * @param typeMappingLabel a label indicating the type of the individual (as defined in the mapping file)
+     * @param individualLabel a label identifying the individual to be created
+     * @param comment a comment to annotate the individual
+     * @return
+     */
     public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, String comment){
+
         OWLNamedIndividual individual = createIndividual(typeMappingLabel,individualLabel);
         if (comment!=null && comment.equals("")) {
             OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
@@ -65,6 +73,7 @@ public class ISA2OWL {
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
         }
         return individual;
+
     }
 
     /**

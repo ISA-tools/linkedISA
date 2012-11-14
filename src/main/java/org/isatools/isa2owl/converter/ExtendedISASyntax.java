@@ -34,4 +34,6 @@ public class ExtendedISASyntax {
    public static String PROTOCOL_REF_INPUT = "Protocol REF Input";
    public static String PROTOCOL_REF_OUTPUT = "Protocol REF Output";
 
+   public static String STUDY_GROUP = "Study Group";
+
 }

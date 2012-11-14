@@ -218,7 +218,7 @@ public class ISAtab2OWLConverter {
         convertProtocols(protocolList);
 
         Assay2OWLConverter assay2OWLConverter = new Assay2OWLConverter();
-        assay2OWLConverter.convert(study.getStudySample(), null, protocolIndividualMap);
+        assay2OWLConverter.convert(study.getStudySample(), null, protocolIndividualMap,false);
 
         System.out.println("ASSAYS..." + study.getAssays());
 
@@ -522,7 +522,7 @@ public class ISAtab2OWLConverter {
             ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference());
 
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
-            assayConverter.convert(assay, studyAssayIndividual, protocolIndividualMap);
+            assayConverter.convert(assay, studyAssayIndividual, protocolIndividualMap, true);
         }
 
     }
