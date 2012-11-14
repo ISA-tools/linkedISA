@@ -1,5 +1,6 @@
 package org.isatools.graph.parser;
 
+import org.isatools.errorreporter.model.ErrorMessage;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.Investigation;
@@ -38,10 +39,15 @@ public class GraphParserTest {
         ISAtabFilesImporter importer = new ISAtabFilesImporter(configDir);
 
         //String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/MTBLS6";
-        String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
+        //String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
+        String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faah_archive_curated";
         System.out.println("isatabParentDir="+isatabParentDir);
 
         importer.importFile(isatabParentDir);
+
+//        for(ErrorMessage error: importer.getMessages().get(0).getMessages()){
+//          System.out.println(error.getMessage());
+//        }
 
         Investigation investigation = importer.getInvestigation();
 
