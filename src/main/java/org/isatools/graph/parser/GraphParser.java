@@ -62,10 +62,12 @@ public class GraphParser {
                     lastProcess = null;
                 }
             } else if (column.matches(MaterialAttribute.REGEXP)) {
+
                 MaterialAttribute materialAttribute = new MaterialAttribute(index, column);
                 if (lastMaterialOrData != null && lastMaterialOrData instanceof MaterialNode) {
                     ((MaterialNode) graph.getNode(lastMaterialOrData.getIndex())).addMaterialAttribute(materialAttribute);
                 }
+
             } else if (column.matches(MaterialNode.REGEXP)) {
 
                 Node materialNode = new MaterialNode(index, column);

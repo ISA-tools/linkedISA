@@ -12,24 +12,24 @@ import java.util.List;
  *         Time: 10:15
  */
 public class Graph {
-    private List<Node> graphStructure;
+    private List<Node> nodeList;
 
     public Graph() {
-        this.graphStructure = new ArrayList<Node>();
+        this.nodeList = new ArrayList<Node>();
     }
 
     public void addNode(Node node) {
-        graphStructure.add(node);
+        nodeList.add(node);
     }
 
-    public List<Node> getGraph() {
-        return graphStructure;
+    public List<Node> getNodes() {
+        return nodeList;
     }
 
     public List<Node> getNodes(NodeType nodeType) {
         List<Node> nodes = new ArrayList<Node>();
 
-        for (Node n : graphStructure) {
+        for (Node n : nodeList) {
             // there will be more materials in general, so to make this method quicker, it's good to check the most
             // expected element first.
             if (nodeType == NodeType.MATERIAL_NODE) {
@@ -51,7 +51,7 @@ public class Graph {
     }
 
     public Node getNode(int index) {
-        for (Node n : graphStructure) {
+        for (Node n : nodeList) {
             if (n.getIndex() == index) {
                 return n;
             }
@@ -64,7 +64,7 @@ public class Graph {
      * todo Should output this graph as RDF...
      */
     public void outputGraph() {
-        for (Node n : getGraph()) {
+        for (Node n : getNodes()) {
             if (n instanceof ProcessNode) {
                 ProcessNode node = (ProcessNode) n;
                 System.out.println("ProcessNode: "+n.getName());
@@ -86,7 +86,7 @@ public class Graph {
                 MaterialNode node = (MaterialNode) n;
 
                 for (Node mp : node.getMaterialAttributes()) {
-                    System.out.println("\t property: " + mp.getName());
+                    System.out.println("\t attribute: " + mp.getName());
                 }
             } else {
                 System.out.println("DataNode: "+n.getName());
