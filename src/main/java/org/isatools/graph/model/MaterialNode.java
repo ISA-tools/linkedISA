@@ -12,7 +12,7 @@ import java.util.List;
  * User: agbeltran
  * Date: 06/11/2012
  * Time: 16:11
- *
+ * @author Eamonn Maguire (eamonnmag@gmail.com)
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
 public class MaterialNode extends Node {

@@ -7,6 +7,7 @@ import java.util.List;
  * Created by the ISA team
  *
  * @author Eamonn Maguire (eamonnmag@gmail.com)
+ * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *         <p/>
  *         Date: 10/10/2011
  *         Time: 10:13

@@ -7,11 +7,13 @@ import java.util.List;
  * Created by the ISA team
  *
  * @author Eamonn Maguire (eamonnmag@gmail.com)
+ * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *         <p/>
  *         Date: 10/10/2011
  *         Time: 10:15
  */
 public class Graph {
+
     private List<Node> nodeList;
 
     public Graph() {
@@ -61,7 +63,7 @@ public class Graph {
     }
 
     /**
-     * todo Should output this graph as RDF...
+     * Prints out the graph
      */
     public void outputGraph() {
         for (Node n : getNodes()) {
