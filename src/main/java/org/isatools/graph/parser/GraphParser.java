@@ -43,7 +43,6 @@ public class GraphParser {
         ProcessNode lastProcess = null;
         Node lastMaterialOrData = null;
 
-        // todo look at this and improve how the graph is constructed.
         for (String column : columns) {
             if (column.equalsIgnoreCase(ProcessNode.REGEXP)) {
                 ProcessNode processNode = new ProcessNode(index, column);
