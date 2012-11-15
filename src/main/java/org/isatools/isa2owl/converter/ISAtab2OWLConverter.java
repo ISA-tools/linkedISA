@@ -1,40 +1,40 @@
 package org.isatools.isa2owl.converter;
 
 import org.apache.log4j.Logger;
-import org.coode.owlapi.manchesterowlsyntax.ManchesterOWLSyntaxOntologyFormat;
+
+import org.isatools.isacreator.model.*;
+
 import org.isatools.graph.model.MaterialNode;
+
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.io.importisa.ISAtabImporter;
-import org.isatools.isacreator.model.*;
-import org.isatools.isacreator.ontologymanager.BioPortalClient;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
-import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
+
 import org.semanticweb.owlapi.io.OWLOntologyDocumentTarget;
 import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
 import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
-import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
+import org.coode.owlapi.manchesterowlsyntax.ManchesterOWLSyntaxOntologyFormat;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.*;
 
-
 /**
- * It populates an ISA ontology with instances coming from ISATab files.
- * 
+ * It converts an ISAtab dataset into RDF based on a given ISA2OWL mapping
+ *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *
  */
 public class ISAtab2OWLConverter {
-	
-	private static final Logger log = Logger.getLogger(ISAtab2OWLConverter.class);
 
-	private ISAtabImporter importer = null;
-	private String configDir = null;
+    private static final Logger log = Logger.getLogger(ISAtab2OWLConverter.class);
+
+    private ISAtabImporter importer = null;
+    private String configDir = null;
 
     //ontologies IRIs
     public static String BFO_IRI = "http://purl.obolibrary.org/bfo.owl";
@@ -44,33 +44,30 @@ public class ISAtab2OWLConverter {
     private Map<Contact, OWLNamedIndividual> contactIndividualMap = null;
     private Map<String, OWLNamedIndividual> protocolIndividualMap = null;
 
-
-
     /**
-	 * Constructor
-	 * 
-	 * @param cDir directory where the ISA configuration file can be found
-	 */
-	public ISAtab2OWLConverter(String cDir, ISASyntax2OWLMapping m, String iri){
-		configDir = cDir;
+     * Constructor
+     *
+     * @param cDir directory where the ISA configuration file can be found
+     */
+    public ISAtab2OWLConverter(String cDir, ISASyntax2OWLMapping m, String iri){
+        configDir = cDir;
         log.debug("configDir="+configDir);
         ISA2OWL.mapping = m;
         ISA2OWL.setIRI(iri);
-		importer = new ISAtabFilesImporter(configDir);
-		System.out.println("importer="+importer);
+        importer = new ISAtabFilesImporter(configDir);
+        System.out.println("importer="+importer);
 
         try{
-        //TODO add AutoIRIMapper
-        //adding mapper for local ontologies
-        //manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISAtab2OWLConverter.BFO_IRI), IRI.create(getClass().getClassLoader().getResource("owl/ruttenberg-bfo2.owl"))));
-        ISA2OWL.manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISAtab2OWLConverter.OBI_IRI), IRI.create(getClass().getClassLoader().getResource("owl/extended-obi.owl"))));
+            //TODO add AutoIRIMapper
+            //adding mapper for local ontologies
+            //manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISAtab2OWLConverter.BFO_IRI), IRI.create(getClass().getClassLoader().getResource("owl/ruttenberg-bfo2.owl"))));
+            ISA2OWL.manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISAtab2OWLConverter.OBI_IRI), IRI.create(getClass().getClassLoader().getResource("owl/extended-obi.owl"))));
 
-        ISA2OWL.ontology = ISA2OWL.manager.createOntology(ISA2OWL.ontoIRI);
+            ISA2OWL.ontology = ISA2OWL.manager.createOntology(ISA2OWL.ontoIRI);
 
-        //only import extended-obi.owl
-        OWLImportsDeclaration importDecl = ISA2OWL.factory.getOWLImportsDeclaration(IRI.create("http://purl.obolibrary.org/obo/extended-obi.owl"));
-        ISA2OWL.manager.applyChange(new AddImport(ISA2OWL.ontology, importDecl));
-
+            //only import extended-obi.owl
+            OWLImportsDeclaration importDecl = ISA2OWL.factory.getOWLImportsDeclaration(IRI.create("http://purl.obolibrary.org/obo/extended-obi.owl"));
+            ISA2OWL.manager.applyChange(new AddImport(ISA2OWL.ontology, importDecl));
 
         }catch(URISyntaxException e){
             e.printStackTrace();
@@ -79,53 +76,69 @@ public class ISAtab2OWLConverter {
         }
 
 
-	}
+    }
 
-    /*
+    /**
+     * TODO imports from mapping vs imports from ISAtab dataset
+     *
+     */
     private void processSourceOntologies(){
-        Map<String,IRI> sourceOntoIRIs = mapping.getSourceOntoIRIs();
-        OWLOntology onto = null;
+        System.out.println("PROCESS SOURCE ONTOLOGY");
+
+        //ontologies from the mapping
+        //Map<String,IRI> sourceOntoIRIs = ISA2OWL.mapping.getSourceOntoIRIs();
+
+        //ontologies from the ISAtab dataset
+        List<OntologySourceRefObject> sourceRefObjects = OntologyManager.getOntologiesUsed();
+
 
         //TODO check imports from ontologies where the import chain implies that ontologies are duplicated
-        for(IRI iri: sourceOntoIRIs.values()){
+        //for(IRI iri: sourceOntoIRIs.values()){
+        for(OntologySourceRefObject sourceRefObject: sourceRefObjects) {
             //try{
-                System.out.println("iri="+iri);
-                //onto = manager.loadOntology(iri);
-                OWLImportsDeclaration importDecl = factory.getOWLImportsDeclaration(iri);
-                manager.applyChange(new AddImport(ontology, importDecl));
+            //System.out.println("iri="+iri);
+            //onto = manager.loadOntology(iri);
+            String sourceFile = sourceRefObject.getSourceFile();
+            System.out.println("sourceFile="+sourceFile);
+
+            if (sourceFile==null || sourceFile.equals("") || sourceFile.contains("obi"))
+                continue;
+
+
+            OWLImportsDeclaration importDecl = ISA2OWL.factory.getOWLImportsDeclaration(IRI.create(sourceFile));
+            ISA2OWL.manager.applyChange(new AddImport(ISA2OWL.ontology, importDecl));
 
             //}catch(OWLOntologyCreationException oocrex){
-                //oocrex.printStackTrace();
+            //oocrex.printStackTrace();
             //}
         }
 
     }
-    */
-	
-	
-	private boolean readInISAFiles(String parentDir){
-		return importer.importFile(parentDir);
-	}
-	
-	/**
-	 * 
-	 * @param parentDir
-	 */
-	public boolean convert(String parentDir){
+
+
+
+    private boolean readInISAFiles(String parentDir){
+        return importer.importFile(parentDir);
+    }
+
+    /**
+     *
+     * @param parentDir
+     */
+    public boolean convert(String parentDir){
         log.debug("In populateOntology....");
-		log.debug("parentDir=" + parentDir);
-		if (!readInISAFiles(parentDir)){
+        log.debug("parentDir=" + parentDir);
+        if (!readInISAFiles(parentDir)){
             System.out.println(importer.getMessagesAsString());
         }
 
-        //processSourceOntologies();
-
-		Investigation investigation = importer.getInvestigation();
+        Investigation investigation = importer.getInvestigation();
+        processSourceOntologies();
 
         System.out.println("investigation=" + investigation);
         log.debug("investigation=" + investigation);
 
-		Map<String,Study> studies = investigation.getStudies();
+        Map<String,Study> studies = investigation.getStudies();
 
         System.out.println("number of studies=" + studies.keySet().size());
 
@@ -137,36 +150,32 @@ public class ISAtab2OWLConverter {
         protocolIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
         //convert each study
-		for(String key: studies.keySet()){
+        for(String key: studies.keySet()){
 
-			convertStudy(studies.get(key));
-
+            convertStudy(studies.get(key));
             //reset the map of type/individuals
             ISA2OWL.typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
-		}
+        }
 
         //save the ontology
         try{
-        File file = new File("/Users/agbeltran/workspace-private/isa2owl/isatab-example.owl");
-        ISA2OWL.manager.saveOntology(ISA2OWL.ontology, IRI.create(file.toURI()));
+            File file = new File("/Users/agbeltran/workspace-private/isa2owl/isatab-example.owl");
+            ISA2OWL.manager.saveOntology(ISA2OWL.ontology, IRI.create(file.toURI()));
 
-        // We can also dump an ontology to System.out by specifying a different OWLOntologyOutputTarget
-        // Note that we can write an ontology to a stream in a similar way using the StreamOutputTarget class
-        OWLOntologyDocumentTarget documentTarget = new SystemOutDocumentTarget();
-        // Try another format - The Manchester OWL Syntax
-        ManchesterOWLSyntaxOntologyFormat manSyntaxFormat = new ManchesterOWLSyntaxOntologyFormat();
-        OWLXMLOntologyFormat format = new OWLXMLOntologyFormat();
-        if(format.isPrefixOWLOntologyFormat()) {
-            manSyntaxFormat.copyPrefixesFrom(format.asPrefixOWLOntologyFormat());
-        }
-        //save ontology
-        ISA2OWL.manager.saveOntology(ISA2OWL.ontology, manSyntaxFormat, new SystemOutDocumentTarget());
+            OWLOntologyDocumentTarget documentTarget = new SystemOutDocumentTarget();
+            ManchesterOWLSyntaxOntologyFormat manSyntaxFormat = new ManchesterOWLSyntaxOntologyFormat();
+            OWLXMLOntologyFormat format = new OWLXMLOntologyFormat();
+            if(format.isPrefixOWLOntologyFormat()) {
+                manSyntaxFormat.copyPrefixesFrom(format.asPrefixOWLOntologyFormat());
+            }
+            //save ontology
+            ISA2OWL.manager.saveOntology(ISA2OWL.ontology, manSyntaxFormat, new SystemOutDocumentTarget());
         }catch(OWLOntologyStorageException e){
-        e.printStackTrace();
+            e.printStackTrace();
         }
 
         return true;
-	}
+    }
 
 
     /**
@@ -414,9 +423,7 @@ public class ISAtab2OWLConverter {
 
                 ISA2OWL.findOntologyTermAndAddClassAssertion(factor.getFactorTypeTermSource(), factor.getFactorTypeTermAccession(), factorIndividual);
 
-
-
-        }//factors attributes not null
+            }//factors attributes not null
         }
 
     }
@@ -432,7 +439,6 @@ public class ISAtab2OWLConverter {
                 && studyDesign.getStudyDesignTypeTermSourceRef()!=null && !studyDesign.getStudyDesignTypeTermSourceRef().equals("")){
 
             ISA2OWL.findOntologyTermAndAddClassAssertion(studyDesign.getStudyDesignTypeTermSourceRef(), studyDesign.getStudyDesignTypeTermAcc(), studyDesignIndividual);
-
 
         }
     }
