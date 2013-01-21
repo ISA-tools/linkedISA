@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF
+
+ xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+ xmlns:obo="http://purl.obolibrary.org/obo/"
+ xmlns:owl="http://www.w3.org/2002/07/owl#"
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+	<owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000118">
+		<rdfs:label xml:lang="en">alternative term</rdfs:label>
+	</owl:AnnotationProperty>
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000040">
+		<obo:IAO_0000118 >source</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000047">
+		<obo:IAO_0000118 >sample, extract, labeled extract</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000066">
+		<obo:IAO_0000118 >study</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000443">
+		<obo:IAO_0000118 >study assay</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000750">
+		<obo:IAO_0000118 >study factor</obo:IAO_0000118>
+	</rdf:Description>
+
+
+	<owl:Ontology rdf:about="http://ontodog.hegroup.org/zr0tyek7/label.owl"/>
+</rdf:RDF>
