@@ -27,7 +27,7 @@ public class ISAtab2OWLConverterTest {
 	
 	@Before
     public void setUp() throws Exception {
-        //System.out.println("defined properties = "+System.getProperties());
+
 	    baseDir = System.getProperty("user.dir");
 		System.out.println("baseDir="+baseDir);
     	configDir = baseDir + "/src/test/resources/configurations/isaconfig-default_v2011-02-18/";
@@ -61,6 +61,8 @@ public class ISAtab2OWLConverterTest {
 
         assert(isatab2owl.convert(isatabParentDir));
 
+        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/BII-I-1.owl");
+
     }
 
 
@@ -73,9 +75,11 @@ public class ISAtab2OWLConverterTest {
 
         assert(isatab2owl.convert(isatabParentDir));
 
+        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/MTBLS6.owl");
+
     }
 
-   // @Test
+   @Test
     public void testConvertFaahKO() {
         isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
         System.out.println("isatabParentDir="+isatabParentDir);
@@ -84,9 +88,11 @@ public class ISAtab2OWLConverterTest {
 
         assert(isatab2owl.convert(isatabParentDir));
 
+       isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/faahko.owl");
+
     }
 
-    @Test
+    //@Test
     public void testConvertFaahKO_curated() {
         isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faah_archive_curated";
         System.out.println("isatabParentDir="+isatabParentDir);
@@ -94,6 +100,8 @@ public class ISAtab2OWLConverterTest {
         System.out.println("Converting the ISA-tab dataset into OWL");
 
         assert(isatab2owl.convert(isatabParentDir));
+
+        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/faah_archive_curated.owl");
 
     }
 }
