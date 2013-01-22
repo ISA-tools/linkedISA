@@ -157,9 +157,15 @@ public class ISAtab2OWLConverter {
             ISA2OWL.typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
         }
 
+
+        return true;
+    }
+
+
+    public void save(String filename){
         //save the ontology
         try{
-            File file = new File("/Users/agbeltran/workspace-private/isa2owl/isatab-example.owl");
+            File file = new File(filename);
             ISA2OWL.manager.saveOntology(ISA2OWL.ontology, IRI.create(file.toURI()));
 
             OWLOntologyDocumentTarget documentTarget = new SystemOutDocumentTarget();
@@ -173,10 +179,7 @@ public class ISAtab2OWLConverter {
         }catch(OWLOntologyStorageException e){
             e.printStackTrace();
         }
-
-        return true;
     }
-
 
     /**
      * It converts each of the ISA Study elements into OWL

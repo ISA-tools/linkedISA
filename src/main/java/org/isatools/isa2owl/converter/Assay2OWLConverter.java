@@ -40,13 +40,6 @@ public class Assay2OWLConverter {
 
         data = assay.getAssayDataMatrix();
 
-        //TODO remove
-        for(int i=0; i<data.length; i++){
-            for (int j=0; j< data[i].length; j++){
-                System.out.println("data["+i+","+j+"]="+data[i][j]);
-            }
-        }
-
         individualMatrix = new OWLNamedIndividual[data.length][data[0].length];
 
         graphParser = new GraphParser(assay.getAssayDataMatrix());
@@ -54,8 +47,8 @@ public class Assay2OWLConverter {
         Graph graph = graphParser.getGraph();
 
         //print graph
-        System.out.println("ASSAY GRAPH...");
-        graph.outputGraph();
+//        System.out.println("ASSAY GRAPH...");
+//        graph.outputGraph();
 
         OWLNamedIndividual individual = null;
 
@@ -69,12 +62,12 @@ public class Assay2OWLConverter {
             MaterialNode materialNode = (MaterialNode) node;
             int col = materialNode.getIndex();
 
-            System.out.println("CONVERT MATERIAL NODE whose index is "+ col);
-            System.out.println(materialNode.getMaterialNodeType());
+//            System.out.println("CONVERT MATERIAL NODE whose index is "+ col);
+//            System.out.println(materialNode.getMaterialNodeType());
 
             for(int row=1; row < data.length; row++){
 
-                System.out.println("data[row]["+col+"]="+(data[row][col]).toString());
+//                System.out.println("data[row]["+col+"]="+(data[row][col]).toString());
 
                 String dataValue = (String) data[row][col];
 
@@ -90,7 +83,9 @@ public class Assay2OWLConverter {
                 System.out.println("=====Material Node Annotation=====");
                 String purl = OntologyManager.getOntologyTermPurl(dataValue);
                 if (purl!=null && !purl.equals("")){
+
                    System.out.println("If there is a PURL, use it!");
+
                 }else{
 
                     String source = OntologyManager.getOntologyTermSource(dataValue);
@@ -114,7 +109,12 @@ public class Assay2OWLConverter {
 
                     String source = OntologyManager.getOntologyTermSource(attributeDataValue);
                     String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
-                    ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, individual);
+
+                    if (accession!=null && accession.startsWith("http://")){
+                         ISA2OWL.addOWLClassAssertion(IRI.create(accession), individual);
+                    }else{
+                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, individual);
+                    }
 
                 }
 
