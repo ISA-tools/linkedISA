@@ -15,7 +15,9 @@ import java.util.*;
  * @author Eamonn Maguire (eamonnmag@gmail.com)
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *
- * This class was named SpreadsheetAnalysis
+ * This class was named SpreadsheetAnalysis in Eamonn's project.
+ *
+ * The Graph Parser identifies the different types of nodes and attributes (material nodes, process nodes, material attributes).
  *
  */
 public class GraphParser {
@@ -184,7 +186,22 @@ public class GraphParser {
     }
 
 
-    private Map<String, Set<String>> getDataGroupsWithTypeByColumn(Object[][] fileContents, String group, boolean exactMatch, boolean includeColumnNames) {
+    /***
+     *
+     *
+     *
+     * @param fileContents a matrix of Objects, which is the contents of the spreadsheet
+     * @param group a string indicating the column to consider to form the groups
+     * @param exactMatch true or false indicating whether the string match is exact or not
+     * @param includeColumnNames true or false indicating
+     * @return
+     */
+    private Map<String, Set<String>> getDataGroupsWithTypeByColumn(Object[][] fileContents,
+                                                                   String group,
+                                                                   boolean exactMatch,
+                                                                   boolean includeColumnNames) {
+
+        //map for resulting groups
         Map<String, Set<String>> groups = new HashMap<String, Set<String>>();
 
         String[] columnNames = Arrays.copyOf(fileContents[0],fileContents[0].length, String[].class);
