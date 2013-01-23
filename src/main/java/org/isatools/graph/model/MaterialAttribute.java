@@ -16,4 +16,9 @@ public class MaterialAttribute extends Node {
     public MaterialAttribute(int index, String name) {
         super(index, name);
     }
+
+    public String toString(){
+        return getName();
+    }
+
 }
