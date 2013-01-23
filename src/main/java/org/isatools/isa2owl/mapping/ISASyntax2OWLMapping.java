@@ -80,7 +80,6 @@ public class ISASyntax2OWLMapping {
 		typeMappings.put(label, IRI.create(type));
 	}
 
-
     public Map<String, Map<IRI,String>> getPropertyMappings(){
         return propertyMappings;
     }

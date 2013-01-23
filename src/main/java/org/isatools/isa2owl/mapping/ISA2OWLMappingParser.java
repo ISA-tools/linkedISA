@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-//import org.isatools.isacreator.model.*;
 
 /**
  * Mapping from ISA format to OWL.
@@ -68,11 +67,10 @@ public class ISA2OWLMappingParser {
 	    MappingFileField currentField = null;
 	    
 	    	while ((nextLine = csvReader.readNext()) != null) {
-	    		//System.out.println("nextLine="+nextLine[0]);
+
 
 	    		if (nextLine!=null && MappingFileField.isMappingField(nextLine[0])){
 	    			currentField = MappingFileField.getField(nextLine[0]);
-	    			System.out.println("currentField="+currentField);
 	    			
 	    		}else{
 	    			if (nextLine[0].equals(""))
@@ -126,7 +124,8 @@ public class ISA2OWLMappingParser {
 
         if (!line[0].startsWith("{")){
 
-            mapping.addTypeMapping(line[0], line[2]);
+            if (!line[2].equals(""))
+                mapping.addTypeMapping(line[0], line[2]);
 
             //parsing property mappings
             int i = 4;
@@ -142,7 +141,8 @@ public class ISA2OWLMappingParser {
             String[] types = element.split("\\|");
 
             for(int i=0; i<types.length; i++){
-                mapping.addTypeMapping(types[i],line[2]);
+                if (!line[2].equals(""))
+                    mapping.addTypeMapping(types[i],line[2]);
             }
 
             //parsing property mappings
