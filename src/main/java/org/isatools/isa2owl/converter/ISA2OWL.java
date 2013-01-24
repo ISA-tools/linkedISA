@@ -29,8 +29,14 @@ public class ISA2OWL {
     public static OWLDataFactory factory = manager.getOWLDataFactory();
     public static IRI ontoIRI = null;
 
+    //TODO move this to the mapping file so that the conversion is independent of particular resources, but the dependency is kept in the mapping
+    //TODO check if this is possible given how 'Characteristics' are converted
     public static final String BFO_HAS_QUALITY_IRI = "http://purl.obolibrary.org/obo/BFO_0000086";
+    public static final String BFO_INDEPENDENT_CONTINUANT_IRI = "http://purl.obolibrary.org/obo/BFO_0000004";
+    public static final String BFO_DEPENDENT_CONTINUANT_IRI = "http://purl.obolibrary.org/obo/BFO_0000005";
+
     public static final String PATO_SIZE_IRI = "http://purl.obolibrary.org/obo/PATO_0000117";
+
     public static final String IAO_HAS_MEASUREMENT_VALUE_IRI = "http://purl.obolibrary.org/obo/IAO_0000004";
 
     //<type, id, individual>

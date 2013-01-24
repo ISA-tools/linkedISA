@@ -36,4 +36,6 @@ public class ExtendedISASyntax {
 
    public static String STUDY_GROUP = "Study Group";
 
+   public static String INDEPENDENT_VARIABLE_SPECIFICATION = "Independent Variable Specification";
+
 }

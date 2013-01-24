@@ -126,8 +126,8 @@ public class ISAtab2OWLConverter {
      * @param parentDir
      */
     public boolean convert(String parentDir){
-        log.debug("In populateOntology....");
-        log.debug("parentDir=" + parentDir);
+        System.out.println("2 Converting ISA-TAB dataset "+parentDir);
+
         if (!readInISAFiles(parentDir)){
             System.out.println(importer.getMessagesAsString());
         }
@@ -287,7 +287,7 @@ public class ISAtab2OWLConverter {
             } //for
         }
 
-        log.info("... end of conversion for Study "+study.getStudyId()+".");
+        System.out.println("... end of conversion for Study "+study.getStudyId()+".");
 
     }
 

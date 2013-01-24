@@ -16,6 +16,8 @@ import java.util.*;
  * Date: 07/11/2012
  * Time: 16:11
  *
+ * Converts the assay representation into OWL.
+ *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
 public class Assay2OWLConverter {
@@ -46,9 +48,6 @@ public class Assay2OWLConverter {
         graphParser.parse();
         Graph graph = graphParser.getGraph();
 
-        //print graph
-//        System.out.println("ASSAY GRAPH...");
-//        graph.outputGraph();
 
         OWLNamedIndividual individual = null;
 
@@ -60,14 +59,12 @@ public class Assay2OWLConverter {
             Map<String, OWLNamedIndividual> materialNodeIndividuals = new HashMap<String,OWLNamedIndividual>();
 
             MaterialNode materialNode = (MaterialNode) node;
+            System.out.println("MATERIAL NODE="+node);
+
             int col = materialNode.getIndex();
 
-//            System.out.println("CONVERT MATERIAL NODE whose index is "+ col);
-//            System.out.println(materialNode.getMaterialNodeType());
 
             for(int row=1; row < data.length; row++){
-
-//                System.out.println("data[row]["+col+"]="+(data[row][col]).toString());
 
                 String dataValue = (String) data[row][col];
 
@@ -75,7 +72,9 @@ public class Assay2OWLConverter {
                     continue;
 
                 //Material Node
+
                 individual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), dataValue, materialNode.getMaterialNodeType());
+                System.out.println("material node individual="+materialNode.getMaterialNodeType()+" "+ dataValue );
                 individualMatrix[row][col] = individual;
                 materialNodeIndividuals.put(materialNode.getMaterialNodeType(), individual);
 
@@ -84,7 +83,7 @@ public class Assay2OWLConverter {
                 String purl = OntologyManager.getOntologyTermPurl(dataValue);
                 if (purl!=null && !purl.equals("")){
 
-                   System.out.println("If there is a PURL, use it!");
+                   System.out.println("If there is a PURL, use it! "+purl);
 
                 }else{
 
@@ -101,16 +100,32 @@ public class Assay2OWLConverter {
 
                 //material node attributes
                 List<MaterialAttribute> attributeList = materialNode.getMaterialAttributes();
+
                 for(MaterialAttribute attribute: attributeList){
+
 
                     String attributeDataValue = data[row][attribute.getIndex()].toString();
                     individual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attribute.getName());
                     individualMatrix[row][attribute.getIndex()] = individual;
 
+
                     String source = OntologyManager.getOntologyTermSource(attributeDataValue);
                     String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
 
-                    if (accession!=null && accession.startsWith("http://")){
+                    System.out.println("MATERIAL ATTRIBUTE "+ attribute+ " data value="+attributeDataValue+ " source="+source+" accession="+accession);
+
+                    String attributeName = attribute.getName();
+
+                    String attributeType = null;
+
+                    if (attributeName.contains("http://") || attributeName.contains("https://")){
+
+                        attributeType = attributeName.substring(attributeName.indexOf("(")+1, attributeName.indexOf(")"));
+
+                        ISA2OWL.addOWLClassAssertion(IRI.create(attributeType), individual);
+
+
+                    }else if (accession!=null && accession.startsWith("http://")){
                          ISA2OWL.addOWLClassAssertion(IRI.create(accession), individual);
                     }else{
                         ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, individual);
@@ -226,10 +241,10 @@ public class Assay2OWLConverter {
 
                 individual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_GROUP, group);
 
-                OWLObjectProperty hasQuality = ISA2OWL.factory.getOWLObjectProperty(IRI.create("http://purl.obolibrary.org/obo/BFO_0000086"));
-                OWLClass size = ISA2OWL.factory.getOWLClass(IRI.create("http://purl.obolibrary.org/obo/PATO_0000117"));
+                OWLObjectProperty hasQuality = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA2OWL.BFO_HAS_QUALITY_IRI));
+                OWLClass size = ISA2OWL.factory.getOWLClass(IRI.create(ISA2OWL.PATO_SIZE_IRI));
 
-                OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(IRI.create("http://purl.obolibrary.org/obo/IAO_0000004"));
+                OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(IRI.create(ISA2OWL.IAO_HAS_MEASUREMENT_VALUE_IRI));
                 OWLLiteral sizeValue = ISA2OWL.factory.getOWLLiteral(elements.size());
                 OWLDataHasValue hasMeasurementValueSizeValue = ISA2OWL.factory.getOWLDataHasValue(hasMeasurementValue, sizeValue);
 
