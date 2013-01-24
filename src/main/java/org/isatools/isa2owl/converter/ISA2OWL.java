@@ -18,14 +18,20 @@ import java.util.*;
  * Date: 07/11/2012
  * Time: 17:11
  *
+ * Class with static fields and methods used in the conversion from ISA-tab to OWL.
+ *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
 public class ISA2OWL {
 
-    public static  OWLOntology ontology = null;
+    public static OWLOntology ontology = null;
     public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
     public static OWLDataFactory factory = manager.getOWLDataFactory();
     public static IRI ontoIRI = null;
+
+    public static final String BFO_HAS_QUALITY_IRI = "http://purl.obolibrary.org/obo/BFO_0000086";
+    public static final String PATO_SIZE_IRI = "http://purl.obolibrary.org/obo/PATO_0000117";
+    public static final String IAO_HAS_MEASUREMENT_VALUE_IRI = "http://purl.obolibrary.org/obo/IAO_0000004";
 
     //<type, id, individual>
     public static Map<String, Map<String,OWLNamedIndividual>> typeIdIndividualMap = null;
@@ -63,6 +69,8 @@ public class ISA2OWL {
 
     /**
      *
+     * It creates an OWLNamedIndividual given its type, its label and a comment.
+     *
      * @param typeMappingLabel a label indicating the type of the individual (as defined in the mapping file)
      * @param individualLabel a label identifying the individual to be created
      * @param comment a comment to annotate the individual
@@ -82,6 +90,7 @@ public class ISA2OWL {
 
     /**
      *
+     * It creates an OWLNamedIndividual given its type (given a string, the typeIdIndividualMap is used) and its label (which should not be null, or the individual retrieved will be null)
      *
      * @param typeMappingLabel
      * @param individualLabel
@@ -107,8 +116,6 @@ public class ISA2OWL {
         ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
 
         OWLClass owlClass = ISA2OWL.addOWLClassAssertion(owlClassIRI, individual);
-
-        //System.out.println("CREATE INDIVIDUAL-> "+individualLabel + " rdf:type " + owlClass + "("+ typeMappingLabel +")");
 
         Set<OWLNamedIndividual> list = typeIndividualMap.get(typeMappingLabel);
         if (list ==null){
@@ -140,12 +147,7 @@ public class ISA2OWL {
 
                 String objectString = predicateObjects.get(predicate);
 
-//                System.out.println("objectString="+objectString);
                 OWLNamedIndividual object = typeIndividualM.get(objectString);
-
-//                System.out.println("property="+property);
-//                System.out.println("subject="+subject);
-//                System.out.println("object="+object);
 
                 if (subject==null || object==null || property==null){
 
@@ -159,16 +161,8 @@ public class ISA2OWL {
         }
     }
 
-
-    public static void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
-//
-//        System.out.println("Find ontology term...");
-//
-//        System.out.println("termAccession="+termAccession);
-//        System.out.println("termSourceRef="+termSourceRef);
-
+    public static String findOntologyPURL(String termSourceRef, String termAccession){
         List<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
-//        System.out.println("ONTOLOGIES USED = "+ontologiesUsed);
 
         OntologySourceRefObject ontologySourceRefObject = null;
         for(OntologySourceRefObject ontologyRef: ontologiesUsed){
@@ -200,17 +194,23 @@ public class ISA2OWL {
             if (term!=null) {
                 String purl = term.getOntologyPurl();
 
-                ISA2OWL.addOWLClassAssertion(IRI.create(purl), individual);
+              return purl;
 
             }//term not null
 
         } //ontologySourceRefObject not null
 
+        return null;
+    }
+
+
+    public static void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
+        String purl = ISA2OWL.findOntologyPURL(termSourceRef, termAccession);
+        ISA2OWL.addOWLClassAssertion(IRI.create(purl), individual);
     }
 
     private static void getAllOntologies(BioPortalClient client) {
         allOntologies = client.getAllOntologies();
-//        System.out.println("ALL ONTOLOGIES="+allOntologies);
     }
 
     private static String completeTermAccession(String termAccession, String ontologyAbbreviation){
