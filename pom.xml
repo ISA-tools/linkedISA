@@ -33,6 +33,12 @@
             <url>https://oss.sonatype.org/content/repositories/releases/</url>
         </repository>
 
+        <repository>
+            <id>on.cs.unibas.ch</id>
+            <name>DBIS Maven Releases Repository</name>
+            <url>http://on.cs.unibas.ch/maven/repository</url>
+        </repository>
+
     </repositories>
 
     <dependencies>
@@ -52,6 +58,13 @@
             <groupId>net.sourceforge.owlapi</groupId>
             <artifactId>owlapi-apibinding</artifactId>
             <version>3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.owldl</groupId>
+            <artifactId>pellet</artifactId>
+            <!-- latest version is 2.2.0, or earlier 2.1.1, ... -->
+            <version>2.3.0</version>
         </dependency>
 
         <dependency>
