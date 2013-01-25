@@ -1,11 +1,12 @@
 package org.isatools.isa2owl.converter;
 
+import org.apache.log4j.Logger;
 import org.isatools.graph.model.*;
 import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
-import org.isatools.isacreator.model.Protocol;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
+import org.isatools.owl.ReasonerService;
 import org.semanticweb.owlapi.model.*;
 
 import java.util.*;
@@ -22,6 +23,8 @@ import java.util.*;
  */
 public class Assay2OWLConverter {
 
+    private static final Logger log = Logger.getLogger(Assay2OWLConverter.class);
+
     private GraphParser graphParser = null;
     private Object[][] data = null;
 
@@ -33,7 +36,7 @@ public class Assay2OWLConverter {
 
 
     public Assay2OWLConverter(){
-
+        log.info("Assay2OWLConverter - constructor");
     }
 
     public void convert(Assay assay, OWLNamedIndividual assayIndividual, Map<String, OWLNamedIndividual> protocolIndividualMap, boolean convertGroups){
@@ -48,8 +51,7 @@ public class Assay2OWLConverter {
         graphParser.parse();
         Graph graph = graphParser.getGraph();
 
-
-        OWLNamedIndividual individual = null;
+        OWLNamedIndividual materialNodeIndividual = null;
 
         //Material Nodes
         List<Node> materialNodes = graph.getNodes(NodeType.MATERIAL_NODE);
@@ -73,10 +75,10 @@ public class Assay2OWLConverter {
 
                 //Material Node
 
-                individual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), dataValue, materialNode.getMaterialNodeType());
+                materialNodeIndividual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), dataValue, materialNode.getMaterialNodeType());
                 System.out.println("material node individual="+materialNode.getMaterialNodeType()+" "+ dataValue );
-                individualMatrix[row][col] = individual;
-                materialNodeIndividuals.put(materialNode.getMaterialNodeType(), individual);
+                individualMatrix[row][col] = materialNodeIndividual;
+                materialNodeIndividuals.put(materialNode.getMaterialNodeType(), materialNodeIndividual);
 
                 //Material Node Annotation
                 System.out.println("=====Material Node Annotation=====");
@@ -89,13 +91,13 @@ public class Assay2OWLConverter {
 
                     String source = OntologyManager.getOntologyTermSource(dataValue);
                     String accession = OntologyManager.getOntologyTermAccession(dataValue);
-                    ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, individual);
+                    ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
 
                 }
 
                 //Material Node Name
-                individual = ISA2OWL.createIndividual(materialNode.getName(),dataValue);
-                materialNodeIndividuals.put(materialNode.getName(), individual);
+                OWLNamedIndividual materialNodeIndividualName = ISA2OWL.createIndividual(materialNode.getName(),dataValue);
+                materialNodeIndividuals.put(materialNode.getName(), materialNodeIndividualName);
 
 
                 //material node attributes
@@ -105,8 +107,8 @@ public class Assay2OWLConverter {
 
 
                     String attributeDataValue = data[row][attribute.getIndex()].toString();
-                    individual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attribute.getName());
-                    individualMatrix[row][attribute.getIndex()] = individual;
+                    OWLNamedIndividual materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attribute.getName());
+                    individualMatrix[row][attribute.getIndex()] = materialAttributeIndividual;
 
 
                     String source = OntologyManager.getOntologyTermSource(attributeDataValue);
@@ -115,20 +117,40 @@ public class Assay2OWLConverter {
                     System.out.println("MATERIAL ATTRIBUTE "+ attribute+ " data value="+attributeDataValue+ " source="+source+" accession="+accession);
 
                     String attributeName = attribute.getName();
-
                     String attributeType = null;
 
                     if (attributeName.contains("http://") || attributeName.contains("https://")){
 
                         attributeType = attributeName.substring(attributeName.indexOf("(")+1, attributeName.indexOf(")"));
 
-                        ISA2OWL.addOWLClassAssertion(IRI.create(attributeType), individual);
-
+//                        //if attributeType is an independent continuant, the individual is of that type
+//                        boolean isIndependentContinuant = ISA2OWL.reasonerService.isSuperClass(ISA2OWL.getOWLClass(IRI.create(attributeType)), ISA2OWL.getOWLClass(ISA2OWL.BFO_INDEPENDENT_CONTINUANT_IRI), false);
+//
+//                        if (isIndependentContinuant)
+//                            ISA2OWL.addOWLClassAssertion(IRI.create(attributeType), individual);
 
                     }else if (accession!=null && accession.startsWith("http://")){
-                         ISA2OWL.addOWLClassAssertion(IRI.create(accession), individual);
+                         ISA2OWL.addOWLClassAssertion(IRI.create(accession), materialAttributeIndividual);
                     }else{
-                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, individual);
+                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
+                    }
+
+                    System.out.println("materialNodeIndividual="+materialNodeIndividual);
+                    System.out.println("attributeName="+attributeName);
+                    System.out.println("attributeType="+attributeType);
+
+                    if (materialNodeIndividual!=null){
+
+                    OWLObjectProperty hasQuality = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.BFO_HAS_QUALITY_IRI);
+
+
+                    if (attributeType!=null)
+                        materialAttributeIndividual = ISA2OWL.createIndividual(attributeName, IRI.create(attributeType));
+                    else
+                        materialAttributeIndividual = ISA2OWL.factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI));
+                    System.out.println("attributeIndividual="+materialAttributeIndividual);
+                    OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasQuality, materialNodeIndividual, materialAttributeIndividual);
+                    ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
                     }
 
                 }
@@ -230,36 +252,52 @@ public class Assay2OWLConverter {
         }//processNode
 
 
-        //Treatment groups
         if (convertGroups){
-            Map<String, Set<String>> groups = graphParser.getGroups();
-
-            for(String group : groups.keySet()){
-
-                //group size
-                Set<String> elements = groups.get(group);
-
-                individual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_GROUP, group);
-
-                OWLObjectProperty hasQuality = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA2OWL.BFO_HAS_QUALITY_IRI));
-                OWLClass size = ISA2OWL.factory.getOWLClass(IRI.create(ISA2OWL.PATO_SIZE_IRI));
-
-                OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(IRI.create(ISA2OWL.IAO_HAS_MEASUREMENT_VALUE_IRI));
-                OWLLiteral sizeValue = ISA2OWL.factory.getOWLLiteral(elements.size());
-                OWLDataHasValue hasMeasurementValueSizeValue = ISA2OWL.factory.getOWLDataHasValue(hasMeasurementValue, sizeValue);
-
-
-                OWLObjectIntersectionOf intersectionOf = ISA2OWL.factory.getOWLObjectIntersectionOf(size, hasMeasurementValueSizeValue);
-
-                OWLObjectSomeValuesFrom someSize = ISA2OWL.factory.getOWLObjectSomeValuesFrom(hasQuality,intersectionOf);
-
-                OWLClassAssertionAxiom classAssertionAxiom = ISA2OWL.factory.getOWLClassAssertionAxiom(someSize, individual);
-                ISA2OWL.manager.addAxiom(ISA2OWL.ontology, classAssertionAxiom);
-            }
+            convertGroups();
         }
 
 
 
     }
+
+    private void convertGroups(){
+        //Treatment groups
+        Map<String, Set<String>> groups = graphParser.getGroups();
+
+        for(String group : groups.keySet()){
+
+            Set<String> elements = groups.get(group);
+
+            OWLNamedIndividual groupIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_GROUP, group);
+
+            //group membership
+            for(String element: elements){
+                System.out.println("element="+element);
+                System.out.println("ISA2OWL.idIndividualMap="+ISA2OWL.idIndividualMap);
+                OWLNamedIndividual memberIndividual = ISA2OWL.idIndividualMap.get(element);
+                OWLObjectProperty hasMember = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.ISA_OBI_HAS_MEMBER_IRI);
+                OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasMember, groupIndividual, memberIndividual);
+                ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
+            }
+
+
+            //group size
+            OWLObjectProperty hasQuality = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.BFO_HAS_QUALITY_IRI);
+            OWLClass size = ISA2OWL.factory.getOWLClass(IRI.create(ISA2OWL.PATO_SIZE_IRI));
+
+            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(IRI.create(ISA2OWL.IAO_HAS_MEASUREMENT_VALUE_IRI));
+            OWLLiteral sizeValue = ISA2OWL.factory.getOWLLiteral(elements.size());
+            OWLDataHasValue hasMeasurementValueSizeValue = ISA2OWL.factory.getOWLDataHasValue(hasMeasurementValue, sizeValue);
+
+            OWLObjectIntersectionOf intersectionOf = ISA2OWL.factory.getOWLObjectIntersectionOf(size, hasMeasurementValueSizeValue);
+
+            OWLObjectSomeValuesFrom someSize = ISA2OWL.factory.getOWLObjectSomeValuesFrom(hasQuality,intersectionOf);
+
+            OWLClassAssertionAxiom classAssertionAxiom = ISA2OWL.factory.getOWLClassAssertionAxiom(someSize, groupIndividual);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, classAssertionAxiom);
+        }
+    }
+
+
 
 }

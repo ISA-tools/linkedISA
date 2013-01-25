@@ -6,6 +6,7 @@ import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
 
+import org.isatools.owl.ReasonerService;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
@@ -28,21 +29,29 @@ public class ISA2OWL {
     public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
     public static OWLDataFactory factory = manager.getOWLDataFactory();
     public static IRI ontoIRI = null;
+    public static ReasonerService reasonerService = null;
 
     //TODO move this to the mapping file so that the conversion is independent of particular resources, but the dependency is kept in the mapping
     //TODO check if this is possible given how 'Characteristics' are converted
-    public static final String BFO_HAS_QUALITY_IRI = "http://purl.obolibrary.org/obo/BFO_0000086";
-    public static final String BFO_INDEPENDENT_CONTINUANT_IRI = "http://purl.obolibrary.org/obo/BFO_0000004";
+    public static final IRI BFO_HAS_QUALITY_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000086");
+    public static final IRI BFO_INDEPENDENT_CONTINUANT_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000004");
     public static final String BFO_DEPENDENT_CONTINUANT_IRI = "http://purl.obolibrary.org/obo/BFO_0000005";
 
     public static final String PATO_SIZE_IRI = "http://purl.obolibrary.org/obo/PATO_0000117";
 
     public static final String IAO_HAS_MEASUREMENT_VALUE_IRI = "http://purl.obolibrary.org/obo/IAO_0000004";
 
+    public static final IRI OBI_ORGANISM_IRI = IRI.create("http://purl.obolibrary.org/obo/OBI_0100026");
+
+    public static final IRI ISA_OBI_HAS_MEMBER_IRI = IRI.create("http://isa-tools.org/isa/ISA0000018");
+
     //<type, id, individual>
     public static Map<String, Map<String,OWLNamedIndividual>> typeIdIndividualMap = null;
     //<type, individual>
     public static Map<String, Set<OWLNamedIndividual>> typeIndividualMap = null;
+
+    public static Map<String, OWLNamedIndividual> idIndividualMap = new HashMap<String, OWLNamedIndividual>();
+
     public static ISASyntax2OWLMapping mapping = null;
 
     //this list will be populated only once with a query to bioportal
@@ -51,6 +60,11 @@ public class ISA2OWL {
     public static void setIRI(String iri){
         ontoIRI = IRI.create(iri);
     }
+
+    public static OWLClass getOWLClass(IRI owlClassIRI){
+        return factory.getOWLClass(owlClassIRI);
+    }
+
 
     public static OWLClass addOWLClassAssertion(IRI owlClassIRI, OWLNamedIndividual individual) {
 
@@ -94,6 +108,12 @@ public class ISA2OWL {
 
     }
 
+    public static OWLNamedIndividual createIndividual(String name, IRI type){
+        OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI));
+        OWLClass owlClass = ISA2OWL.addOWLClassAssertion(type, individual);
+        return individual;
+    }
+
     /**
      *
      * It creates an OWLNamedIndividual given its type (given a string, the typeIdIndividualMap is used) and its label (which should not be null, or the individual retrieved will be null)
@@ -129,6 +149,8 @@ public class ISA2OWL {
         }
         list.add(individual);
         typeIndividualMap.put(typeMappingLabel, list);
+
+        idIndividualMap.put(individualLabel, individual);
 
         if (map==null){
             map = new HashMap<String, OWLNamedIndividual>();
@@ -212,7 +234,8 @@ public class ISA2OWL {
 
     public static void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
         String purl = ISA2OWL.findOntologyPURL(termSourceRef, termAccession);
-        ISA2OWL.addOWLClassAssertion(IRI.create(purl), individual);
+        if (purl!=null)
+            ISA2OWL.addOWLClassAssertion(IRI.create(purl), individual);
     }
 
     private static void getAllOntologies(BioPortalClient client) {

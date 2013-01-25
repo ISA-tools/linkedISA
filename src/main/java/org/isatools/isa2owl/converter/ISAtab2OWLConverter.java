@@ -12,6 +12,7 @@ import org.isatools.isacreator.io.importisa.ISAtabImporter;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 
+import org.isatools.owl.ReasonerService;
 import org.semanticweb.owlapi.io.OWLOntologyDocumentTarget;
 import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
 import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
@@ -55,6 +56,8 @@ public class ISAtab2OWLConverter {
         ISA2OWL.mapping = m;
         ISA2OWL.setIRI(iri);
         importer = new ISAtabFilesImporter(configDir);
+
+
         System.out.println("importer="+importer);
 
         try{
@@ -64,6 +67,7 @@ public class ISAtab2OWLConverter {
             ISA2OWL.manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISAtab2OWLConverter.OBI_IRI), IRI.create(getClass().getClassLoader().getResource("owl/extended-obi.owl"))));
 
             ISA2OWL.ontology = ISA2OWL.manager.createOntology(ISA2OWL.ontoIRI);
+            ISA2OWL.reasonerService = new ReasonerService(ISA2OWL.ontology);
 
             //only import extended-obi.owl
             OWLImportsDeclaration importDecl = ISA2OWL.factory.getOWLImportsDeclaration(IRI.create("http://purl.obolibrary.org/obo/extended-obi.owl"));
@@ -126,14 +130,14 @@ public class ISAtab2OWLConverter {
      * @param parentDir
      */
     public boolean convert(String parentDir){
-        System.out.println("2 Converting ISA-TAB dataset "+parentDir);
+        System.out.println("2 Converting ISA-TAB dataset " + parentDir);
 
         if (!readInISAFiles(parentDir)){
             System.out.println(importer.getMessagesAsString());
         }
 
         Investigation investigation = importer.getInvestigation();
-        processSourceOntologies();
+        //processSourceOntologies();
 
         System.out.println("investigation=" + investigation);
         log.debug("investigation=" + investigation);
@@ -230,7 +234,7 @@ public class ISAtab2OWLConverter {
         convertProtocols(protocolList);
 
         Assay2OWLConverter assay2OWLConverter = new Assay2OWLConverter();
-        assay2OWLConverter.convert(study.getStudySample(), null, protocolIndividualMap,false);
+        assay2OWLConverter.convert(study.getStudySample(), null, protocolIndividualMap,true);
 
         System.out.println("ASSAYS..." + study.getAssays());
 
@@ -287,7 +291,7 @@ public class ISAtab2OWLConverter {
             } //for
         }
 
-        System.out.println("... end of conversion for Study "+study.getStudyId()+".");
+        System.out.println("... end of conversion for Study " + study.getStudyId() + ".");
 
     }
 
@@ -531,7 +535,7 @@ public class ISAtab2OWLConverter {
             ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference());
 
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
-            assayConverter.convert(assay, studyAssayIndividual, protocolIndividualMap, true);
+            assayConverter.convert(assay, studyAssayIndividual, protocolIndividualMap, false);
         }
 
     }
