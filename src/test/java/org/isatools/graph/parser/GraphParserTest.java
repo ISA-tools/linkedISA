@@ -1,5 +1,6 @@
 package org.isatools.graph.parser;
 
+import org.apache.log4j.Logger;
 import org.isatools.errorreporter.model.ErrorMessage;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.model.Assay;
@@ -20,6 +21,8 @@ import java.util.Map;
  */
 public class GraphParserTest {
 
+    private static final Logger log = Logger.getLogger(GraphParserTest.class);
+
     private String configDir = null;
     private String baseDir = null;
 
@@ -39,8 +42,8 @@ public class GraphParserTest {
         ISAtabFilesImporter importer = new ISAtabFilesImporter(configDir);
 
         //String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/MTBLS6";
-        //String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
-        String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faah_archive_curated";
+        String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
+        //String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faah_archive_curated";
         System.out.println("isatabParentDir="+isatabParentDir);
 
         importer.importFile(isatabParentDir);
@@ -51,7 +54,7 @@ public class GraphParserTest {
 
         Investigation investigation = importer.getInvestigation();
 
-        System.out.println("investigation="+investigation);
+        log.info("investigation="+investigation);
 
         Map<String, Study> studies = investigation.getStudies();
         for(String studyId: studies.keySet()){
@@ -65,18 +68,18 @@ public class GraphParserTest {
             GraphParser parser = new GraphParser(data);
             parser.parse();
 
-            System.out.println("STUDY SAMPLE GRAPH...");
+            log.info("STUDY SAMPLE GRAPH...");
             parser.getGraph().outputGraph();
 
             System.out.println("GROUPS=" + parser.getGroups());
 
-            System.out.println("Material attributes..."+parser.extractMaterialAttributes());
+            log.info("Material attributes..."+parser.extractMaterialAttributes());
 
             Map<String, Assay> assayMap = study.getAssays();
 
             for(String assayId: assayMap.keySet()){
 
-                System.out.println("Assay id="+assayId);
+                log.info("Assay id="+assayId);
                 Assay assay = assayMap.get(assayId);
 
                 data = assay.getAssayDataMatrix();
@@ -84,11 +87,11 @@ public class GraphParserTest {
                 parser = new GraphParser(data);
                 parser.parse();
 
-                System.out.println("ASSAY GRAPH...");
+                log.info("ASSAY GRAPH...");
                 parser.getGraph().outputGraph();
 
-                System.out.println("GROUPS=" + parser.getGroups());
-                System.out.println("Material attributes..."+parser.extractMaterialAttributes());
+                log.info("GROUPS=" + parser.getGroups());
+                log.info("Material attributes..."+parser.extractMaterialAttributes());
             }
 
         }
