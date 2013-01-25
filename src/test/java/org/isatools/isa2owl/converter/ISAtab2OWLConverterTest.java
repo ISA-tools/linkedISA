@@ -43,7 +43,7 @@ public class ISAtab2OWLConverterTest {
         System.out.println("MAPPING-----");
         System.out.println(mapping);
 
-		isatab2owl = new ISAtab2OWLConverter(configDir, mapping, "http://isa-tools.org/owl/" );
+		isatab2owl = new ISAtab2OWLConverter(configDir, mapping, "http://isa-tools.org/isa/isa.owl" );
 
 
     }
