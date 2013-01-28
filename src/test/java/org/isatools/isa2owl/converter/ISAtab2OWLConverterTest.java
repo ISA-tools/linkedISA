@@ -79,7 +79,7 @@ public class ISAtab2OWLConverterTest {
 
     }
 
-   @Test
+   //@Test
     public void testConvertFaahKO() {
         isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
         System.out.println("isatabParentDir="+isatabParentDir);
@@ -102,6 +102,19 @@ public class ISAtab2OWLConverterTest {
         assert(isatab2owl.convert(isatabParentDir));
 
         isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/faah_archive_curated.owl");
+
+    }
+
+    @Test
+    public void testConvertT12by2strainsex() {
+        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/T1-2x2-strain-sex";
+        System.out.println("isatabParentDir="+isatabParentDir);
+
+        System.out.println("Converting the ISA-tab dataset into OWL");
+
+        assert(isatab2owl.convert(isatabParentDir));
+
+        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/T1.owl");
 
     }
 }
