@@ -50,15 +50,24 @@ public class ISAtab2OWLConverter {
      *
      * @param cDir directory where the ISA configuration file can be found
      */
-    public ISAtab2OWLConverter(String cDir, ISASyntax2OWLMapping m, String iri){
+    public ISAtab2OWLConverter(String cDir, ISASyntax2OWLMapping m){
         configDir = cDir;
         log.debug("configDir="+configDir);
         ISA2OWL.mapping = m;
-        ISA2OWL.setIRI(iri);
         importer = new ISAtabFilesImporter(configDir);
-
-
         System.out.println("importer="+importer);
+    }
+
+
+    /**
+     *
+     * @param parentDir
+     */
+    public boolean convert(String parentDir, String iri ){
+        System.out.println("2 Converting ISA-TAB dataset " + parentDir);
+
+        ISA2OWL.setIRI(iri);
+
 
         try{
             //TODO add AutoIRIMapper
@@ -80,7 +89,39 @@ public class ISAtab2OWLConverter {
         }
 
 
+        if (!readInISAFiles(parentDir)){
+            System.out.println(importer.getMessagesAsString());
+        }
+
+        Investigation investigation = importer.getInvestigation();
+        //processSourceOntologies();
+
+        System.out.println("investigation=" + investigation);
+        log.debug("investigation=" + investigation);
+
+        Map<String,Study> studies = investigation.getStudies();
+
+        System.out.println("number of studies=" + studies.keySet().size());
+
+        //initialise the map of individuals
+        ISA2OWL.typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
+        ISA2OWL.typeIdIndividualMap = new HashMap<String, Map<String, OWLNamedIndividual>>();
+        publicationIndividualMap = new HashMap<Publication, OWLNamedIndividual>();
+        contactIndividualMap = new HashMap<Contact, OWLNamedIndividual>();
+        protocolIndividualMap = new HashMap<String, OWLNamedIndividual>();
+
+        //convert each study
+        for(String key: studies.keySet()){
+
+            convertStudy(studies.get(key));
+            //reset the map of type/individuals
+            ISA2OWL.typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
+        }
+
+
+        return true;
     }
+
 
     /**
      * TODO imports from mapping vs imports from ISAtab dataset
@@ -124,47 +165,6 @@ public class ISAtab2OWLConverter {
     private boolean readInISAFiles(String parentDir){
         return importer.importFile(parentDir);
     }
-
-    /**
-     *
-     * @param parentDir
-     */
-    public boolean convert(String parentDir){
-        System.out.println("2 Converting ISA-TAB dataset " + parentDir);
-
-        if (!readInISAFiles(parentDir)){
-            System.out.println(importer.getMessagesAsString());
-        }
-
-        Investigation investigation = importer.getInvestigation();
-        //processSourceOntologies();
-
-        System.out.println("investigation=" + investigation);
-        log.debug("investigation=" + investigation);
-
-        Map<String,Study> studies = investigation.getStudies();
-
-        System.out.println("number of studies=" + studies.keySet().size());
-
-        //initialise the map of individuals
-        ISA2OWL.typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
-        ISA2OWL.typeIdIndividualMap = new HashMap<String, Map<String, OWLNamedIndividual>>();
-        publicationIndividualMap = new HashMap<Publication, OWLNamedIndividual>();
-        contactIndividualMap = new HashMap<Contact, OWLNamedIndividual>();
-        protocolIndividualMap = new HashMap<String, OWLNamedIndividual>();
-
-        //convert each study
-        for(String key: studies.keySet()){
-
-            convertStudy(studies.get(key));
-            //reset the map of type/individuals
-            ISA2OWL.typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
-        }
-
-
-        return true;
-    }
-
 
     public void save(String filename){
         //save the ontology
