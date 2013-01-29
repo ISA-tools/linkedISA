@@ -79,19 +79,6 @@ public class ISAtab2OWLConverterTest {
 
     }
 
-   //@Test
-    public void testConvertFaahKO() {
-        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
-        System.out.println("isatabParentDir="+isatabParentDir);
-
-        System.out.println("Converting the ISA-tab dataset into OWL");
-
-        assert(isatab2owl.convert(isatabParentDir));
-
-       isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/faahko.owl");
-
-    }
-
     //@Test
     public void testConvertFaahKO_curated() {
         isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faah_archive_curated";
@@ -102,6 +89,19 @@ public class ISAtab2OWLConverterTest {
         assert(isatab2owl.convert(isatabParentDir));
 
         isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/faah_archive_curated.owl");
+
+    }
+
+    @Test
+    public void testConvertFaahKO() {
+        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
+        System.out.println("isatabParentDir="+isatabParentDir);
+
+        System.out.println("Converting the ISA-tab dataset into OWL");
+
+        assert(isatab2owl.convert(isatabParentDir));
+
+        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/faahko.owl");
 
     }
 
@@ -117,4 +117,32 @@ public class ISAtab2OWLConverterTest {
         isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/T1.owl");
 
     }
+
+    @Test
+    public void testConvertT3() {
+        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/T3";
+        System.out.println("isatabParentDir="+isatabParentDir);
+
+        System.out.println("Converting the ISA-tab dataset into OWL");
+
+        assert(isatab2owl.convert(isatabParentDir));
+
+        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/T3.owl");
+
+    }
+
+    @Test
+    public void testConvertT4() {
+        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/T4";
+        System.out.println("isatabParentDir="+isatabParentDir);
+
+        System.out.println("Converting the ISA-tab dataset into OWL");
+
+        assert(isatab2owl.convert(isatabParentDir));
+
+        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/T4.owl");
+
+    }
+
+
 }
