@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 
-
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -34,8 +33,7 @@ public class OWLOntologyParametricSingleton {
 
     private IRI ontologyIRI = null, ontologyPhysicalIRI = null;
 
-    private static Set<OWLOntologyParametricSingleton>
-            instanceSet = new HashSet<OWLOntologyParametricSingleton>();
+    private static Set<OWLOntologyParametricSingleton> instanceSet = new HashSet<OWLOntologyParametricSingleton>();
 
     /**
      * Constructor with no parameters
@@ -70,13 +68,15 @@ public class OWLOntologyParametricSingleton {
     private void setOntology(){
         try {
             if (ontologyPhysicalIRI==null){
+                System.out.println("loading ontology from logical uri "+ontologyIRI);
                 ontology = owlManager.loadOntology(ontologyIRI);
             }else{
-                //stopwatch.start();
-                // Due to OWLAPI 3 deprecation, changed from
-                // ontology = owlManager.loadOntologyFromPhysicalIRI(ontologyPhysicalIRI)
                 ontology = owlManager.loadOntology(ontologyPhysicalIRI);
+                System.out.println("loading ontology from physical uri "+ontologyPhysicalIRI);
             }
+
+            System.out.println("ontology ="+ontology);
+
         } catch (OWLOntologyCreationException oocex) {
             oocex.printStackTrace();
         }
@@ -123,12 +123,12 @@ public class OWLOntologyParametricSingleton {
      * @return
      */
     private static OWLOntologyParametricSingleton getInstance(IRI iri, IRI pIri){
-        log.debug("getInstance("+iri+","+pIri+")");
+        System.out.println("getInstance("+iri+","+pIri+")");
         //TODO add another method instanceExists considering the physical IRI?
         OWLOntologyParametricSingleton instance = instanceExists(iri);
         System.out.println("instance="+instance);
         if (instance==null){
-            log.info("instance was null, so creating the instance and adding it to the set");
+            System.out.println("instance was null, so creating the instance and adding it to the set");
             instance = new OWLOntologyParametricSingleton();
             instance.setOntologyIRI(iri);
             instance.setOntologyPhysicalIRI(pIri);
