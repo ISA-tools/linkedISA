@@ -64,12 +64,7 @@ public class ModuleExtractor {
 
     public OWLOntology extractModule(
             IRI moduleOntologyURI,
-            Set<String> signatureSet)  {
-
-        Set<OWLEntity> signature = new HashSet<OWLEntity>();
-        for(String sigElement: signatureSet){
-            owlDataFactory.getOWLClass(sourceOntologyIRI.create(sigElement));
-        }
+            Set<OWLEntity> signature)  {
 
         SyntacticLocalityModuleExtractor moduleExtractor =
                 new SyntacticLocalityModuleExtractor(ontologyManager, sourceOntology, ModuleType.STAR);
@@ -84,6 +79,8 @@ public class ModuleExtractor {
         }
         return moduleOntology;
     }
+
+
 
 
 }
