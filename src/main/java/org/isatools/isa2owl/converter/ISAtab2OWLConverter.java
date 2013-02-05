@@ -12,6 +12,7 @@ import org.isatools.isacreator.io.importisa.ISAtabImporter;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 
+import org.isatools.owl.OWLUtil;
 import org.isatools.owl.ReasonerService;
 import org.semanticweb.owlapi.io.OWLOntologyDocumentTarget;
 import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
@@ -39,7 +40,7 @@ public class ISAtab2OWLConverter {
 
     //ontologies IRIs
     public static String BFO_IRI = "http://purl.obolibrary.org/bfo.owl";
-    public static String OBI_IRI = "http://purl.obolibrary.org/obo/extended-obi.owl";
+    public static String OBI_IRI = "http://purl.obolibrary.org/obo/isa-obi-module.owl";
 
     private Map<Publication, OWLNamedIndividual> publicationIndividualMap = null;
     private Map<Contact, OWLNamedIndividual> contactIndividualMap = null;
@@ -167,22 +168,9 @@ public class ISAtab2OWLConverter {
     }
 
     public void save(String filename){
-        //save the ontology
-        try{
-            File file = new File(filename);
-            ISA2OWL.manager.saveOntology(ISA2OWL.ontology, IRI.create(file.toURI()));
-
-            OWLOntologyDocumentTarget documentTarget = new SystemOutDocumentTarget();
-            ManchesterOWLSyntaxOntologyFormat manSyntaxFormat = new ManchesterOWLSyntaxOntologyFormat();
-            OWLXMLOntologyFormat format = new OWLXMLOntologyFormat();
-            if(format.isPrefixOWLOntologyFormat()) {
-                manSyntaxFormat.copyPrefixesFrom(format.asPrefixOWLOntologyFormat());
-            }
-            //save ontology
-            ISA2OWL.manager.saveOntology(ISA2OWL.ontology, manSyntaxFormat, new SystemOutDocumentTarget());
-        }catch(OWLOntologyStorageException e){
-            e.printStackTrace();
-        }
+        File file = new File(filename);
+        OWLUtil.saveRDFXML(ISA2OWL.ontology, IRI.create(file.toURI()));
+        OWLUtil.systemOutputMOWLSyntax(ISA2OWL.ontology);
     }
 
     /**
