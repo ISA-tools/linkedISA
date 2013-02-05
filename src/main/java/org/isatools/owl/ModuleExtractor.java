@@ -41,16 +41,22 @@ public class ModuleExtractor {
         this.sourceOntologyIRI = iri;
         ontologyManager = OWLManager.createOWLOntologyManager();
         owlDataFactory = ontologyManager.getOWLDataFactory();
-
-        try{
-            sourceOntology = ontologyManager.loadOntology(sourceOntologyIRI);
-            if (sourceOntology == null){
-                throw new IllegalArgumentException("The domain ontology could not be loaded.");
-            }
-        }catch(OWLOntologyCreationException oocex){
-
+        sourceOntology = OWLOntologyParametricSingleton.getOntologyInstance(sourceOntologyIRI);
+        if (sourceOntology == null){
+                throw new IllegalArgumentException("The source ontology could not be loaded.");
         }
 
+    }
+
+    public ModuleExtractor(IRI sourceOntoIRI, IRI sourceOntoPhysIRI){
+        sourceOntologyIRI = sourceOntoIRI;
+        sourceOntologyPhysicalIRI = sourceOntoPhysIRI;
+        ontologyManager = OWLManager.createOWLOntologyManager();
+        owlDataFactory = ontologyManager.getOWLDataFactory();
+        sourceOntology = OWLOntologyParametricSingleton.getOntologyInstance(sourceOntologyIRI, sourceOntologyPhysicalIRI);
+        if (sourceOntology == null){
+            throw new IllegalArgumentException("The source ontology could not be loaded.");
+        }
     }
 
     /**
