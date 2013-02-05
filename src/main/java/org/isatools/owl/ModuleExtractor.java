@@ -5,6 +5,7 @@ import org.semanticweb.owlapi.model.*;
 import uk.ac.manchester.cs.owlapi.modularity.ModuleType;
 import uk.ac.manchester.cs.owlapi.modularity.SyntacticLocalityModuleExtractor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -54,20 +55,21 @@ public class ModuleExtractor {
         ontologyManager = OWLManager.createOWLOntologyManager();
         owlDataFactory = ontologyManager.getOWLDataFactory();
         sourceOntology = OWLOntologyParametricSingleton.getOntologyInstance(sourceOntologyIRI, sourceOntologyPhysicalIRI);
+        System.out.println("sourceOntology="+sourceOntology);
         if (sourceOntology == null){
             throw new IllegalArgumentException("The source ontology could not be loaded.");
         }
     }
 
-    /**
-     *
-     * @param moduleOntologyURI
-     * @param signature
-     * @return
-     */
-    private OWLOntology extractModule(
+
+    public OWLOntology extractModule(
             IRI moduleOntologyURI,
-            Set<OWLEntity> signature)  {
+            Set<String> signatureSet)  {
+
+        Set<OWLEntity> signature = new HashSet<OWLEntity>();
+        for(String sigElement: signatureSet){
+            owlDataFactory.getOWLClass(sourceOntologyIRI.create(sigElement));
+        }
 
         SyntacticLocalityModuleExtractor moduleExtractor =
                 new SyntacticLocalityModuleExtractor(ontologyManager, sourceOntology, ModuleType.STAR);
