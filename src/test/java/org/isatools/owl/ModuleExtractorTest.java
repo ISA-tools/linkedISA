@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import java.util.HashSet;
@@ -25,8 +26,8 @@ public class ModuleExtractorTest {
 
     @Before
     public void setUp() {
-       sourceOntologyIRI = IRI.create("http://purl.obolibrary.org/obo/extended-obi.owl");
-       sourceOntologyPhysicalIRI = IRI.create("file:/Users/agbeltran/workspace-private/isa2owl/src/main/resources/owl/extended-obi.owl");
+       sourceOntologyIRI = IRI.create("http://purl.obolibrary.org/obo/obi.owl");
+       sourceOntologyPhysicalIRI = IRI.create("file:/Users/agbeltran/workspace-private/isa2owl/src/main/resources/owl/obi/trunk/src/ontology/branches/obi.owl");
        moduleExtractor = new ModuleExtractor(sourceOntologyIRI, sourceOntologyPhysicalIRI);
     }
 
@@ -37,10 +38,16 @@ public class ModuleExtractorTest {
 
     @Test
     public void testModuleExtractor() {
-       Set<String> signatureSet = new HashSet<String>();
-       signatureSet.add("http://isa-tools.org/isa/ISA0000002");
 
-       OWLOntology module = moduleExtractor.extractModule(IRI.create("http://test.owl"),signatureSet);
+       OWLOntology extended_obi_ontology = OWLOntologyParametricSingleton.getOntologyInstance(IRI.create("http://purl.obolibrary.org/obo/extended-obi.owl"),
+               IRI.create("file:/Users/agbeltran/workspace-private/isa2owl/src/main/resources/owl/extended-obi.owl"));
+
+       Set<OWLEntity> signature = extended_obi_ontology.getSignature();
+
+       OWLOntology module = moduleExtractor.extractModule(IRI.create("http://http://purl.obolibrary.org/obo/isa-obi-module.owl"),signature);
+
+       OWLUtil.systemOutputMOWLSyntax(module);
+       OWLUtil.saveRDFXMLAsFile(module, "/Users/agbeltran/workspace-private/isa2owl/src/main/resources/owl/isa-obi-module.owl");
     }
 
 }
