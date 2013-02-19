@@ -58,7 +58,8 @@ public class GraphParser {
             } else if (column.matches(AssayNode.REGEXP)){
 
                 AssayNode assayNode = new AssayNode(index, column);
-                assayNode.addAssociatedProcessNode(lastProcess);
+                if (lastProcess!=null)
+                    assayNode.setAssociatedProcessNode(lastProcess);
                 graph.addNode(assayNode);
 
 

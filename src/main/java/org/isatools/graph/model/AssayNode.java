@@ -20,7 +20,11 @@ public class AssayNode extends Node {
         super(index, name);
     }
 
-    public void addAssociatedProcessNode(ProcessNode pn){
+    public void setAssociatedProcessNode(ProcessNode pn){
         processNode = pn;
+    }
+
+    public ProcessNode getAssociatedProcessNode(){
+        return processNode;
     }
 }
