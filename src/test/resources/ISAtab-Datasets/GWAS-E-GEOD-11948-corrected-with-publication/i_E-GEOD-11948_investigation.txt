@@ -1,8 +1,8 @@
 ONTOLOGY SOURCE REFERENCE
-Term Source Name	"e.g. OBI"	"OBI"	""	
-Term Source File	""	""	""	
-Term Source Version	""	""	""	
-Term Source Description	""	""	""	
+Term Source Name	"OBI"	"OBI"	""
+Term Source File	"http://bioportal.bioontology.org/ontologies/47893"	""	""
+Term Source Version	"47893"	""	""
+Term Source Description	"Ontology for Biomedical Investigations"	""	""
 INVESTIGATION
 Investigation Identifier	""
 Investigation Title	""
@@ -67,8 +67,8 @@ Study Assay Technology Platform	""
 STUDY PROTOCOLS
 Study Protocol Name	"P-GSE11948-1"	"P-GSE11948-8"	"P-GSE11948-5"	"P-GSE11948-7"	"P-GSE11948-4"	"P-GSE11948-2"	"P-GSE11948-3"	"P-GSE11948-6"
 Study Protocol Type	"bioassay_data_transformation"	"image_aquisition"	"image_aquisition"	"hybridization"	"hybridization"	"nucleic_acid_extraction"	"labeling"	"feature_extraction"
-Study Protocol Type Term Accession Number	""	""	""	""	""	""	""	""
-Study Protocol Type Term Source REF	""	""	""	""	""	""	""	""
+Study Protocol Type Term Accession Number	""	"obo:OBI_0001007"	"obo:OBI_0001007"	""	""	""	""	""
+Study Protocol Type Term Source REF	""	"OBI"	"OBI"	""	""	""	""	""
 Study Protocol Description	"ID_REF = <br>VALUE = Genotype Call"	"Mapping 500K arrays were scanned according to the Affymetrix protocol (GeneChip Mapping 500K Assay Manual, Affymetrix, 2005) using a GS3000 scanner"	"Mapping 500K arrays were scanned according to the Affymetrix protocol (GeneChip Mapping 500K Assay Manual, Affymetrix, 2005) using a GS3000 scanner. "	"Mapping 500K arrays were hybridized according to the Affymetrix protocol (GeneChip Mapping 500K Assay Manual, Affymetrix, 2005) using an Affymetrix hybridization oven"	"Mapping 500K arrays were hybridized according to the Affymetrix protocol (GeneChip Mapping 500K Assay Manual, Affymetrix, 2005) using an Affymetrix hybridization oven."	"AUTOMATED DNA EXTRACTION MAGNA PURE"	"Following restriction enzyme digestion, biotin labeled DNA was prepared according to the Affymetrix protocol from 500ng of starting DNA (GeneChip Mapping 500K Assay Manual, Affymetrix, 2005)."	"Genotypes were determined using the BRLMM algorithm (Bayesian Robust Linear Model with Mahalanobis distance classifier) with cases and controls undergoing a joint cluster analysis. Before the analysis, quality filtering tests (of both samples and SNP�۪s) were carried out to ensure a robust association test. The criteria for exclusion were: 1) call rate<90%, 2) minor allele frequency, MAF<5% and 3) deviations from Hardy-Weinberg equilibrium with a low enough significance (p<0.00001). Sexual chromosomes were not considered in the SNP analysis."
 Study Protocol URI	""	""	""	""	""	""	""	""
 Study Protocol Version	""	""	""	""	""	""	""	""
