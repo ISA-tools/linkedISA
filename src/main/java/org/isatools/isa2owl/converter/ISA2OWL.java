@@ -47,6 +47,11 @@ public class ISA2OWL {
 
     public static final IRI ISA_OBI_HAS_MEMBER_IRI = IRI.create("http://isa-tools.org/isa/ISA0000018");
 
+    public static final IRI BFO_REALIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000055");
+    public static final IRI BFO_CONCRETIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000059");
+
+    public static final IRI ISA_EXECUTES = IRI.create("http://isa-tools.org/isa/ISA0000001");
+
 
     //<type, id, individual>
     public static Map<String, Map<String,OWLNamedIndividual>> typeIdIndividualMap = null;
