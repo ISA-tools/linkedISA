@@ -64,7 +64,7 @@ public class ISAtab2OWLConverterTest {
 
         assert(isatab2owl.convert(isatabParentDir, iri));
 
-        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/BII-I-1.owl");
+        isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/BII-I-1.owl");
 
     }
 
@@ -78,7 +78,7 @@ public class ISAtab2OWLConverterTest {
 
         assert(isatab2owl.convert(isatabParentDir, iri));
 
-        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/MTBLS6.owl");
+        isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/MTBLS6.owl");
 
     }
 
@@ -91,7 +91,7 @@ public class ISAtab2OWLConverterTest {
 
         assert(isatab2owl.convert(isatabParentDir, iri));
 
-        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/faah_archive_curated.owl");
+        isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/faah_archive_curated.owl");
 
     }
 
@@ -104,7 +104,7 @@ public class ISAtab2OWLConverterTest {
 
         assert(isatab2owl.convert(isatabParentDir, iri));
 
-        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/faahko.owl");
+        isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/faahko.owl");
 
     }
 
@@ -117,7 +117,7 @@ public class ISAtab2OWLConverterTest {
 
         assert(isatab2owl.convert(isatabParentDir, iri));
 
-        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/T1.owl");
+        isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/T1.owl");
 
     }
 
@@ -130,7 +130,7 @@ public class ISAtab2OWLConverterTest {
 
         assert(isatab2owl.convert(isatabParentDir, iri));
 
-        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/T3.owl");
+        isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/T3.owl");
 
     }
 
@@ -143,7 +143,7 @@ public class ISAtab2OWLConverterTest {
 
         assert(isatab2owl.convert(isatabParentDir, iri));
 
-        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/T4.owl");
+        isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/T4.owl");
     }
 
     @Test
@@ -155,7 +155,7 @@ public class ISAtab2OWLConverterTest {
 
         assert(isatab2owl.convert(isatabParentDir, iri));
 
-        isatab2owl.save("/Users/agbeltran/workspace-private/isa2owl/GWAS.owl");
+        isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/GWAS.owl");
     }
 
 

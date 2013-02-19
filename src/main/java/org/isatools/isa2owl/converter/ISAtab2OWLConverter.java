@@ -20,6 +20,7 @@ import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 import org.coode.owlapi.manchesterowlsyntax.ManchesterOWLSyntaxOntologyFormat;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -100,6 +101,8 @@ public class ISAtab2OWLConverter {
         System.out.println("investigation=" + investigation);
         log.debug("investigation=" + investigation);
 
+        convertInvestigation(investigation);
+
         Map<String,Study> studies = investigation.getStudies();
 
         System.out.println("number of studies=" + studies.keySet().size());
@@ -162,15 +165,34 @@ public class ISAtab2OWLConverter {
     }
 
 
-
+    /***
+     * Parsers ISA-tab files
+     *
+     * @param parentDir
+     * @return
+     */
     private boolean readInISAFiles(String parentDir){
         return importer.importFile(parentDir);
     }
 
-    public void save(String filename){
+    /**
+     * Saves resulting ontology
+     * @param filename
+     */
+    public void saveOntology(String filename){
         File file = new File(filename);
         OWLUtil.saveRDFXML(ISA2OWL.ontology, IRI.create(file.toURI()));
         OWLUtil.systemOutputMOWLSyntax(ISA2OWL.ontology);
+    }
+
+    private void convertInvestigation(Investigation investigation){
+
+        ISA2OWL.createIndividual(Investigation.INVESTIGATION_SUBMISSION_DATE_KEY, investigation.getSubmissionDate());
+
+        ISA2OWL.createIndividual(Investigation.INVESTIGATION_PUBLIC_RELEASE_KEY, investigation.getPublicReleaseDate());
+
+        //TODO add the rest of the elements for the investigation
+
     }
 
     /**
@@ -191,13 +213,31 @@ public class ISAtab2OWLConverter {
         ISA2OWL.createIndividual(Study.STUDY_TITLE, study.getStudyTitle());
 
         //Study description
-        ISA2OWL.createIndividual(Study.STUDY_DESC, study.getStudyDesc());
+        OWLNamedIndividual studyDescriptionIndividual = ISA2OWL.createIndividual(Study.STUDY_DESC, study.getStudyId()+"_description");
+        if (studyDescriptionIndividual!=null){
+            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ISA2OWL.ISA_HAS_VALUE);
+            OWLLiteral descriptionLiteral = ISA2OWL.factory.getOWLLiteral(study.getStudyDesc(), OWL2Datatype.XSD_STRING);
+            OWLDataPropertyAssertionAxiom dataPropertyAssertionAxiom = ISA2OWL.factory.getOWLDataPropertyAssertionAxiom(hasMeasurementValue, studyDescriptionIndividual, descriptionLiteral);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, dataPropertyAssertionAxiom);
+        }
 
         //Study File
         ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_FILE, study.getStudySampleFileIdentifier());
 
         //Study file name
         ISA2OWL.createIndividual(Study.STUDY_FILE_NAME, study.getStudySampleFileIdentifier());
+
+        //Study submission date
+        ISA2OWL.createIndividual(Study.STUDY_DATE_OF_SUBMISSION, study.getDateOfSubmission());
+
+        OWLNamedIndividual publicReleaseDateIndividual = ISA2OWL.createIndividual(Study.STUDY_DATE_OF_PUBLIC_RELEASE, study.getStudyId()+"_public_release_date");
+
+        if (publicReleaseDateIndividual!=null){
+            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ISA2OWL.ISA_HAS_VALUE);
+            OWLLiteral publicReleaseDateLiteral = ISA2OWL.factory.getOWLLiteral(study.getPublicReleaseDate(), OWL2Datatype.XSD_STRING);
+            OWLDataPropertyAssertionAxiom dataPropertyAssertionAxiom = ISA2OWL.factory.getOWLDataPropertyAssertionAxiom(hasMeasurementValue, publicReleaseDateIndividual, publicReleaseDateLiteral);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, dataPropertyAssertionAxiom);
+        }
 
         //Publications
         List<Publication> publicationList = study.getPublications();
@@ -508,7 +548,7 @@ public class ISAtab2OWLConverter {
             Assay assay = assayMap.get(assayRef);
 
             //Study Assay
-            OWLNamedIndividual studyAssayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, assay.getIdentifier());
+            //OWLNamedIndividual studyAssayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, assay.getIdentifier());
 
             //Study Assay Measurement Type
             ISA2OWL.createIndividual(Assay.MEASUREMENT_ENDPOINT, assay.getMeasurementEndpoint());
@@ -517,13 +557,13 @@ public class ISAtab2OWLConverter {
             ISA2OWL.createIndividual(Assay.TECHNOLOGY_TYPE, assay.getTechnologyType());
 
             //Study Assay File
-            ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY_FILE, assay.getAssayReference());
+            OWLNamedIndividual studyAssayFile = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY_FILE, assay.getAssayReference());
 
             //Study Assay File Name
             ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference());
 
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
-            assayConverter.convert(assay, studyAssayIndividual, protocolIndividualMap, false);
+            assayConverter.convert(assay, studyAssayFile, protocolIndividualMap, false);
         }
 
     }

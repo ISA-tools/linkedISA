@@ -39,11 +39,14 @@ public class ISA2OWL {
 
     public static final String PATO_SIZE_IRI = "http://purl.obolibrary.org/obo/PATO_0000117";
 
-    public static final String IAO_HAS_MEASUREMENT_VALUE_IRI = "http://purl.obolibrary.org/obo/IAO_0000004";
+    public static final IRI IAO_HAS_MEASUREMENT_VALUE_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000004");
+
+    public static IRI ISA_HAS_VALUE = IRI.create("http://isa-tools.org/isa/ISA_0000144");
 
     public static final IRI OBI_ORGANISM_IRI = IRI.create("http://purl.obolibrary.org/obo/OBI_0100026");
 
     public static final IRI ISA_OBI_HAS_MEMBER_IRI = IRI.create("http://isa-tools.org/isa/ISA0000018");
+
 
     //<type, id, individual>
     public static Map<String, Map<String,OWLNamedIndividual>> typeIdIndividualMap = null;
