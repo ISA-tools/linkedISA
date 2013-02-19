@@ -46,6 +46,10 @@ public class Graph {
                 if (n instanceof DataNode) {
                     nodes.add(n);
                 }
+            }  else if (nodeType == NodeType.ASSAY_NODE) {
+                if (n instanceof AssayNode) {
+                    nodes.add(n);
+                }
             }
         }
 
@@ -90,8 +94,10 @@ public class Graph {
                 for (Node mp : node.getMaterialAttributes()) {
                     System.out.println("\t attribute: " + mp.getName());
                 }
-            } else {
+            } else if (n instanceof DataNode) {
                 System.out.println("DataNode: "+n.getName());
+            } else {
+                System.out.println("AssayNode: "+n.getName());
             }
         }
     }

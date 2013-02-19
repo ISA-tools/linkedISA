@@ -46,6 +46,7 @@ public class GraphParser {
         Node lastMaterialOrData = null;
 
         for (String column : columns) {
+
             if (column.equalsIgnoreCase(ProcessNode.REGEXP)) {
                 ProcessNode processNode = new ProcessNode(index, column);
                 graph.addNode(processNode);
@@ -54,7 +55,14 @@ public class GraphParser {
                             new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
                 }
                 lastProcess = processNode;
-            } else if (column.contains("File") && !column.matches("(Comment.*)")) {
+            } else if (column.matches(AssayNode.REGEXP)){
+
+                AssayNode assayNode = new AssayNode(index, column);
+                assayNode.addAssociatedProcessNode(lastProcess);
+                graph.addNode(assayNode);
+
+
+            }else if (column.contains(DataNode.CONTAINS) && !column.matches(DataNode.REGEXP)) {
                 Node dataNode = new DataNode(index, column);
                 graph.addNode(dataNode);
                 lastMaterialOrData = dataNode;

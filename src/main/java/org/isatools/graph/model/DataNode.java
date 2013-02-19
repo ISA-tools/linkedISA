@@ -10,6 +10,9 @@ package org.isatools.graph.model;
  */
 public class DataNode extends Node {
 
+    public static final String CONTAINS = "File";
+    public static final String REGEXP = "(Comment.*)";
+
     public DataNode(int index, String name) {
         super(index, name);
     }

@@ -10,6 +10,6 @@ package org.isatools.graph.model;
  */
 public enum NodeType {
 
-    DATA_NODE, MATERIAL_NODE, PROCESS_NODE
+    DATA_NODE, MATERIAL_NODE, PROCESS_NODE, ASSAY_NODE
 
 }

@@ -25,7 +25,7 @@ public class GraphParserTest {
 
     private String configDir = null;
     private String baseDir = null;
-
+    private String isatabParentDir = null;
 
     @Before
     public void setUp(){
@@ -36,14 +36,33 @@ public class GraphParserTest {
     }
 
     @Test
-    public void parserTest(){
+    public void parseTest1(){
+        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/GWAS-E-GEOD-11948-corrected-with-publication";
+        graphParser();
+    }
 
+    @Test
+    public void parserTest2(){
+        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/MTBLS6";
+        graphParser();
+    }
+
+    @Test
+    public void parserTest3(){
+        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
+        graphParser();
+    }
+
+    @Test
+    public void parserTest4(){
+        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faah_archive_curated";
+        graphParser();
+    }
+
+    private void graphParser(){
         //Import ISAtab dataset
         ISAtabFilesImporter importer = new ISAtabFilesImporter(configDir);
 
-        //String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/MTBLS6";
-        String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
-        //String isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faah_archive_curated";
         System.out.println("isatabParentDir="+isatabParentDir);
 
         importer.importFile(isatabParentDir);
@@ -79,7 +98,7 @@ public class GraphParserTest {
 
             for(String assayId: assayMap.keySet()){
 
-                log.info("Assay id="+assayId);
+                System.out.println("Assay id="+assayId);
                 Assay assay = assayMap.get(assayId);
 
                 data = assay.getAssayDataMatrix();
@@ -87,11 +106,11 @@ public class GraphParserTest {
                 parser = new GraphParser(data);
                 parser.parse();
 
-                log.info("ASSAY GRAPH...");
+                System.out.println("ASSAY GRAPH...");
                 parser.getGraph().outputGraph();
 
-                log.info("GROUPS=" + parser.getGroups());
-                log.info("Material attributes..."+parser.extractMaterialAttributes());
+                System.out.println("GROUPS=" + parser.getGroups());
+                System.out.println("Material attributes..."+parser.extractMaterialAttributes());
             }
 
         }
