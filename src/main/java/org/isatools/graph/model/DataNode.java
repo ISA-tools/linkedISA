@@ -16,4 +16,8 @@ public class DataNode extends Node {
     public DataNode(int index, String name) {
         super(index, name);
     }
+
+    public String toString(){
+        return "DataNode: "+getName()+"\n";
+    }
 }

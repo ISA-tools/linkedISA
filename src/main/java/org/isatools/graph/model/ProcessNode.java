@@ -23,12 +23,6 @@ public class ProcessNode extends Node {
         super(index, name);
     }
 
-    public ProcessNode(int index, String name, Node inputNode, Node outputNode) {
-        super(index, name);
-        inputNodes.add(inputNode);
-        outputNodes.add(outputNode);
-    }
-
     public void addInputNode(Node inputNode) {
         inputNodes.add(inputNode);
     }
@@ -43,5 +37,22 @@ public class ProcessNode extends Node {
 
     public List<Node> getOutputNodes() {
         return outputNodes;
+    }
+
+    public String toString(){
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("ProcessNode: "+getName()+"\n");
+
+        if (getInputNodes() != null) {
+            for (Node inputNode : getInputNodes()) {
+                buffer.append("\t input: " + inputNode.getName()+"\n");
+            }
+        }
+        if (getOutputNodes() != null) {
+            for (Node outputNode : getOutputNodes()) {
+                buffer.append("\t output: " + outputNode.getName()+"\n");
+            }
+        }
+        return buffer.toString();
     }
 }

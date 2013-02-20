@@ -52,4 +52,13 @@ public class MaterialNode extends Node {
 
     }
 
+    public String toString(){
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("MaterialNode: "+getName()+"\n");
+        for (Node mp : getMaterialAttributes()) {
+            buffer.append("\t attribute: " + mp.getName());
+        }
+        return buffer.toString();
+    }
+
 }

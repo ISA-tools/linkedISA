@@ -71,47 +71,7 @@ public class Graph {
      */
     public void outputGraph() {
         for (Node n : getNodes()) {
-            if (n instanceof AssayNode) {
-                AssayNode node = (AssayNode) n;
-                System.out.println("AssayNode: "+n.getName());
-
-                if (node.getInputNodes() != null) {
-                    for (Node inputNode : node.getInputNodes()) {
-                        System.out.println("\t input: " + inputNode.getName());
-                    }
-                }
-                if (node.getOutputNodes() != null) {
-                    for (Node outputNode : node.getOutputNodes()) {
-                        System.out.println("\t output: " + outputNode.getName());
-                    }
-                }
-
-            }else if (n instanceof ProcessNode) {
-                ProcessNode node = (ProcessNode) n;
-                System.out.println("ProcessNode: "+n.getName());
-
-                if (node.getInputNodes() != null) {
-                    for (Node inputNode : node.getInputNodes()) {
-                        System.out.println("\t input: " + inputNode.getName());
-                    }
-                }
-                if (node.getOutputNodes() != null) {
-                    for (Node outputNode : node.getOutputNodes()) {
-                        System.out.println("\t output: " + outputNode.getName());
-                    }
-                }
-            } else if (n instanceof MaterialNode) {
-
-                System.out.println("MaterialNode: "+n.getName());
-
-                MaterialNode node = (MaterialNode) n;
-
-                for (Node mp : node.getMaterialAttributes()) {
-                    System.out.println("\t attribute: " + mp.getName());
-                }
-            } else {
-                System.out.println("DataNode: "+n.getName());
-            }
+            System.out.println(n);
         }
     }
 

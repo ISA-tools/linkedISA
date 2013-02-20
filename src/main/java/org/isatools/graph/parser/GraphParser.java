@@ -42,8 +42,10 @@ public class GraphParser {
         String[] columns = Arrays.copyOf(assayTable[0], assayTable[0].length, String[].class);
 
         int index = 0;
+
         ProcessNode lastProcess = null;
         Node lastMaterialOrData = null;
+        AssayNode lastAssayNode = null;
 
         for (String column : columns) {
 
@@ -55,21 +57,33 @@ public class GraphParser {
                             new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
                 }
                 lastProcess = processNode;
+
             } else if (column.matches(AssayNode.REGEXP)){
 
                 AssayNode assayNode = new AssayNode(index, column);
+                if (lastMaterialOrData != null) {
+                    assayNode.addInputNode(
+                            new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
+                }
+
                 if (lastProcess!=null)
-                    assayNode.setAssociatedProcessNode(lastProcess);
+                    assayNode.addAssociatedProcessNode(lastProcess);
                 graph.addNode(assayNode);
+                lastAssayNode = assayNode;
 
 
             }else if (column.contains(DataNode.CONTAINS) && !column.matches(DataNode.REGEXP)) {
                 Node dataNode = new DataNode(index, column);
                 graph.addNode(dataNode);
                 lastMaterialOrData = dataNode;
+
                 if (lastProcess != null) {
                     lastProcess.addOutputNode(dataNode);
                     lastProcess = null;
+                }
+                if (lastAssayNode !=null){
+                    lastAssayNode.addOutputNode(dataNode);
+                    lastAssayNode = null;
                 }
             } else if (column.matches(MaterialAttribute.REGEXP)) {
 
