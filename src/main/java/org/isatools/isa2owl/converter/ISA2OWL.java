@@ -33,25 +33,31 @@ public class ISA2OWL {
 
     //TODO move this to the mapping file so that the conversion is independent of particular resources, but the dependency is kept in the mapping
     //TODO check if this is possible given how 'Characteristics' are converted
+
+    //BFO IRIs
     public static final IRI BFO_HAS_QUALITY_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000086");
     public static final IRI BFO_INDEPENDENT_CONTINUANT_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000004");
     public static final String BFO_DEPENDENT_CONTINUANT_IRI = "http://purl.obolibrary.org/obo/BFO_0000005";
 
-    public static final String PATO_SIZE_IRI = "http://purl.obolibrary.org/obo/PATO_0000117";
-
-    public static final IRI IAO_HAS_MEASUREMENT_VALUE_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000004");
-
-    public static IRI ISA_HAS_VALUE = IRI.create("http://isa-tools.org/isa/ISA_0000144");
-
-    public static final IRI OBI_ORGANISM_IRI = IRI.create("http://purl.obolibrary.org/obo/OBI_0100026");
-
-    public static final IRI ISA_OBI_HAS_MEMBER_IRI = IRI.create("http://isa-tools.org/isa/ISA0000018");
-
     public static final IRI BFO_REALIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000055");
     public static final IRI BFO_CONCRETIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000059");
 
-    public static final IRI ISA_EXECUTES = IRI.create("http://isa-tools.org/isa/ISA0000001");
+    //PATO
+    public static final String PATO_SIZE_IRI = "http://purl.obolibrary.org/obo/PATO_0000117";
 
+    //IAO IRIs
+    public static final IRI IAO_HAS_MEASUREMENT_VALUE_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000004");
+
+    //OBI IRIs
+    public static final IRI OBI_ORGANISM_IRI = IRI.create("http://purl.obolibrary.org/obo/OBI_0100026");
+    public static final IRI OBI_HAS_SPECIFIED_INPUT = IRI.create("http://purl.obolibrary.org/obo/OBI_0000293");
+    public static final IRI OBI_HAS_SPECIFIED_OUTPUT = IRI.create("http://purl.obolibrary.org/obo/OBI_0000299");
+
+
+    //Currently in ISA extension of OBI
+    public static IRI ISA_HAS_VALUE = IRI.create("http://isa-tools.org/isa/ISA_0000144");
+    public static final IRI ISA_HAS_MEMBER_IRI = IRI.create("http://isa-tools.org/isa/ISA0000018");
+    public static final IRI ISA_EXECUTES = IRI.create("http://isa-tools.org/isa/ISA0000001");
 
     //<type, id, individual>
     public static Map<String, Map<String,OWLNamedIndividual>> typeIdIndividualMap = null;

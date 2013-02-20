@@ -51,12 +51,181 @@ public class Assay2OWLConverter {
         graphParser.parse();
         Graph graph = graphParser.getGraph();
 
+        convertMaterialNodes(graph);
+        convertDataNodes(graph);
 
+        //TODO remove after debugging
+        for(int i=0; i<data.length; i++){
+            for (int j=0; j< data[i].length; j++){
+                System.out.println("individualMatrix["+i+","+j+"]="+individualMatrix[i][j]);
+            }
+        }
+
+        convertAssayNodes(protocolIndividualMap, graph);
+        convertProcessNodes(protocolIndividualMap, graph);
+
+
+        if (convertGroups){
+            convertGroups();
+        }
+    }
+
+    private void convertAssayNodes(Map<String, OWLNamedIndividual> protocolIndividualMap, Graph graph) {
         //assay individuals
         List<Node> assayNodes = graph.getNodes(NodeType.ASSAY_NODE);
-        for(Node assayNode: assayNodes){
+        for(Node node: assayNodes){
+            AssayNode assayNode = (AssayNode) node;
 
             int col = assayNode.getIndex();
+            for(int row=1; row < data.length; row++){
+
+                String dataValue = (String) data[row][col];
+                if (dataValue.equals(""))
+                    continue;
+
+                OWLNamedIndividual assayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, dataValue);
+
+                //realizes o concretizes (executes) associated protocol
+                ProcessNode processNode = ((AssayNode)assayNode).getAssociatedProcessNodes().get(0);
+                int protocolColumn = processNode.getIndex();
+                String protocolName = (String)data[row][protocolColumn];
+
+                OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(protocolName);
+                OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.ISA_EXECUTES);
+                OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,assayIndividual, protocolIndividual);
+                ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
+
+                //inputs & outputs
+                //adding inputs and outputs to the assay
+                OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.OBI_HAS_SPECIFIED_INPUT);
+                List<Node> inputs = assayNode.getInputNodes();
+                for(Node input: inputs){
+                    int inputCol = input.getIndex();
+                    System.out.println("inputCol="+inputCol);
+
+                    if (!data[row][inputCol].toString().equals("")){
+                        OWLObjectPropertyAssertionAxiom axiom2 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_specified_input, assayIndividual, individualMatrix[row][inputCol]);
+                        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom2);
+                    }
+
+                    //}//for row
+
+                }//for inputs
+
+
+                OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.OBI_HAS_SPECIFIED_OUTPUT);
+                List<Node> outputs = assayNode.getOutputNodes();
+                for(Node output: outputs){
+                    int outputCol = output.getIndex();
+                    System.out.println("row="+row);
+                    System.out.println("outputCol="+outputCol);
+                    if (!data[row][outputCol].toString().equals("")){
+                        OWLObjectPropertyAssertionAxiom axiom3 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_specified_output, assayIndividual, individualMatrix[row][outputCol]);
+                        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom3);
+                    }
+
+                    //}//for row
+
+                }//for inputs
+            }
+        }
+    }
+
+    private void convertProcessNodes(Map<String, OWLNamedIndividual> protocolIndividualMap, Graph graph) {
+        //Process Nodes
+        List<Node> processNodes = graph.getNodes(NodeType.PROCESS_NODE);
+
+        for(Node node: processNodes){
+
+            ProcessNode processNode = (ProcessNode) node;
+            int processCol = processNode.getIndex();
+            System.out.println("processNode.getName()="+node.getName()+" processCol="+processCol);
+
+            //keeping all the individuals relevant for this processNode
+            Map<String, OWLNamedIndividual> protocolREFIndividuals = new HashMap<String,OWLNamedIndividual>();
+
+
+            for(int processRow=1; processRow < data.length; processRow ++){
+
+                System.out.println("processRow="+processRow);
+
+                String processName = (data[processRow][processCol]).toString();
+
+                System.out.println("processName="+processName);
+
+                OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(processName);
+
+                if (protocolIndividual==null)
+                    System.err.println("Protocol "+processName+" must already exist");
+
+                //adding Study Protocol
+                protocolREFIndividuals.put(ExtendedISASyntax.STUDY_PROTOCOL, protocolIndividual);
+
+                OWLNamedIndividual processIndividual = processIndividualMap.get(processCol);
+
+                System.out.println("processIndividual="+processIndividual);
+
+                //material processing as the execution of the protocol
+                if (processIndividual==null){
+                    System.out.println("creating the process individual -"+ processName+" - this should happen only once");
+                    processIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.PROTOCOL_REF.toString(), processName);
+                    processIndividualMap.put(processCol, processIndividual);
+                }
+
+                protocolREFIndividuals.put(GeneralFieldTypes.PROTOCOL_REF.toString(), processIndividual);
+
+                //inputs & outputs
+                List<Node> inputs = processNode.getInputNodes();
+                for(Node input: inputs){
+                    int inputCol = input.getIndex();
+                    System.out.println("inputCol="+inputCol);
+                    //for(int row=1; row < data.length; row++){
+
+                    if (!data[processRow][inputCol].toString().equals("")){
+                        protocolREFIndividuals.put(ExtendedISASyntax.PROTOCOL_REF_INPUT, individualMatrix[processRow][inputCol]);
+                        System.out.println("INPUT = "+individualMatrix[processRow][inputCol]);
+                    }
+
+                    //}//for row
+
+                }//for inputs
+
+                List<Node> outputs = processNode.getOutputNodes();
+                for(Node output: outputs){
+                    int outputCol = output.getIndex();
+                    System.out.println("outputCol="+outputCol);
+
+                    //for(int row=1; row < data.length; row++){
+
+                     if (!data[processRow][outputCol].toString().equals("")){
+                        protocolREFIndividuals.put(ExtendedISASyntax.PROTOCOL_REF_OUTPUT, individualMatrix[processRow][outputCol]);
+                        System.out.println("OUTPUT = "+individualMatrix[processRow][outputCol]);
+                     }
+
+                    //}//for row
+
+                }//for inputs
+
+                System.out.println("PROTOCOL REF INDIVIDUALS ="+protocolREFIndividuals);
+
+                Map<String, Map<IRI,String>> protocolREFmapping = ISA2OWL.mapping.getProtocolREFMappings();
+                ISA2OWL.convertProperties(protocolREFmapping, protocolREFIndividuals);
+            }//processRow
+
+        }//processNode
+    }
+
+    private void convertDataNodes(Graph graph) {
+        OWLNamedIndividual dataNodeIndividual = null;
+
+        //Material Nodes
+        List<Node> dataNodes = graph.getNodes(NodeType.DATA_NODE);
+
+        for(Node node: dataNodes){
+            DataNode dataNode = (DataNode) node;
+            System.out.println("DATA NODE="+node);
+
+            int col = dataNode.getIndex();
 
             for(int row=1; row < data.length; row++){
 
@@ -65,27 +234,15 @@ public class Assay2OWLConverter {
                 if (dataValue.equals(""))
                     continue;
 
-                OWLNamedIndividual studyAssayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, dataValue);
-
-                //TODO realizes o concretizes associated protocol
-
-                int protocolColumn = ((AssayNode)assayNode).getAssociatedProcessNode().getIndex();
-                String protocolName = (String)data[row][protocolColumn];
-
-                OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(protocolName);
-                System.out.println("PROTOCOL INDIVIDUAL=======>"+protocolIndividual);
-
-                //OWLObjectProperty realizes = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.BFO_REALIZES);
-                //OWLObjectProperty concretizes = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.BFO_CONCRETIZES);
-                OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.ISA_EXECUTES);
-
-                OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,studyAssayIndividual, protocolIndividual);
-                ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
-
-
-            }
+                //Data Node
+                dataNodeIndividual = ISA2OWL.createIndividual("Data File", dataValue, dataValue);
+                System.out.println("data node individual="+dataNode.getName()+" "+ dataValue );
+                individualMatrix[row][col] = dataNodeIndividual;
         }
+    }
+    }
 
+    private void convertMaterialNodes(Graph graph) {
         OWLNamedIndividual materialNodeIndividual = null;
 
         //Material Nodes
@@ -134,6 +291,8 @@ public class Assay2OWLConverter {
                 OWLNamedIndividual materialNodeIndividualName = ISA2OWL.createIndividual(materialNode.getName(),dataValue);
                 materialNodeIndividuals.put(materialNode.getName(), materialNodeIndividualName);
 
+                /***** commenting this out for now
+
 
                 //material node attributes
                 List<MaterialAttribute> attributeList = materialNode.getMaterialAttributes();
@@ -178,7 +337,6 @@ public class Assay2OWLConverter {
 
                     OWLObjectProperty hasQuality = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.BFO_HAS_QUALITY_IRI);
 
-
                     if (attributeType!=null)
                         materialAttributeIndividual = ISA2OWL.createIndividual(attributeName, IRI.create(attributeType));
                     else
@@ -189,6 +347,7 @@ public class Assay2OWLConverter {
                     }
 
                 }
+                 *******/
 
                 System.out.println("Material Node Individuals="+materialNodeIndividuals);
 
@@ -196,103 +355,6 @@ public class Assay2OWLConverter {
                 ISA2OWL.convertProperties(materialNodeMapping,materialNodeIndividuals);
             }
         }
-
-        for(int i=0; i<data.length; i++){
-            for (int j=0; j< data[i].length; j++){
-                System.out.println("individualMatrix["+i+","+j+"]="+individualMatrix[i][j]);
-            }
-        }
-
-
-        //Process Nodes
-        List<Node> processNodes = graph.getNodes(NodeType.PROCESS_NODE);
-
-        for(Node node: processNodes){
-
-            ProcessNode processNode = (ProcessNode) node;
-            int processCol = processNode.getIndex();
-            System.out.println("processNode.getName()="+node.getName()+" processCol="+processCol);
-
-            //keeping all the individuals relevant for this processNode
-            Map<String, OWLNamedIndividual> protocolREFIndividuals = new HashMap<String,OWLNamedIndividual>();
-
-
-            for(int processRow=1; processRow < data.length; processRow ++){
-
-                System.out.println("processRow="+processRow);
-
-                String processName = (data[processRow][processCol]).toString();
-
-                System.out.println("processName="+processName);
-
-                OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(processName);
-
-                if (protocolIndividual==null)
-                    System.err.println("Protocol "+processName+" must already exist");
-
-                //adding Study Protocol
-                protocolREFIndividuals.put(ExtendedISASyntax.STUDY_PROTOCOL, protocolIndividual);
-
-                OWLNamedIndividual processIndividual = processIndividualMap.get(processCol);
-
-                System.out.println("processIndividual="+processIndividual);
-
-                //material processing as the execution of the protocol
-                if (processIndividual==null){
-                    System.out.println("creating the process individual -"+ processName+" - this should happen only once");
-                    processIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.PROTOCOL_REF.toString(),processName);
-                    processIndividualMap.put(processCol, processIndividual);
-                }
-
-                protocolREFIndividuals.put(GeneralFieldTypes.PROTOCOL_REF.toString(), processIndividual);
-
-                //inputs & outputs
-                List<Node> inputs = processNode.getInputNodes();
-                for(Node input: inputs){
-                    int inputCol = input.getIndex();
-                    System.out.println("inputCol="+inputCol);
-                    //for(int row=1; row < data.length; row++){
-
-                    if (!data[processRow][inputCol].toString().equals("")){
-                        protocolREFIndividuals.put(ExtendedISASyntax.PROTOCOL_REF_INPUT, individualMatrix[processRow][inputCol]);
-                        System.out.println("INPUT = "+individualMatrix[processRow][inputCol]);
-                    }
-
-                    //}//for row
-
-                }//for inputs
-
-                List<Node> outputs = processNode.getOutputNodes();
-                for(Node output: outputs){
-                    int outputCol = output.getIndex();
-                    System.out.println("outputCol="+outputCol);
-
-                    //for(int row=1; row < data.length; row++){
-
-                     if (!data[processRow][outputCol].toString().equals("")){
-                        protocolREFIndividuals.put(ExtendedISASyntax.PROTOCOL_REF_OUTPUT, individualMatrix[processRow][outputCol]);
-                        System.out.println("OUTPUT = "+individualMatrix[processRow][outputCol]);
-                     }
-
-                    //}//for row
-
-                }//for inputs
-
-                System.out.println("PROTOCOL REF INDIVIDUALS ="+protocolREFIndividuals);
-
-                Map<String, Map<IRI,String>> protocolREFmapping = ISA2OWL.mapping.getProtocolREFMappings();
-                ISA2OWL.convertProperties(protocolREFmapping, protocolREFIndividuals);
-            }//processRow
-
-        }//processNode
-
-
-        if (convertGroups){
-            convertGroups();
-        }
-
-
-
     }
 
     private void convertGroups(){
@@ -310,7 +372,7 @@ public class Assay2OWLConverter {
                 System.out.println("element="+element);
                 System.out.println("ISA2OWL.idIndividualMap="+ISA2OWL.idIndividualMap);
                 OWLNamedIndividual memberIndividual = ISA2OWL.idIndividualMap.get(element);
-                OWLObjectProperty hasMember = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.ISA_OBI_HAS_MEMBER_IRI);
+                OWLObjectProperty hasMember = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.ISA_HAS_MEMBER_IRI);
                 OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasMember, groupIndividual, memberIndividual);
                 ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
             }
