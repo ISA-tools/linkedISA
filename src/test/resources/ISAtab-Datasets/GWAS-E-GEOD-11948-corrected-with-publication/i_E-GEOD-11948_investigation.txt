@@ -1,8 +1,8 @@
 ONTOLOGY SOURCE REFERENCE
-Term Source Name	"OBI"	"OBI"	""
-Term Source File	"http://bioportal.bioontology.org/ontologies/47893"	""	""
-Term Source Version	"47893"	""	""
-Term Source Description	"Ontology for Biomedical Investigations"	""	""
+Term Source Name	"OBI"	
+Term Source File	"http://bioportal.bioontology.org/ontologies/47893"	
+Term Source Version	"47893"	
+Term Source Description	"Ontology for Biomedical Investigations"	
 INVESTIGATION
 Investigation Identifier	""
 Investigation Title	""
