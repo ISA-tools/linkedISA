@@ -268,7 +268,7 @@ public class ISAtab2OWLConverter {
         convertProtocols(protocolList);
 
         Assay2OWLConverter assay2OWLConverter = new Assay2OWLConverter();
-        assay2OWLConverter.convert(study.getStudySample(), null, protocolIndividualMap,true);
+        assay2OWLConverter.convert(study.getStudySample(), Assay2OWLConverter.AssayTableType.STUDY, null, protocolIndividualMap,true);
 
         System.out.println("ASSAYS..." + study.getAssays());
 
@@ -460,7 +460,7 @@ public class ISAtab2OWLConverter {
 
             //use term source and term accession to declare a more specific type for the factor
             if (factor.getFactorTypeTermAccession()!=null && !factor.getFactorTypeTermAccession().equals("")
-                    && factor.getFactorTypeTermSource()!=null && factor.getFactorTypeTermSource().equals("")){
+                    && factor.getFactorTypeTermSource()!=null && !factor.getFactorTypeTermSource().equals("")){
 
                 ISA2OWL.findOntologyTermAndAddClassAssertion(factor.getFactorTypeTermSource(), factor.getFactorTypeTermAccession(), factorIndividual);
 
@@ -524,7 +524,7 @@ public class ISAtab2OWLConverter {
 
             //use term source and term accession to declare a more specific type for the protocol
             if (protocol.getProtocolTypeTermAccession()!=null && !protocol.getProtocolTypeTermAccession().equals("")
-                    && protocol.getProtocolTypeTermSourceRef()!=null && protocol.getProtocolTypeTermSourceRef().equals("")){
+                    && protocol.getProtocolTypeTermSourceRef()!=null && !protocol.getProtocolTypeTermSourceRef().equals("")){
 
                 ISA2OWL.findOntologyTermAndAddClassAssertion(protocol.getProtocolTypeTermSourceRef(), protocol.getProtocolTypeTermAccession(), individual);
 
@@ -590,7 +590,7 @@ public class ISAtab2OWLConverter {
             ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference());
 
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
-            assayConverter.convert(assay, studyAssayFile, protocolIndividualMap, false);
+            assayConverter.convert(assay, Assay2OWLConverter.AssayTableType.ASSAY, studyAssayFile, protocolIndividualMap, false);
         }
 
     }
