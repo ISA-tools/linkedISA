@@ -5,10 +5,12 @@ import org.isatools.graph.model.MaterialNode;
 import org.isatools.isa2owl.converter.ExtendedISASyntax;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.semanticweb.owlapi.model.*;
-
+import org.isatools.util.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Encapsulates ISA to OWL mapping information. All data validation is done in this class.
@@ -27,11 +29,11 @@ public class ISASyntax2OWLMapping {
 	Map<String, IRI> typeMappings = null;
 
     //property mappings
-	Map<String, Map<IRI, String>> propertyMappings = null;
-    Map<String,Map<IRI, String>> contactPropertyMappings = null;
-    Map<String,Map<IRI, String>> protocolPropertyMappings = null;
-    Map<String,Map<IRI, String>> protocolREFPropertyMappings = null;
-    Map<String,Map<IRI, String>> materialNodePropertyMappings = null;
+	Map<String, List<Pair<IRI, String>>> propertyMappings = null;
+    Map<String,List<Pair<IRI, String>>> contactPropertyMappings = null;
+    Map<String,List<Pair<IRI, String>>> protocolPropertyMappings = null;
+    Map<String,List<Pair<IRI, String>>> protocolREFPropertyMappings = null;
+    Map<String,List<Pair<IRI, String>>> materialNodePropertyMappings = null;
 
 	Map<String, String> patternMappings = null;
 	
@@ -43,11 +45,11 @@ public class ISASyntax2OWLMapping {
 	private void init(){
 		sourceOntoIRIs = new HashMap<String,IRI>();
 		typeMappings = new HashMap<String, IRI>();
-		propertyMappings = new HashMap<String, Map<IRI,String>>();
-        contactPropertyMappings = new HashMap<String, Map<IRI,String>>();
-        protocolPropertyMappings = new HashMap<String, Map<IRI,String>>();
-        protocolREFPropertyMappings = new HashMap<String, Map<IRI,String>>();
-        materialNodePropertyMappings = new HashMap<String, Map<IRI,String>>();
+		propertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
+        contactPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
+        protocolPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
+        protocolREFPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
+        materialNodePropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
 		
 	}
 
@@ -80,53 +82,53 @@ public class ISASyntax2OWLMapping {
 		typeMappings.put(label, IRI.create(type));
 	}
 
-    public Map<String, Map<IRI,String>> getPropertyMappings(){
+    public Map<String,List<Pair<IRI, String>>> getPropertyMappings(){
         return propertyMappings;
     }
 
-    public Map<IRI,String> getPropertyMappings(String subject){
+    public List<Pair<IRI, String>> getPropertyMappings(String subject){
         return propertyMappings.get(subject);
     }
 
-    public Map<String,Map<IRI, String>> getContactMappings(){
+    public Map<String,List<Pair<IRI, String>>> getContactMappings(){
         return contactPropertyMappings;
     }
 
-    public Map<String,Map<IRI, String>> getProtocolMappings(){
+    public Map<String,List<Pair<IRI, String>>> getProtocolMappings(){
         return protocolPropertyMappings;
     }
 
-    public Map<String,Map<IRI, String>> getProtocolREFMappings(){
+    public Map<String,List<Pair<IRI, String>>> getProtocolREFMappings(){
         return protocolREFPropertyMappings;
     }
 
-    public Map<String,Map<IRI, String>> getMaterialNodePropertyMappings(){
+    public Map<String,List<Pair<IRI, String>>> getMaterialNodePropertyMappings(){
         return materialNodePropertyMappings;
     }
 	
 	public void addPropertyMapping(String subject, String predicate, String object){
-		Map<IRI,String> predobj = propertyMappings.get(subject);
-		if (predobj==null)
-			predobj = new HashMap<IRI,String>();
+		List<Pair<IRI,String>> predobjs = propertyMappings.get(subject);
+		if (predobjs==null)
+			predobjs = new ArrayList<Pair<IRI,String>>();
 		if (!predicate.equals("") && !object.equals("")){
-			predobj.put(IRI.create(predicate), object);
+			predobjs.add(new Pair<IRI,String>(IRI.create(predicate), object));
 		}
-		propertyMappings.put(subject, predobj);
+		propertyMappings.put(subject, predobjs);
 
         if (subject.startsWith(ExtendedISASyntax.STUDY_PERSON)){
-            contactPropertyMappings.put(subject, predobj);
+            contactPropertyMappings.put(subject, predobjs);
         }
 
         if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL)){
-            protocolPropertyMappings.put(subject, predobj);
+            protocolPropertyMappings.put(subject, predobjs);
         }
 
         if (subject.startsWith(GeneralFieldTypes.PROTOCOL_REF.toString())){
-            protocolREFPropertyMappings.put(subject, predobj);
+            protocolREFPropertyMappings.put(subject, predobjs);
         }
 
         if (subject.matches(MaterialNode.REGEXP)){
-            materialNodePropertyMappings.put(subject, predobj);
+            materialNodePropertyMappings.put(subject, predobjs);
         }
 
 	}

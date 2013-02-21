@@ -20,7 +20,7 @@ Study Publication Author List,author list,http://purl.obolibrary.org/obo/IAO_000
 Study Publication Title,document title,http://purl.obolibrary.org/obo/IAO_0000305,denotes,http://purl.obolibrary.org/obo/IAO_0000219,publication,Publication,,,,
 Study Publication Status,,,,,,,,,,
 ,,,,,,,,,,
-Study Person,Homo Sapiens,http://purl.obolibrary.org/obo/NCBITaxon_9606,has role,http://purl.obolibrary.org/obo/BFO_0000087,role(http://purl.obolibrary.org/obo/BFO_0000023),Study Person Roles,is member of organization,http://purl.obolibrary.org/obo/OBI_0000846,affiliation,Study Person Affiliation
+Study Person,Homo Sapiens,http://purl.obolibrary.org/obo/NCBITaxon_9606,has role,http://purl.obolibrary.org/obo/BFO_0000087,role,Study Person Roles,is member of organization,http://purl.obolibrary.org/obo/OBI_0000846,affiliation,Study Person Affiliation,participates in,http://purl.obolibrary.org/obo/BFO_0000056,investigation,Study
 Study Person Full Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Home Sapiens,Study Person,,,,
 Study Person Last Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Homo Sapiens,Study Person,,,,
 Study Person First Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Homo Sapiens,Study Person,,,,
@@ -52,7 +52,7 @@ Study Assay File Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,de
 ,,,,,,,,,,
 Study Protocol,protocol(http://purl.obolibrary.org/obo/OBI_0000272),http://purl.obolibrary.org/obo/OBI_0000272,,,,,,,,
 Study Protocol Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,protocol,Study Protocol,,,,
-Study Protocol Type,objective specification,http://purl.obolibrary.org/obo/IAO_0000005,is part of,http://purl.obolibrary.org/obo/BFO_0000050,protocol,Study Protocol
+Study Protocol Type,,,,,,,,,,
 Study Protocol Description,textual entity,http://purl.obolibrary.org/obo/IAO_0000300,denotes,http://purl.obolibrary.org/obo/IAO_0000219,protocol,Study Protocol,,,,
 Study Protocol URI,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,protocol,Study Protocol,,,,
 Study Protocol Version,version number,http://purl.obolibrary.org/obo/IAO_00000129,denotes,http://purl.obolibrary.org/obo/IAO_0000219,protocol,Study Protocol,,,,
@@ -72,9 +72,11 @@ Labeled Extract,processed material,http://purl.obolibrary.org/obo/OBI_0000047,,,
 Characteristics,quality(http://purl.obolibrary.org/obo/BFO_0000019),http://purl.obolibrary.org/obo/BFO_0000019,,,,,,,,
 {Source|Sample|Extract|Labeled Extract},,,has quality,http://purl.obolibrary.org/obo/BFO_0000086,quality,Characteristics
 ,,,,,,,,,,
-Study Protocol REF,material processing(http://purl.obolibrary.org/obo/OBI_0000094),http://purl.obolibrary.org/obo/OBI_0000094,chain(realizes o concretizes) = executes,http://isa-tools.org/isa/ISA0000001,plan specification,Study Protocol,,,
-Assay Protocol REF,planned process,http://purl.obolibrary.org/obo/OBI_0000011,chain(realizes o concretizes) = executes,http://isa-tools.org/isa/ISA0000001,plan specification,Study Protocol,,,
-Protocol REF Input,,,is specified input of ,http://purl.obolibrary.org/obo/OBI_0000295,protocol,Protocol REF,,,,
-Protocol REF Output,,,is specified output of ,http://purl.obolibrary.org/obo/OBI_0000312,protocol,Protocol REF,derives from,http://purl.obolibrary.org/obo/RO_0001000,input,Protocol REF Input
+Study Protocol REF,material processing,http://purl.obolibrary.org/obo/OBI_0000094,
+Assay Protocol REF,planned process,http://purl.obolibrary.org/obo/OBI_0000011,
+Protocol REF Input,,,is specified input of,http://purl.obolibrary.org/obo/OBI_0000295,material processing,Study Protocol REF
+Protocol REF Output,,,is specified output of,http://purl.obolibrary.org/obo/OBI_0000312,material processing,Study Protocol REF,derives from,http://purl.obolibrary.org/obo/RO_0001000,input,Protocol REF Input
+Protocol REF Input,,,is specified input of,http://purl.obolibrary.org/obo/OBI_0000295,planned process,Assay Protocol REF
+Protocol REF Output,,,is specified output of,http://purl.obolibrary.org/obo/OBI_0000312,planned process,Assay Protocol REF
 Study Group,study group population,http://isa-tools.org/isa/ISA0000002
 Data File, information content entity,http://purl.obolibrary.org/obo/IAO_0000030
