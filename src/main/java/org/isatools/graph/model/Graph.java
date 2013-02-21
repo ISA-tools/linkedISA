@@ -39,7 +39,7 @@ public class Graph {
                     nodes.add(n);
                 }
             } else if (nodeType == NodeType.PROCESS_NODE) {
-                if (n instanceof ProcessNode) {
+                if (n instanceof ProcessNode && !(n instanceof AssayNode)) {
                     nodes.add(n);
                 }
             } else if (nodeType == NodeType.DATA_NODE) {

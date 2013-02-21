@@ -45,6 +45,12 @@ public class AssayNode extends ProcessNode {
                 buffer.append("\t output: " + outputNode.getName()+"\n");
             }
         }
+
+        if (getAssociatedProcessNodes() != null){
+            for (Node associatedProcessNode : getAssociatedProcessNodes()) {
+                buffer.append("\t associated process node: " + associatedProcessNode.getName()+"\n");
+            }
+        }
         return buffer.toString();
 
     }

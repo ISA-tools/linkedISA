@@ -57,6 +57,8 @@ public class GraphParser {
                             new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
                 }
                 lastProcess = processNode;
+                if (lastAssayNode!=null)
+                    lastAssayNode.addAssociatedProcessNode(processNode);
 
             } else if (column.matches(AssayNode.REGEXP)){
 
@@ -68,6 +70,7 @@ public class GraphParser {
 
                 if (lastProcess!=null)
                     assayNode.addAssociatedProcessNode(lastProcess);
+
                 graph.addNode(assayNode);
                 lastAssayNode = assayNode;
 
