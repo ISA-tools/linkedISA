@@ -239,7 +239,6 @@ public class ISA2OWL {
             }
 
             String ontologyVersion = getOntologyVersion(ontologySourceRefObject.getSourceName());
-            termAccession = completeTermAccession(termAccession, ontologySourceRefObject.getSourceName());
 
             OntologyTerm term = null;
 
@@ -270,13 +269,7 @@ public class ISA2OWL {
         allOntologies = client.getAllOntologies();
     }
 
-    private static String completeTermAccession(String termAccession, String ontologyAbbreviation){
 
-        if (ontologyAbbreviation.equals("OBI"))
-            return "obo:OBI_"+termAccession;
-        return null;
-
-    }
 
     private static String getOntologyVersion(String ontologyAbbreviation){
         for(org.isatools.isacreator.configuration.Ontology ontology: allOntologies ){

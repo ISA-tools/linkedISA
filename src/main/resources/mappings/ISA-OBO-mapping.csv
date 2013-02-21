@@ -72,7 +72,8 @@ Labeled Extract,processed material,http://purl.obolibrary.org/obo/OBI_0000047,,,
 Characteristics,quality(http://purl.obolibrary.org/obo/BFO_0000019),http://purl.obolibrary.org/obo/BFO_0000019,,,,,,,,
 {Source|Sample|Extract|Labeled Extract},,,has quality,http://purl.obolibrary.org/obo/BFO_0000086,quality,Characteristics
 ,,,,,,,,,,
-Protocol REF,material processing(http://purl.obolibrary.org/obo/OBI_0000094),http://purl.obolibrary.org/obo/OBI_0000094,chain(realizes o concretizes) = executes,http://isa-tools.org/isa/ISA0000001,plan specification,Study Protocol,,,
+Study Protocol REF,material processing(http://purl.obolibrary.org/obo/OBI_0000094),http://purl.obolibrary.org/obo/OBI_0000094,chain(realizes o concretizes) = executes,http://isa-tools.org/isa/ISA0000001,plan specification,Study Protocol,,,
+Assay Protocol REF,planned process,http://purl.obolibrary.org/obo/OBI_0000011,chain(realizes o concretizes) = executes,http://isa-tools.org/isa/ISA0000001,plan specification,Study Protocol,,,
 Protocol REF Input,,,is specified input of ,http://purl.obolibrary.org/obo/OBI_0000295,protocol,Protocol REF,,,,
 Protocol REF Output,,,is specified output of ,http://purl.obolibrary.org/obo/OBI_0000312,protocol,Protocol REF,derives from,http://purl.obolibrary.org/obo/RO_0001000,input,Protocol REF Input
 Study Group,study group population,http://isa-tools.org/isa/ISA0000002

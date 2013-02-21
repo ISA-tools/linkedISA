@@ -25,6 +25,8 @@ public class Assay2OWLConverter {
 
     private static final Logger log = Logger.getLogger(Assay2OWLConverter.class);
 
+    public enum AssayTableType { STUDY, ASSAY} ;
+
     private GraphParser graphParser = null;
     private Object[][] data = null;
 
@@ -39,7 +41,7 @@ public class Assay2OWLConverter {
         log.info("Assay2OWLConverter - constructor");
     }
 
-    public void convert(Assay assay, OWLNamedIndividual assayFileIndividual, Map<String, OWLNamedIndividual> protocolIndividualMap, boolean convertGroups){
+    public void convert(Assay assay, AssayTableType assayTableType, OWLNamedIndividual assayFileIndividual, Map<String, OWLNamedIndividual> protocolIndividualMap, boolean convertGroups){
 
         System.out.println("CONVERTING ASSAY");
 
@@ -62,7 +64,7 @@ public class Assay2OWLConverter {
         }
 
         convertAssayNodes(protocolIndividualMap, graph);
-        convertProcessNodes(protocolIndividualMap, graph);
+        convertProcessNodes(protocolIndividualMap, graph, assayTableType);
 
 
         if (convertGroups){
@@ -131,7 +133,7 @@ public class Assay2OWLConverter {
         }
     }
 
-    private void convertProcessNodes(Map<String, OWLNamedIndividual> protocolIndividualMap, Graph graph) {
+    private void convertProcessNodes(Map<String, OWLNamedIndividual> protocolIndividualMap, Graph graph, AssayTableType assayTableType) {
         //Process Nodes
         List<Node> processNodes = graph.getNodes(NodeType.PROCESS_NODE);
 
@@ -168,7 +170,7 @@ public class Assay2OWLConverter {
                 //material processing as the execution of the protocol
                 if (processIndividual==null){
                     System.out.println("creating the process individual -"+ processName+" - this should happen only once");
-                    processIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.PROTOCOL_REF.toString(), processName);
+                    processIndividual = ISA2OWL.createIndividual(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, processName);
                     processIndividualMap.put(processCol, processIndividual);
                 }
 

@@ -31,6 +31,8 @@ public class ExtendedISASyntax {
    public static String EXTRACT = "Extract";
    public static String LABELED_EXTRACT = "Labeled Extract";
 
+   public static String STUDY_PROTOCOL_REF = "Study Protocol REF";
+   public static String ASSAY_PROTOCOL_REF = "Assay Protocol REF";
    public static String PROTOCOL_REF_INPUT = "Protocol REF Input";
    public static String PROTOCOL_REF_OUTPUT = "Protocol REF Output";
 
