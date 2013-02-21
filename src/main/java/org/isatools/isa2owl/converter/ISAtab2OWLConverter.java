@@ -204,16 +204,22 @@ public class ISAtab2OWLConverter {
         log.info("Converting study " + study.getStudyId() + "...");
 
         //Study
-        ISA2OWL.createIndividual(ExtendedISASyntax.STUDY, study.getStudyId());
+        OWLNamedIndividual studyIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY, study.getStudyId());
 
         //Study identifier
         ISA2OWL.createIndividual(Study.STUDY_ID, study.getStudyId());
 
         //Study title
-        ISA2OWL.createIndividual(Study.STUDY_TITLE, study.getStudyTitle());
+        OWLNamedIndividual studyTitleIndividual = ISA2OWL.createIndividual(Study.STUDY_TITLE, study.getStudyId()+ISA2OWL.STUDY_TITLE_SUFFIX, study.getStudyTitle());
+        if (studyTitleIndividual!=null){
+            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ISA2OWL.ISA_HAS_VALUE);
+            OWLLiteral titleLiteral = ISA2OWL.factory.getOWLLiteral(study.getStudyTitle(), OWL2Datatype.XSD_STRING);
+            OWLDataPropertyAssertionAxiom dataPropertyAssertionAxiom = ISA2OWL.factory.getOWLDataPropertyAssertionAxiom(hasMeasurementValue, studyTitleIndividual, titleLiteral);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, dataPropertyAssertionAxiom);
+        }
 
         //Study description
-        OWLNamedIndividual studyDescriptionIndividual = ISA2OWL.createIndividual(Study.STUDY_DESC, study.getStudyId()+"_description");
+        OWLNamedIndividual studyDescriptionIndividual = ISA2OWL.createIndividual(Study.STUDY_DESC, study.getStudyId()+ISA2OWL.STUDY_DESCRIPTION_SUFFIX, study.getStudyDesc());
         if (studyDescriptionIndividual!=null){
             OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ISA2OWL.ISA_HAS_VALUE);
             OWLLiteral descriptionLiteral = ISA2OWL.factory.getOWLLiteral(study.getStudyDesc(), OWL2Datatype.XSD_STRING);
@@ -230,7 +236,7 @@ public class ISAtab2OWLConverter {
         //Study submission date
         ISA2OWL.createIndividual(Study.STUDY_DATE_OF_SUBMISSION, study.getDateOfSubmission());
 
-        OWLNamedIndividual publicReleaseDateIndividual = ISA2OWL.createIndividual(Study.STUDY_DATE_OF_PUBLIC_RELEASE, study.getStudyId()+"_public_release_date");
+        OWLNamedIndividual publicReleaseDateIndividual = ISA2OWL.createIndividual(Study.STUDY_DATE_OF_PUBLIC_RELEASE, study.getStudyId()+ISA2OWL.STUDY_PUBLIC_RELEASE_DATE_SUFFIX);
 
         if (publicReleaseDateIndividual!=null){
             OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ISA2OWL.ISA_HAS_VALUE);
@@ -246,7 +252,7 @@ public class ISAtab2OWLConverter {
         //Study design
         List<StudyDesign> studyDesignList = study.getStudyDesigns();
         for(StudyDesign studyDesign: studyDesignList){
-            convertStudyDesign(studyDesign);
+            convertStudyDesign(studyIndividual, studyDesign);
         }
 
         //Study Person
@@ -464,9 +470,10 @@ public class ISAtab2OWLConverter {
     }
 
 
-    private void convertStudyDesign(StudyDesign studyDesign){
+    private void convertStudyDesign(OWLNamedIndividual studyIndividual, StudyDesign studyDesign){
 
         //Study Design Type
+        //define a StudyDesignExecution per StudyDesign and associate with study (Study has_part StudyDesignExecution
         OWLNamedIndividual studyDesignIndividual = ISA2OWL.createIndividual(StudyDesign.STUDY_DESIGN_TYPE, studyDesign.getStudyDesignType());
 
         //use term source and term accession to declare a more specific type for the factor
@@ -474,8 +481,20 @@ public class ISAtab2OWLConverter {
                 && studyDesign.getStudyDesignTypeTermSourceRef()!=null && !studyDesign.getStudyDesignTypeTermSourceRef().equals("")){
 
             ISA2OWL.findOntologyTermAndAddClassAssertion(studyDesign.getStudyDesignTypeTermSourceRef(), studyDesign.getStudyDesignTypeTermAcc(), studyDesignIndividual);
-
         }
+
+        OWLNamedIndividual studyDesignExecutionIndividual = ISA2OWL.createIndividual(studyDesign.getStudyDesignType()+ISA2OWL.STUDY_DESIGN_EXECUTION_SUFFIX, ISA2OWL.OBI_STUDY_DESIGN_EXECUTION);
+
+        OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.ISA_EXECUTES);
+        OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,studyDesignExecutionIndividual, studyDesignIndividual);
+        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
+
+
+        OWLObjectProperty isPartOf = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.BFO_IS_PART_OF);
+        OWLObjectPropertyAssertionAxiom axiom2 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(isPartOf,studyDesignExecutionIndividual, studyIndividual);
+        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom2);
+
+
     }
 
 
@@ -494,14 +513,22 @@ public class ISAtab2OWLConverter {
             protocolIndividuals = new HashMap<String, OWLNamedIndividual>();
 
             //Study Protocol
-            individual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_PROTOCOL, protocol.getProtocolName(), protocolIndividuals);
+            individual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_PROTOCOL, protocol.getProtocolName()+ISA2OWL.STUDY_PROTOCOL_SUFFIX, protocolIndividuals);
             protocolIndividualMap.put(protocol.getProtocolName(),individual);
 
             //Study Protocol Name
-            ISA2OWL.createIndividual(Protocol.PROTOCOL_NAME, protocol.getProtocolName(), protocolIndividuals);
+            ISA2OWL.createIndividual(Protocol.PROTOCOL_NAME, protocol.getProtocolName()+ISA2OWL.STUDY_PROTOCOL_NAME_SUFFIX, protocolIndividuals);
 
             //Study Protocol Type
             ISA2OWL.createIndividual(Protocol.PROTOCOL_TYPE, protocol.getProtocolType(), protocolIndividuals);
+
+            //use term source and term accession to declare a more specific type for the protocol
+            if (protocol.getProtocolTypeTermAccession()!=null && !protocol.getProtocolTypeTermAccession().equals("")
+                    && protocol.getProtocolTypeTermSourceRef()!=null && protocol.getProtocolTypeTermSourceRef().equals("")){
+
+                ISA2OWL.findOntologyTermAndAddClassAssertion(protocol.getProtocolTypeTermSourceRef(), protocol.getProtocolTypeTermAccession(), individual);
+
+            }//factors attributes not null
 
             //Study Protocol Description
             ISA2OWL.createIndividual(Protocol.PROTOCOL_DESCRIPTION, protocol.getProtocolDescription(), protocolIndividuals);

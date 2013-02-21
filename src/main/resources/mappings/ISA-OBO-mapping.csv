@@ -8,8 +8,8 @@ Study,investigation,http://purl.obolibrary.org/obo/OBI_0000066,,,,,,,,
 Study Identifier,CRID symbol,http://purl.obolibrary.org/obo/IAO_0000577,denotes,http://purl.obolibrary.org/obo/IAO_0000219,investigation,Study,,,,
 Study Title,investigation title,http://purl.obolibrary.org/obo/OBI_0001622,denotes,http://purl.obolibrary.org/obo/IAO_0000219,investigation,Study,,,,
 Study Description,investigation description,http://purl.obolibrary.org/obo/OBI_0001615,denotes,http://purl.obolibrary.org/obo/IAO_0000219,investigation,Study,,,,
-Study Submission Date,,,is_about,http://purl.obolibrary.org/obo/IAO_0000136,planned process,,,,,
-Study Public Release Date,,,,,,,,,,
+Study Submission Date,time stamp measurement datum,http://purl.obolibrary.org/obo/IAO_0000582,is_about,http://purl.obolibrary.org/obo/IAO_0000136,planned process,,,,,
+Study Public Release Date,time stamp measurement datum,http://purl.obolibrary.org/obo/IAO_0000582
 Study File,information content entity,http://purl.obolibrary.org/obo/IAO_0000030,denotes,http://purl.obolibrary.org/obo/IAO_0000219,investigation,Study,,,,
 Study File Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,investigation content entity,Study File,,,,
 ,,,,,,,,,,
@@ -42,7 +42,7 @@ Independent Variable Specification,independent variable specification,http://pur
 Study Design Execution,study design execution,http://purl.obolibrary.org/obo/OBI_0000471,,,,,,,,
 Study Design Type,study design(http://purl.obolibrary.org/obo/OBI_0500000),http://purl.obolibrary.org/obo/OBI_0500000,is realized by,http://purl.obolibrary.org/obo/OBI_0000471,study design execution(http://purl.obolibrary.org/obo/OBI_0000471),http://purl.obolibrary.org/obo/OBI_0000471,,,,
 ,,,,,,,,,,
-Study Assay,analyte assay(http://purl.obolibrary.org/obo/OBI_0000443),http://purl.obolibrary.org/obo/OBI_0000443,achives plan objective ,,assay measurement type,Study Assay Measurement Type,,,,
+Study Assay,analyte assay,http://purl.obolibrary.org/obo/OBI_0000443,is part of,http://purl.obolibrary.org/obo/BFO_0000050,study,Study,achives plan objective,http://purl.obolibrary.org/obo/OBI_0000417,assay measurement type,Study Assay Measurement Type
 Study Assay Measurement,dependent variable specification,,,,,,,,,
 Study Assay Measurement Type,analyte measurement objective(http://purl.obolibrary.org/obo/OBI_0000437),http://purl.obolibrary.org/obo/OBI_0000437,denotes,http://purl.obolibrary.org/obo/IAO_0000219,assay,Study Assay,,,,
 Study Assay Technology Type,planned process,,is part of,,,,,,,
@@ -52,7 +52,7 @@ Study Assay File Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,de
 ,,,,,,,,,,
 Study Protocol,protocol(http://purl.obolibrary.org/obo/OBI_0000272),http://purl.obolibrary.org/obo/OBI_0000272,,,,,,,,
 Study Protocol Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,protocol,Study Protocol,,,,
-Study Protocol Type,objective specification,http://purl.obolibrary.org/obo/IAO_0000005,denotes,http://purl.obolibrary.org/obo/IAO_0000219,protocol,Study Protocol,,,,
+Study Protocol Type,objective specification,http://purl.obolibrary.org/obo/IAO_0000005,is part of,http://purl.obolibrary.org/obo/BFO_0000050,protocol,Study Protocol
 Study Protocol Description,textual entity,http://purl.obolibrary.org/obo/IAO_0000300,denotes,http://purl.obolibrary.org/obo/IAO_0000219,protocol,Study Protocol,,,,
 Study Protocol URI,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,protocol,Study Protocol,,,,
 Study Protocol Version,version number,http://purl.obolibrary.org/obo/IAO_00000129,denotes,http://purl.obolibrary.org/obo/IAO_0000219,protocol,Study Protocol,,,,
@@ -76,3 +76,4 @@ Protocol REF,material processing(http://purl.obolibrary.org/obo/OBI_0000094),htt
 Protocol REF Input,,,is specified input of ,http://purl.obolibrary.org/obo/OBI_0000295,protocol,Protocol REF,,,,
 Protocol REF Output,,,is specified output of ,http://purl.obolibrary.org/obo/OBI_0000312,protocol,Protocol REF,derives from,http://purl.obolibrary.org/obo/RO_0001000,input,Protocol REF Input
 Study Group,study group population,http://isa-tools.org/isa/ISA0000002
+Data File, information content entity,http://purl.obolibrary.org/obo/IAO_0000030

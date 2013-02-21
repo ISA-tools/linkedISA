@@ -34,6 +34,13 @@ public class ISA2OWL {
     //TODO move this to the mapping file so that the conversion is independent of particular resources, but the dependency is kept in the mapping
     //TODO check if this is possible given how 'Characteristics' are converted
 
+    public static final String STUDY_DESIGN_EXECUTION_SUFFIX = " execution";
+    public static final String STUDY_TITLE_SUFFIX = " title";
+    public static final String STUDY_DESCRIPTION_SUFFIX = " description";
+    public static final String STUDY_PROTOCOL_SUFFIX = " protocol";
+    public static final String STUDY_PROTOCOL_NAME_SUFFIX = " protocol name";
+    public static final String STUDY_PUBLIC_RELEASE_DATE_SUFFIX = " public release date";
+
     //BFO IRIs
     public static final IRI BFO_HAS_QUALITY_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000086");
     public static final IRI BFO_INDEPENDENT_CONTINUANT_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000004");
@@ -41,6 +48,8 @@ public class ISA2OWL {
 
     public static final IRI BFO_REALIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000055");
     public static final IRI BFO_CONCRETIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000059");
+
+    public static final IRI BFO_IS_PART_OF = IRI.create("http://purl.obolibrary.org/obo/BFO_0000050");
 
     //PATO
     public static final String PATO_SIZE_IRI = "http://purl.obolibrary.org/obo/PATO_0000117";
@@ -52,7 +61,7 @@ public class ISA2OWL {
     public static final IRI OBI_ORGANISM_IRI = IRI.create("http://purl.obolibrary.org/obo/OBI_0100026");
     public static final IRI OBI_HAS_SPECIFIED_INPUT = IRI.create("http://purl.obolibrary.org/obo/OBI_0000293");
     public static final IRI OBI_HAS_SPECIFIED_OUTPUT = IRI.create("http://purl.obolibrary.org/obo/OBI_0000299");
-
+    public static final IRI OBI_STUDY_DESIGN_EXECUTION = IRI.create("http://purl.obolibrary.org/obo/OBI_0000471");
 
     //Currently in ISA extension of OBI
     public static IRI ISA_HAS_VALUE = IRI.create("http://isa-tools.org/isa/ISA_0000144");
@@ -113,7 +122,7 @@ public class ISA2OWL {
     public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, String comment){
 
         OWLNamedIndividual individual = createIndividual(typeMappingLabel,individualLabel);
-        if (comment!=null && comment.equals("")) {
+        if (comment!=null && !comment.equals("")) {
             OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
             OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
@@ -124,6 +133,11 @@ public class ISA2OWL {
 
     public static OWLNamedIndividual createIndividual(String name, IRI type){
         OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI));
+
+        OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), ISA2OWL.factory.getOWLLiteral(name));
+        OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
+        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
+
         OWLClass owlClass = ISA2OWL.addOWLClassAssertion(type, individual);
         return individual;
     }
