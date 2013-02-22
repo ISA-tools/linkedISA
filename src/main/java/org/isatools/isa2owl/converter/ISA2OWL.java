@@ -7,6 +7,7 @@ import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
 
 import org.isatools.owl.ReasonerService;
+import org.isatools.util.Pair;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
@@ -56,6 +57,7 @@ public class ISA2OWL {
 
     //IAO IRIs
     public static final IRI IAO_HAS_MEASUREMENT_VALUE_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000004");
+    public static final IRI IAO_DENOTES_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000219");
 
     //OBI IRIs
     public static final IRI OBI_ORGANISM_IRI = IRI.create("http://purl.obolibrary.org/obo/OBI_0100026");
@@ -131,6 +133,12 @@ public class ISA2OWL {
 
     }
 
+    public static void addComment(String comment, IRI iri){
+        OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
+        OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(iri, annotation);
+        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
+    }
+
     public static OWLNamedIndividual createIndividual(String name, IRI type){
         OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI));
 
@@ -189,19 +197,22 @@ public class ISA2OWL {
         return individual;
     }
 
-    public static void convertProperties(Map<String, Map<IRI, String>> propertyMappings, Map<String, OWLNamedIndividual> typeIndividualM){
+    public static void convertProperties(Map<String, List<Pair<IRI, String>>> propertyMappings, Map<String, OWLNamedIndividual> typeIndividualM){
 
         for(String subjectString: propertyMappings.keySet()){
             System.out.println("subjectString="+subjectString);
 
-            Map<IRI, String> predicateObjects = propertyMappings.get(subjectString);
+            List<Pair<IRI, String>> predicateObjects = propertyMappings.get(subjectString);
             OWLNamedIndividual subject = typeIndividualM.get(subjectString);
 
 
-            for(IRI predicate: predicateObjects.keySet()){
+            for(Pair<IRI,String> predicateObject: predicateObjects){
+
+                IRI predicate = predicateObject.getFirst();
+
                 OWLObjectProperty property = ISA2OWL.factory.getOWLObjectProperty(predicate);
 
-                String objectString = predicateObjects.get(predicate);
+                String objectString = predicateObject.getSecond();
 
                 OWLNamedIndividual object = typeIndividualM.get(objectString);
 
