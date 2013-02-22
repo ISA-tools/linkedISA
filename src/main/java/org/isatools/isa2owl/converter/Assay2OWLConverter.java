@@ -222,7 +222,7 @@ public class Assay2OWLConverter {
                     //for(int row=1; row < data.length; row++){
 
                     if (!data[processRow][inputCol].toString().equals("")){
-                        protocolREFIndividuals.put(ExtendedISASyntax.PROTOCOL_REF_INPUT, individualMatrix[processRow][inputCol]);
+                        protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF_INPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_INPUT, individualMatrix[processRow][inputCol]);
                         System.out.println("INPUT = "+individualMatrix[processRow][inputCol]);
                     }
 
@@ -238,7 +238,7 @@ public class Assay2OWLConverter {
                     //for(int row=1; row < data.length; row++){
 
                      if (!data[processRow][outputCol].toString().equals("")){
-                        protocolREFIndividuals.put(ExtendedISASyntax.PROTOCOL_REF_OUTPUT, individualMatrix[processRow][outputCol]);
+                        protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF_OUTPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_OUTPUT, individualMatrix[processRow][outputCol]);
                         System.out.println("OUTPUT = "+individualMatrix[processRow][outputCol]);
                      }
 
