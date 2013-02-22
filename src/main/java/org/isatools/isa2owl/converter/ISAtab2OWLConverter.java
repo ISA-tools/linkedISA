@@ -252,10 +252,7 @@ public class ISAtab2OWLConverter {
 
         //Study design
         List<StudyDesign> studyDesignList = study.getStudyDesigns();
-        OWLNamedIndividual studyDesignIndividual = null;
-        for(StudyDesign studyDesign: studyDesignList){
-            studyDesignIndividual = convertStudyDesign(studyIndividual, studyDesign);
-        }
+        OWLNamedIndividual studyDesignIndividual = studyDesignIndividual = convertStudyDesign(studyIndividual, study, studyDesignList);
 
         //Study Person
         List<Contact> contactList = study.getContacts();
@@ -477,29 +474,26 @@ public class ISAtab2OWLConverter {
     }
 
 
-    private OWLNamedIndividual convertStudyDesign(OWLNamedIndividual studyIndividual, StudyDesign studyDesign){
+    private OWLNamedIndividual convertStudyDesign(OWLNamedIndividual studyIndividual, Study study, List<StudyDesign> studyDesigns){
 
         //Study Design Type
         //define a StudyDesignExecution per StudyDesign and associate with study (Study has_part StudyDesignExecution
-        OWLNamedIndividual studyDesignIndividual = ISA2OWL.createIndividual(StudyDesign.STUDY_DESIGN_TYPE, studyDesign.getStudyDesignType());
+        OWLNamedIndividual studyDesignIndividual = ISA2OWL.createIndividual(StudyDesign.STUDY_DESIGN_TYPE, study.getStudyId()+ISA2OWL.STUDY_DESIGN_SUFFIX);
 
-        //use term source and term accession to declare a more specific type for the factor
-        if (studyDesign.getStudyDesignTypeTermAcc()!=null && !studyDesign.getStudyDesignTypeTermAcc().equals("")
+        for(StudyDesign studyDesign: studyDesigns){
+
+            ISA2OWL.addComment(studyDesign.getStudyDesignType(), studyDesignIndividual.getIRI());
+
+            //use term source and term accession to declare a more specific type for the factor
+            if (studyDesign.getStudyDesignTypeTermAcc()!=null && !studyDesign.getStudyDesignTypeTermAcc().equals("")
                 && studyDesign.getStudyDesignTypeTermSourceRef()!=null && !studyDesign.getStudyDesignTypeTermSourceRef().equals("")){
 
-            ISA2OWL.findOntologyTermAndAddClassAssertion(studyDesign.getStudyDesignTypeTermSourceRef(), studyDesign.getStudyDesignTypeTermAcc(), studyDesignIndividual);
+                ISA2OWL.findOntologyTermAndAddClassAssertion(studyDesign.getStudyDesignTypeTermSourceRef(), studyDesign.getStudyDesignTypeTermAcc(), studyDesignIndividual);
+            }
         }
 
-        OWLNamedIndividual studyDesignExecutionIndividual = ISA2OWL.createIndividual(studyDesign.getStudyDesignType()+ISA2OWL.STUDY_DESIGN_EXECUTION_SUFFIX, ISA2OWL.OBI_STUDY_DESIGN_EXECUTION);
+        OWLNamedIndividual studyDesignExecutionIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_DESIGN_EXECUTION, study.getStudyId()+ISA2OWL.STUDY_DESIGN_EXECUTION_SUFFIX);
 
-        OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.ISA_EXECUTES);
-        OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,studyDesignExecutionIndividual, studyDesignIndividual);
-        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
-
-
-        OWLObjectProperty isPartOf = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.BFO_IS_PART_OF);
-        OWLObjectPropertyAssertionAxiom axiom2 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(isPartOf,studyDesignExecutionIndividual, studyIndividual);
-        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom2);
         return studyDesignIndividual;
 
     }

@@ -25,6 +25,8 @@ public class ExtendedISASyntax {
    public static String STUDY_ASSAY = "Study Assay";
    public static String STUDY_ASSAY_FILE = "Study Assay File";
 
+    public static String STUDY_DESIGN_EXECUTION = "Study Design Execution";
+
    //material nodes
    public static String SOURCE = "Source";
    public static String SAMPLE = "Sample";
@@ -39,6 +41,5 @@ public class ExtendedISASyntax {
    public static String STUDY_GROUP = "Study Group";
 
    public static String DATA_TRANSFORMATION = "Data Transformation";
-   //public static String INDEPENDENT_VARIABLE_SPECIFICATION = "Independent Variable Specification";
 
 }
