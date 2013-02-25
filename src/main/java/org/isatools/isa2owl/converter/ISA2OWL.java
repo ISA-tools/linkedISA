@@ -44,12 +44,11 @@ public class ISA2OWL {
     public static final String STUDY_PUBLIC_RELEASE_DATE_SUFFIX = " public release date";
 
     //BFO IRIs
-    public static final IRI BFO_HAS_QUALITY_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000086");
-    public static final IRI BFO_INDEPENDENT_CONTINUANT_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000004");
-    public static final String BFO_DEPENDENT_CONTINUANT_IRI = "http://purl.obolibrary.org/obo/BFO_0000005";
-
-    public static final IRI BFO_REALIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000055");
-    public static final IRI BFO_CONCRETIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000059");
+//    public static final IRI BFO_INDEPENDENT_CONTINUANT_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000004");
+//    public static final String BFO_DEPENDENT_CONTINUANT_IRI = "http://purl.obolibrary.org/obo/BFO_0000005";
+//
+//    public static final IRI BFO_REALIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000055");
+//    public static final IRI BFO_CONCRETIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000059");
 
     //public static final IRI BFO_IS_PART_OF = IRI.create("http://purl.obolibrary.org/obo/BFO_0000050");
 
@@ -60,10 +59,6 @@ public class ISA2OWL {
     public static final IRI IAO_HAS_MEASUREMENT_VALUE_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000004");
     public static final IRI IAO_DENOTES_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000219");
 
-    //OBI IRIs
-    public static final IRI OBI_ORGANISM_IRI = IRI.create("http://purl.obolibrary.org/obo/OBI_0100026");
-    public static final IRI OBI_HAS_SPECIFIED_INPUT = IRI.create("http://purl.obolibrary.org/obo/OBI_0000293");
-    public static final IRI OBI_HAS_SPECIFIED_OUTPUT = IRI.create("http://purl.obolibrary.org/obo/OBI_0000299");
     //public static final IRI OBI_STUDY_DESIGN_EXECUTION = IRI.create("http://purl.obolibrary.org/obo/OBI_0000471");
 
     //Currently in ISA extension of OBI

@@ -102,7 +102,7 @@ public class Assay2OWLConverter {
 
                 //inputs & outputs
                 //adding inputs and outputs to the assay
-                OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.OBI_HAS_SPECIFIED_INPUT);
+                OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(OBIVocabulary.HAS_SPECIFIED_INPUT.iri);
                 List<Node> inputs = assayNode.getInputNodes();
                 for(Node input: inputs){
                     int inputCol = input.getIndex();
@@ -118,7 +118,7 @@ public class Assay2OWLConverter {
                 }//for inputs
 
 
-                OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.OBI_HAS_SPECIFIED_OUTPUT);
+                OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(OBIVocabulary.HAS_SPECIFIED_OUTPUT.iri);
                 List<Node> outputs = assayNode.getOutputNodes();
                 for(Node output: outputs){
                     int outputCol = output.getIndex();
@@ -423,20 +423,19 @@ public class Assay2OWLConverter {
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
 
 //            //group size
-            //TODO change
-            OWLObjectProperty hasQuality = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.BFO_HAS_QUALITY_IRI);
-            OWLClass size = ISA2OWL.factory.getOWLClass(IRI.create(ISA2OWL.PATO_SIZE_IRI));
-
-            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ISA2OWL.IAO_HAS_MEASUREMENT_VALUE_IRI);
-            OWLLiteral sizeValue = ISA2OWL.factory.getOWLLiteral(elements.size());
-            OWLDataHasValue hasMeasurementValueSizeValue = ISA2OWL.factory.getOWLDataHasValue(hasMeasurementValue, sizeValue);
-
-            OWLObjectIntersectionOf intersectionOf = ISA2OWL.factory.getOWLObjectIntersectionOf(size, hasMeasurementValueSizeValue);
-
-            OWLObjectSomeValuesFrom someSize = ISA2OWL.factory.getOWLObjectSomeValuesFrom(hasQuality,intersectionOf);
-
-            OWLClassAssertionAxiom classAssertionAxiom = ISA2OWL.factory.getOWLClassAssertionAxiom(someSize, groupIndividual);
-            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, classAssertionAxiom);
+//            OWLObjectProperty hasQuality = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.BFO_HAS_QUALITY_IRI);
+//            OWLClass size = ISA2OWL.factory.getOWLClass(IRI.create(ISA2OWL.PATO_SIZE_IRI));
+//
+//            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ISA2OWL.IAO_HAS_MEASUREMENT_VALUE_IRI);
+//            OWLLiteral sizeValue = ISA2OWL.factory.getOWLLiteral(elements.size());
+//            OWLDataHasValue hasMeasurementValueSizeValue = ISA2OWL.factory.getOWLDataHasValue(hasMeasurementValue, sizeValue);
+//
+//            OWLObjectIntersectionOf intersectionOf = ISA2OWL.factory.getOWLObjectIntersectionOf(size, hasMeasurementValueSizeValue);
+//
+//            OWLObjectSomeValuesFrom someSize = ISA2OWL.factory.getOWLObjectSomeValuesFrom(hasQuality,intersectionOf);
+//
+//            OWLClassAssertionAxiom classAssertionAxiom = ISA2OWL.factory.getOWLClassAssertionAxiom(someSize, groupIndividual);
+//            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, classAssertionAxiom);
         }
     }
 
