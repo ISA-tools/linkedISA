@@ -96,7 +96,7 @@ public class Assay2OWLConverter {
                 String protocolName = (String)data[row][protocolColumn];
 
                 OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(protocolName);
-                OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.ISA_EXECUTES);
+                OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ExtendedOBIVocabulary.EXECUTES.iri);
                 OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,assayIndividual, protocolIndividual);
                 ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
 
@@ -196,7 +196,7 @@ public class Assay2OWLConverter {
 
                 ISA2OWL.addComment(protocol.getProtocolType(), processIndividual.getIRI());
 
-                OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.ISA_EXECUTES);
+                OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ExtendedOBIVocabulary.EXECUTES.iri);
                 OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,processIndividual, protocolIndividual);
                 ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
 
@@ -412,13 +412,13 @@ public class Assay2OWLConverter {
                 System.out.println("element="+element);
                 System.out.println("ISA2OWL.idIndividualMap="+ISA2OWL.idIndividualMap);
                 OWLNamedIndividual memberIndividual = ISA2OWL.idIndividualMap.get(element);
-                OWLObjectProperty hasMember = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.ISA_HAS_MEMBER_IRI);
+                OWLObjectProperty hasMember = ISA2OWL.factory.getOWLObjectProperty(ExtendedOBIVocabulary.HAS_MEMBER.iri);
                 OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasMember, groupIndividual, memberIndividual);
                 ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
             }
 
             //'study design' denotes 'study group population'
-            OWLObjectProperty denotes = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.IAO_DENOTES_IRI);
+            OWLObjectProperty denotes = ISA2OWL.factory.getOWLObjectProperty(IAOVocabulary.DENOTES.iri);
             OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(denotes,studyDesignIndividual, groupIndividual);
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
 

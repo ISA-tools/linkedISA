@@ -12,9 +12,8 @@ import org.semanticweb.owlapi.model.IRI;
  */
 public enum IAOVocabulary {
 
-    IAO_HAS_MEASUREMENT_VALUE(Namespaces.IAO, "0000004"),
-    IAO_DENOTES(Namespaces.IAO, "0000219");
-
+    HAS_MEASUREMENT_VALUE(Namespaces.IAO, "0000004"),
+    DENOTES(Namespaces.IAO, "0000219");
 
     final IRI iri;
 

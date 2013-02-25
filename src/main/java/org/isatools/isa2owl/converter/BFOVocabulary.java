@@ -12,7 +12,14 @@ import org.semanticweb.owlapi.model.IRI;
  */
 public enum BFOVocabulary {
 
-   // public static final IRI BFO_HAS_QUALITY_IRI = org.semanticweb.owlapi.model.IRI.create("http://purl.obolibrary.org/obo/BFO_0000086");
+//    public static final IRI BFO_INDEPENDENT_CONTINUANT_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000004");
+//    public static final String BFO_DEPENDENT_CONTINUANT_IRI = "http://purl.obolibrary.org/obo/BFO_0000005";
+//
+//    public static final IRI BFO_REALIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000055");
+//    public static final IRI BFO_CONCRETIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000059");
+
+//public static final IRI BFO_IS_PART_OF = IRI.create("http://purl.obolibrary.org/obo/BFO_0000050");
+
 
     BFO_HAS_QUALITY(Namespaces.BFO, "0000086");
 

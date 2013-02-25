@@ -43,28 +43,16 @@ public class ISA2OWL {
     public static final String STUDY_PROTOCOL_NAME_SUFFIX = " protocol name";
     public static final String STUDY_PUBLIC_RELEASE_DATE_SUFFIX = " public release date";
 
-    //BFO IRIs
-//    public static final IRI BFO_INDEPENDENT_CONTINUANT_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000004");
-//    public static final String BFO_DEPENDENT_CONTINUANT_IRI = "http://purl.obolibrary.org/obo/BFO_0000005";
-//
-//    public static final IRI BFO_REALIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000055");
-//    public static final IRI BFO_CONCRETIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000059");
-
-    //public static final IRI BFO_IS_PART_OF = IRI.create("http://purl.obolibrary.org/obo/BFO_0000050");
 
     //PATO
     public static final String PATO_SIZE_IRI = "http://purl.obolibrary.org/obo/PATO_0000117";
 
     //IAO IRIs
-    public static final IRI IAO_HAS_MEASUREMENT_VALUE_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000004");
-    public static final IRI IAO_DENOTES_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000219");
+//    public static final IRI IAO_HAS_MEASUREMENT_VALUE_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000004");
+//    public static final IRI IAO_DENOTES_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000219");
 
     //public static final IRI OBI_STUDY_DESIGN_EXECUTION = IRI.create("http://purl.obolibrary.org/obo/OBI_0000471");
 
-    //Currently in ISA extension of OBI
-    public static IRI ISA_HAS_VALUE = IRI.create("http://isa-tools.org/isa/ISA_0000144");
-    public static final IRI ISA_HAS_MEMBER_IRI = IRI.create("http://isa-tools.org/isa/ISA0000018");
-    public static final IRI ISA_EXECUTES = IRI.create("http://isa-tools.org/isa/ISA0000001");
 
     //<type, id, individual>
     public static Map<String, Map<String,OWLNamedIndividual>> typeIdIndividualMap = null;

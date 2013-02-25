@@ -12,7 +12,8 @@ public enum Namespaces {
 
     OBI("http://purl.obolibrary.org/obo/OBI_"),
     IAO("http://purl.obolibrary.org/obo/IAO_"),
-    BFO("http://purl.obolibrary.org/obo/BFO_");
+    BFO("http://purl.obolibrary.org/obo/BFO_"),
+    ISA("http://isa-tools.org/isa/ISA_");
 
     final String ns;
 
