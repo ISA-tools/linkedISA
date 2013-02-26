@@ -16,6 +16,7 @@ public class ISA2OWLMappingParserTest {
 	
 	private ISA2OWLMappingParser parser = null;
 	public static final String ISA_OBO_MAPPING_FILENAME = "mappings/ISA-OBO-mapping.csv";
+    public static final String ISA_SIO_MAPPING_FILENAME = "mappings/ISA-SIO-mapping.csv";
 	
 	@Before
     public void setUp() {
@@ -34,5 +35,13 @@ public class ISA2OWLMappingParserTest {
 		parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
 		System.out.println(parser.getMapping());
 	}
+
+    @Test
+    public void testReadCSVMappingFile2() throws Exception{
+        //TODO add assertions
+        URL fileURL = getClass().getClassLoader().getResource(ISA2OWLMappingParserTest.ISA_SIO_MAPPING_FILENAME);
+        parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
+        System.out.println(parser.getMapping());
+    }
 
 }
