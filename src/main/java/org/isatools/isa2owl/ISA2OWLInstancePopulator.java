@@ -3,6 +3,7 @@ package org.isatools.isa2owl;
 import org.apache.log4j.Logger;
 import org.isatools.isacreator.model.*;
 import org.isatools.isacreator.io.importisa.ISAtabImporter;
+import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 
 import java.util.Map;
 
@@ -29,22 +30,25 @@ public class ISA2OWLInstancePopulator {
 	 */
 	public ISA2OWLInstancePopulator(String cDir){
 		configDir = cDir;
-		importer = new ISAtabImporter(configDir);
+		importer = new ISAtabFilesImporter(configDir);
 		System.out.println("importer="+importer);
 	}
 	
 	
-	private void readInISAFiles(String parentDir){
-		importer.importFile(parentDir);
+	private boolean readInISAFiles(String parentDir){
+		return importer.importFile(parentDir);
 	}
 	
 	/**
 	 * 
 	 * @param parentDir
 	 */
-	public void populateOntology(String parentDir){
+	public boolean populateOntology(String parentDir){
+        System.out.println("In populateOntology....");
 		System.out.println("parentDir="+parentDir);
-		readInISAFiles(parentDir);
+		if (!readInISAFiles(parentDir)){
+            System.out.println(importer.getMessagesAsString());
+        }
 		Investigation investigation = importer.getInvestigation();
         System.out.println("investigation="+investigation);
 		Map<String,Study> studies = investigation.getStudies();
@@ -52,7 +56,8 @@ public class ISA2OWLInstancePopulator {
 		for(String key: studies.keySet()){
 			populateStudy(studies.get(key));
 		}
-		
+
+        return true;
 	}
 	
 	private void populateStudy(Study study){
