@@ -1,7 +1,7 @@
 ONTOLOGY SOURCE REFERENCE
 Term Source Name	"OBI"	"MS"	"MA"	"NEWT"	"PATO"	"EFO"	"UNIPROT"	"NCBITaxon"	"e.g. OBI"	""	
-Term Source File	""	""	""	""	""	""	""	"http://bioportal.bioontology.org/ontologies/47845"	""	""	
-Term Source Version	"v 1.26"	"v 1.26"	"v 1.26"	"v 1.26"	"v 1.26"	""	""	"47845"	""	""	
+Term Source File	"http://bioportal.bioontology.org/ontologies/47893"	""	""	""	""	""	""	"http://bioportal.bioontology.org/ontologies/47845"	""	""
+Term Source Version	"47893"	"v 1.26"	"v 1.26"	"v 1.26"	"v 1.26"	""	""	"47845"	""	""
 Term Source Description	"Ontology for Biomedical Investigations"	"PSI Mass Spectrometry Ontology"	"Mouse Adult Gross Anatomy"	"NEWT UniProt Taxonomy Database"	"Phenotypic qualities (properties)"	"ArrayExpress Experimental Factor Ontology"	"Uniprot protein ontology"	"NCBI organismal classification"	""	""	
 INVESTIGATION
 Investigation Identifier	""
