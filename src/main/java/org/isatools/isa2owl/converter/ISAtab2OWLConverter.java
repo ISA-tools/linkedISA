@@ -213,7 +213,7 @@ public class ISAtab2OWLConverter {
         //Study title
         OWLNamedIndividual studyTitleIndividual = ISA2OWL.createIndividual(Study.STUDY_TITLE, study.getStudyId()+ISA2OWL.STUDY_TITLE_SUFFIX, study.getStudyTitle());
         if (studyTitleIndividual!=null){
-            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ISA2OWL.ISA_HAS_VALUE);
+            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ExtendedOBIVocabulary.HAS_VALUE.iri);
             OWLLiteral titleLiteral = ISA2OWL.factory.getOWLLiteral(study.getStudyTitle(), OWL2Datatype.XSD_STRING);
             OWLDataPropertyAssertionAxiom dataPropertyAssertionAxiom = ISA2OWL.factory.getOWLDataPropertyAssertionAxiom(hasMeasurementValue, studyTitleIndividual, titleLiteral);
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, dataPropertyAssertionAxiom);
@@ -222,7 +222,7 @@ public class ISAtab2OWLConverter {
         //Study description
         OWLNamedIndividual studyDescriptionIndividual = ISA2OWL.createIndividual(Study.STUDY_DESC, study.getStudyId()+ISA2OWL.STUDY_DESCRIPTION_SUFFIX, study.getStudyDesc());
         if (studyDescriptionIndividual!=null){
-            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ISA2OWL.ISA_HAS_VALUE);
+            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ExtendedOBIVocabulary.HAS_VALUE.iri);
             OWLLiteral descriptionLiteral = ISA2OWL.factory.getOWLLiteral(study.getStudyDesc(), OWL2Datatype.XSD_STRING);
             OWLDataPropertyAssertionAxiom dataPropertyAssertionAxiom = ISA2OWL.factory.getOWLDataPropertyAssertionAxiom(hasMeasurementValue, studyDescriptionIndividual, descriptionLiteral);
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, dataPropertyAssertionAxiom);
@@ -240,7 +240,7 @@ public class ISAtab2OWLConverter {
         OWLNamedIndividual publicReleaseDateIndividual = ISA2OWL.createIndividual(Study.STUDY_DATE_OF_PUBLIC_RELEASE, study.getStudyId()+ISA2OWL.STUDY_PUBLIC_RELEASE_DATE_SUFFIX);
 
         if (publicReleaseDateIndividual!=null){
-            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ISA2OWL.ISA_HAS_VALUE);
+            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ExtendedOBIVocabulary.HAS_VALUE.iri);
             OWLLiteral publicReleaseDateLiteral = ISA2OWL.factory.getOWLLiteral(study.getPublicReleaseDate(), OWL2Datatype.XSD_STRING);
             OWLDataPropertyAssertionAxiom dataPropertyAssertionAxiom = ISA2OWL.factory.getOWLDataPropertyAssertionAxiom(hasMeasurementValue, publicReleaseDateIndividual, publicReleaseDateLiteral);
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, dataPropertyAssertionAxiom);

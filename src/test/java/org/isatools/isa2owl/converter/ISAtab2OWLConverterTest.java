@@ -158,5 +158,17 @@ public class ISAtab2OWLConverterTest {
         isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/GWAS.owl");
     }
 
+    @Test
+    public void testConvertEGEOD() {
+        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/E-GEOD-25835-MPBRCA1";
+        System.out.println("isatabParentDir="+isatabParentDir);
+
+        System.out.println("Converting the ISA-tab dataset into OWL");
+
+        assert(isatab2owl.convert(isatabParentDir, iri));
+
+        isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/E-GEOD-25835-MPBRCA1.owl");
+    }
+
 
 }
