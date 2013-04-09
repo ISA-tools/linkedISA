@@ -21,7 +21,7 @@ public enum BFOVocabulary {
 //public static final IRI BFO_IS_PART_OF = IRI.create("http://purl.obolibrary.org/obo/BFO_0000050");
 
 
-    BFO_HAS_QUALITY(Namespaces.BFO, "0000086");
+    HAS_QUALITY(Namespaces.BFO, "0000086");
 
     final IRI iri;
 

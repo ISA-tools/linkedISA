@@ -255,6 +255,8 @@ public class ISA2OWL {
 
 
     public static void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
+        System.out.println("findOntologyTermAndAddClassAssertion "+termSourceRef + " termAccession="+termAccession + " individual="+individual);
+
         String purl = ISA2OWL.findOntologyPURL(termSourceRef, termAccession);
         if (purl!=null)
             ISA2OWL.addOWLClassAssertion(IRI.create(purl), individual);
