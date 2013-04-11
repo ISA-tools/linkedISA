@@ -76,6 +76,9 @@ public class ISA2OWL {
 
 
     public static OWLClass addOWLClassAssertion(IRI owlClassIRI, OWLNamedIndividual individual) {
+        System.out.println("addOWLClass(owlClassIRI="+owlClassIRI+" individual="+individual+")");
+        if (owlClassIRI==null || owlClassIRI.equals("") || individual==null || individual.equals(""))
+            return null;
 
         OWLClass owlClass = factory.getOWLClass(owlClassIRI);
         OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(owlClass, individual);
@@ -213,6 +216,12 @@ public class ISA2OWL {
     }
 
     public static String findOntologyPURL(String termSourceRef, String termAccession){
+
+        System.out.println("findOntologyPURL(termSourceRef="+termSourceRef+", termAccession="+termAccession+")");
+
+        if ((termSourceRef==null) || (termSourceRef=="") || (termAccession==null) || (termAccession==""))
+            return "";
+
         List<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
 
         OntologySourceRefObject ontologySourceRefObject = null;
@@ -255,9 +264,12 @@ public class ISA2OWL {
 
 
     public static void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
-        System.out.println("findOntologyTermAndAddClassAssertion "+termSourceRef + " termAccession="+termAccession + " individual="+individual);
+        System.out.println("============findOntologyTermAndAddClassAssertion termSourceRef="+termSourceRef + " termAccession="+termAccession + " individual="+individual);
 
         String purl = ISA2OWL.findOntologyPURL(termSourceRef, termAccession);
+
+        System.out.println("purl="+purl);
+
         if (purl!=null)
             ISA2OWL.addOWLClassAssertion(IRI.create(purl), individual);
     }
@@ -269,10 +281,16 @@ public class ISA2OWL {
 
 
     private static String getOntologyVersion(String ontologyAbbreviation){
+        System.out.println("getOntologyVersion("+ontologyAbbreviation+")");
+
+        System.out.println("allOntologies="+allOntologies);
+
         for(org.isatools.isacreator.configuration.Ontology ontology: allOntologies ){
 
             if (ontology.getOntologyAbbreviation().equals(ontologyAbbreviation)){
-                return ontology.getOntologyVersion();
+                String version = ontology.getOntologyVersion();
+                System.out.println("version="+version);
+                return version;
             }
 
         }

@@ -297,7 +297,6 @@ public class Assay2OWLConverter {
 
             int col = materialNode.getIndex();
 
-
             for(int row=1; row < data.length; row++){
 
                 String dataValue = (String) data[row][col];
@@ -336,16 +335,11 @@ public class Assay2OWLConverter {
 
                 System.out.println("--------attributeList="+attributeList);
 
-
-
-
-
                for(MaterialAttribute attribute: attributeList){
 
                    String attributeString = attribute.getName();
                    String attributeName = null;
                    String attributeType = null;
-
 
                    if (attributeString.contains("(")){
                        attributeName = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("("));
@@ -354,27 +348,26 @@ public class Assay2OWLConverter {
                        attributeName = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
                    }
 
+                   //TODO differentiate between organism and other qualities/characteristics
                    String attributeDataValue = data[row][attribute.getIndex()].toString();
-                   OWLNamedIndividual materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeName);
-                   individualMatrix[row][attribute.getIndex()] = materialAttributeIndividual;
-
-
                    String source = OntologyManager.getOntologyTermSource(attributeDataValue);
                    String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
 
-                   System.out.println("MATERIAL ATTRIBUTE "+ attribute+ " individual"+materialAttributeIndividual+" data value="+attributeDataValue+ " source="+source+" accession="+accession);
+                   OWLNamedIndividual materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeName);
+                   individualMatrix[row][attribute.getIndex()] = materialAttributeIndividual;
+
+                   System.out.println("MATERIAL ATTRIBUTE="+ attribute+" index="+attribute.getIndex()+" data value="+attributeDataValue+ " source="+source+" accession="+accession+ " individual"+materialAttributeIndividual);
 
 
-                   if (accession!=null && accession.startsWith("http://")){
+                   //if (accession!=null && accession.startsWith("http://")){
 
-                       System.out.println("create class assertion with "+accession);
+                   //    System.out.println("create class assertion with "+accession);
 
-                       ISA2OWL.addOWLClassAssertion(IRI.create(accession), materialAttributeIndividual);
-                   }else{
+                   //    ISA2OWL.addOWLClassAssertion(IRI.create(accession), materialAttributeIndividual);
+                   //}else{
 
-
-                       ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
-                   }
+                   ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
+                   //}
 
                    System.out.println("materialNodeIndividual="+materialNodeIndividual);
                    System.out.println("attributeName="+attributeName);
