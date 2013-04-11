@@ -29,7 +29,7 @@ public class ISA2OWLMappingParserTest {
 	
 		
 	@Test
-	public void testReadCSVMappingFile() throws Exception{
+	public void testReadISA_OBIMappingFile() throws Exception{
 		//TODO add assertions
 		URL fileURL = getClass().getClassLoader().getResource(ISA2OWLMappingParserTest.ISA_OBO_MAPPING_FILENAME);
 		parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
@@ -37,7 +37,7 @@ public class ISA2OWLMappingParserTest {
 	}
 
     @Test
-    public void testReadCSVMappingFile2() throws Exception{
+    public void testReadISA_SIOMappingFile() throws Exception{
         //TODO add assertions
         URL fileURL = getClass().getClassLoader().getResource(ISA2OWLMappingParserTest.ISA_SIO_MAPPING_FILENAME);
         parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
