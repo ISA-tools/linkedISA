@@ -15,12 +15,8 @@ import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 import org.isatools.owl.OWLUtil;
 import org.isatools.owl.ReasonerService;
 import org.isatools.util.Pair;
-import org.semanticweb.owlapi.io.OWLOntologyDocumentTarget;
-import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
-import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
-import org.coode.owlapi.manchesterowlsyntax.ManchesterOWLSyntaxOntologyFormat;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import java.io.File;
@@ -47,6 +43,7 @@ public class ISAtab2OWLConverter {
     private Map<Publication, OWLNamedIndividual> publicationIndividualMap = null;
     private Map<Contact, OWLNamedIndividual> contactIndividualMap = null;
     private Map<String, OWLNamedIndividual> protocolIndividualMap = null;
+    private Map<String, OWLNamedIndividual> sampleIndividualMap = null;
 
     /**
      * Constructor
@@ -99,8 +96,11 @@ public class ISAtab2OWLConverter {
         Investigation investigation = importer.getInvestigation();
         //processSourceOntologies();
 
-        System.out.println("investigation=" + investigation);
+
+        System.out.println("investigation--->" + investigation);
         log.debug("investigation=" + investigation);
+
+        System.out.println("Ontology selection history--->"+OntologyManager.getOntologySelectionHistory());
 
         convertInvestigation(investigation);
 
@@ -267,7 +267,7 @@ public class ISAtab2OWLConverter {
         convertProtocols(protocolList);
 
         Assay2OWLConverter assay2OWLConverter = new Assay2OWLConverter();
-        assay2OWLConverter.convert(study.getStudySample(), Assay2OWLConverter.AssayTableType.STUDY, protocolList, protocolIndividualMap,studyDesignIndividual, true);
+        sampleIndividualMap = assay2OWLConverter.convert(study.getStudySample(), Assay2OWLConverter.AssayTableType.STUDY, null, protocolList, protocolIndividualMap,studyDesignIndividual, true);
 
         System.out.println("ASSAYS..." + study.getAssays());
 
@@ -581,7 +581,7 @@ public class ISAtab2OWLConverter {
             ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference());
 
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
-            assayConverter.convert(assay, Assay2OWLConverter.AssayTableType.ASSAY, protocolList, protocolIndividualMap, null, false);
+            assayConverter.convert(assay, Assay2OWLConverter.AssayTableType.ASSAY, sampleIndividualMap, protocolList, protocolIndividualMap, null, false);
         }
 
     }

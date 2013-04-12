@@ -29,12 +29,12 @@ public class Assay2OWLConverter {
 
     public enum AssayTableType { STUDY, ASSAY} ;
 
+    //private fields
+    private AssayTableType assayTableType;
     private GraphParser graphParser = null;
     private Object[][] data = null;
-
     //a matrix will all the individuals for the data (these are MaterialNodes or ProcessNodes individuals
     private OWLNamedIndividual[][] individualMatrix = null;
-
     private Map<MaterialNode, Map<String,OWLNamedIndividual>> materialNodeIndividualMap = new HashMap<MaterialNode, Map<String,OWLNamedIndividual>>();
     private Map<Integer, OWLNamedIndividual> processIndividualMap = new HashMap<Integer, OWLNamedIndividual>();
 
@@ -43,9 +43,10 @@ public class Assay2OWLConverter {
         log.info("Assay2OWLConverter - constructor");
     }
 
-    public void convert(Assay assay, AssayTableType assayTableType, List<Protocol> protocolList, Map<String, OWLNamedIndividual> protocolIndividualMap, OWLNamedIndividual studyDesignIndividual, boolean convertGroups){
+    public Map<String, OWLNamedIndividual> convert(Assay assay, AssayTableType att, Map<String,OWLNamedIndividual> sampleIndividualMap, List<Protocol> protocolList, Map<String, OWLNamedIndividual> protocolIndividualMap, OWLNamedIndividual studyDesignIndividual, boolean convertGroups){
+        System.out.println("CONVERTING ASSAY ---> AssayTableType="+att);
 
-        System.out.println("CONVERTING ASSAY");
+        assayTableType = att;
 
         data = assay.getAssayDataMatrix();
 
@@ -55,7 +56,18 @@ public class Assay2OWLConverter {
         graphParser.parse();
         Graph graph = graphParser.getGraph();
 
-        convertMaterialNodes(graph);
+        //if it is a study table
+        if (assayTableType == AssayTableType.STUDY && sampleIndividualMap!=null){
+          System.err.println("Converting STUDY table and sample individuals are not null - this cannot be possible");
+          System.exit(-1);
+        }
+
+        if (assayTableType == AssayTableType.ASSAY && sampleIndividualMap==null){
+            System.err.println("Converting ASSAY table and sample individuals are null - they should have been defined in the STUDY table");
+            System.exit(-1);
+        }
+
+        sampleIndividualMap = convertMaterialNodes(graph, sampleIndividualMap);
         convertDataNodes(graph);
 
         //TODO remove after debugging
@@ -72,6 +84,8 @@ public class Assay2OWLConverter {
         if (convertGroups){
             convertGroups(studyDesignIndividual);
         }
+
+        return sampleIndividualMap;
     }
 
     private void convertAssayNodes(Map<String, OWLNamedIndividual> protocolIndividualMap, Graph graph) {
@@ -282,8 +296,23 @@ public class Assay2OWLConverter {
     }
     }
 
-    private void convertMaterialNodes(Graph graph) {
+    /***
+     *
+     * Creates the RDF for the material nodes
+     *
+     * @param graph the ISA-TAB files parsed as a graph
+     * @param sampleIndividualMap a map with the individuals corresponding to samples, this is null for a STUDY table
+     * @return
+     */
+    private Map<String, OWLNamedIndividual> convertMaterialNodes(Graph graph, Map<String, OWLNamedIndividual> sampleIndividualMap) {
         OWLNamedIndividual materialNodeIndividual = null;
+
+
+        boolean sampleIndividualMapWasNull = (sampleIndividualMap==null);
+
+        if (sampleIndividualMapWasNull){
+            sampleIndividualMap = new HashMap<String, OWLNamedIndividual>();
+        }
 
         //Material Nodes
         List<Node> materialNodes = graph.getNodes(NodeType.MATERIAL_NODE);
@@ -295,6 +324,12 @@ public class Assay2OWLConverter {
             MaterialNode materialNode = (MaterialNode) node;
             System.out.println("MATERIAL NODE="+node);
 
+            //if the material node is a sample, and the sampleIndividualMap is not null, use the samples in the Map and only add Characteristics (but don't create new individuals)
+            boolean createIndividualForMaterialNode = true;
+            if (materialNode.getMaterialNodeType() == ExtendedISASyntax.SAMPLE && !sampleIndividualMapWasNull){
+                createIndividualForMaterialNode = false;
+            }
+
             int col = materialNode.getIndex();
 
             for(int row=1; row < data.length; row++){
@@ -304,31 +339,44 @@ public class Assay2OWLConverter {
                 if (dataValue.equals(""))
                     continue;
 
-                //Material Node
 
-                materialNodeIndividual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), dataValue, materialNode.getMaterialNodeType());
-                System.out.println("material node individual="+materialNode.getMaterialNodeType()+" "+ dataValue );
-                individualMatrix[row][col] = materialNodeIndividual;
-                materialNodeIndividuals.put(materialNode.getMaterialNodeType(), materialNodeIndividual);
+                if ( createIndividualForMaterialNode ){
 
-                //Material Node Annotation
-                System.out.println("=====Material Node Annotation=====");
-                String purl = OntologyManager.getOntologyTermPurl(dataValue);
-                if (purl!=null && !purl.equals("")){
+                    //Material Node
 
-                   System.out.println("If there is a PURL, use it! "+purl);
+                    materialNodeIndividual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), dataValue, materialNode.getMaterialNodeType());
+                    System.out.println("material node individual="+materialNode.getMaterialNodeType()+" "+ dataValue );
 
-                }else{
+                    if (materialNode.getMaterialNodeType() == ExtendedISASyntax.SAMPLE && sampleIndividualMapWasNull){
+                            sampleIndividualMap.put(materialNode.getName(), materialNodeIndividual);
+                    }
 
-                    String source = OntologyManager.getOntologyTermSource(dataValue);
-                    String accession = OntologyManager.getOntologyTermAccession(dataValue);
-                    ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
+                    individualMatrix[row][col] = materialNodeIndividual;
+                    materialNodeIndividuals.put(materialNode.getMaterialNodeType(), materialNodeIndividual);
+
+                    //Material Node Annotation
+                    System.out.println("=====Material Node Annotation=====");
+                    String purl = OntologyManager.getOntologyTermPurl(dataValue);
+                    if (purl!=null && !purl.equals("")){
+
+                        System.out.println("If there is a PURL, use it! "+purl);
+
+                    }else{
+
+                        String source = OntologyManager.getOntologyTermSource(dataValue);
+                        String accession = OntologyManager.getOntologyTermAccession(dataValue);
+                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
+
+                    }
+
+                    //Material Node Name
+                    OWLNamedIndividual materialNodeIndividualName = ISA2OWL.createIndividual(materialNode.getName(),dataValue);
+                    materialNodeIndividuals.put(materialNode.getName(), materialNodeIndividualName);
+
+                } else {
+                    materialNodeIndividual = sampleIndividualMap.get(materialNode.getName());
 
                 }
-
-                //Material Node Name
-                OWLNamedIndividual materialNodeIndividualName = ISA2OWL.createIndividual(materialNode.getName(),dataValue);
-                materialNodeIndividuals.put(materialNode.getName(), materialNodeIndividualName);
 
                 //material node attributes
                 List<MaterialAttribute> attributeList = materialNode.getMaterialAttributes();
@@ -337,6 +385,7 @@ public class Assay2OWLConverter {
 
                for(MaterialAttribute attribute: attributeList){
 
+                   //column information
                    String attributeString = attribute.getName();
                    String attributeName = null;
                    String attributeType = null;
@@ -348,47 +397,57 @@ public class Assay2OWLConverter {
                        attributeName = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
                    }
 
-                   //TODO differentiate between organism and other qualities/characteristics
+                   //row information
                    String attributeDataValue = data[row][attribute.getIndex()].toString();
+
+
+
+                   System.out.println("attributeDataValue ="+attributeDataValue);
+
+
+                   OWLNamedIndividual materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeName);
+
+
+
+                   if (attributeType!=null){
+                       String source = OntologyManager.getOntologyTermSource("NCBITaxon:Eukaryota");
+                       String accession = OntologyManager.getOntologyTermAccession("NCBITaxon:Eukaryota");
+                       System.out.println(" source="+source+" accession="+accession);
+                       ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
+
+                   }
+
+
+
                    String source = OntologyManager.getOntologyTermSource(attributeDataValue);
                    String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
 
-                   OWLNamedIndividual materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeName);
                    individualMatrix[row][attribute.getIndex()] = materialAttributeIndividual;
 
                    System.out.println("MATERIAL ATTRIBUTE="+ attribute+" index="+attribute.getIndex()+" data value="+attributeDataValue+ " source="+source+" accession="+accession+ " individual"+materialAttributeIndividual);
 
-
-                   //if (accession!=null && accession.startsWith("http://")){
-
-                   //    System.out.println("create class assertion with "+accession);
-
-                   //    ISA2OWL.addOWLClassAssertion(IRI.create(accession), materialAttributeIndividual);
-                   //}else{
-
                    ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
-                   //}
 
                    System.out.println("materialNodeIndividual="+materialNodeIndividual);
                    System.out.println("attributeName="+attributeName);
                    System.out.println("attributeType="+attributeType);
 
-                   if (materialNodeIndividual!=null){
-
-                       OWLObjectProperty hasQuality = ISA2OWL.factory.getOWLObjectProperty(BFOVocabulary.HAS_QUALITY.iri);
-
-                       if (attributeType!=null)
-                           materialAttributeIndividual = ISA2OWL.createIndividual(attributeName, IRI.create(attributeType));
-                       else
-                           materialAttributeIndividual = ISA2OWL.factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI));
-
-                       System.out.println("attributeIndividual="+materialAttributeIndividual);
-                       OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasQuality, materialNodeIndividual, materialAttributeIndividual);
-
-                       System.out.println("attribute axiom"+axiom);
-
-                       ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
-                   }
+//                   if (materialNodeIndividual!=null){
+//
+//                       OWLObjectProperty hasQuality = ISA2OWL.factory.getOWLObjectProperty(BFOVocabulary.HAS_QUALITY.iri);
+//
+//                       if (attributeType!=null)
+//                           materialAttributeIndividual = ISA2OWL.createIndividual(attributeName, IRI.create(attributeType));
+//                       else
+//                           materialAttributeIndividual = ISA2OWL.factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI));
+//
+//                       System.out.println("attributeIndividual="+materialAttributeIndividual);
+//                       OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasQuality, materialNodeIndividual, materialAttributeIndividual);
+//
+//                       System.out.println("attribute axiom"+axiom);
+//
+//                       ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
+//                   }
 
 
                    /***** commenting this out for now
@@ -416,10 +475,13 @@ public class Assay2OWLConverter {
 
                 System.out.println("Material Node Individuals="+materialNodeIndividuals);
 
-                Map<String, List<Pair<IRI,String>>> materialNodeMapping = ISA2OWL.mapping.getMaterialNodePropertyMappings();
-                ISA2OWL.convertProperties(materialNodeMapping,materialNodeIndividuals);
+               // Map<String, List<Pair<IRI,String>>> materialNodePropertyMapping = ISA2OWL.mapping.getMaterialNodePropertyMappings();
+               // ISA2OWL.convertProperties(materialNodePropertyMapping,materialNodeIndividuals);
             }
         }
+
+        return sampleIndividualMap;
+
     }
 
     private void convertGroups(OWLNamedIndividual studyDesignIndividual){
