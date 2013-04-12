@@ -1,8 +1,8 @@
 ONTOLOGY SOURCE REFERENCE
-Term Source Name	"OBI"	"MS"	"MA"	"EFO"	"NCBITaxon"	
-Term Source File	"http://bioportal.bioontology.org/ontologies/47893"	"http://bioportal.bioontology.org/ontologies/49854"	"http://bioportal.bioontology.org/ontologies/46004"	"http://bioportal.bioontology.org/ontologies/49794"	"http://bioportal.bioontology.org/ontologies/47845"	
-Term Source Version	"47893"	"49854"	"46004"	"49794"	"47845"	
-Term Source Description	"Ontology for Biomedical Investigations"	"PSI Mass Spectrometry Ontology"	"Mouse Adult Gross Anatomy"	"ArrayExpress Experimental Factor Ontology"	"NCBI organismal classification"	
+Term Source Name	"OBI"	"MS"	"EFO"	"NCBITaxon"	"UBERON"	""
+Term Source File	"http://bioportal.bioontology.org/ontologies/47893"	"http://bioportal.bioontology.org/ontologies/49854"	"http://bioportal.bioontology.org/ontologies/49794"	"http://bioportal.bioontology.org/ontologies/47845"	"http://bioportal.bioontology.org/ontologies/49995"	""
+Term Source Version	"47893"	"49854"	"49794"	"47845"	"49995"	""
+Term Source Description	"Ontology for Biomedical Investigations"	"PSI Mass Spectrometry Ontology"	"ArrayExpress Experimental Factor Ontology"	"NCBI organismal classification"	"Uber anatomy ontology"	""
 INVESTIGATION
 Investigation Identifier	""
 Investigation Title	""
