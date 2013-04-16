@@ -490,15 +490,21 @@ public class Assay2OWLConverter {
 
         for(String group : groups.keySet()){
 
+            System.out.println("group="+group);
+
             Set<String> elements = groups.get(group);
 
             OWLNamedIndividual groupIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_GROUP, group);
+
+            System.out.println("groupIndividual="+groupIndividual);
 
             //group membership
             for(String element: elements){
                 System.out.println("element="+element);
                 System.out.println("ISA2OWL.idIndividualMap="+ISA2OWL.idIndividualMap);
+                System.out.println("groupIndividual="+groupIndividual);
                 OWLNamedIndividual memberIndividual = ISA2OWL.idIndividualMap.get(element);
+                System.out.println("memberIndividual="+memberIndividual);
                 OWLObjectProperty hasMember = ISA2OWL.factory.getOWLObjectProperty(ExtendedOBIVocabulary.HAS_MEMBER.iri);
                 OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasMember, groupIndividual, memberIndividual);
                 ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);

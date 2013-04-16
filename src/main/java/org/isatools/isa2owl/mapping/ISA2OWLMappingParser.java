@@ -68,6 +68,8 @@ public class ISA2OWLMappingParser {
 	    
 	    	while ((nextLine = csvReader.readNext()) != null) {
 
+                if (nextLine!=null && nextLine[0].startsWith("#"))
+                  continue;
 
 	    		if (nextLine!=null && MappingFileField.isMappingField(nextLine[0])){
 	    			currentField = MappingFileField.getField(nextLine[0]);
