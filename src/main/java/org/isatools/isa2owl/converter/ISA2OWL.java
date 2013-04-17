@@ -184,6 +184,13 @@ public class ISA2OWL {
         return individual;
     }
 
+    /***
+     *
+     * Given the property mappings and the relevant individuals, it builds the OWL constructs.
+     *
+     * @param propertyMappings
+     * @param typeIndividualM
+     */
     public static void convertProperties(Map<String, List<Pair<IRI, String>>> propertyMappings, Map<String, OWLNamedIndividual> typeIndividualM){
 
         for(String subjectString: propertyMappings.keySet()){
