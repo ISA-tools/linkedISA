@@ -387,90 +387,69 @@ public class Assay2OWLConverter {
 
                    //column information
                    String attributeString = attribute.getName();
-                   String attributeName = null;
-                   String attributeType = null;
+                   String attributeSource = null;
+                   String attributeTerm = null;
+                   String attributeAccession = null;
 
-                   if (attributeString.contains("(")){
-                       attributeName = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("("));
-                       attributeType = attributeString.substring(attributeString.indexOf("(")+1, attributeString.indexOf(")"));
+                   if (attributeString.contains("-")){
+                       attributeString = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
+                       String[] parts =  attributeString.split("-");
+
+                       attributeSource = parts[0];
+                       attributeTerm = parts[1];
+                       attributeAccession = parts[2];
+
                    }else{
-                       attributeName = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
+
+                       attributeTerm = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
                    }
 
                    //row information
                    String attributeDataValue = data[row][attribute.getIndex()].toString();
 
-
-
                    System.out.println("attributeDataValue ="+attributeDataValue);
 
+                   OWLNamedIndividual materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeTerm);
+                   individualMatrix[row][attribute.getIndex()] = materialAttributeIndividual;
 
-                   OWLNamedIndividual materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeName);
+                   //the column is annotated with an ontology
+                   if (attributeSource!=null && attributeAccession!=null){
 
+                       if (isOrganism(attributeSource, attributeAccession))  {
 
+                           ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialNodeIndividual);
 
-                   if (attributeType!=null){
-                       String source = OntologyManager.getOntologyTermSource("NCBITaxon:Eukaryota");
-                       String accession = OntologyManager.getOntologyTermAccession("NCBITaxon:Eukaryota");
-                       System.out.println(" source="+source+" accession="+accession);
-                       ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
+                       } else {
+
+                            ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialAttributeIndividual);
+                       }
 
                    }
 
-
-
+                   //deal with the attribute
                    String source = OntologyManager.getOntologyTermSource(attributeDataValue);
                    String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
 
-                   individualMatrix[row][attribute.getIndex()] = materialAttributeIndividual;
-
                    System.out.println("MATERIAL ATTRIBUTE="+ attribute+" index="+attribute.getIndex()+" data value="+attributeDataValue+ " source="+source+" accession="+accession+ " individual"+materialAttributeIndividual);
 
-                   ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
 
-                   System.out.println("materialNodeIndividual="+materialNodeIndividual);
-                   System.out.println("attributeName="+attributeName);
-                   System.out.println("attributeType="+attributeType);
+                   //the attribute is annotated
+                   if (source!=null && accession!=null){
 
-//                   if (materialNodeIndividual!=null){
-//
-//                       OWLObjectProperty hasQuality = ISA2OWL.factory.getOWLObjectProperty(BFOVocabulary.HAS_QUALITY.iri);
-//
-//                       if (attributeType!=null)
-//                           materialAttributeIndividual = ISA2OWL.createIndividual(attributeName, IRI.create(attributeType));
-//                       else
-//                           materialAttributeIndividual = ISA2OWL.factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI));
-//
-//                       System.out.println("attributeIndividual="+materialAttributeIndividual);
-//                       OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasQuality, materialNodeIndividual, materialAttributeIndividual);
-//
-//                       System.out.println("attribute axiom"+axiom);
-//
-//                       ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
-//                   }
+                    if (isOrganism(source, accession)){
+
+                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
+
+                    } else {
+
+                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
 
 
-                   /***** commenting this out for now
-
-
-//                        //if attributeType is an independent continuant, the individual is of that type
-//                        boolean isIndependentContinuant = ISA2OWL.reasonerService.isSuperClass(ISA2OWL.getOWLClass(IRI.create(attributeType)), ISA2OWL.getOWLClass(ISA2OWL.BFO_INDEPENDENT_CONTINUANT_IRI), false);
-//
-//                        if (isIndependentContinuant)
-//                            ISA2OWL.addOWLClassAssertion(IRI.create(attributeType), individual);
-
-                   }else if (accession!=null && accession.startsWith("http://")){
-                        ISA2OWL.addOWLClassAssertion(IRI.create(accession), materialAttributeIndividual);
-                   }else{
-                       ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
+                    }
                    }
 
-                   System.out.println("materialNodeIndividual="+materialNodeIndividual);
-                   System.out.println("attributeName="+attributeName);
-                   System.out.println("attributeType="+attributeType);
 
-                    *******/
-               }
+               } //for attribute
 
 
                 System.out.println("Material Node Individuals="+materialNodeIndividuals);
@@ -532,6 +511,16 @@ public class Assay2OWLConverter {
         }
     }
 
+    private boolean isOrganism(String source, String accession){
+
+        if (source.equals("NCBITaxon") || source.equals("UBERON"))
+            return true;
+
+        if (accession.contains("NCBITaxon"))
+            return true;
+
+        return false;
+    }
 
 
 }
