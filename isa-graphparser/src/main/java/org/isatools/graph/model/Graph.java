@@ -67,7 +67,7 @@ public class Graph {
     }
 
     /**
-     * Prints out the graph
+     * Prints out the org.isatools.graph
      */
     public void outputGraph() {
         for (Node n : getNodes()) {

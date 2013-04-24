@@ -1,5 +1,7 @@
 package org.isatools.graph.model;
 
+import sun.security.provider.certpath.Vertex;
+
 /**
  * Created by the ISA team
  *
@@ -8,7 +10,7 @@ package org.isatools.graph.model;
  *         Date: 10/10/2011
  *         Time: 10:06
  */
-public abstract class Node {
+public abstract class Node  {
 
     private int index;
     private String name;

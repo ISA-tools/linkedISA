@@ -1,4 +1,4 @@
-package org.isatools.isa2owl.converter;
+package org.isatools.syntax;
 
 /**
  * Created by the ISATeam.
