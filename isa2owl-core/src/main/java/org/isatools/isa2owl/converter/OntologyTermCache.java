@@ -1,4 +1,4 @@
-package org.isatools.isa2owl.converter;
+package main.java.org.isatools.isa2owl.converter;
 
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 

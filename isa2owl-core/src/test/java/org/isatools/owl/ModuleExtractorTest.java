@@ -7,7 +7,6 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
