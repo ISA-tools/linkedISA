@@ -10,6 +10,9 @@ import org.junit.Test;
 
 import java.util.Map;
 
+//import org.junit.Before;
+//import org.junit.Test;
+
 /**
  * Created by the ISATeam.
  * User: agbeltran
@@ -30,31 +33,32 @@ public class GraphParserTest {
     public void setUp(){
         baseDir = System.getProperty("user.dir");
         System.out.println("baseDir="+baseDir);
-        configDir = baseDir + "/src/test/resources/configurations/isaconfig-default_v2011-02-18/";
+        configDir = baseDir + "/../target/test-classes/configurations/isaconfig-default_v2011-02-18/";
 
     }
 
     @Test
     public void parseTest1(){
-        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/GWAS-E-GEOD-11948-corrected-with-publication";
+        isatabParentDir = baseDir + "/../target/test-classes/ISAtab-Datasets/GWAS-E-GEOD-11948-corrected-with-publication";
         graphParser();
     }
 
     @Test
     public void parserTest2(){
-        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/MTBLS6";
+        isatabParentDir = baseDir + "/../target/test-classes/ISAtab-Datasets/MTBLS6";
         graphParser();
     }
 
     @Test
     public void parserTest3(){
-        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
+        isatabParentDir = baseDir + "/../target/test-classes/ISAtab-Datasets/faahKO";
         graphParser();
     }
 
+
     @Test
     public void parserTest4(){
-        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faah_archive_curated";
+        isatabParentDir = baseDir + "/../target/test-classes/ISAtab-Datasets/MTBLS2";
         graphParser();
     }
 
@@ -72,7 +76,7 @@ public class GraphParserTest {
 
         Investigation investigation = importer.getInvestigation();
 
-        log.info("investigation="+investigation);
+        System.out.println("investigation="+investigation);
 
         Map<String, Study> studies = investigation.getStudies();
         for(String studyId: studies.keySet()){

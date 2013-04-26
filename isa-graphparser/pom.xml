@@ -9,26 +9,40 @@
     <url>http://maven.apache.org</url>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.11</version>
-                    <configuration>
-                        <runOrder>random</runOrder>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <sourceDirectory>src/main</sourceDirectory>
+        <testSourceDirectory>src/test</testSourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
+
+
+    <repositories>
+        <repository>
+            <id>oerc</id>
+            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/repositories/releases/</url>
+        </repository>
+
+        <repository>
+            <id>Sonatype repository</id>
+            <name>Sonatype's Maven repository</name>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
+        </repository>
+
+        <repository>
+            <id>on.cs.unibas.ch</id>
+            <name>DBIS Maven Releases Repository</name>
+            <url>http://on.cs.unibas.ch/maven/repository</url>
+        </repository>
+
+    </repositories>
 
     <dependencies>
 
@@ -41,7 +55,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>4.10</version>
         </dependency>
 
     </dependencies>
