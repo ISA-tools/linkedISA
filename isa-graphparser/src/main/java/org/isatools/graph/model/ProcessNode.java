@@ -16,11 +16,16 @@ public class ProcessNode extends Node {
 
     public static final String REGEXP = "Protocol REF";
 
-    private List<Node> inputNodes = new ArrayList<Node>();
-    private List<Node> outputNodes = new ArrayList<Node>();
+    private List<Node> inputNodes = null;
+    private List<Node> outputNodes = null;
+    private List<ProcessParameter> parameters = null;
 
     public ProcessNode(int index, String name) {
         super(index, name);
+        inputNodes = new ArrayList<Node>();
+        outputNodes = new ArrayList<Node>();
+        parameters = new ArrayList<ProcessParameter>();
+
     }
 
     public void addInputNode(Node inputNode) {
@@ -31,6 +36,10 @@ public class ProcessNode extends Node {
         outputNodes.add(outputNode);
     }
 
+    public void addParameter(ProcessParameter p){
+        parameters.add(p);
+    }
+
     public List<Node> getInputNodes() {
         return inputNodes;
     }
@@ -39,9 +48,19 @@ public class ProcessNode extends Node {
         return outputNodes;
     }
 
+    public List<ProcessParameter> getParameters(){
+        return parameters;
+    }
+
     public String toString(){
         StringBuffer buffer = new StringBuffer();
         buffer.append("ProcessNode: "+getName()+"\n");
+
+        if (getParameters() !=null){
+            for (ProcessParameter parameter : getParameters()) {
+                buffer.append("\t parameter: " + parameter.getName()+"\n");
+            }
+        }
 
         if (getInputNodes() != null) {
             for (Node inputNode : getInputNodes()) {

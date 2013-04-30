@@ -33,32 +33,32 @@ public class GraphParserTest {
     public void setUp(){
         baseDir = System.getProperty("user.dir");
         System.out.println("baseDir="+baseDir);
-        configDir = baseDir + "/../target/test-classes/configurations/isaconfig-default_v2011-02-18/";
+        configDir = baseDir + "/target/test-classes/configurations/isaconfig-default_v2011-02-18/";
 
     }
 
     @Test
     public void parseTest1(){
-        isatabParentDir = baseDir + "/../target/test-classes/ISAtab-Datasets/GWAS-E-GEOD-11948-corrected-with-publication";
+        isatabParentDir = baseDir + "/target/test-classes/ISAtab-Datasets/GWAS-E-GEOD-11948-corrected-with-publication";
         graphParser();
     }
 
     @Test
     public void parserTest2(){
-        isatabParentDir = baseDir + "/../target/test-classes/ISAtab-Datasets/MTBLS6";
+        isatabParentDir = baseDir + "/target/test-classes/ISAtab-Datasets/MTBLS6";
         graphParser();
     }
 
     @Test
     public void parserTest3(){
-        isatabParentDir = baseDir + "/../target/test-classes/ISAtab-Datasets/faahKO";
+        isatabParentDir = baseDir + "/target/test-classes/ISAtab-Datasets/faahKO";
         graphParser();
     }
 
 
     @Test
     public void parserTest4(){
-        isatabParentDir = baseDir + "/../target/test-classes/ISAtab-Datasets/MTBLS2";
+        isatabParentDir = baseDir + "/target/test-classes/ISAtab-Datasets/MTBLS2";
         graphParser();
     }
 

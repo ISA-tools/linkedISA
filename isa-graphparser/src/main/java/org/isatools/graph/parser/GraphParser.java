@@ -104,6 +104,14 @@ public class GraphParser {
                     lastProcess.addOutputNode(materialNode);
                     lastProcess = null;
                 }
+            } else if (column.matches(ProcessParameter.REGEXP)){
+
+                ProcessParameter parameter = new ProcessParameter(index, column);
+
+                if (lastProcess!=null){
+                    ((ProcessNode)graph.getNode(lastProcess.getIndex())).addParameter(parameter);
+                }
+
             }
             index++;
         }
