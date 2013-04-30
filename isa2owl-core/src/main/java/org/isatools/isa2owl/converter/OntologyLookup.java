@@ -19,6 +19,7 @@ public class OntologyLookup {
 
     //this list will be populated only once with a query to bioportal
     private static List<org.isatools.isacreator.configuration.Ontology> allOntologies = null;
+    private static OntologyLookupCache cache = new OntologyLookupCache();
 
     private static void getAllOntologies(BioPortalClient client) {
         allOntologies = client.getAllOntologies();
@@ -44,6 +45,13 @@ public class OntologyLookup {
     public static String findOntologyPURL(String termSourceRef, String termAccession){
 
         System.out.println("findOntologyPURL(termSourceRef="+termSourceRef+", termAccession="+termAccession+")");
+
+        String purl = cache.getPurl(termSourceRef, termAccession);
+        if (purl!=null) {
+
+            System.out.println("IN CACHE!!! "+ termSourceRef +" " + termAccession + " " + purl);
+            return purl;
+        }
 
         if ((termSourceRef==null) || (termSourceRef=="") || (termAccession==null) || (termAccession==""))
             return "";
@@ -77,10 +85,9 @@ public class OntologyLookup {
 
             System.out.println("term====>"+term);
             if (term!=null) {
-                String purl = term.getOntologyPurl();
-
+                purl = term.getOntologyPurl();
+                cache.addSourceTermPurlMapping(termSourceRef, termAccession, purl);
                 return purl;
-
             }//term not null
 
         } //ontologySourceRefObject not null
