@@ -21,6 +21,7 @@ public class ISAtab2OWLConverterTest {
     private String baseDir = null;
 	private String configDir = null;
 	private String isatabParentDir = null;
+    private String path = null;
     private ISAtab2OWLConverter isatab2owl = null;
     private ISA2OWLMappingParser parser = null;
     private ISASyntax2OWLMapping mapping = null;
@@ -31,8 +32,9 @@ public class ISAtab2OWLConverterTest {
 
 	    baseDir = System.getProperty("user.dir");
 		System.out.println("baseDir="+baseDir);
-    	configDir = baseDir + "/src/test/resources/configurations/isaconfig-default_v2011-02-18/";
+    	configDir = baseDir + "/isa2owl-core/src/test/resources/configurations/isaconfig-default_v2011-02-18/";
     	System.out.println("configDir="+configDir);
+        path = "/isa2owl-core/src/test/resources/ISAtab-Datasets/";
 
         System.out.println("Parsing the mapping...");
 
@@ -57,7 +59,7 @@ public class ISAtab2OWLConverterTest {
 
     //@Test
     public void testConvertBII_I_1() {
-        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/BII-I-1";
+        isatabParentDir = baseDir + path+ "BII-I-1";
         System.out.println("isatabParentDir="+isatabParentDir);
 
         System.out.println("Converting the ISA-tab dataset into OWL");
@@ -85,7 +87,7 @@ public class ISAtab2OWLConverterTest {
 
     @Test
     public void testConvertFaahKO() {
-        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/faahKO";
+        isatabParentDir = baseDir + path +"faahKO";
         System.out.println("isatabParentDir="+isatabParentDir);
 
         System.out.println("Converting the ISA-tab dataset into OWL");

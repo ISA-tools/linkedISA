@@ -31,13 +31,13 @@ public class BioportalSPARQLClientTest {
     public void tearDown() {
     }
 
-    @Test
+    //@Test
     public void getVersionIDtest() throws Exception {
        ResultSet rs = client.getVersionIDs();
        client.printResults(rs);
     }
 
-    @Test
+    //@Test
     public void getOntoAcronymsTest() throws Exception {
         ResultSet results = client.getOntoAcronyms();
 

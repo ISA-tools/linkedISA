@@ -26,7 +26,7 @@ public class ModuleExtractorTest {
     @Before
     public void setUp() {
        sourceOntologyIRI = IRI.create("http://purl.obolibrary.org/obo/obi.owl");
-       sourceOntologyPhysicalIRI = IRI.create("file:/Users/agbeltran/workspace-private/isa2owl/src/main/resources/owl/obi/trunk/src/ontology/branches/obi.owl");
+       sourceOntologyPhysicalIRI = IRI.create("file:/Users/agbeltran/workspace-private/isa2owl/isa2owl-core/src/main/resources/owl/obi/trunk/src/ontology/branches/obi.owl");
        moduleExtractor = new ModuleExtractor(sourceOntologyIRI, sourceOntologyPhysicalIRI);
     }
 
