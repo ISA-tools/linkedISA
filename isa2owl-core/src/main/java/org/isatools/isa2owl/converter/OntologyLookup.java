@@ -48,7 +48,6 @@ public class OntologyLookup {
 
         String purl = cache.getPurl(termSourceRef, termAccession);
         if (purl!=null) {
-
             System.out.println("IN CACHE!!! "+ termSourceRef +" " + termAccession + " " + purl);
             return purl;
         }
@@ -86,7 +85,8 @@ public class OntologyLookup {
             System.out.println("term====>"+term);
             if (term!=null) {
                 purl = term.getOntologyPurl();
-                cache.addSourceTermPurlMapping(termSourceRef, termAccession, purl);
+                if (purl!=null)
+                    cache.addSourceTermPurlMapping(termSourceRef, termAccession, purl);
                 return purl;
             }//term not null
 

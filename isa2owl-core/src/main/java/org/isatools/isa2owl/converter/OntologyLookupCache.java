@@ -30,6 +30,7 @@ public class OntologyLookupCache {
             termPurlMap = new HashMap<String, String>();
         }
         termPurlMap.put(term, purl);
+        sourceTermPurlMap.put(source, termPurlMap);
     }
 
     public String getPurl(String source, String term){
