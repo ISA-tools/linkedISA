@@ -34,7 +34,7 @@
     <repositories>
         <repository>
             <id>oerc</id>
-            <url>http://frog.oerc.ox.ac.uk:8080/artifactory/repo/</url>
+            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/repositories/releases/</url>
         </repository>
 
         <repository>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>4.10</version>
             <scope>test</scope>
         </dependency>
 
