@@ -1,11 +1,6 @@
 package org.isatools.isa2owl.converter;
 
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
-import org.isatools.isacreator.ontologymanager.BioPortalClient;
-import org.isatools.isacreator.ontologymanager.OntologyManager;
-import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
-import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
-
 import org.isatools.owl.ReasonerService;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -62,9 +57,6 @@ public class ISA2OWL {
     public static Map<String, OWLNamedIndividual> idIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
     public static ISASyntax2OWLMapping mapping = null;
-
-    //this list will be populated only once with a query to bioportal
-    private static List<org.isatools.isacreator.configuration.Ontology> allOntologies = null;
 
     public static void setIRI(String iri){
         ontoIRI = IRI.create(iri);
@@ -222,52 +214,6 @@ public class ISA2OWL {
         }
     }
 
-    public static String findOntologyPURL(String termSourceRef, String termAccession){
-
-        System.out.println("findOntologyPURL(termSourceRef="+termSourceRef+", termAccession="+termAccession+")");
-
-        if ((termSourceRef==null) || (termSourceRef=="") || (termAccession==null) || (termAccession==""))
-            return "";
-
-        List<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
-
-        OntologySourceRefObject ontologySourceRefObject = null;
-        for(OntologySourceRefObject ontologyRef: ontologiesUsed){
-            if (termSourceRef!=null && termSourceRef.equals(ontologyRef.getSourceName())){
-                ontologySourceRefObject = ontologyRef;
-                break;
-            }
-        }
-
-        //searching term in bioportal
-        if (ontologySourceRefObject!=null){
-
-            System.out.println("Found ontology "+ontologySourceRefObject);
-            BioPortalClient client = new BioPortalClient();
-
-            if (allOntologies==null){
-                getAllOntologies(client);
-            }
-
-            String ontologyVersion = getOntologyVersion(ontologySourceRefObject.getSourceName());
-
-            OntologyTerm term = null;
-
-            if (termAccession!=null)
-                term = client.getTermInformation(termAccession, ontologyVersion);
-
-            System.out.println("term====>"+term);
-            if (term!=null) {
-                String purl = term.getOntologyPurl();
-
-              return purl;
-
-            }//term not null
-
-        } //ontologySourceRefObject not null
-
-        return null;
-    }
 
 
     public static void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
@@ -276,7 +222,7 @@ public class ISA2OWL {
         if (termSourceRef==null || termAccession==null)
             return;
 
-        String purl = ISA2OWL.findOntologyPURL(termSourceRef, termAccession);
+        String purl = OntologyLookup.findOntologyPURL(termSourceRef, termAccession);
 
         System.out.println("purl="+purl);
 
@@ -284,26 +230,5 @@ public class ISA2OWL {
             ISA2OWL.addOWLClassAssertion(IRI.create(purl), individual);
     }
 
-    private static void getAllOntologies(BioPortalClient client) {
-        allOntologies = client.getAllOntologies();
-    }
 
-
-
-    private static String getOntologyVersion(String ontologyAbbreviation){
-        System.out.println("getOntologyVersion("+ontologyAbbreviation+")");
-
-        System.out.println("allOntologies="+allOntologies);
-
-        for(org.isatools.isacreator.configuration.Ontology ontology: allOntologies ){
-
-            if (ontology.getOntologyAbbreviation().equals(ontologyAbbreviation)){
-                String version = ontology.getOntologyVersion();
-                System.out.println("version="+version);
-                return version;
-            }
-
-        }
-        return null;
-    }
 }
