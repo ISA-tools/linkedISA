@@ -26,44 +26,42 @@ public class GraphParserTest {
     private static final Logger log = Logger.getLogger(GraphParserTest.class);
 
     private String configDir = null;
-    private String baseDir = null;
-    private String isatabParentDir = null;
 
     @Before
     public void setUp(){
-        baseDir = System.getProperty("user.dir");
-        System.out.println("baseDir="+baseDir);
-        configDir = baseDir + "/target/test-classes/configurations/isaconfig-default_v2011-02-18/";
-
+        configDir = getClass().getResource("/configurations/isaconfig-default_v2011-02-18/").getFile();
+        System.out.println("configDir="+configDir);
     }
 
     @Test
     public void parseTest1(){
-        isatabParentDir = baseDir + "/target/test-classes/ISAtab-Datasets/GWAS-E-GEOD-11948-corrected-with-publication";
-        graphParser();
+        String isatabParentDir = getClass().getResource("/ISAtab-Datasets/GWAS-E-GEOD-11948-corrected-with-publication").getFile();
+        graphParser(isatabParentDir);
     }
 
     @Test
     public void parserTest2(){
-        isatabParentDir = baseDir + "/target/test-classes/ISAtab-Datasets/MTBLS6";
-        graphParser();
+        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/MTBLS6").getFile();
+        graphParser(isatabParentDir);
     }
 
     @Test
     public void parserTest3(){
-        isatabParentDir = baseDir + "/target/test-classes/ISAtab-Datasets/faahKO";
-        graphParser();
+        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/faahKO").getFile();
+        graphParser(isatabParentDir);
     }
 
 
     @Test
     public void parserTest4(){
-        isatabParentDir = baseDir + "/target/test-classes/ISAtab-Datasets/MTBLS2";
-        graphParser();
+        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/MTBLS2").getFile();
+        graphParser(isatabParentDir);
     }
 
-    private void graphParser(){
+    private void graphParser(String isatabParentDir){
         //Import ISAtab dataset
+        System.out.println("configDir="+configDir);
+
         ISAtabFilesImporter importer = new ISAtabFilesImporter(configDir);
 
         System.out.println("isatabParentDir="+isatabParentDir);
