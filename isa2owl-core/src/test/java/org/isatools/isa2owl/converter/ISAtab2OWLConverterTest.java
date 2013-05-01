@@ -18,7 +18,6 @@ import java.net.URL;
  */
 public class ISAtab2OWLConverterTest {
 
-    private String baseDir = null;
 	private String configDir = null;
 	private String isatabParentDir = null;
     private String path = null;
@@ -30,11 +29,9 @@ public class ISAtab2OWLConverterTest {
 	@Before
     public void setUp() throws Exception {
 
-	    baseDir = System.getProperty("user.dir");
-		System.out.println("baseDir="+baseDir);
-    	configDir = baseDir + "/isa2owl-core/src/test/resources/configurations/isaconfig-default_v2011-02-18/";
+    	configDir = getClass().getResource("/configurations/isaconfig-default_v2011-02-18/").getFile();
     	System.out.println("configDir="+configDir);
-        path = "/isa2owl-core/src/test/resources/ISAtab-Datasets/";
+        path = "/ISAtab-Datasets/";
 
         System.out.println("Parsing the mapping...");
 
@@ -57,63 +54,47 @@ public class ISAtab2OWLConverterTest {
     public void tearDown() {
     }
 
-    //@Test
+    @Test
     public void testConvertBII_I_1() {
-        isatabParentDir = baseDir + path+ "BII-I-1";
+        isatabParentDir = getClass().getResource(path+"BII-I-1").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
-
         System.out.println("Converting the ISA-tab dataset into OWL");
-
         assert(isatab2owl.convert(isatabParentDir, iri));
-
         isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/BII-I-1.owl");
-
     }
 
 
     @Test
     public void testConvertMTBLS6() {
-        isatabParentDir = baseDir + path+  "MTBLS6";
+        isatabParentDir = getClass().getResource( path+  "MTBLS6").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
-
         System.out.println("Converting the ISA-tab dataset into OWL");
-
         assert(isatab2owl.convert(isatabParentDir, iri));
-
         isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/MTBLS6.owl");
-
     }
 
 
     @Test
     public void testConvertFaahKO() {
-        isatabParentDir = baseDir + path +"faahKO";
+        isatabParentDir = getClass().getResource( path +"faahKO").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
-
         System.out.println("Converting the ISA-tab dataset into OWL");
-
         assert(isatab2owl.convert(isatabParentDir, iri));
-
         isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/faahko.owl");
-
     }
 
-    //@Test
+    @Test
     public void testConvertT12by2strainsex() {
-        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/T1-2x2-strain-sex";
+        isatabParentDir = getClass().getResource( path + "T1-2x2-strain-sex").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
-
         System.out.println("Converting the ISA-tab dataset into OWL");
-
         assert(isatab2owl.convert(isatabParentDir, iri));
-
         isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/T1.owl");
-
     }
 
-    //@Test
+    @Test
     public void testConvertT3() {
-        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/T3";
+        isatabParentDir = getClass().getResource( path + "T3").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
 
         System.out.println("Converting the ISA-tab dataset into OWL");
@@ -126,39 +107,29 @@ public class ISAtab2OWLConverterTest {
 
     @Test
     public void testConvertT4() {
-        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/T4";
+        isatabParentDir = getClass().getResource(path + "T4").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
-
         System.out.println("Converting the ISA-tab dataset into OWL");
-
         assert(isatab2owl.convert(isatabParentDir, iri));
-
         isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/T4.owl");
     }
 
     @Test
     public void testConvertGWAS() {
-        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/GWAS-E-GEOD-11948-corrected-with-publication";
+        isatabParentDir = getClass().getResource( path +"GWAS-E-GEOD-11948-corrected-with-publication").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
-
         System.out.println("Converting the ISA-tab dataset into OWL");
-
         assert(isatab2owl.convert(isatabParentDir, iri));
-
         isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/GWAS.owl");
     }
 
     @Test
     public void testConvertEGEOD() {
-        isatabParentDir = baseDir + "/src/test/resources/ISAtab-Datasets/E-GEOD-25835-MPBRCA1";
+        isatabParentDir = getClass().getResource( path + "E-GEOD-25835-MPBRCA1").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
-
         System.out.println("Converting the ISA-tab dataset into OWL");
-
         assert(isatab2owl.convert(isatabParentDir, iri));
-
         isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/E-GEOD-25835-MPBRCA1.owl");
     }
-
 
 }
