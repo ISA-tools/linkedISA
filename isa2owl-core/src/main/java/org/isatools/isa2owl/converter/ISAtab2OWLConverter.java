@@ -111,7 +111,7 @@ public class ISAtab2OWLConverter {
 
         //initialise the map of individuals
         ISA2OWL.typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
-        ISA2OWL.typeIdIndividualMap = new HashMap<String, Map<String, OWLNamedIndividual>>();
+
         publicationIndividualMap = new HashMap<Publication, OWLNamedIndividual>();
         contactIndividualMap = new HashMap<Contact, OWLNamedIndividual>();
         protocolIndividualMap = new HashMap<String, OWLNamedIndividual>();

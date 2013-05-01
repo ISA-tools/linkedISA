@@ -104,48 +104,46 @@ public class Assay2OWLConverter {
                 OWLNamedIndividual assayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, dataValue);
 
                 //realizes o concretizes (executes) associated protocol
-                //TODO fix this
-                ProcessNode processNode = ((AssayNode)assayNode).getAssociatedProcessNodes().get(0);
-                int protocolColumn = processNode.getIndex();
-                String protocolName = (String)data[row][protocolColumn];
+                List<ProcessNode> associatedProcessNodes = assayNode.getAssociatedProcessNodes();
+                for(ProcessNode processNode: associatedProcessNodes){
 
-                OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(protocolName);
-                OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ExtendedOBIVocabulary.EXECUTES.iri);
-                OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,assayIndividual, protocolIndividual);
-                ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
+                    int protocolColumn = processNode.getIndex();
+                    String protocolName = (String)data[row][protocolColumn];
 
-                //inputs & outputs
-                //adding inputs and outputs to the assay
-                OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(OBIVocabulary.HAS_SPECIFIED_INPUT.iri);
-                List<Node> inputs = assayNode.getInputNodes();
-                for(Node input: inputs){
-                    int inputCol = input.getIndex();
-                    System.out.println("inputCol="+inputCol);
+                    OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(protocolName);
+                    OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ExtendedOBIVocabulary.EXECUTES.iri);
+                    OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,assayIndividual, protocolIndividual);
+                    ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
 
-                    if (!data[row][inputCol].toString().equals("")){
-                        OWLObjectPropertyAssertionAxiom axiom2 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_specified_input, assayIndividual, individualMatrix[row][inputCol]);
-                        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom2);
-                    }
+                    //inputs & outputs
+                    //adding inputs and outputs to the assay
+                    OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(OBIVocabulary.HAS_SPECIFIED_INPUT.iri);
+                    List<Node> inputs = assayNode.getInputNodes();
+                    for(Node input: inputs){
+                        int inputCol = input.getIndex();
+                        System.out.println("inputCol="+inputCol);
 
-                    //}//for row
+                        if (!data[row][inputCol].toString().equals("")){
+                            OWLObjectPropertyAssertionAxiom axiom2 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_specified_input, assayIndividual, individualMatrix[row][inputCol]);
+                            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom2);
+                        }
 
-                }//for inputs
+                     }//for inputs
 
 
-                OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(OBIVocabulary.HAS_SPECIFIED_OUTPUT.iri);
-                List<Node> outputs = assayNode.getOutputNodes();
-                for(Node output: outputs){
-                    int outputCol = output.getIndex();
-                    System.out.println("row="+row);
-                    System.out.println("outputCol="+outputCol);
-                    if (!data[row][outputCol].toString().equals("")){
-                        OWLObjectPropertyAssertionAxiom axiom3 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_specified_output, assayIndividual, individualMatrix[row][outputCol]);
-                        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom3);
-                    }
+                    OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(OBIVocabulary.HAS_SPECIFIED_OUTPUT.iri);
+                    List<Node> outputs = assayNode.getOutputNodes();
+                    for(Node output: outputs){
+                        int outputCol = output.getIndex();
+                        System.out.println("row="+row);
+                        System.out.println("outputCol="+outputCol);
+                        if (!data[row][outputCol].toString().equals("")){
+                            OWLObjectPropertyAssertionAxiom axiom3 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_specified_output, assayIndividual, individualMatrix[row][outputCol]);
+                            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom3);
+                        }
 
-                    //}//for row
-
-                }//for inputs
+                    }//for outputs
+                }//for process node
             }
         }
     }
@@ -187,7 +185,15 @@ public class Assay2OWLConverter {
                 String processName = (data[processRow][processCol]).toString();
 
                 System.out.println("processName="+processName);
+
+                if (processName.equals("")){
+                    System.out.println("ProcessName is empty!!!");
+                    continue;
+                }
+
                 Protocol protocol = protocolMap.get(processName);
+
+                System.out.println("protocol="+protocol);
 
                 OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(processName);
 
@@ -208,7 +214,11 @@ public class Assay2OWLConverter {
                     processIndividualMap.put(processCol, processIndividual);
                 }
 
-                ISA2OWL.addComment(protocol.getProtocolType(), processIndividual.getIRI());
+                if (protocol!=null && protocol.getProtocolType()!=null){
+                    ISA2OWL.addComment(protocol.getProtocolType(), processIndividual.getIRI());
+                } else{
+                    System.out.println("Protocol type is null for protocol "+protocol);
+                }
 
                 OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ExtendedOBIVocabulary.EXECUTES.iri);
                 OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,processIndividual, protocolIndividual);

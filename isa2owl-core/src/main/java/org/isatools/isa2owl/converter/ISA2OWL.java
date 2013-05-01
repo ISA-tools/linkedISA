@@ -142,6 +142,9 @@ public class ISA2OWL {
         if (individualLabel.equals(""))
             return null;
 
+        if (typeIdIndividualMap == null){
+            typeIdIndividualMap = new HashMap<String, Map<String, OWLNamedIndividual>>();
+        }
         Map<String, OWLNamedIndividual> map = typeIdIndividualMap.get(typeMappingLabel);
 
         //if it wasn't created, create it now
