@@ -15,7 +15,7 @@ import java.util.List;
  * @author Eamonn Maguire (eamonnmag@gmail.com)
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public class MaterialNode extends Node {
+public class MaterialNode extends NodeWithComments {
 
     public static final String REGEXP = "(Source.*)|(Sample.*)|(Extract.*)|(Labeled Extract.*)";
 
@@ -56,7 +56,12 @@ public class MaterialNode extends Node {
         StringBuffer buffer = new StringBuffer();
         buffer.append("MaterialNode: "+getName()+"\n");
         for (Node mp : getMaterialAttributes()) {
-            buffer.append("\t attribute: " + mp.getName());
+            buffer.append("\t attribute: " + mp.getName()+"\n");
+        }
+        if (getComments() != null) {
+            for (Node commentNode : getComments()) {
+                buffer.append("\t comment: " + commentNode.getName()+"\n");
+            }
         }
         return buffer.toString();
     }

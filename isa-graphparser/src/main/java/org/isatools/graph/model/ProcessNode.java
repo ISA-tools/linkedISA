@@ -12,7 +12,7 @@ import java.util.List;
  *         Date: 10/10/2011
  *         Time: 10:13
  */
-public class ProcessNode extends Node {
+public class ProcessNode extends NodeWithComments {
 
     public static final String REGEXP = "Protocol REF";
 
@@ -40,6 +40,7 @@ public class ProcessNode extends Node {
         parameters.add(p);
     }
 
+
     public List<Node> getInputNodes() {
         return inputNodes;
     }
@@ -51,6 +52,7 @@ public class ProcessNode extends Node {
     public List<ProcessParameter> getParameters(){
         return parameters;
     }
+
 
     public String toString(){
         StringBuffer buffer = new StringBuffer();
@@ -70,6 +72,12 @@ public class ProcessNode extends Node {
         if (getOutputNodes() != null) {
             for (Node outputNode : getOutputNodes()) {
                 buffer.append("\t output: " + outputNode.getName()+"\n");
+            }
+        }
+
+        if (getComments() != null) {
+            for (Node commentNode : getComments()) {
+                buffer.append("\t comment: " + commentNode.getName()+"\n");
             }
         }
         return buffer.toString();

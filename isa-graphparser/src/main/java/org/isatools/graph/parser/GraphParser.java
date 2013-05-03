@@ -44,7 +44,7 @@ public class GraphParser {
         int index = 0;
 
         ProcessNode lastProcess = null;
-        Node lastMaterialOrData = null;
+        NodeWithComments lastMaterialOrData = null;
         AssayNode lastAssayNode = null;
 
         for (String column : columns) {
@@ -75,8 +75,8 @@ public class GraphParser {
                 lastAssayNode = assayNode;
 
 
-            }else if (column.contains(DataNode.CONTAINS) && !column.matches(DataNode.REGEXP)) {
-                Node dataNode = new DataNode(index, column);
+            }else if (column.contains(DataNode.CONTAINS)){ //&& !column.matches(DataNode.REGEXP)) {
+                NodeWithComments dataNode = new DataNode(index, column);
                 graph.addNode(dataNode);
                 lastMaterialOrData = dataNode;
 
@@ -97,7 +97,7 @@ public class GraphParser {
 
             } else if (column.matches(MaterialNode.REGEXP)) {
 
-                Node materialNode = new MaterialNode(index, column);
+                NodeWithComments materialNode = new MaterialNode(index, column);
                 graph.addNode(materialNode);
                 lastMaterialOrData = materialNode;
                 if (lastProcess != null) {
@@ -111,6 +111,20 @@ public class GraphParser {
                 if (lastProcess!=null){
                     ((ProcessNode)graph.getNode(lastProcess.getIndex())).addParameter(parameter);
                 }
+
+            } else if (column.matches(CommentNode.REGEXP)){
+
+                CommentNode commentNode = new CommentNode(index, column);
+                if (lastProcess != null) {
+                    lastProcess.addComment(commentNode);
+                }
+                if (lastAssayNode !=null){
+                    lastAssayNode.addComment(commentNode);
+                }
+                if (lastMaterialOrData != null){
+                    lastMaterialOrData.addComment(commentNode);
+                }
+
 
             }
             index++;

@@ -1,7 +1,5 @@
 package org.isatools.graph.model;
 
-import sun.security.provider.certpath.Vertex;
-
 /**
  * Created by the ISA team
  *

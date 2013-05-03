@@ -8,10 +8,9 @@ package org.isatools.graph.model;
  *         Date: 10/10/2011
  *         Time: 10:13
  */
-public class DataNode extends Node {
+public class DataNode extends NodeWithComments {
 
     public static final String CONTAINS = "File";
-    public static final String REGEXP = "(Comment.*)";
 
     public DataNode(int index, String name) {
         super(index, name);
