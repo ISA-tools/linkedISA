@@ -97,7 +97,6 @@ public class ISAtab2OWLConverter {
         Investigation investigation = importer.getInvestigation();
         //processSourceOntologies();
 
-
         System.out.println("investigation--->" + investigation);
         log.debug("investigation=" + investigation);
 
@@ -174,6 +173,7 @@ public class ISAtab2OWLConverter {
      * @return
      */
     private boolean readInISAFiles(String parentDir){
+        //TODO check parser errors!
         return importer.importFile(parentDir);
     }
 

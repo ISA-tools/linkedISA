@@ -103,6 +103,12 @@ public class Assay2OWLConverter {
 
                 OWLNamedIndividual assayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, dataValue);
 
+                //add comments
+                for(CommentNode comment: assayNode.getComments()){
+                    int comment_col = comment.getIndex();
+                    ISA2OWL.addComment( comment.getName() + ":" + ((String)data[row][comment_col]), assayIndividual.getIRI());
+                }
+
                 //realizes o concretizes (executes) associated protocol
                 List<ProcessNode> associatedProcessNodes = assayNode.getAssociatedProcessNodes();
                 for(ProcessNode processNode: associatedProcessNodes){
@@ -357,6 +363,13 @@ public class Assay2OWLConverter {
                     materialNodeIndividual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), dataValue, materialNode.getMaterialNodeType());
                     System.out.println("material node individual="+materialNode.getMaterialNodeType()+" "+ dataValue );
 
+                    //add comments
+                    for(CommentNode comment: materialNode.getComments()){
+                        int comment_col = comment.getIndex();
+                        ISA2OWL.addComment( comment.getName() +":"+((String)data[row][comment_col]), materialNodeIndividual.getIRI());
+                    }
+
+
                     if (materialNode.getMaterialNodeType() == ExtendedISASyntax.SAMPLE && sampleIndividualMapWasNull){
                             sampleIndividualMap.put(materialNode.getName(), materialNodeIndividual);
                     }
@@ -444,7 +457,6 @@ public class Assay2OWLConverter {
                    String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
 
                    System.out.println("MATERIAL ATTRIBUTE="+ attribute+" index="+attribute.getIndex()+" data value="+attributeDataValue+ " source="+source+" accession="+accession+ " individual"+materialAttributeIndividual);
-
 
                    //the attribute is annotated
                    if (source!=null && accession!=null){
