@@ -124,8 +124,6 @@ public class GraphParser {
                 if (lastMaterialOrData != null){
                     lastMaterialOrData.addComment(commentNode);
                 }
-
-
             }
             index++;
         }

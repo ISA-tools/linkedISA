@@ -17,6 +17,13 @@ public class DataNode extends NodeWithComments {
     }
 
     public String toString(){
-        return "DataNode: "+getName()+"\n";
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("DataNode: "+getName()+"\n");
+        if (getComments() != null) {
+            for (Node commentNode : getComments()) {
+                buffer.append("\t comment: " + commentNode.getName()+"\n");
+            }
+        }
+        return buffer.toString();
     }
 }
