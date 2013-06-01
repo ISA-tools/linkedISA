@@ -4,7 +4,7 @@
   <groupId>org.isatools</groupId>
   <artifactId>isa2owl-core</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>isa2owl-core</name>
   <url>http://maven.apache.org</url>
 
@@ -117,4 +117,14 @@
         </dependency>
 
     </dependencies>
+
+
+    <distributionManagement>
+        <repository>
+            <id>oerc-repo</id>
+            <name>OeRC Maven repository</name>
+            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases</url>
+        </repository>
+    </distributionManagement>
+
 </project>
