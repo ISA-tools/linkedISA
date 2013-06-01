@@ -12,7 +12,7 @@ import java.util.List;
  *         Date: 10/10/2011
  *         Time: 10:13
  */
-public class ProcessNode extends NodeWithComments {
+public class ProcessNode extends NodeWithComments implements ISAProcessNode {
 
     public static final String REGEXP = "Protocol REF";
 
@@ -28,27 +28,33 @@ public class ProcessNode extends NodeWithComments {
 
     }
 
+    @Override
     public void addInputNode(Node inputNode) {
         inputNodes.add(inputNode);
     }
 
+    @Override
     public void addOutputNode(Node outputNode) {
         outputNodes.add(outputNode);
     }
 
+    @Override
     public void addParameter(ProcessParameter p){
         parameters.add(p);
     }
 
 
+    @Override
     public List<Node> getInputNodes() {
         return inputNodes;
     }
 
+    @Override
     public List<Node> getOutputNodes() {
         return outputNodes;
     }
 
+    @Override
     public List<ProcessParameter> getParameters(){
         return parameters;
     }
