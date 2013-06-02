@@ -4,7 +4,7 @@
   <groupId>org.isatools</groupId>
   <artifactId>isa2owl-core</artifactId>
   <packaging>jar</packaging>
-  <version>1.0</version>
+  <version>1.0-SNAPSHOT</version>
   <name>isa2owl-core</name>
   <url>http://maven.apache.org</url>
 
@@ -125,6 +125,13 @@
             <name>OeRC Maven repository</name>
             <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases</url>
         </repository>
+
+        <snapshotRepository>
+            <id>oerc-snapshot</id>
+            <name>Internal Releases</name>
+            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/snapshots/</url>
+        </snapshotRepository>
+
     </distributionManagement>
 
 </project>
