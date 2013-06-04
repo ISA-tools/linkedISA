@@ -1,7 +1,7 @@
-package org.isatools.graph.model;
+package org.isatools.graph.model.impl;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by the ISATeam.

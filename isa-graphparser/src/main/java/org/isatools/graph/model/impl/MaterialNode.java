@@ -1,4 +1,4 @@
-package org.isatools.graph.model;
+package org.isatools.graph.model.impl;
 
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.isacreator.model.GeneralFieldTypes;

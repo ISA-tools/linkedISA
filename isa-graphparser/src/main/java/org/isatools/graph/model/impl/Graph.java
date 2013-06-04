@@ -1,4 +1,9 @@
-package org.isatools.graph.model;
+package org.isatools.graph.model.impl;
+
+import org.isatools.graph.model.impl.MaterialNode;
+import org.isatools.graph.model.impl.Node;
+import org.isatools.graph.model.impl.NodeType;
+import org.isatools.graph.model.impl.ProcessNode;
 
 import java.util.ArrayList;
 import java.util.List;

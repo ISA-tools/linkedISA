@@ -1,5 +1,8 @@
 package org.isatools.graph.model;
 
+import org.isatools.graph.model.impl.Node;
+import org.isatools.graph.model.impl.ProcessParameter;
+
 import java.util.List;
 
 /**
@@ -12,15 +15,15 @@ import java.util.List;
  */
 public interface ISAProcessNode {
 
-    void addInputNode(Node inputNode);
+    public void addInputNode(Node inputNode);
 
-    void addOutputNode(Node outputNode);
+    public void addOutputNode(Node outputNode);
 
-    void addParameter(ProcessParameter p);
+    public void addParameter(ProcessParameter p);
 
-    List<Node> getInputNodes();
+    public List<Node> getInputNodes();
 
-    List<Node> getOutputNodes();
+    public List<Node> getOutputNodes();
 
-    List<ProcessParameter> getParameters();
+    public List<ProcessParameter> getParameters();
 }

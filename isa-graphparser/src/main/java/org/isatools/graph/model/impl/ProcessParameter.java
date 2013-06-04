@@ -1,4 +1,4 @@
-package org.isatools.graph.model;
+package org.isatools.graph.model.impl;
 
 /**
  * Created by the ISATeam.
