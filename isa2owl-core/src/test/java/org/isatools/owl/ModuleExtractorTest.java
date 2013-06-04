@@ -2,7 +2,6 @@ package org.isatools.owl;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -35,7 +34,7 @@ public class ModuleExtractorTest {
 
     }
 
-    @Test
+    //@Test
     public void testModuleExtractor() {
 
        OWLOntology extended_obi_ontology = OWLOntologyParametricSingleton.getOntologyInstance(IRI.create("http://purl.obolibrary.org/obo/extended-obi.owl"),
