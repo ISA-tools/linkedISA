@@ -1,6 +1,6 @@
 package org.isatools.graph.model;
 
-import org.isatools.graph.model.impl.Node;
+
 import org.isatools.graph.model.impl.ProcessParameter;
 
 import java.util.List;
@@ -15,15 +15,17 @@ import java.util.List;
  */
 public interface ISAProcessNode {
 
-    public void addInputNode(Node inputNode);
+    public static final String REGEXP = "Protocol REF";
 
-    public void addOutputNode(Node outputNode);
+    public void addInputNode(ISANode inputNode);
+
+    public void addOutputNode(ISANode outputNode);
 
     public void addParameter(ProcessParameter p);
 
-    public List<Node> getInputNodes();
+    public List<ISANode> getInputNodes();
 
-    public List<Node> getOutputNodes();
+    public List<ISANode> getOutputNodes();
 
     public List<ProcessParameter> getParameters();
 }

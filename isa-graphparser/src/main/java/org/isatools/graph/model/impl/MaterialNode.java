@@ -1,5 +1,6 @@
 package org.isatools.graph.model.impl;
 
+import org.isatools.graph.model.ISAMaterialNode;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 
@@ -15,9 +16,7 @@ import java.util.List;
  * @author Eamonn Maguire (eamonnmag@gmail.com)
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public class MaterialNode extends NodeWithComments {
-
-    public static final String REGEXP = "(Source.*)|(Sample.*)|(Extract.*)|(Labeled Extract.*)";
+public class MaterialNode extends NodeWithComments implements ISAMaterialNode {
 
     private List<MaterialAttribute> materialAttributes;
 
@@ -26,14 +25,17 @@ public class MaterialNode extends NodeWithComments {
         materialAttributes = new ArrayList<MaterialAttribute>();
     }
 
+    @Override
     public void addMaterialAttribute(MaterialAttribute attribute) {
         materialAttributes.add(attribute);
     }
 
+    @Override
     public List<MaterialAttribute> getMaterialAttributes() {
         return materialAttributes;
     }
 
+    @Override
     public String getMaterialNodeType(){
 
         if (getName().equals(GeneralFieldTypes.SAMPLE_NAME.toString()))
@@ -52,6 +54,7 @@ public class MaterialNode extends NodeWithComments {
 
     }
 
+    @Override
     public String toString(){
         StringBuffer buffer = new StringBuffer();
         buffer.append("MaterialNode: "+getName()+"\n");

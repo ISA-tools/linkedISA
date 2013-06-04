@@ -1,5 +1,7 @@
 package org.isatools.graph.model.impl;
 
+import org.isatools.graph.model.ISANode;
+
 /**
  * Created by the ISA team
  *
@@ -8,7 +10,7 @@ package org.isatools.graph.model.impl;
  *         Date: 10/10/2011
  *         Time: 10:06
  */
-public abstract class Node  {
+public abstract class Node implements ISANode {
 
     private int index;
     private String name;
@@ -19,18 +21,22 @@ public abstract class Node  {
         this.name = name;
     }
 
+    @Override
     public int getIndex() {
         return index;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public NodeType getType(){
         return type;
     }
 
+    @Override
     public void setType(NodeType t){
         type = t;
     }

@@ -1,7 +1,7 @@
 package org.isatools.graph.parser;
 
 
-import org.isatools.graph.model.*;
+import org.isatools.graph.model.impl.*;
 
 import java.util.*;
 

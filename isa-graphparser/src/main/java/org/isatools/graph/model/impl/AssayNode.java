@@ -1,5 +1,7 @@
 package org.isatools.graph.model.impl;
 
+import org.isatools.graph.model.ISANode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,12 +38,12 @@ public class AssayNode extends ProcessNode {
         StringBuffer buffer = new StringBuffer();
         buffer.append("AssayNode: "+getName()+"\n");
         if (getInputNodes() != null) {
-            for (Node inputNode : getInputNodes()) {
+            for (ISANode inputNode : getInputNodes()) {
                 buffer.append("\t input: " + inputNode.getName()+"\n");
             }
         }
         if (getOutputNodes() != null) {
-            for (Node outputNode : getOutputNodes()) {
+            for (ISANode outputNode : getOutputNodes()) {
                 buffer.append("\t output: " + outputNode.getName()+"\n");
             }
         }

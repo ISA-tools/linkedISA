@@ -1,5 +1,6 @@
 package org.isatools.graph.model.impl;
 
+import org.isatools.graph.model.ISANode;
 import org.isatools.graph.model.ISAProcessNode;
 
 import java.util.ArrayList;
@@ -16,28 +17,26 @@ import java.util.List;
  */
 public class ProcessNode extends NodeWithComments implements ISAProcessNode {
 
-    public static final String REGEXP = "Protocol REF";
-
-    private List<Node> inputNodes = null;
-    private List<Node> outputNodes = null;
+    private List<ISANode> inputNodes = null;
+    private List<ISANode> outputNodes = null;
     private List<ProcessParameter> parameters = null;
 
     public ProcessNode(int index, String name) {
         super(index, name);
-        inputNodes = new ArrayList<Node>();
-        outputNodes = new ArrayList<Node>();
+        inputNodes = new ArrayList<ISANode>();
+        outputNodes = new ArrayList<ISANode>();
         parameters = new ArrayList<ProcessParameter>();
 
     }
 
     @Override
-    public void addInputNode(Node inputNode) {
-        inputNodes.add(inputNode);
+    public void addInputNode(ISANode inputNode) {
+        inputNodes.add((Node)inputNode);
     }
 
     @Override
-    public void addOutputNode(Node outputNode) {
-        outputNodes.add(outputNode);
+    public void addOutputNode(ISANode outputNode) {
+        outputNodes.add((Node)outputNode);
     }
 
     @Override
@@ -47,12 +46,12 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
 
 
     @Override
-    public List<Node> getInputNodes() {
+    public List<ISANode> getInputNodes() {
         return inputNodes;
     }
 
     @Override
-    public List<Node> getOutputNodes() {
+    public List<ISANode> getOutputNodes() {
         return outputNodes;
     }
 
@@ -73,18 +72,18 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
         }
 
         if (getInputNodes() != null) {
-            for (Node inputNode : getInputNodes()) {
+            for (ISANode inputNode : getInputNodes()) {
                 buffer.append("\t input: " + inputNode.getName()+"\n");
             }
         }
         if (getOutputNodes() != null) {
-            for (Node outputNode : getOutputNodes()) {
+            for (ISANode outputNode : getOutputNodes()) {
                 buffer.append("\t output: " + outputNode.getName()+"\n");
             }
         }
 
         if (getComments() != null) {
-            for (Node commentNode : getComments()) {
+            for (ISANode commentNode : getComments()) {
                 buffer.append("\t comment: " + commentNode.getName()+"\n");
             }
         }

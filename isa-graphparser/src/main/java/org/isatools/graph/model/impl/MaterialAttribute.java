@@ -1,5 +1,7 @@
 package org.isatools.graph.model.impl;
 
+import org.isatools.graph.model.ISAMaterialAttribute;
+
 /**
  * Created by the ISA team
  *
@@ -9,14 +11,13 @@ package org.isatools.graph.model.impl;
  *         Date: 11/10/2011
  *         Time: 13:22
  */
-public class MaterialAttribute extends Node {
-
-    public static final String REGEXP = "(Characteristic.*)";
+public class MaterialAttribute extends Node implements ISAMaterialAttribute {
 
     public MaterialAttribute(int index, String name) {
         super(index, name);
     }
 
+    @Override
     public String toString(){
         return getName();
     }
