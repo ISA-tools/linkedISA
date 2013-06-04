@@ -1,6 +1,7 @@
 package org.isatools.isa2owl.converter;
 
 import org.apache.log4j.Logger;
+import org.isatools.graph.model.ISANode;
 import org.isatools.graph.model.impl.*;
 import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
@@ -130,8 +131,8 @@ public class Assay2OWLConverter {
                     //inputs & outputs
                     //adding inputs and outputs to the assay
                     OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(OBIVocabulary.HAS_SPECIFIED_INPUT.iri);
-                    List<Node> inputs = assayNode.getInputNodes();
-                    for(Node input: inputs){
+                    List<ISANode> inputs = assayNode.getInputNodes();
+                    for(ISANode input: inputs){
                         int inputCol = input.getIndex();
                         System.out.println("inputCol="+inputCol);
 
@@ -144,8 +145,8 @@ public class Assay2OWLConverter {
 
 
                     OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(OBIVocabulary.HAS_SPECIFIED_OUTPUT.iri);
-                    List<Node> outputs = assayNode.getOutputNodes();
-                    for(Node output: outputs){
+                    List<ISANode> outputs = assayNode.getOutputNodes();
+                    for(ISANode output: outputs){
                         int outputCol = output.getIndex();
                         System.out.println("row="+row);
                         System.out.println("outputCol="+outputCol);
@@ -258,8 +259,8 @@ public class Assay2OWLConverter {
 
 
                 //inputs & outputs
-                List<Node> inputs = processNode.getInputNodes();
-                for(Node input: inputs){
+                List<ISANode> inputs = processNode.getInputNodes();
+                for(ISANode input: inputs){
                     int inputCol = input.getIndex();
                     System.out.println("inputCol="+inputCol);
                     //for(int row=1; row < data.length; row++){
@@ -273,8 +274,8 @@ public class Assay2OWLConverter {
 
                 }//for inputs
 
-                List<Node> outputs = processNode.getOutputNodes();
-                for(Node output: outputs){
+                List<ISANode> outputs = processNode.getOutputNodes();
+                for(ISANode output: outputs){
                     int outputCol = output.getIndex();
                     System.out.println("outputCol="+outputCol);
 
