@@ -206,6 +206,13 @@ public class Assay2OWLConverter {
                 if (protocolIndividual==null)
                     System.err.println("Protocol "+processName+" must already exist");
 
+
+                //add comments
+                for(CommentNode comment: processNode.getComments()){
+                    int comment_col = comment.getIndex();
+                    ISA2OWL.addComment( comment.getName() + ":" + ((String)data[processRow][comment_col]), protocolIndividual.getIRI());
+                }
+
                 //adding Study Protocol
                 protocolREFIndividuals.put(ExtendedISASyntax.STUDY_PROTOCOL, protocolIndividual);
 
