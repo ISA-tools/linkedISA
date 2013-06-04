@@ -3,13 +3,12 @@ package org.isatools.isa2owl.mapping;
 import org.apache.log4j.Logger;
 import org.isatools.graph.model.impl.MaterialNode;
 import org.isatools.syntax.ExtendedISASyntax;
-import org.semanticweb.owlapi.model.*;
 import org.isatools.util.Pair;
+import org.semanticweb.owlapi.model.IRI;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Encapsulates ISA to OWL mapping information. All data validation is done in this class.
@@ -83,6 +82,42 @@ public class ISASyntax2OWLMapping {
 
     public Map<String,List<Pair<IRI, String>>> getPropertyMappings(){
         return propertyMappings;
+    }
+
+    public IRI getPropertyIRI(String subject, String object){
+        Map<String,List<Pair<IRI, String>>> map = getPropertyMappings();
+        List<Pair<IRI, String>> list = map.get(subject);
+        for(Pair<IRI, String> pair: list){
+            if (pair.getSecond().equals(object))
+                return pair.getFirst();
+        }
+        return null;
+    }
+
+    public IRI getPropertyIRIRegex(String regex, String object){
+
+        ArrayList<String> candidates = new ArrayList<String>();
+
+        Pattern p = Pattern.compile(regex);
+        Map<String,List<Pair<IRI, String>>> map = getPropertyMappings();
+
+        Set<String> keys = map.keySet();
+        Iterator<String> ite = keys.iterator();
+
+        while (ite.hasNext()) {
+            String candidate = ite.next();
+            Matcher m = p.matcher(candidate);
+            //System.out.println("Attempting to match: " + candidate + " to "  + regex);
+            if (m.matches()) {
+              //  System.out.println("it matches");
+                candidates.add(candidate);
+            }
+        }
+
+        for(String candidate: candidates){
+            return getPropertyIRI(candidate, object);
+        }
+        return null;
     }
 
     public List<Pair<IRI, String>> getPropertyMappings(String subject){

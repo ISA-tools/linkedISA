@@ -32,6 +32,11 @@ public class ISA2OWLMappingParserTest {
 		URL fileURL = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_OBI_MAPPING_FILENAME);
 		parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
 		System.out.println(parser.getMapping());
+
+        System.out.println("propertyIRI="+parser.getMapping().getPropertyIRI("Source","Characteristics"));
+
+        System.out.println("propertyIRI="+parser.getMapping().getPropertyIRIRegex("Source*","Characteristics"));
+        System.out.println("propertyIRI="+parser.getMapping().getPropertyIRIRegex("Extract*","Characteristics"));
 	}
 
     @Test
