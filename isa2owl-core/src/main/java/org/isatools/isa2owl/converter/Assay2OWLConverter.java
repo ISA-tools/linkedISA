@@ -1,17 +1,23 @@
 package org.isatools.isa2owl.converter;
 
 import org.apache.log4j.Logger;
-import org.isatools.graph.model.*;
+import org.isatools.graph.model.impl.*;
 import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.isatools.isacreator.model.Protocol;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
-import org.isatools.util.Pair;
-import org.semanticweb.owlapi.model.*;
 import org.isatools.syntax.ExtendedISASyntax;
+import org.isatools.util.Pair;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by the ISATeam.

@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 import org.isatools.isacreator.model.*;
 
-import org.isatools.graph.model.MaterialNode;
+import org.isatools.graph.model.impl.MaterialNode;
 
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;

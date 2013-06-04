@@ -1,7 +1,7 @@
 package org.isatools.isa2owl.mapping;
 
 import org.apache.log4j.Logger;
-import org.isatools.graph.model.MaterialNode;
+import org.isatools.graph.model.impl.MaterialNode;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.semanticweb.owlapi.model.*;
 import org.isatools.util.Pair;
