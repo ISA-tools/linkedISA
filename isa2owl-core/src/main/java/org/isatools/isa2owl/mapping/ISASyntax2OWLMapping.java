@@ -94,7 +94,58 @@ public class ISASyntax2OWLMapping {
         return null;
     }
 
-    public IRI getPropertyIRIRegex(String regex, String object){
+
+    public IRI getPropertyIRISubjectRegexObjectRegex(String regexSubject, String regexObject){
+        //System.out.println("getPropertyIRISubjectRegexObjectRegex="+regexSubject+","+regexObject);
+        ArrayList<String> candidates = new ArrayList<String>();
+
+        Pattern pSubject = Pattern.compile(regexSubject);
+        Map<String,List<Pair<IRI, String>>> map = getPropertyMappings();
+
+        Set<String> keys = map.keySet();
+        Iterator<String> ite = keys.iterator();
+
+        while (ite.hasNext()) {
+            String candidate = ite.next();
+            Matcher m = pSubject.matcher(candidate);
+            //System.out.println("Attempting to match: " + candidate + " to "  + regex);
+            if (m.matches()) {
+                //  System.out.println("it matches");
+                candidates.add(candidate);
+            }
+        }
+
+        for(String candidate: candidates){
+
+            System.out.println("candidate="+candidate);
+
+            List<Pair<IRI, String>> list = map.get(candidate);
+            for(Pair<IRI, String> pair: list){
+
+                System.out.println("Pair=("+pair.getFirst()+","+pair.getSecond()+")");
+
+                Pattern pObject = Pattern.compile(regexObject);
+                Matcher m = pObject.matcher(pair.getSecond());
+                if (m.matches()){
+                    System.out.println("it matches... return "+pair.getFirst());
+
+                    return pair.getFirst();
+                }
+            }
+
+
+        }
+        return null;
+    }
+
+
+    /**
+     *
+     * @param regex
+     * @param object
+     * @return
+     */
+    public IRI getPropertyIRISubjectRegexObject(String regex, String object){
 
         ArrayList<String> candidates = new ArrayList<String>();
 
@@ -168,7 +219,6 @@ public class ISASyntax2OWLMapping {
 	}
 
 
-
     @Override
 	public String toString(){
 		StringBuilder builder = new StringBuilder();
@@ -201,5 +251,7 @@ public class ISASyntax2OWLMapping {
 		}
 		return builder.toString();
 	}
+
+
 	
 }

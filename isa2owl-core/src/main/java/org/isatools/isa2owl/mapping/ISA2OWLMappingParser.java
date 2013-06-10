@@ -56,10 +56,9 @@ public class ISA2OWLMappingParser {
 	public ISASyntax2OWLMapping getMapping(){
 		return mapping;
 	}
-	
-	
-	public void parseCSVMappingFile(String csvFilename) {//throws FileNotFoundException{
-		
+
+    public void parseCSVMappingFile(String csvFilename) {//throws FileNotFoundException{
+
 		try {
 		CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
 		
