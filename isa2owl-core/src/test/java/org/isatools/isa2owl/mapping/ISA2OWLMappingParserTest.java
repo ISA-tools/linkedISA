@@ -1,5 +1,7 @@
 package org.isatools.isa2owl.mapping;
 
+import org.isatools.graph.model.ISAMaterialAttribute;
+import org.isatools.graph.model.ISAMaterialNode;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,12 +33,19 @@ public class ISA2OWLMappingParserTest {
 		//TODO add assertions
 		URL fileURL = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_OBI_MAPPING_FILENAME);
 		parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
-		System.out.println(parser.getMapping());
+		//System.out.println(parser.getMapping());
 
-        System.out.println("propertyIRI="+parser.getMapping().getPropertyIRI("Source","Characteristics"));
+        ISASyntax2OWLMapping mapping = parser.getMapping();
 
-        System.out.println("propertyIRI="+parser.getMapping().getPropertyIRIRegex("Source*","Characteristics"));
-        System.out.println("propertyIRI="+parser.getMapping().getPropertyIRIRegex("Extract*","Characteristics"));
+        System.out.println("propertyIRI="+mapping.getPropertyIRI("Source", "Characteristics"));
+
+        System.out.println("propertyIRI="+mapping.getPropertyIRISubjectRegexObject("Source*", "Characteristics"));
+        System.out.println("propertyIRI="+mapping.getPropertyIRISubjectRegexObject("Extract*", "Characteristics"));
+
+        System.out.println("two regexps = " + mapping.getPropertyIRISubjectRegexObjectRegex(ISAMaterialNode.REGEXP, ISAMaterialAttribute.REGEXP));
+
+
+
 	}
 
     @Test
