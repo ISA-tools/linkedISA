@@ -1,6 +1,7 @@
 package org.isatools.graph.parser;
 
 
+import org.isatools.graph.model.ISANode;
 import org.isatools.graph.model.impl.*;
 
 import java.util.*;
@@ -158,7 +159,7 @@ public class GraphParser {
             // extract the values!
             MaterialNode materialNode = (MaterialNode) nodeOfInterest;
 
-            for (Node property : materialNode.getMaterialAttributes()) {
+            for (ISANode property : materialNode.getMaterialAttributes()) {
 
                 for (int rowIndex = 1; rowIndex < assayTable.length; rowIndex++) {
 

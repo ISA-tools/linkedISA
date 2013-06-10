@@ -1,9 +1,5 @@
 package org.isatools.graph.model;
 
-import org.isatools.graph.model.impl.MaterialAttribute;
-
-import java.util.List;
-
 /**
  * Created by the ISATeam.
  * User: agbeltran
@@ -16,9 +12,10 @@ public interface ISAMaterialNode extends ISANode {
 
     public static final String REGEXP = "(Source.*)|(Sample.*)|(Extract.*)|(Labeled Extract.*)";
 
-    public void addMaterialAttribute(MaterialAttribute attribute);
+    public void addMaterialAttribute(ISAMaterialAttribute attribute);
 
-    public List<MaterialAttribute> getMaterialAttributes();
+    //@Adjacency(label = "http://purl.obolibrary.org/obo/BFO_0000053")
+    public Iterable<ISAMaterialAttribute> getMaterialAttributes();
 
     public String getMaterialNodeType();
 

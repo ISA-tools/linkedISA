@@ -1,8 +1,10 @@
 package org.isatools.graph.model.impl;
 
+import org.isatools.graph.model.ISAMaterialAttribute;
 import org.isatools.graph.model.ISAMaterialNode;
-import org.isatools.syntax.ExtendedISASyntax;
+import org.isatools.graph.model.ISANode;
 import org.isatools.isacreator.model.GeneralFieldTypes;
+import org.isatools.syntax.ExtendedISASyntax;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,20 +20,20 @@ import java.util.List;
  */
 public class MaterialNode extends NodeWithComments implements ISAMaterialNode {
 
-    private List<MaterialAttribute> materialAttributes;
+    private List<ISAMaterialAttribute> materialAttributes;
 
     public MaterialNode(int index, String name) {
         super(index, name);
-        materialAttributes = new ArrayList<MaterialAttribute>();
+        materialAttributes = new ArrayList<ISAMaterialAttribute>();
     }
 
     @Override
-    public void addMaterialAttribute(MaterialAttribute attribute) {
+    public void addMaterialAttribute(ISAMaterialAttribute attribute) {
         materialAttributes.add(attribute);
     }
 
     @Override
-    public List<MaterialAttribute> getMaterialAttributes() {
+    public List<ISAMaterialAttribute> getMaterialAttributes() {
         return materialAttributes;
     }
 
@@ -58,7 +60,7 @@ public class MaterialNode extends NodeWithComments implements ISAMaterialNode {
     public String toString(){
         StringBuffer buffer = new StringBuffer();
         buffer.append("MaterialNode: "+getName()+"\n");
-        for (Node mp : getMaterialAttributes()) {
+        for (ISANode mp : getMaterialAttributes()) {
             buffer.append("\t attribute: " + mp.getName()+"\n");
         }
         if (getComments() != null) {
