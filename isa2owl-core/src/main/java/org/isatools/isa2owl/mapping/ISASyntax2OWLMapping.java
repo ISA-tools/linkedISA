@@ -122,13 +122,11 @@ public class ISASyntax2OWLMapping {
             List<Pair<IRI, String>> list = map.get(candidate);
             for(Pair<IRI, String> pair: list){
 
-                System.out.println("Pair=("+pair.getFirst()+","+pair.getSecond()+")");
-
+                //System.out.println("Pair=("+pair.getFirst()+","+pair.getSecond()+")");
                 Pattern pObject = Pattern.compile(regexObject);
                 Matcher m = pObject.matcher(pair.getSecond());
                 if (m.matches()){
-                    System.out.println("it matches... return "+pair.getFirst());
-
+                    //System.out.println("it matches... return "+pair.getFirst());
                     return pair.getFirst();
                 }
             }

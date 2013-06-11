@@ -1,7 +1,7 @@
 package org.isatools.isa2owl.converter;
 
 import org.apache.log4j.Logger;
-import org.isatools.graph.model.ISANode;
+import org.isatools.graph.model.*;
 import org.isatools.graph.model.impl.*;
 import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
@@ -42,7 +42,7 @@ public class Assay2OWLConverter {
     private Object[][] data = null;
     //a matrix will all the individuals for the data (these are MaterialNodes or ProcessNodes individuals
     private OWLNamedIndividual[][] individualMatrix = null;
-    private Map<MaterialNode, Map<String,OWLNamedIndividual>> materialNodeIndividualMap = new HashMap<MaterialNode, Map<String,OWLNamedIndividual>>();
+    private Map<ISAMaterialNode, Map<String,OWLNamedIndividual>> materialNodeIndividualMap = new HashMap<ISAMaterialNode, Map<String,OWLNamedIndividual>>();
     private Map<Integer, OWLNamedIndividual> processIndividualMap = new HashMap<Integer, OWLNamedIndividual>();
 
 
@@ -416,11 +416,11 @@ public class Assay2OWLConverter {
                 }
 
                 //material node attributes
-                List<MaterialAttribute> attributeList = materialNode.getMaterialAttributes();
+                List<ISAMaterialAttribute> attributeList = materialNode.getMaterialAttributes();
 
                 System.out.println("--------attributeList="+attributeList);
 
-               for(MaterialAttribute attribute: attributeList){
+               for(ISAMaterialAttribute attribute: attributeList){
 
                    //column information
                    String attributeString = attribute.getName();
