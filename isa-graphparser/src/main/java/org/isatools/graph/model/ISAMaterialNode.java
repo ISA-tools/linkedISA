@@ -14,7 +14,6 @@ public interface ISAMaterialNode extends ISANode {
 
     public void addMaterialAttribute(ISAMaterialAttribute attribute);
 
-    //@Adjacency(label = "http://purl.obolibrary.org/obo/BFO_0000053")
     public Iterable<ISAMaterialAttribute> getMaterialAttributes();
 
     public String getMaterialNodeType();

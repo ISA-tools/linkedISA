@@ -14,10 +14,8 @@ public interface ISANode {
 
     public int getIndex();
 
-    //@Property("value")
     public String getName();
 
-    //@Property("type")
     public NodeType getType();
 
     public void setType(NodeType t);
