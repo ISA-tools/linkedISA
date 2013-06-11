@@ -62,13 +62,14 @@ public class ISAtab2OWLConverter {
 
     /**
      *
+     * Method to convert the ISA-TAB data set into RDF/OWL.
+     *
      * @param parentDir
      */
-    public boolean convert(String parentDir, String iri ){
-        System.out.println("2 Converting ISA-TAB dataset " + parentDir);
+    public boolean convert(String parentDir, String iri){
+        log.info("Converting ISA-TAB dataset " + parentDir + " into RDF/OWL");
 
         ISA2OWL.setIRI(iri);
-
 
         try{
             //TODO add AutoIRIMapper
@@ -89,7 +90,6 @@ public class ISAtab2OWLConverter {
             e.printStackTrace();
         }
 
-
         if (!readInISAFiles(parentDir)){
             System.out.println(importer.getMessagesAsString());
         }
@@ -97,32 +97,27 @@ public class ISAtab2OWLConverter {
         Investigation investigation = importer.getInvestigation();
         //processSourceOntologies();
 
-        System.out.println("investigation--->" + investigation);
         log.debug("investigation=" + investigation);
-
-        System.out.println("Ontology selection history--->"+OntologyManager.getOntologySelectionHistory());
+        log.debug("Ontology selection history--->" + OntologyManager.getOntologySelectionHistory());
 
         convertInvestigation(investigation);
 
         Map<String,Study> studies = investigation.getStudies();
 
-        System.out.println("number of studies=" + studies.keySet().size());
+        log.debug("number of studies=" + studies.keySet().size());
 
         //initialise the map of individuals
         ISA2OWL.typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
-
         publicationIndividualMap = new HashMap<Publication, OWLNamedIndividual>();
         contactIndividualMap = new HashMap<Contact, OWLNamedIndividual>();
         protocolIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
         //convert each study
         for(String key: studies.keySet()){
-
             convertStudy(studies.get(key));
             //reset the map of type/individuals
             ISA2OWL.typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
         }
-
 
         return true;
     }
@@ -279,7 +274,7 @@ public class ISAtab2OWLConverter {
         //dealing with all property mappings
         Map<String, List<Pair<IRI, String>>> propertyMappings = ISA2OWL.mapping.getPropertyMappings();
         for(String subjectString: propertyMappings.keySet()){
-            System.out.println("subjectString="+subjectString);
+           // System.out.println("subjectString="+subjectString);
 
             //skip Study Person properties as they are dealt with in the Contact mappings
             if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON) ||
@@ -304,16 +299,16 @@ public class ISAtab2OWLConverter {
 
                     String objectString = predicateObject.getSecond();
 
-                     System.out.println("objectString="+objectString);
+                    //System.out.println("objectString="+objectString);
                     Set<OWLNamedIndividual> objects = ISA2OWL.typeIndividualMap.get(objectString);
 
                     if (objects==null)
                         continue;
 
                     for(OWLNamedIndividual object: objects){
-                        System.out.println("property="+property);
-                        System.out.println("subject="+subject);
-                        System.out.println("object="+object);
+//                        System.out.println("property="+property);
+//                        System.out.println("subject="+subject);
+//                        System.out.println("object="+object);
 
                         if (subject==null || object==null || property==null){
 
@@ -328,7 +323,7 @@ public class ISAtab2OWLConverter {
             } //for
         }
 
-        System.out.println("... end of conversion for Study " + study.getStudyId() + ".");
+        log.info("... end of conversion for Study " + study.getStudyId() + ".");
 
     }
 
@@ -344,9 +339,9 @@ public class ISAtab2OWLConverter {
 
             OWLNamedIndividual individual = publicationIndividualMap.get(pub);
 
-            for(Publication p: publicationIndividualMap.keySet()){
-                System.out.println("Publication... equal? "+p.equals(pub));
-            }
+//            for(Publication p: publicationIndividualMap.keySet()){
+//                System.out.println("Publication... equal? "+p.equals(pub));
+//            }
 
             if (individual!=null)
                 continue;
@@ -354,7 +349,9 @@ public class ISAtab2OWLConverter {
             StudyPublication publication = (StudyPublication) pub;
 
             //Publication
-            OWLNamedIndividual pubInd = ISA2OWL.createIndividual(ExtendedISASyntax.PUBLICATION, publication.getPubmedId());
+            //OWLNamedIndividual pubInd = ISA2OWL.createIndividual(ExtendedISASyntax.PUBLICATION, publication.getPubmedId());
+            String pubmedID = publication.getPubmedId();
+            OWLNamedIndividual pubInd = ISA2OWL.createIndividual(ExtendedISASyntax.PUBLICATION, pubmedID, pubmedID, ExternalRDFLinkages.getPubMedIRI(pubmedID), null);
             publicationIndividualMap.put(pub,pubInd);
 
             //Study PubMed ID
@@ -388,9 +385,9 @@ public class ISAtab2OWLConverter {
 
         for(Contact contact0: contactsList){
 
-            for(Contact c: contactIndividualMap.keySet()){
-                System.out.println("Contact is equal to previous one? -> "+c.equals(contact0));
-            }
+//            for(Contact c: contactIndividualMap.keySet()){
+//                System.out.println("Contact is equal to previous one? -> "+c.equals(contact0));
+//            }
 
             OWLNamedIndividual ind = contactIndividualMap.get(contact0);
             if (ind!=null)
@@ -474,7 +471,15 @@ public class ISAtab2OWLConverter {
 
     }
 
-
+    /**
+     *
+     * Method to convert the study design
+     *
+     * @param studyIndividual a named individual corresponding to the study
+     * @param study the Study from the ISA model
+     * @param studyDesigns a list of StudyDesign objects
+     * @return a named individual corresponding to the study design
+     */
     private OWLNamedIndividual convertStudyDesign(OWLNamedIndividual studyIndividual, Study study, List<StudyDesign> studyDesigns){
 
         //Study Design Type
@@ -502,8 +507,9 @@ public class ISAtab2OWLConverter {
 
     /**
      *
+     * Converts the protocols.
      *
-     * @param protocolList
+     * @param protocolList a list with Protocol objects
      */
     private void convertProtocols(List<Protocol> protocolList){
 
@@ -558,6 +564,7 @@ public class ISAtab2OWLConverter {
 
     /**
      *
+     * Converts the assays.
      *
      * @param assayMap
      */

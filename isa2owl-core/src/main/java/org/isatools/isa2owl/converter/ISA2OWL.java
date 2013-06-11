@@ -79,16 +79,24 @@ public class ISA2OWL {
 
     }
 
+    public static void addComment(String comment, IRI iri){
+        OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
+        OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(iri, annotation);
+        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
+    }
+
+
+    public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel){
+        return createIndividual(typeMappingLabel,individualLabel, null, null);
+
+    }
+
     public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, Map<String, OWLNamedIndividual> map){
         return createIndividual(typeMappingLabel, individualLabel, null, map);
     }
 
     public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, String comment, Map<String, OWLNamedIndividual> map){
-
-        OWLNamedIndividual individual = createIndividual(typeMappingLabel, individualLabel, comment);
-        map.put(typeMappingLabel, individual);
-        return individual;
-
+       return  createIndividual(typeMappingLabel, individualLabel, comment, null, map);
     }
 
     /**
@@ -101,24 +109,11 @@ public class ISA2OWL {
      * @return
      */
     public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, String comment){
-
-        OWLNamedIndividual individual = createIndividual(typeMappingLabel,individualLabel);
-        if (comment!=null && !comment.equals("")) {
-            OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
-            OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
-            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
-        }
-        return individual;
+        return createIndividual(typeMappingLabel,individualLabel, comment, null);
 
     }
 
-    public static void addComment(String comment, IRI iri){
-        OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
-        OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(iri, annotation);
-        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
-    }
-
-    public static OWLNamedIndividual createIndividual(String name, IRI type){
+    public static OWLNamedIndividual createIndividual(IRI type, String name){
         OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI));
 
         OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), ISA2OWL.factory.getOWLLiteral(name));
@@ -129,6 +124,7 @@ public class ISA2OWL {
         return individual;
     }
 
+
     /**
      *
      * It creates an OWLNamedIndividual given its type (given a string, the typeIdIndividualMap is used) and its label (which should not be null, or the individual retrieved will be null)
@@ -136,7 +132,7 @@ public class ISA2OWL {
      * @param typeMappingLabel
      * @param individualLabel
      */
-    public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel){
+    public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, String comment, IRI individualIRI,  Map<String, OWLNamedIndividual> parameterMap){
 
         //avoid empty individuals
         if (individualLabel.equals(""))
@@ -154,7 +150,8 @@ public class ISA2OWL {
             return null;
         }
 
-        OWLNamedIndividual individual = ISA2OWL.factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI));
+        OWLNamedIndividual individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? IRIGenerator.getIRI(ISA2OWL.ontoIRI) : individualIRI);
+
         OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), ISA2OWL.factory.getOWLLiteral(individualLabel));
         OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
         ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
@@ -176,6 +173,17 @@ public class ISA2OWL {
         map.put(individualLabel, individual);
         typeIdIndividualMap.put(typeMappingLabel,map);
 
+
+        if (comment!=null && !comment.equals("")) {
+            OWLAnnotation commentAnnotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
+            OWLAnnotationAssertionAxiom commentAnnotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, commentAnnotationAssertionAxiom);
+        }
+
+        if (parameterMap!=null){
+            parameterMap.put(typeMappingLabel, individual);
+        }
+
         return individual;
     }
 
@@ -189,7 +197,7 @@ public class ISA2OWL {
     public static void convertProperties(Map<String, List<Pair<IRI, String>>> propertyMappings, Map<String, OWLNamedIndividual> typeIndividualM){
 
         for(String subjectString: propertyMappings.keySet()){
-            System.out.println("subjectString="+subjectString);
+            //System.out.println("subjectString="+subjectString);
 
             List<Pair<IRI, String>> predicateObjects = propertyMappings.get(subjectString);
             OWLNamedIndividual subject = typeIndividualM.get(subjectString);

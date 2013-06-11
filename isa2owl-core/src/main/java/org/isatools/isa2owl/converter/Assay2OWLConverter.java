@@ -78,11 +78,11 @@ public class Assay2OWLConverter {
         convertDataNodes(graph);
 
         //TODO remove after debugging
-        for(int i=0; i<data.length; i++){
-            for (int j=0; j< data[i].length; j++){
-                System.out.println("individualMatrix["+i+","+j+"]="+individualMatrix[i][j]);
-            }
-        }
+//        for(int i=0; i<data.length; i++){
+//            for (int j=0; j< data[i].length; j++){
+//                System.out.println("individualMatrix["+i+","+j+"]="+individualMatrix[i][j]);
+//            }
+//        }
 
         convertAssayNodes(protocolIndividualMap, graph);
         convertProcessNodes(protocolList, protocolIndividualMap, graph, assayTableType);
@@ -137,8 +137,17 @@ public class Assay2OWLConverter {
                         System.out.println("inputCol="+inputCol);
 
                         if (!data[row][inputCol].toString().equals("")){
-                            OWLObjectPropertyAssertionAxiom axiom2 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_specified_input, assayIndividual, individualMatrix[row][inputCol]);
-                            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom2);
+
+                            if (individualMatrix[row][inputCol]==null){
+                                System.err.println("individualMatrix[row][inputCol]==null!!!! "+ individualMatrix[row][inputCol]==null+ "  row="+row+" inputCol="+inputCol);
+                            }else{
+                                OWLObjectPropertyAssertionAxiom axiom2 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_specified_input, assayIndividual, individualMatrix[row][inputCol]);
+                                if (axiom2==null){
+                                    System.err.println("ERROR!!!! axiom2 is null... "+axiom2+" assayIndividual="+assayIndividual+" individualMatrix[row][inputCol]="+individualMatrix[row][inputCol]+" row="+row+" inputCol="+inputCol);
+                                }else{
+                                    ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom2);
+                                }
+                            }
                         }
 
                      }//for inputs
@@ -444,11 +453,11 @@ public class Assay2OWLConverter {
                    //row information
                    String attributeDataValue = data[row][attribute.getIndex()].toString();
 
-                   System.out.println("attributeDataValue ="+attributeDataValue);
+                   System.out.println("attributeDataValue ="+attributeDataValue+"=");
 
-                   OWLNamedIndividual materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeTerm);
-                   individualMatrix[row][attribute.getIndex()] = materialAttributeIndividual;
-
+                   if (attributeDataValue!=null && !attributeDataValue.equals("")){
+                        OWLNamedIndividual materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeTerm);
+                        individualMatrix[row][attribute.getIndex()] = materialAttributeIndividual;
 
 
                    //the column is annotated with an ontology
@@ -465,6 +474,7 @@ public class Assay2OWLConverter {
                        }
 
                    }
+
 
                    //deal with the attribute
                    String source = OntologyManager.getOntologyTermSource(attributeDataValue);
@@ -492,7 +502,9 @@ public class Assay2OWLConverter {
                      }
                    }
 
-
+                   }else{
+                       System.err.println("attributeDataValue is null or empty!");
+                   }
 
                } //for attribute
 
