@@ -38,17 +38,6 @@ public class ISA2OWL {
     public static final String STUDY_PROTOCOL_NAME_SUFFIX = " protocol name";
     public static final String STUDY_PUBLIC_RELEASE_DATE_SUFFIX = " public release date";
 
-
-    //PATO
-    public static final String PATO_SIZE_IRI = "http://purl.obolibrary.org/obo/PATO_0000117";
-
-    //IAO IRIs
-//    public static final IRI IAO_HAS_MEASUREMENT_VALUE_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000004");
-//    public static final IRI IAO_DENOTES_IRI = IRI.create("http://purl.obolibrary.org/obo/IAO_0000219");
-
-    //public static final IRI OBI_STUDY_DESIGN_EXECUTION = IRI.create("http://purl.obolibrary.org/obo/OBI_0000471");
-
-
     //<type, id, individual>
     public static Map<String, Map<String,OWLNamedIndividual>> typeIdIndividualMap = null;
     //<type, individual>
@@ -86,17 +75,63 @@ public class ISA2OWL {
     }
 
 
+    /**
+     *
+     * @param type an IRI with the type for the individual
+     * @param name the name for the individual
+     * @return
+     */
+    public static OWLNamedIndividual createIndividual(IRI type, String name){
+        OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI));
+
+        OWLAnnotation annotation =
+                ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),
+                        ISA2OWL.factory.getOWLLiteral(name));
+        OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
+        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
+
+        OWLClass owlClass = ISA2OWL.addOWLClassAssertion(type, individual);
+        return individual;
+    }
+
+
+    /**
+     *
+     * Creates an individual - it relies on the more complete method
+     *
+     * @param typeMappingLabel a String to be used to find the type of the individual from the mapping file
+     * @param individualLabel a String to be used as the label for the individual
+     * @return
+     */
     public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel){
         return createIndividual(typeMappingLabel,individualLabel, null, null);
 
     }
 
+    /**
+     *
+     * Creates an individual - it relies on the more complete method
+     *
+     * @param typeMappingLabel
+     * @param individualLabel
+     * @param map
+     * @return
+     */
     public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, Map<String, OWLNamedIndividual> map){
         return createIndividual(typeMappingLabel, individualLabel, null, map);
     }
 
+    /**
+     * Creates an individual - it relies on the more complete method
+     *
+     * @param typeMappingLabel
+     * @param individualLabel
+     * @param comment
+     * @param map
+     * @return
+     */
     public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, String comment, Map<String, OWLNamedIndividual> map){
-       return  createIndividual(typeMappingLabel, individualLabel, comment, null, map);
+        return  createIndividual(typeMappingLabel, individualLabel, comment, null, map);
     }
 
     /**
@@ -113,26 +148,24 @@ public class ISA2OWL {
 
     }
 
-    public static OWLNamedIndividual createIndividual(IRI type, String name){
-        OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI));
-
-        OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), ISA2OWL.factory.getOWLLiteral(name));
-        OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
-        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
-
-        OWLClass owlClass = ISA2OWL.addOWLClassAssertion(type, individual);
-        return individual;
-    }
-
 
     /**
+     * It creates an OWLNamedIndividual given its type (given a string, the typeIdIndividualMap is used)
+     * and its label (which should not be null, or the individual retrieved will be null)
      *
-     * It creates an OWLNamedIndividual given its type (given a string, the typeIdIndividualMap is used) and its label (which should not be null, or the individual retrieved will be null)
      *
-     * @param typeMappingLabel
-     * @param individualLabel
+     * @param typeMappingLabel this is a string indicating the type for the individual to be retrieved from the mapping
+     * @param individualLabel this is the label to be used for the individual
+     * @param comment this is a string that will be added as an annotation for the individual
+     * @param individualIRI this is the IRI for the individual, if null, an IRI will be generated using IRIGenerator
+     * @param parameterMap this is a map with <String, individual> given as parameter
+     * @return
      */
-    public static OWLNamedIndividual createIndividual(String typeMappingLabel, String individualLabel, String comment, IRI individualIRI,  Map<String, OWLNamedIndividual> parameterMap){
+    public static OWLNamedIndividual createIndividual(String typeMappingLabel,
+                                                      String individualLabel,
+                                                      String comment,
+                                                      IRI individualIRI,
+                                                      Map<String, OWLNamedIndividual> parameterMap){
 
         //avoid empty individuals
         if (individualLabel.equals(""))
