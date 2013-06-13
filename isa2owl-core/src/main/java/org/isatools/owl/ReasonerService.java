@@ -24,6 +24,7 @@ public class ReasonerService {
     private OWLReasonerFactory reasonerFactory = null;
     private OWLReasoner reasoner = null;
     private OWLOntologyManager manager = null;
+    private OWLOntology ontology = null;
 
 
     public ReasonerService(String logicalIRIString, String physicalIRIString){
@@ -34,7 +35,8 @@ public class ReasonerService {
             manager.addIRIMapper(new SimpleIRIMapper(ontoIRI, physicalIRI));
             System.out.println("ontoIRI="+ontoIRI);
             System.out.println("physicalIRI="+physicalIRI);
-            manager.loadOntology(ontoIRI);
+            ontology = manager.loadOntology(ontoIRI);
+            initReasoner(ontology);
         }catch(OWLOntologyCreationException ex){
             System.out.println("Exception thrown! "+ ex);
             ex.printStackTrace();
@@ -45,7 +47,7 @@ public class ReasonerService {
         try{
             manager = OWLManager.createOWLOntologyManager();
             IRI ontologyIRI = IRI.create(ontologyIRIString);
-            OWLOntology ontology = manager.loadOntologyFromOntologyDocument(ontologyIRI);
+            ontology = manager.loadOntologyFromOntologyDocument(ontologyIRI);
             initReasoner(ontology);
         }catch(OWLOntologyCreationException ex){
             ex.printStackTrace();
@@ -58,7 +60,6 @@ public class ReasonerService {
 
     private void initReasoner(OWLOntology ontology){
         //reasoner = PelletReasonerFactory.getInstance().createReasoner( ontology );
-
         ConsoleProgressMonitor progressMonitor = new ConsoleProgressMonitor();
         // Specify the progress monitor via a configuration. We could also
         // specify other setup parameters in the configuration, and different
@@ -110,33 +111,14 @@ public class ReasonerService {
 
 
    public void getDescendants(IRI classIRI){
-       // Now we want to query the reasoner for all descendants of vegetarian.
-       // Vegetarians are defined in the ontology to be animals that don't eat
-       // animals or parts of animals.
-       OWLDataFactory fac = manager.getOWLDataFactory();
-       // Get a reference to the vegetarian class so that we can as the
-       // reasoner about it. The full IRI of this class happens to be:
-       // <http://owl.man.ac.uk/2005/07/sssw/people#vegetarian>
-       OWLClass owlClass = fac.getOWLClass(classIRI);
-       // Now use the reasoner to obtain the subclasses of vegetarian. We can
-       // ask for the direct subclasses of vegetarian or all of the (proper)
-       // subclasses of vegetarian. In this case we just want the direct ones
-       // (which we specify by the "true" flag).
+       OWLDataFactory factory = manager.getOWLDataFactory();
+       OWLClass owlClass = factory.getOWLClass(classIRI);
        NodeSet<OWLClass> subClses = reasoner.getSubClasses(owlClass, true);
-       // The reasoner returns a NodeSet, which represents a set of Nodes. Each
-       // node in the set represents a subclass of vegetarian pizza. A node of
-       // classes contains classes, where each class in the node is equivalent.
-       // For example, if we asked for the subclasses of some class A and got
-       // back a NodeSet containing two nodes {B, C} and {D}, then A would have
-       // two proper subclasses. One of these subclasses would be equivalent to
-       // the class D, and the other would be the class that is equivalent to
-       // class B and class C. In this case, we don't particularly care about
-       // the equivalences, so we will flatten this set of sets and print the
-       // result
        Set<OWLClass> classes = subClses.getFlattened();
        System.out.println("Subclasses of "+classIRI+" : ");
        for (OWLClass cls : classes) {
-           System.out.println("    " + cls);
+           System.out.print("    " + cls);
+           System.out.println("    " + cls.getAnnotations(ontology, factory.getOWLAnnotationProperty(IRI.create("http://www.w3.org/2000/01/rdf-schema#label")))+"\n");
        }
        System.out.println("\n");
 
@@ -146,11 +128,14 @@ public class ReasonerService {
 
         //String ontoIRIString = "http://owl.cs.manchester.ac.uk/repository/download?ontology=file:/Users/seanb/Desktop/Cercedilla2005/hands-on/people.owl&format=RDF/XML";
         String ontoIRIString = "http://purl.obolibrary.org/obo/extended-obi.owl";
-        String physicalIRIString = "/Users/agbeltran/workspace-private/doe-stato/extended-obi.owl";
+        String physicalIRIString = "file:/Users/agbeltran/workspace-private/doe-stato/extended-obi.owl";
 
         ReasonerService reasonerService = new ReasonerService(ontoIRIString, physicalIRIString);
         reasonerService.isConsistent();
         reasonerService.getUnsatisfiableClasses();
+
+        //reasonerService.getDescendants(IRI.create("http://isa-tools.org/owl/ISA_10000258"));
+        reasonerService.getDescendants(IRI.create("http://isa-tools.org/isa/ISA_0000105"));
 
     }
 
