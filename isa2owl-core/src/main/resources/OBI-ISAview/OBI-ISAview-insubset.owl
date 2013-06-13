@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF
+
+xmlns:p_8d2mngc7="http://www.geneontology.org/formats/oboInOwl#"
+ xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+ xmlns:obo="http://purl.obolibrary.org/obo/"
+ xmlns:owl="http://www.w3.org/2002/07/owl#"
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+	<owl:AnnotationProperty rdf:about="http://www.geneontology.org/formats/oboInOwl#inSubset"/>
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000040">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/IAO_0000312">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/IAO_0000316">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/IAO_0000319">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000047">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000066">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000076">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000202">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000218">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000272">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000355">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000356">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000443">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000750">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0001615">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0001622">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0001628">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0500000">
+		<p_8d2mngc7:inSubset xml:lang="en">ISA</p_8d2mngc7:inSubset>
+	</rdf:Description>
+
+
+	<owl:Ontology rdf:about="http://ontodog.hegroup.org/xiy9hhq9/insubset.owl"/>
+</rdf:RDF>

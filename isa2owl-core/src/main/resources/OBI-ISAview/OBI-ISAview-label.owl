@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF
+
+ xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+ xmlns:obo="http://purl.obolibrary.org/obo/"
+ xmlns:owl="http://www.w3.org/2002/07/owl#"
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+	<owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000118">
+		<rdfs:label xml:lang="en">alternative term</rdfs:label>
+	</owl:AnnotationProperty>
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000040">
+		<obo:IAO_0000118 >source</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/IAO_0000312">
+		<obo:IAO_0000118 >publication about a study</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/IAO_0000316">
+		<obo:IAO_0000118 >introduction to a publication about a study</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/IAO_0000319">
+		<obo:IAO_0000118 >discussion section of a publication about a study</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000047">
+		<obo:IAO_0000118 >sample, extract, labeled extract</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000066">
+		<obo:IAO_0000118 >study</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000076">
+		<obo:IAO_0000118 >unplanned occurrence effecting an study</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000202">
+		<obo:IAO_0000118 >study agent role</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000218">
+		<obo:IAO_0000118 >study results report</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000272">
+		<obo:IAO_0000118 >study protocol</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000355">
+		<obo:IAO_0000118 >hypothesis driven study</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000356">
+		<obo:IAO_0000118 >hypothesis generating study</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000443">
+		<obo:IAO_0000118 >study assay</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0000750">
+		<obo:IAO_0000118 >study factor</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0001615">
+		<obo:IAO_0000118 >study description</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0001622">
+		<obo:IAO_0000118 >study title</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0001628">
+		<obo:IAO_0000118 >study identifier</obo:IAO_0000118>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0500000">
+		<obo:IAO_0000118 >study design type</obo:IAO_0000118>
+	</rdf:Description>
+
+
+	<owl:Ontology rdf:about="http://ontodog.hegroup.org/xiy9hhq9/label.owl"/>
+</rdf:RDF>
