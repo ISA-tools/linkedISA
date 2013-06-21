@@ -5,6 +5,7 @@ import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMappingFiles;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.net.URL;
 
@@ -53,6 +54,22 @@ public class ISAtab2OWLConverterTest {
     public void tearDown() {
     }
 
+    @Test
+    public void consecutiveConversions() {
+        isatabParentDir = getClass().getResource(path+"BII-I-1").getFile();
+        System.out.println("isatabParentDir="+isatabParentDir);
+        System.out.println("Converting the ISA-tab dataset into OWL");
+        assert(isatab2owl.convert(isatabParentDir, iri));
+        isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/BII-I-1.owl");
+
+        isatabParentDir = getClass().getResource( path+  "MTBLS6").getFile();
+        System.out.println("isatabParentDir="+isatabParentDir);
+        System.out.println("Converting the ISA-tab dataset into OWL");
+        assert(isatab2owl.convert(isatabParentDir, iri));
+        isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/MTBLS6.owl");
+    }
+
+
     //@Test
     public void testConvertBII_S_9() {
         isatabParentDir = getClass().getResource(path+"BII-S-9").getFile();
@@ -60,6 +77,9 @@ public class ISAtab2OWLConverterTest {
         System.out.println("Converting the ISA-tab dataset into OWL");
         assert(isatab2owl.convert(isatabParentDir, iri));
         isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/BII-S-9.owl");
+
+
+
     }
 
 
