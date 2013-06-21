@@ -185,7 +185,9 @@ public class ISA2OWL {
 
         OWLNamedIndividual individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? IRIGenerator.getIRI(ISA2OWL.ontoIRI) : individualIRI);
 
-        OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), ISA2OWL.factory.getOWLLiteral(individualLabel));
+        OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(
+                ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),
+                ISA2OWL.factory.getOWLLiteral(individualLabel));
         OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
         ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
 

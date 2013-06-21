@@ -1,19 +1,14 @@
 package org.isatools.isa2owl.converter;
 
 import org.apache.log4j.Logger;
-
-import org.isatools.isacreator.model.*;
-
 import org.isatools.graph.model.impl.MaterialNode;
-
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.io.importisa.ISAtabImporter;
+import org.isatools.isacreator.model.*;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
-
 import org.isatools.owl.OWLUtil;
-import org.isatools.owl.ReasonerService;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.model.*;
@@ -22,7 +17,10 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * It converts an ISAtab dataset into RDF based on a given ISA2OWL mapping
@@ -78,7 +76,6 @@ public class ISAtab2OWLConverter {
             ISA2OWL.manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISAtab2OWLConverter.OBI_IRI), IRI.create(getClass().getClassLoader().getResource("owl/extended-obi.owl"))));
 
             ISA2OWL.ontology = ISA2OWL.manager.createOntology(ISA2OWL.ontoIRI);
-            ISA2OWL.reasonerService = new ReasonerService(ISA2OWL.ontology);
 
             //only import extended-obi.owl
             OWLImportsDeclaration importDecl = ISA2OWL.factory.getOWLImportsDeclaration(IRI.create("http://purl.obolibrary.org/obo/extended-obi.owl"));
