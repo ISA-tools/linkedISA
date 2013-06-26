@@ -1,9 +1,6 @@
 package org.isatools.graph.model.impl;
 
-import org.isatools.graph.model.impl.MaterialNode;
-import org.isatools.graph.model.impl.Node;
-import org.isatools.graph.model.impl.NodeType;
-import org.isatools.graph.model.impl.ProcessNode;
+import org.isatools.graph.model.ISAGraph;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +14,7 @@ import java.util.List;
  *         Date: 10/10/2011
  *         Time: 10:15
  */
-public class Graph {
+public class Graph implements ISAGraph {
 
     private List<Node> nodeList;
 
