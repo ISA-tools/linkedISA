@@ -32,8 +32,8 @@ public class ISA2OWL {
 
     public static final String STUDY_DESIGN_SUFFIX = " study design";
     public static final String STUDY_DESIGN_EXECUTION_SUFFIX = " study design execution";
-    public static final String STUDY_TITLE_SUFFIX = " title";
-    public static final String STUDY_DESCRIPTION_SUFFIX = " description";
+    public static final String TITLE_SUFFIX = " title";
+    public static final String DESCRIPTION_SUFFIX = " description";
     public static final String STUDY_PROTOCOL_SUFFIX = " protocol";
     public static final String STUDY_PROTOCOL_NAME_SUFFIX = " protocol name";
     public static final String STUDY_PUBLIC_RELEASE_DATE_SUFFIX = " public release date";
