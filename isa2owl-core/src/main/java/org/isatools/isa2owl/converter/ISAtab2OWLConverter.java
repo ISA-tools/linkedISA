@@ -183,7 +183,7 @@ public class ISAtab2OWLConverter {
     private void convertInvestigation(Investigation investigation){
 
         //Investigation
-        OWLNamedIndividual investigationIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY, investigation.getInvestigationId());
+        OWLNamedIndividual investigationIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.INVESTIGATION, investigation.getInvestigationId());
 
         //Investigation identifier
         ISA2OWL.createIndividual(Investigation.INVESTIGATION_ID_KEY,  investigation.getInvestigationId());

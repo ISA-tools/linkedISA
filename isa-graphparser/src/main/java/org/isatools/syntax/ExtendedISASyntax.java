@@ -13,6 +13,8 @@ package org.isatools.syntax;
  */
 public class ExtendedISASyntax {
 
+
+   public static String INVESTIGATION = "Investigation";
    public static String STUDY = "Study";
    public static String STUDY_FILE = "Study File";
    public static String PUBLICATION = "Publication";

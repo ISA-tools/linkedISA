@@ -160,8 +160,12 @@ public class Assay2OWLConverter {
                         System.out.println("row="+row);
                         System.out.println("outputCol="+outputCol);
                         if (!data[row][outputCol].toString().equals("")){
-                            OWLObjectPropertyAssertionAxiom axiom3 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_specified_output, assayIndividual, individualMatrix[row][outputCol]);
-                            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom3);
+                            System.out.println("individualMatrix[row][outputCol]="+individualMatrix[row][outputCol]);
+                            if (individualMatrix[row][outputCol]!=null){
+                                OWLObjectPropertyAssertionAxiom axiom3 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_specified_output, assayIndividual, individualMatrix[row][outputCol]);
+                                System.out.println("axiom3="+axiom3);
+                                ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom3);
+                            }
                         }
 
                     }//for outputs
@@ -234,12 +238,13 @@ public class Assay2OWLConverter {
 
                 OWLNamedIndividual processIndividual = processIndividualMap.get(processCol);
 
-                System.out.println("processIndividual="+processIndividual);
+                System.out.println("processIndividual before="+processIndividual);
 
                 //material processing as the execution of the protocol
                 if (processIndividual==null){
                     System.out.println("creating the process individual -"+ processName+" - this should happen only once");
                     processIndividual = ISA2OWL.createIndividual(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, processName);
+                    System.out.println("processIndividual after="+processIndividual);
                     processIndividualMap.put(processCol, processIndividual);
                 }
 
