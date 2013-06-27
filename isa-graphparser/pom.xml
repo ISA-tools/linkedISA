@@ -8,6 +8,12 @@
     <name>isa-graphparser</name>
     <url>http://maven.apache.org</url>
 
+    <parent>
+        <artifactId>isa2owl</artifactId>
+        <groupId>org.isatools</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
     <build>
         <sourceDirectory>src/main</sourceDirectory>
         <testSourceDirectory>src/test</testSourceDirectory>

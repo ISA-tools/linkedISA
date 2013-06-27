@@ -8,6 +8,13 @@
   <name>isa2owl-core</name>
   <url>http://maven.apache.org</url>
 
+
+    <parent>
+        <artifactId>isa2owl</artifactId>
+        <groupId>org.isatools</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
     <build>
         <pluginManagement>
             <plugins>
