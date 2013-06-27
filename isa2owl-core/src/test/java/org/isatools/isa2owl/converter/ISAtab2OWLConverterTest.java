@@ -29,7 +29,7 @@ public class ISAtab2OWLConverterTest {
 	@Before
     public void setUp() throws Exception {
 
-    	configDir = getClass().getResource("/configurations/isaconfig-default_v2011-02-18/").getFile();
+    	configDir = getClass().getResource("/configurations/isaconfig-default_v2011-02-18").getFile();
     	System.out.println("configDir="+configDir);
         path = "/ISAtab-Datasets/";
 
@@ -44,17 +44,13 @@ public class ISAtab2OWLConverterTest {
         System.out.println(mapping);
 
 		isatab2owl = new ISAtab2OWLConverter(configDir, mapping);
-
-        iri = "http://isa-tools.org/isa/isa.owl";
-
-
     }
 
     @After
     public void tearDown() {
     }
 
-    @Test
+    //@Test
     public void consecutiveConversions() {
         isatabParentDir = getClass().getResource(path+"BII-I-1").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
@@ -72,19 +68,18 @@ public class ISAtab2OWLConverterTest {
 
     //@Test
     public void testConvertBII_S_9() {
+        iri = "http://isa-tools.org/isa/BII-S-9.owl";
         isatabParentDir = getClass().getResource(path+"BII-S-9").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
         assert(isatab2owl.convert(isatabParentDir, iri));
         isatab2owl.saveOntology("/Users/agbeltran/workspace-private/isa2owl/BII-S-9.owl");
-
-
-
     }
 
 
-    //@Test
+    @Test
     public void testConvertBII_I_1() {
+        iri = "http://isa-tools.org/isa/BII-I-1.owl";
         isatabParentDir = getClass().getResource(path+"BII-I-1").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
@@ -105,6 +100,7 @@ public class ISAtab2OWLConverterTest {
 
     //@Test
     public void testConvertFaahKO() {
+        iri = "http://isa-tools.org/isa/faahko.owl";
         isatabParentDir = getClass().getResource( path +"faahKO").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
