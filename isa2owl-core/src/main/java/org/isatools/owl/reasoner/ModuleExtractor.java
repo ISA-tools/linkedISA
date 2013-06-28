@@ -1,5 +1,6 @@
-package org.isatools.owl;
+package org.isatools.owl.reasoner;
 
+import org.isatools.owl.OWLOntologyParametricSingleton;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import uk.ac.manchester.cs.owlapi.modularity.ModuleType;

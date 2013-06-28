@@ -1,4 +1,4 @@
-package org.isatools.owl;
+package org.isatools.owl.reasoner;
 
 
 import org.apache.log4j.Logger;

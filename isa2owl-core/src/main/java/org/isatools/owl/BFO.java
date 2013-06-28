@@ -1,6 +1,5 @@
 package org.isatools.owl;
 
-import org.isatools.owl.Namespaces;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -11,7 +10,7 @@ import org.semanticweb.owlapi.model.IRI;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public enum BFOVocabulary {
+public enum BFO {
 
 //    public static final IRI BFO_INDEPENDENT_CONTINUANT_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000004");
 //    public static final String BFO_DEPENDENT_CONTINUANT_IRI = "http://purl.obolibrary.org/obo/BFO_0000005";
@@ -30,7 +29,7 @@ public enum BFOVocabulary {
 
     final String shortName;
 
-    BFOVocabulary(Namespaces namespace, String shortName) {
+    BFO(Namespaces namespace, String shortName) {
         this.namespace = namespace;
         this.shortName = shortName;
         this.iri = org.semanticweb.owlapi.model.IRI.create(namespace.toString() + shortName);
