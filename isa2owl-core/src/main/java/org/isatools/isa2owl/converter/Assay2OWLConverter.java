@@ -8,6 +8,8 @@ import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.isatools.isacreator.model.Protocol;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
+import org.isatools.owl.IAO;
+import org.isatools.owl.OBI;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.model.IRI;
@@ -549,7 +551,7 @@ public class Assay2OWLConverter {
             }
 
             //'study design' denotes 'study group population'
-            OWLObjectProperty denotes = ISA2OWL.factory.getOWLObjectProperty(IAOVocabulary.DENOTES.iri);
+            OWLObjectProperty denotes = ISA2OWL.factory.getOWLObjectProperty(IAO.DENOTES.iri);
             OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(denotes,studyDesignIndividual, groupIndividual);
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
 

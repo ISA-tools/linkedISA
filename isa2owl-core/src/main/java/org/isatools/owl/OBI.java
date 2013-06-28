@@ -1,27 +1,31 @@
-package org.isatools.isa2owl.converter;
+package org.isatools.owl;
 
+import org.isatools.isa2owl.converter.Namespaces;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
  * Created by the ISATeam.
  * User: agbeltran
  * Date: 21/02/2013
- * Time: 10:34
+ * Time: 10:44
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public enum IAOVocabulary {
+public enum OBI {
 
-    HAS_MEASUREMENT_VALUE(Namespaces.IAO, "0000004"),
-    DENOTES(Namespaces.IAO, "0000219");
+    ORGANISM(Namespaces.OBI, "0100026"),
+    HAS_SPECIFIED_INPUT(Namespaces.OBI, "0000293"),
+    HAS_SPECIFIED_OUTPUT(Namespaces.OBI, "0000299"),
+    INVESTIGATION(Namespaces.OBI, "0000066"),
+    INVESTIGATION_DESCRIPTION(Namespaces.OBI, "0001615");
 
-    final IRI iri;
+    final public IRI iri;
 
     final Namespaces namespace;
 
     final String shortName;
 
-    IAOVocabulary(Namespaces namespace, String shortName) {
+    OBI(Namespaces namespace, String shortName) {
         this.namespace = namespace;
         this.shortName = shortName;
         this.iri = org.semanticweb.owlapi.model.IRI.create(namespace.toString() + shortName);
