@@ -8,6 +8,7 @@ import org.isatools.isacreator.io.importisa.ISAtabImporter;
 import org.isatools.isacreator.model.*;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
+import org.isatools.owl.ExtendedOBIVocabulary;
 import org.isatools.owl.OWLUtil;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;

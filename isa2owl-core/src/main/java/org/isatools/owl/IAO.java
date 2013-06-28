@@ -1,6 +1,5 @@
 package org.isatools.owl;
 
-import org.isatools.isa2owl.converter.Namespaces;
 import org.semanticweb.owlapi.model.IRI;
 
 /**

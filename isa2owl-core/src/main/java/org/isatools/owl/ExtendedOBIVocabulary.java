@@ -1,4 +1,4 @@
-package org.isatools.isa2owl.converter;
+package org.isatools.owl;
 
 import org.semanticweb.owlapi.model.IRI;
 
@@ -23,7 +23,7 @@ public enum ExtendedOBIVocabulary {
     EXECUTES(Namespaces.ISA, "0000001");
 
 
-    final IRI iri;
+    final public IRI iri;
 
     final Namespaces namespace;
 

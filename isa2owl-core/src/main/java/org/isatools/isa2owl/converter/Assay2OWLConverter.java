@@ -8,6 +8,7 @@ import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.isatools.isacreator.model.Protocol;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
+import org.isatools.owl.ExtendedOBIVocabulary;
 import org.isatools.owl.IAO;
 import org.isatools.owl.OBI;
 import org.isatools.syntax.ExtendedISASyntax;
