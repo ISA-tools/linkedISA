@@ -10,11 +10,13 @@ import org.semanticweb.owlapi.model.IRI;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public enum OBIVocabulary {
+public enum OBI {
 
     ORGANISM(Namespaces.OBI, "0100026"),
     HAS_SPECIFIED_INPUT(Namespaces.OBI, "0000293"),
-    HAS_SPECIFIED_OUTPUT(Namespaces.OBI, "0000299");
+    HAS_SPECIFIED_OUTPUT(Namespaces.OBI, "0000299"),
+    INVESTIGATION(Namespaces.OBI, "0000066"),
+    INVESTIGATION_DESCRIPTION(Namespaces.OBI, "0001615");
 
     final IRI iri;
 
@@ -22,7 +24,7 @@ public enum OBIVocabulary {
 
     final String shortName;
 
-    OBIVocabulary(Namespaces namespace, String shortName) {
+    OBI(Namespaces namespace, String shortName) {
         this.namespace = namespace;
         this.shortName = shortName;
         this.iri = org.semanticweb.owlapi.model.IRI.create(namespace.toString() + shortName);
