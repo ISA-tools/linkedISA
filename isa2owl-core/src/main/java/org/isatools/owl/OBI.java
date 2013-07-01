@@ -1,7 +1,5 @@
 package org.isatools.owl;
 
-import org.semanticweb.owlapi.model.IRI;
-
 /**
  * Created by the ISATeam.
  * User: agbeltran
@@ -10,23 +8,20 @@ import org.semanticweb.owlapi.model.IRI;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public enum OBI {
+public class OBI {
 
-    ORGANISM(Namespaces.OBI, "0100026"),
-    HAS_SPECIFIED_INPUT(Namespaces.OBI, "0000293"),
-    HAS_SPECIFIED_OUTPUT(Namespaces.OBI, "0000299"),
-    INVESTIGATION(Namespaces.OBI, "0000066"),
-    INVESTIGATION_DESCRIPTION(Namespaces.OBI, "0001615");
+    public static final String NAMESPACE = "http://purl.obolibrary.org/obo/OBI_";
+    public static final String SHORTNAME = "OBI";
 
-    final public IRI iri;
 
-    final Namespaces namespace;
+    public static final String ORGANISM = NAMESPACE + "0100026";
+    public static final String HAS_SPECIFIED_INPUT = NAMESPACE + "0000293";
+    public static final String HAS_SPECIFIED_OUTPUT = NAMESPACE+"0000299";
+    public static final String INVESTIGATION = NAMESPACE + "0000066";
+    public static final String INVESTIGATION_DESCRIPTION = NAMESPACE+ "0001615";
 
-    final String shortName;
 
-    OBI(Namespaces namespace, String shortName) {
-        this.namespace = namespace;
-        this.shortName = shortName;
-        this.iri = org.semanticweb.owlapi.model.IRI.create(namespace.toString() + shortName);
+    OBI() {
     }
+
 }

@@ -133,7 +133,7 @@ public class Assay2OWLConverter {
 
                     //inputs & outputs
                     //adding inputs and outputs to the assay
-                    OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(OBI.HAS_SPECIFIED_INPUT.iri);
+                    OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_INPUT));
                     List<ISANode> inputs = assayNode.getInputNodes();
                     for(ISANode input: inputs){
                         int inputCol = input.getIndex();
@@ -156,7 +156,7 @@ public class Assay2OWLConverter {
                      }//for inputs
 
 
-                    OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(OBI.HAS_SPECIFIED_OUTPUT.iri);
+                    OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_OUTPUT));
                     List<ISANode> outputs = assayNode.getOutputNodes();
                     for(ISANode output: outputs){
                         int outputCol = output.getIndex();

@@ -1,7 +1,7 @@
 package org.isatools.isa2owl.converter;
 
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
-import org.isatools.owl.ReasonerService;
+import org.isatools.owl.reasoner.ReasonerService;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
