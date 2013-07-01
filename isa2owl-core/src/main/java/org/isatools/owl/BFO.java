@@ -1,7 +1,5 @@
 package org.isatools.owl;
 
-import org.semanticweb.owlapi.model.IRI;
-
 /**
  * Created by the ISATeam.
  * User: agbeltran
@@ -10,7 +8,11 @@ import org.semanticweb.owlapi.model.IRI;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public enum BFO {
+public class BFO {
+
+    public static final String NAMESPACE = "http://purl.obolibrary.org/obo/BFO_";
+    public static final String SHORTNAME = "OBI";
+
 
 //    public static final IRI BFO_INDEPENDENT_CONTINUANT_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000004");
 //    public static final String BFO_DEPENDENT_CONTINUANT_IRI = "http://purl.obolibrary.org/obo/BFO_0000005";
@@ -21,17 +23,12 @@ public enum BFO {
 //public static final IRI BFO_IS_PART_OF = IRI.create("http://purl.obolibrary.org/obo/BFO_0000050");
 
 
-    HAS_QUALITY(Namespaces.BFO, "0000086");
+    public static final String HAS_QUALITY = NAMESPACE + "0000086";
+    public static final String IS_PART_OF = NAMESPACE + "0000050";
 
-    final IRI iri;
 
-    final Namespaces namespace;
 
-    final String shortName;
+    BFO() {
 
-    BFO(Namespaces namespace, String shortName) {
-        this.namespace = namespace;
-        this.shortName = shortName;
-        this.iri = org.semanticweb.owlapi.model.IRI.create(namespace.toString() + shortName);
     }
 }
