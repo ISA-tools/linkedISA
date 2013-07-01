@@ -552,7 +552,7 @@ public class Assay2OWLConverter {
             }
 
             //'study design' denotes 'study group population'
-            OWLObjectProperty denotes = ISA2OWL.factory.getOWLObjectProperty(IAO.DENOTES.iri);
+            OWLObjectProperty denotes = ISA2OWL.factory.getOWLObjectProperty(IRI.create(IAO.DENOTES));
             OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(denotes,studyDesignIndividual, groupIndividual);
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
 

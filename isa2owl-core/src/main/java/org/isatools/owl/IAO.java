@@ -1,7 +1,5 @@
 package org.isatools.owl;
 
-import org.semanticweb.owlapi.model.IRI;
-
 /**
  * Created by the ISATeam.
  * User: agbeltran
@@ -10,20 +8,14 @@ import org.semanticweb.owlapi.model.IRI;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public enum IAO {
+public class IAO {
 
-    HAS_MEASUREMENT_VALUE(Namespaces.IAO, "0000004"),
-    DENOTES(Namespaces.IAO, "0000219");
+    public static final String NAMESPACE = "http://purl.obolibrary.org/obo/IAO_";
+    public static final String SHORTNAME = "IAO";
 
-    final public IRI iri;
+    public static final String  HAS_MEASUREMENT_VALUE = NAMESPACE+ "0000004";
+    public static final String DENOTES = NAMESPACE + "0000219";
 
-    final Namespaces namespace;
-
-    final String shortName;
-
-    IAO(Namespaces namespace, String shortName) {
-        this.namespace = namespace;
-        this.shortName = shortName;
-        this.iri = org.semanticweb.owlapi.model.IRI.create(namespace.toString() + shortName);
+    IAO() {
     }
 }
