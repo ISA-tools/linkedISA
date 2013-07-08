@@ -1,137 +1,150 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.isatools</groupId>
-  <artifactId>isa2owl-core</artifactId>
-  <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>isa2owl-core</name>
-  <url>http://maven.apache.org</url>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.isatools</groupId>
+	<artifactId>isa2owl-core</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>isa2owl-core</name>
+	<url>http://maven.apache.org</url>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.11</version>
-                    <configuration>
-                        <runOrder>random</runOrder>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
-
-
-    <repositories>
-        <repository>
-            <id>oerc</id>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/repositories/releases/</url>
-        </repository>
-
-        <repository>
-            <id>Sonatype repository</id>
-            <name>Sonatype's Maven repository</name>
-            <url>https://oss.sonatype.org/content/repositories/releases/</url>
-        </repository>
-
-        <repository>
-            <id>Apache repository</id>
-            <name>Apaches's Maven repository</name>
-            <url>https://repository.apache.org/content/repositories/releases/</url>
-        </repository>
-
-    </repositories>
-
-    <dependencies>
-
-        <dependency>
-            <groupId>org.isatools</groupId>
-            <artifactId>isa-graphparser</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.isatools</groupId>
-            <artifactId>ISAcreator</artifactId>
-            <version>1.7.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sourceforge.owlapi</groupId>
-            <artifactId>owlapi-reasoner</artifactId>
-            <version>3.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sourceforge.owlapi</groupId>
-            <artifactId>owlapi-modularity</artifactId>
-            <version>3.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sourceforge.owlapi</groupId>
-            <artifactId>owlapi-apibinding</artifactId>
-            <version>3.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sourceforge.owlapi</groupId>
-            <artifactId>owlapi-tools</artifactId>
-            <version>3.4.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.14</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.jena</groupId>
-            <artifactId>apache-jena-libs</artifactId>
-            <type>pom</type>
-            <version>2.10.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.owldl</groupId>
-            <artifactId>pellet</artifactId>
-            <!-- latest version is 2.2.0, or earlier 2.1.1, ... -->
-            <version>2.3.0</version>
-        </dependency>
-
-    </dependencies>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.11</version>
+					<configuration>
+						<runOrder>random</runOrder>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 
-    <distributionManagement>
-        <repository>
-            <id>oerc-repo</id>
-            <name>OeRC Maven repository</name>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases</url>
-        </repository>
+	<repositories>
+		<repository>
+			<id>oerc</id>
+			<url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/repositories/releases/</url>
+		</repository>
 
-        <snapshotRepository>
-            <id>oerc-snapshot</id>
-            <name>Internal Releases</name>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/snapshots/</url>
-        </snapshotRepository>
+		<repository>
+			<id>on.cs.unibas.ch</id>
+			<name>DBIS Maven Releases Repository</name>
+			<url>http://on.cs.unibas.ch/maven/repository</url>
+		</repository>
 
-    </distributionManagement>
+		<repository>
+			<id>Sonatype repository</id>
+			<name>Sonatype's Maven repository</name>
+			<url>https://oss.sonatype.org/content/repositories/releases/</url>
+		</repository>
+
+		<repository>
+			<id>Apache repository</id>
+			<name>Apaches's Maven repository</name>
+			<url>https://repository.apache.org/content/repositories/releases/</url>
+		</repository>
+
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.owldl</groupId>
+			<artifactId>pellet</artifactId>
+			<!-- latest version is 2.2.0, or earlier 2.1.1, ... -->
+			<version>2.2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.isatools</groupId>
+			<artifactId>isa-graphparser</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.isatools</groupId>
+			<artifactId>ISAcreator</artifactId>
+			<version>1.7.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>owlapi-reasoner</artifactId>
+			<version>3.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>owlapi-modularity</artifactId>
+			<version>3.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>owlapi-apibinding</artifactId>
+			<version>3.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>owlapi-tools</artifactId>
+			<version>3.4.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>apache-jena-libs</artifactId>
+			<type>pom</type>
+			<version>2.10.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.owldl</groupId>
+			<artifactId>pellet</artifactId>
+			<!-- latest version is 2.2.0, or earlier 2.1.1, ... -->
+			<version>2.3.0</version>
+		</dependency>
+
+	</dependencies>
+
+
+	<distributionManagement>
+		<repository>
+			<id>oerc-repo</id>
+			<name>OeRC Maven repository</name>
+			<url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases</url>
+		</repository>
+
+		<snapshotRepository>
+			<id>oerc-snapshot</id>
+			<name>Internal Releases</name>
+			<url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/snapshots/</url>
+		</snapshotRepository>
+
+	</distributionManagement>
 
 </project>

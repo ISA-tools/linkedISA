@@ -1,4 +1,4 @@
-package main.java.org.isatools;
+package org.isatools;
 
 /**
  * Hello world!
