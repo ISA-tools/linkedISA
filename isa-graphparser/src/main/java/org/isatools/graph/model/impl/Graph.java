@@ -1,7 +1,5 @@
 package org.isatools.graph.model.impl;
 
-import org.isatools.graph.model.ISAGraph;
-
 import java.util.ArrayList;
 import java.util.List;
 
