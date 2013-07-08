@@ -1,12 +1,13 @@
 package org.isatools.owl;
 
+import java.util.Set;
+
+import org.isatools.owl.reasoner.ModuleExtractor;
 import org.junit.After;
 import org.junit.Before;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
-
-import java.util.Set;
 
 /**
  * Created by the ISATeam.

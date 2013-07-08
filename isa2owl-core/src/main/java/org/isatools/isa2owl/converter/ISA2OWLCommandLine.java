@@ -1,4 +1,4 @@
-package main.java.org.isatools.isa2owl.converter;
+package org.isatools.isa2owl.converter;
 
 /**
  * Created by the ISATeam.
