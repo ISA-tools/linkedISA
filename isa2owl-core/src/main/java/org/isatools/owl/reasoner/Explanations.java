@@ -1,10 +1,5 @@
 package org.isatools.owl.reasoner;
 
-import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.reasoner.*;
-
-import com.clarkparsia.owlapi.explanation.DefaultExplanationGenerator;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 
 

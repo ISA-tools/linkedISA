@@ -1,8 +1,22 @@
 package org.isatools.isa2owl.converter;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
-import org.isatools.graph.model.*;
-import org.isatools.graph.model.impl.*;
+import org.isatools.graph.model.ISAMaterialAttribute;
+import org.isatools.graph.model.ISAMaterialNode;
+import org.isatools.graph.model.ISANode;
+import org.isatools.graph.model.impl.AssayNode;
+import org.isatools.graph.model.impl.CommentNode;
+import org.isatools.graph.model.impl.DataNode;
+import org.isatools.graph.model.impl.Graph;
+import org.isatools.graph.model.impl.MaterialNode;
+import org.isatools.graph.model.impl.Node;
+import org.isatools.graph.model.impl.NodeType;
+import org.isatools.graph.model.impl.ProcessNode;
 import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
@@ -17,11 +31,6 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by the ISATeam.

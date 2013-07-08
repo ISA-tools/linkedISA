@@ -1,12 +1,13 @@
  
 package org.isatools.isa2owl.mapping;
 
-import au.com.bytecode.opencsv.CSVReader;
-import org.apache.log4j.Logger;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
+import org.apache.log4j.Logger;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 
 /**

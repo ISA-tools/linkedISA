@@ -3,6 +3,8 @@ package org.isatools.graph.model.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.isatools.graph.model.ISAGraph;
+
 /**
  * Created by the ISA team
  *

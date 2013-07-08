@@ -1,12 +1,12 @@
 package org.isatools.isa2owl.mapping;
 
+import java.net.URL;
+
 import org.isatools.graph.model.ISAMaterialAttribute;
 import org.isatools.graph.model.ISAMaterialNode;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.net.URL;
 
 /**
  * Test class for ISA2OWLMappingParser.

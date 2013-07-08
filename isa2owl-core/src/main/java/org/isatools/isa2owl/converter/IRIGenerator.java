@@ -1,9 +1,8 @@
 package org.isatools.isa2owl.converter;
 
-import org.semanticweb.owlapi.model.IRI;
-
-import java.net.URI;
 import java.util.UUID;
+
+import org.semanticweb.owlapi.model.IRI;
 
 /**
  * Created by the ISATeam.

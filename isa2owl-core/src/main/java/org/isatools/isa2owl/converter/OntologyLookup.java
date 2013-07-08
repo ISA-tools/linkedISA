@@ -1,11 +1,11 @@
 package org.isatools.isa2owl.converter;
 
+import java.util.List;
+
 import org.isatools.isacreator.ontologymanager.BioPortalClient;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
-
-import java.util.List;
 
 /**
  * Created by the ISATeam.

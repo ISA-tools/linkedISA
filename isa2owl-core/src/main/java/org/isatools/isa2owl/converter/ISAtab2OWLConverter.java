@@ -1,27 +1,47 @@
 package org.isatools.isa2owl.converter;
 
-import org.apache.log4j.Logger;
-import org.isatools.graph.model.impl.MaterialNode;
-import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
-import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
-import org.isatools.isacreator.io.importisa.ISAtabImporter;
-import org.isatools.isacreator.model.*;
-import org.isatools.isacreator.ontologymanager.OntologyManager;
-import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
-import org.isatools.owl.ExtendedOBIVocabulary;
-import org.isatools.owl.OWLUtil;
-import org.isatools.syntax.ExtendedISASyntax;
-import org.isatools.util.Pair;
-import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.SimpleIRIMapper;
-import org.semanticweb.owlapi.vocab.OWL2Datatype;
-
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.log4j.Logger;
+import org.isatools.graph.model.impl.MaterialNode;
+import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
+import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
+import org.isatools.isacreator.io.importisa.ISAtabImporter;
+import org.isatools.isacreator.model.Assay;
+import org.isatools.isacreator.model.Contact;
+import org.isatools.isacreator.model.Factor;
+import org.isatools.isacreator.model.GeneralFieldTypes;
+import org.isatools.isacreator.model.Investigation;
+import org.isatools.isacreator.model.Protocol;
+import org.isatools.isacreator.model.Publication;
+import org.isatools.isacreator.model.Study;
+import org.isatools.isacreator.model.StudyContact;
+import org.isatools.isacreator.model.StudyDesign;
+import org.isatools.isacreator.model.StudyPublication;
+import org.isatools.isacreator.ontologymanager.OntologyManager;
+import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
+import org.isatools.owl.ExtendedOBIVocabulary;
+import org.isatools.owl.OWLUtil;
+import org.isatools.syntax.ExtendedISASyntax;
+import org.isatools.util.Pair;
+import org.semanticweb.owlapi.model.AddImport;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLImportsDeclaration;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.util.SimpleIRIMapper;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 /**
  * It converts an ISAtab dataset into RDF based on a given ISA2OWL mapping

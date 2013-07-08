@@ -1,9 +1,9 @@
 package org.isatools.isa2owl.converter;
 
-import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 
 /**
  * Created by the ISATeam.
