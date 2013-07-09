@@ -44,9 +44,20 @@ public class ISA2OWLMappingParserTest {
 
         System.out.println("two regexps = " + mapping.getPropertyIRISubjectRegexObjectRegex(ISAMaterialNode.REGEXP, ISAMaterialAttribute.REGEXP));
 
-
-
 	}
+
+    @Test
+    public void testLoadTwoMappings() throws Exception {
+        URL isa_obi_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_OBI_MAPPING_FILENAME);
+        parser.parseCSVMappingFile(isa_obi_mapping_url.toURI().getRawPath().toString());
+
+        URL isa_isa_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_ISA_MAPPING_FILENAME);
+        parser.parseCSVMappingFile(isa_isa_mapping_url.toURI().getRawPath().toString());
+
+        ISASyntax2OWLMapping mapping = parser.getMapping();
+
+        System.out.println("mapping="+mapping);
+    }
 
     @Test
     public void testReadISA_SIOMappingFile() throws Exception{
