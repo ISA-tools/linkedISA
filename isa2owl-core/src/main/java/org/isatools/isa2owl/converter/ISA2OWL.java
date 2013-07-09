@@ -177,47 +177,59 @@ public class ISA2OWL {
         Map<String, OWLNamedIndividual> map = typeIdIndividualMap.get(typeMappingLabel);
 
         //if it wasn't created, create it now
-        IRI owlClassIRI = mapping.getTypeMapping(typeMappingLabel);
-        if (owlClassIRI==null){
-            System.err.println("No IRI for type " + typeMappingLabel);
+        Set<IRI> owlClassIRIs = mapping.getTypeMapping(typeMappingLabel);
+
+        OWLNamedIndividual individual = null;
+
+        if (owlClassIRIs==null){
+            System.err.println("No IRIs for type " + typeMappingLabel);
             return null;
         }
 
-        OWLNamedIndividual individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? IRIGenerator.getIRI(ISA2OWL.ontoIRI) : individualIRI);
+        for(IRI owlClassIRI: owlClassIRIs){
 
-        OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(
+            if (owlClassIRI==null){
+                System.err.println("No IRI for type " + typeMappingLabel);
+                return null;
+            }
+
+            if (individual ==null)
+                individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? IRIGenerator.getIRI(ISA2OWL.ontoIRI) : individualIRI);
+
+            OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(
                 ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),
                 ISA2OWL.factory.getOWLLiteral(individualLabel));
-        OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
-        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
+            OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
 
-        OWLClass owlClass = ISA2OWL.addOWLClassAssertion(owlClassIRI, individual);
+            OWLClass owlClass = ISA2OWL.addOWLClassAssertion(owlClassIRI, individual);
 
-        Set<OWLNamedIndividual> list = typeIndividualMap.get(typeMappingLabel);
-        if (list ==null){
-            list = new HashSet<OWLNamedIndividual>();
-        }
-        list.add(individual);
-        typeIndividualMap.put(typeMappingLabel, list);
+            Set<OWLNamedIndividual> list = typeIndividualMap.get(typeMappingLabel);
+            if (list ==null){
+                list = new HashSet<OWLNamedIndividual>();
+            }
+            list.add(individual);
+            typeIndividualMap.put(typeMappingLabel, list);
 
-        idIndividualMap.put(individualLabel, individual);
+            idIndividualMap.put(individualLabel, individual);
 
-        if (map==null){
-            map = new HashMap<String, OWLNamedIndividual>();
-        }
-        map.put(individualLabel, individual);
-        typeIdIndividualMap.put(typeMappingLabel,map);
+            if (map==null){
+                map = new HashMap<String, OWLNamedIndividual>();
+            }
+            map.put(individualLabel, individual);
+            typeIdIndividualMap.put(typeMappingLabel,map);
 
 
-        if (comment!=null && !comment.equals("")) {
-            OWLAnnotation commentAnnotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
-            OWLAnnotationAssertionAxiom commentAnnotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
-            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, commentAnnotationAssertionAxiom);
-        }
+            if (comment!=null && !comment.equals("")) {
+                OWLAnnotation commentAnnotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
+                OWLAnnotationAssertionAxiom commentAnnotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
+                ISA2OWL.manager.addAxiom(ISA2OWL.ontology, commentAnnotationAssertionAxiom);
+            }
 
-        if (parameterMap!=null){
-            parameterMap.put(typeMappingLabel, individual);
-        }
+            if (parameterMap!=null){
+                parameterMap.put(typeMappingLabel, individual);
+            }
+        }//for
 
         return individual;
     }
