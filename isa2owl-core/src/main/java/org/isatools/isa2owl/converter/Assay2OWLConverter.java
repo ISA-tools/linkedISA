@@ -53,7 +53,14 @@ public class Assay2OWLConverter {
         log.info("Assay2OWLConverter - constructor");
     }
 
-    public Map<String, OWLNamedIndividual> convert(Assay assay, AssayTableType att, Map<String,OWLNamedIndividual> sampleIndividualMap, List<Protocol> protocolList, Map<String, OWLNamedIndividual> protocolIndividualMap, OWLNamedIndividual studyDesignIndividual, boolean convertGroups){
+    public Map<String, OWLNamedIndividual> convert(Assay assay,
+                                                   AssayTableType att,
+                                                   Map<String,OWLNamedIndividual> sampleIndividualMap,
+                                                   List<Protocol> protocolList,
+                                                   Map<String, OWLNamedIndividual> protocolIndividualMap,
+                                                   OWLNamedIndividual studyDesignIndividual,
+                                                   OWLNamedIndividual studyIndividual,
+                                                   boolean convertGroups){
         System.out.println("CONVERTING ASSAY ---> AssayTableType="+att);
 
         assayTableType = att;
@@ -77,7 +84,7 @@ public class Assay2OWLConverter {
             System.exit(-1);
         }
 
-        sampleIndividualMap = convertMaterialNodes(graph, sampleIndividualMap);
+        sampleIndividualMap = convertMaterialNodes(graph, sampleIndividualMap, studyIndividual);
         convertDataNodes(graph);
 
         //TODO remove after debugging
@@ -351,9 +358,8 @@ public class Assay2OWLConverter {
      * @param sampleIndividualMap a map with the individuals corresponding to samples, this is null for a STUDY table
      * @return
      */
-    private Map<String, OWLNamedIndividual> convertMaterialNodes(Graph graph, Map<String, OWLNamedIndividual> sampleIndividualMap) {
+    private Map<String, OWLNamedIndividual> convertMaterialNodes(Graph graph, Map<String, OWLNamedIndividual> sampleIndividualMap, OWLNamedIndividual studyIndividual) {
         OWLNamedIndividual materialNodeIndividual = null;
-
 
         boolean sampleIndividualMapWasNull = (sampleIndividualMap==null);
 
@@ -367,6 +373,7 @@ public class Assay2OWLConverter {
         for(Node node: materialNodes){
 
             Map<String, OWLNamedIndividual> materialNodeAndAttributesIndividuals = new HashMap<String,OWLNamedIndividual>();
+            materialNodeAndAttributesIndividuals.put("Study", studyIndividual);
 
             MaterialNode materialNode = (MaterialNode) node;
             System.out.println("MATERIAL NODE="+node);
@@ -504,6 +511,7 @@ public class Assay2OWLConverter {
 
                          //convert properties per each attribute (Characteristics gets overwritten in the HashMap)
                          System.out.println("Material Node and Attribute Individuals="+materialNodeAndAttributesIndividuals);
+
                          Map<String, List<Pair<IRI,String>>> materialNodePropertyMapping = ISA2OWL.mapping.getMaterialNodePropertyMappings();
                          ISA2OWL.convertProperties(materialNodePropertyMapping,materialNodeAndAttributesIndividuals);
 

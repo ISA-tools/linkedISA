@@ -293,13 +293,13 @@ public class ISAtab2OWLConverter {
         convertProtocols(protocolList);
 
         Assay2OWLConverter assay2OWLConverter = new Assay2OWLConverter();
-        sampleIndividualMap = assay2OWLConverter.convert(study.getStudySample(), Assay2OWLConverter.AssayTableType.STUDY, null, protocolList, protocolIndividualMap,studyDesignIndividual, true);
+        sampleIndividualMap = assay2OWLConverter.convert(study.getStudySample(), Assay2OWLConverter.AssayTableType.STUDY, null, protocolList, protocolIndividualMap,studyDesignIndividual, studyIndividual, true);
 
         System.out.println("ASSAYS..." + study.getAssays());
 
         //Study Assays
         Map<String, Assay> assayMap = study.getAssays();
-        convertAssays(assayMap, protocolList);
+        convertAssays(assayMap, protocolList, studyIndividual);
 
         //dealing with all property mappings
         Map<String, List<Pair<IRI, String>>> propertyMappings = ISA2OWL.mapping.getPropertyMappings();
@@ -598,7 +598,7 @@ public class ISAtab2OWLConverter {
      *
      * @param assayMap
      */
-    private void convertAssays(Map<String, Assay> assayMap, List<Protocol> protocolList){
+    private void convertAssays(Map<String, Assay> assayMap, List<Protocol> protocolList, OWLNamedIndividual studyIndividual){
 
         for(String assayRef: assayMap.keySet()){
             Assay assay = assayMap.get(assayRef);
@@ -619,7 +619,7 @@ public class ISAtab2OWLConverter {
             ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference());
 
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
-            assayConverter.convert(assay, Assay2OWLConverter.AssayTableType.ASSAY, sampleIndividualMap, protocolList, protocolIndividualMap, null, false);
+            assayConverter.convert(assay, Assay2OWLConverter.AssayTableType.ASSAY, sampleIndividualMap, protocolList, protocolIndividualMap, null, studyIndividual, false);
         }
 
     }

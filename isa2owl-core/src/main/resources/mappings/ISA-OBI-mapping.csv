@@ -55,7 +55,7 @@ Study Design Type,study design(http://purl.obolibrary.org/obo/OBI_0500000),http:
 Study Design Type,study design,http://purl.obolibrary.org/obo/OBI_0500000,denotes,http://purl.obolibrary.org/obo/IAO_0000219,investigation,Study,declares,http://isa-tools.org/isa/ISA_0000114,factor,Study Factor,has part,http://purl.obolibrary.org/obo/BFO_0000051,protocol,Study Protocol
 Study Design Execution,study design execution,http://purl.obolibrary.org/obo/OBI_0000471,executes,http://isa-tools.org/isa/ISA0000001,study design,Study Design Type,is part of,http://purl.obolibrary.org/obo/BFO_0000050,study,Study,,,,
 ,,,,,,,,,,,,,,
-Study Assay,analyte assay,http://purl.obolibrary.org/obo/OBI_0000443,is part of,http://purl.obolibrary.org/obo/BFO_0000050,study,Study,achives plan objective ,http://purl.obolibrary.org/obo/OBI_0000417,assay measurement type,Study Assay Measurement Type,,,,
+Study Assay,analyte assay,http://purl.obolibrary.org/obo/OBI_0000443,is part of,http://purl.obolibrary.org/obo/BFO_0000050,study,Study,achieves plan objective ,http://purl.obolibrary.org/obo/OBI_0000417,assay measurement type,Study Assay Measurement Type,,,,
 Study Assay Measurement,dependent variable specification,,,,,,,,,,,,,
 Study Assay Measurement Type,planned process,http://purl.obolibrary.org/obo/OBI_0000011,,,,Study Assay,,,,,,,,
 Study Assay Technology Type,planned process,http://purl.obolibrary.org/obo/OBI_0000011,,,,,,,,,,,,
