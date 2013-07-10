@@ -1,5 +1,5 @@
 MAPPINGS,ISA ontology term label,URI,,,,,,,,
-Investigation,investigation,,,,,,,,,
+Investigation,investigation,http://www.purl.org/isatools/ISA_00000058,,,,,,,,
 Investigation Identifier,,,,,,,,,,
 Investigation Title,,,,,,,,,,
 Investigation Description,,,,,,,,,,
