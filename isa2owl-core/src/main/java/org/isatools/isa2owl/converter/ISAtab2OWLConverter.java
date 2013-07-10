@@ -115,11 +115,22 @@ public class ISAtab2OWLConverter {
         for(String key: studies.keySet()){
             convertStudy(studies.get(key));
             //reset the map of type/individuals
-            ISA2OWL.typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
+            //ISA2OWL.typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
+
+            //remove from the map of type/individuals, anything that is not related to the Investigation
+            HashMap newMap = new HashMap<String, Set<OWLNamedIndividual>>();
+            Set<String> keys = ISA2OWL.typeIndividualMap.keySet();
+            for(String mapkey: keys){
+                if (mapkey.startsWith(ExtendedISASyntax.INVESTIGATION))
+                    newMap.put(mapkey,ISA2OWL.typeIndividualMap.get(mapkey));
+            }
+            ISA2OWL.typeIndividualMap = newMap;
         }
 
         return true;
     }
+
+
 
 
     /**
@@ -198,7 +209,7 @@ public class ISAtab2OWLConverter {
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, dataPropertyAssertionAxiom);
         }
 
-        //Study description
+        //Investigation description
         OWLNamedIndividual investigationDescriptionIndividual = ISA2OWL.createIndividual(Investigation.INVESTIGATION_DESCRIPTION_KEY, investigation.getInvestigationId()+ISA2OWL.DESCRIPTION_SUFFIX, investigation.getInvestigationDescription());
         if (investigationDescriptionIndividual!=null){
             OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ExtendedOBIVocabulary.HAS_VALUE.iri);
@@ -304,7 +315,6 @@ public class ISAtab2OWLConverter {
         //dealing with all property mappings
         Map<String, List<Pair<IRI, String>>> propertyMappings = ISA2OWL.mapping.getPropertyMappings();
         for(String subjectString: propertyMappings.keySet()){
-           // System.out.println("subjectString="+subjectString);
 
             //skip Study Person properties as they are dealt with in the Contact mappings
             if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON) ||
