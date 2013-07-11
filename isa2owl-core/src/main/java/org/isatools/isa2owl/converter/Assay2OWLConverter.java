@@ -468,10 +468,11 @@ public class Assay2OWLConverter {
                    //row information
                    String attributeDataValue = data[row][attribute.getIndex()].toString();
 
-                   System.out.println("attributeDataValue ="+attributeDataValue+"=");
+                   System.out.println("attributeDataValue ="+attributeDataValue+"="+" attributeTerm="+attributeTerm);
 
                    if (attributeDataValue!=null && !attributeDataValue.equals("")){
                         OWLNamedIndividual materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeTerm);
+
                         individualMatrix[row][attribute.getIndex()] = materialAttributeIndividual;
 
 
