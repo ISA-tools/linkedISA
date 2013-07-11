@@ -165,6 +165,11 @@
             <id>oerc</id>
             <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/repositories/releases/</url>
         </repository>
+        
+        <repository>
+            <id>oerc-snapshot</id>
+            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/repositories/snapshots/</url>
+        </repository>
 
         <repository>
             <id>Sonatype repository</id>
