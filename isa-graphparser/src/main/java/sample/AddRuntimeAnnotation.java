@@ -8,8 +8,6 @@ package sample;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-import java.lang.reflect.Method;
-import sample.PersonneName;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -18,6 +16,8 @@ import javassist.bytecode.ClassFile;
 import javassist.bytecode.ConstPool;
 import javassist.bytecode.annotation.Annotation;
 import javassist.bytecode.annotation.StringMemberValue;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by the ISATeam.
@@ -29,14 +29,14 @@ import javassist.bytecode.annotation.StringMemberValue;
  */
 
 
-public class AddRunTimeAnnotation {
+public class AddRuntimeAnnotation {
 
     public static void addPersonneNameAnnotationToMethod(String className,String methodName) throws Exception{
 
         //pool creation
         ClassPool pool = ClassPool.getDefault();
         //extracting the class
-        CtClass cc = pool.getCtClass(className);
+        CtClass cc = pool.get(className);//pool.getCtClass(className);
         //looking for the method to apply the annotation on
         CtMethod sayHelloMethodDescriptor = cc.getDeclaredMethod(methodName);
         // create the annotation
@@ -71,7 +71,7 @@ public class AddRunTimeAnnotation {
     public static void main(String[] args) {
 
         try {
-            AddRunTimeAnnotation.addPersonneNameAnnotationToMethod("sample.SayHelloBean", "sayHelloTo");
+            AddRuntimeAnnotation.addPersonneNameAnnotationToMethod("sample.SayHelloBean", "sayHelloTo");
         } catch (Exception e) {
 
             e.printStackTrace();
