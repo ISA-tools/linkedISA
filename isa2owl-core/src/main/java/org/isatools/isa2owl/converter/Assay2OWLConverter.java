@@ -1,22 +1,10 @@
 package org.isatools.isa2owl.converter;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 import org.isatools.graph.model.ISAMaterialAttribute;
 import org.isatools.graph.model.ISAMaterialNode;
 import org.isatools.graph.model.ISANode;
-import org.isatools.graph.model.impl.AssayNode;
-import org.isatools.graph.model.impl.CommentNode;
-import org.isatools.graph.model.impl.DataNode;
-import org.isatools.graph.model.impl.Graph;
-import org.isatools.graph.model.impl.MaterialNode;
-import org.isatools.graph.model.impl.Node;
-import org.isatools.graph.model.impl.NodeType;
-import org.isatools.graph.model.impl.ProcessNode;
+import org.isatools.graph.model.impl.*;
 import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
@@ -31,6 +19,11 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by the ISATeam.
@@ -117,6 +110,7 @@ public class Assay2OWLConverter {
     private void convertAssayNodes(Map<String, OWLNamedIndividual> protocolIndividualMap, Graph graph) {
         //assay individuals
         List<Node> assayNodes = graph.getNodes(NodeType.ASSAY_NODE);
+        Map<String, OWLNamedIndividual> assayIndividuals = new HashMap<String, OWLNamedIndividual>();
         for(Node node: assayNodes){
             AssayNode assayNode = (AssayNode) node;
 
@@ -127,7 +121,12 @@ public class Assay2OWLConverter {
                 if (dataValue.equals(""))
                     continue;
 
-                OWLNamedIndividual assayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, dataValue);
+
+                OWLNamedIndividual assayIndividual = assayIndividuals.get(dataValue);
+                if (assayIndividual==null){
+                        assayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, dataValue);
+                        assayIndividuals.put(dataValue, assayIndividual);
+
 
                 //add comments
                 for(CommentNode comment: assayNode.getComments()){
@@ -190,6 +189,7 @@ public class Assay2OWLConverter {
                     }//for outputs
                 }//for process node
             }
+           }//if individual is null.
         }
     }
 
