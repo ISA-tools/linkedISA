@@ -1,5 +1,6 @@
 package org.isatools.owl;
 
+import org.isatools.owl.reasoner.ModuleExtractor;
 import org.junit.After;
 import org.junit.Before;
 import org.semanticweb.owlapi.model.IRI;
@@ -24,6 +25,7 @@ public class ModuleExtractorTest {
 
     @Before
     public void setUp() {
+
        sourceOntologyIRI = IRI.create("http://purl.obolibrary.org/obo/obi.owl");
        sourceOntologyPhysicalIRI = IRI.create("file:/Users/agbeltran/workspace-private/isa2owl/isa2owl-core/src/main/resources/owl/obi/trunk/src/ontology/branches/obi.owl");
        moduleExtractor = new ModuleExtractor(sourceOntologyIRI, sourceOntologyPhysicalIRI);
