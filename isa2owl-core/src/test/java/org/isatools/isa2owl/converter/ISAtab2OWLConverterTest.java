@@ -38,8 +38,14 @@ public class ISAtab2OWLConverterTest {
         System.out.println("Parsing the mapping...");
 
         parser = new ISA2OWLMappingParser();
-        URL fileURL = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_OBI_MAPPING_FILENAME);
-        parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
+        URL isa_obi_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_OBI_MAPPING_FILENAME);
+        System.out.println("isa_obi_mapping_url="+isa_obi_mapping_url);
+        parser.parseCSVMappingFile(isa_obi_mapping_url.toURI().getRawPath().toString());
+
+        URL isa_isa_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_ISA_MAPPING_FILENAME);
+        System.out.println("isa_isa_mapping_url="+isa_isa_mapping_url);
+        parser.parseCSVMappingFile(isa_isa_mapping_url.toURI().getRawPath().toString());
+
         mapping = parser.getMapping();
 
         System.out.println("MAPPING-----");

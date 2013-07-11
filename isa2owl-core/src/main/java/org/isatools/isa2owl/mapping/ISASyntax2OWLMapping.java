@@ -29,7 +29,9 @@ public class ISASyntax2OWLMapping {
     public static String CHAIN_PROPERTY = "chain";
 	
 	Map<String,IRI> sourceOntoIRIs = null;
-	Map<String, IRI> typeMappings = null;
+
+    //for each type string (from the ISA syntax) there might be one or more IRIs to be used as classes
+	Map<String, Set<IRI>> typeMappings = null;
 
     //property mappings
 	Map<String, List<Pair<IRI, String>>> propertyMappings = null;
@@ -47,7 +49,7 @@ public class ISASyntax2OWLMapping {
 	
 	private void init(){
 		sourceOntoIRIs = new HashMap<String,IRI>();
-		typeMappings = new HashMap<String, IRI>();
+		typeMappings = new HashMap<String, Set<IRI>>();
 		propertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         contactPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         protocolPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
@@ -77,12 +79,16 @@ public class ISASyntax2OWLMapping {
 		return sourceOntoIRIs.get(ontoID);
 	}
 
-    public IRI getTypeMapping(String label){
+    public Set<IRI> getTypeMapping(String label){
         return typeMappings.get(label);
     }
 
 	public void addTypeMapping(String label, String type){
-		typeMappings.put(label, IRI.create(type));
+        Set<IRI> iris = typeMappings.get(label);
+        if (iris==null)
+            iris = new HashSet<IRI>();
+        iris.add(IRI.create(type));
+		typeMappings.put(label, iris);
 	}
 
     public Map<String,List<Pair<IRI, String>>> getPropertyMappings(){
