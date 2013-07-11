@@ -1,5 +1,7 @@
 package org.isatools.isa2owl.dataset.descriptor;
 
+import org.semanticweb.owlapi.model.OWLOntology;
+
 /**
  * Created by the ISATeam.
  * User: agbeltran
@@ -8,8 +10,8 @@ package org.isatools.isa2owl.dataset.descriptor;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public class ISADatasetDescriptionGenerator {
+public interface ISADatasetDescriptionGenerator {
 
-
+    public OWLOntology generateDescription();
 
 }

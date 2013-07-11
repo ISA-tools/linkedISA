@@ -9,4 +9,7 @@ package org.isatools.owl;
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
 public class AssignURIs {
+
+
+
 }
