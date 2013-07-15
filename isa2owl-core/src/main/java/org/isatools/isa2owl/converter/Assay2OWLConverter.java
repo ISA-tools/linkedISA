@@ -101,7 +101,7 @@ public class Assay2OWLConverter {
 
 
         if (convertGroups){
-            convertGroups(studyDesignIndividual);
+            convertGroups(studyDesignIndividual,sampleIndividualMap);
         }
 
         return sampleIndividualMap;
@@ -335,7 +335,7 @@ public class Assay2OWLConverter {
     private void convertDataNodes(Graph graph) {
         OWLNamedIndividual dataNodeIndividual = null;
 
-        //Material Nodes
+        //Data Nodes
         List<Node> dataNodes = graph.getNodes(NodeType.DATA_NODE);
 
         for(Node node: dataNodes){
@@ -417,8 +417,8 @@ public class Assay2OWLConverter {
                     }
 
 
-                    if (materialNode.getMaterialNodeType() == ExtendedISASyntax.SAMPLE && sampleIndividualMapWasNull){
-                            sampleIndividualMap.put(materialNode.getName(), materialNodeIndividual);
+                    if (materialNode.getMaterialNodeType() == ExtendedISASyntax.SAMPLE ){//&& sampleIndividualMapWasNull){
+                            sampleIndividualMap.put(dataValue, materialNodeIndividual);
                     }
 
                     individualMatrix[row][col] = materialNodeIndividual;
@@ -444,8 +444,7 @@ public class Assay2OWLConverter {
                     materialNodeAndAttributesIndividuals.put(materialNode.getName(), materialNodeIndividualName);
 
                 } else {
-                    materialNodeIndividual = sampleIndividualMap.get(materialNode.getName());
-
+                    materialNodeIndividual = sampleIndividualMap.get(dataValue);
                 }
 
                 //material node attributes
@@ -543,7 +542,7 @@ public class Assay2OWLConverter {
 
     }
 
-    private void convertGroups(OWLNamedIndividual studyDesignIndividual){
+    private void convertGroups(OWLNamedIndividual studyDesignIndividual, Map<String, OWLNamedIndividual> sampleIndividualMap){
         //Treatment groups
         Map<String, Set<String>> groups = graphParser.getGroups();
 
@@ -560,9 +559,9 @@ public class Assay2OWLConverter {
             //group membership
             for(String element: elements){
                 System.out.println("element="+element);
-                System.out.println("ISA2OWL.idIndividualMap="+ISA2OWL.idIndividualMap);
+                //System.out.println("ISA2OWL.idIndividualMap="+ISA2OWL.idIndividualMap);
                 System.out.println("groupIndividual="+groupIndividual);
-                OWLNamedIndividual memberIndividual = ISA2OWL.idIndividualMap.get(element);
+                OWLNamedIndividual memberIndividual = sampleIndividualMap.get(element);//ISA2OWL.idIndividualMap.get(element);
                 System.out.println("memberIndividual="+memberIndividual);
                 OWLObjectProperty hasMember = ISA2OWL.factory.getOWLObjectProperty(ExtendedOBIVocabulary.HAS_MEMBER.iri);
                 OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasMember, groupIndividual, memberIndividual);
