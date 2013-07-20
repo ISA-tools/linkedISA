@@ -34,9 +34,8 @@ public class ISASyntax2OWLMapping {
     Map<String,List<Pair<IRI, String>>> protocolPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> protocolREFPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> materialNodePropertyMappings = null;
+    Map<String,List<Pair<IRI, String>>> assayPropertyMappings = null;
 
-	Map<String, String> patternMappings = null;
-	
 
 	public ISASyntax2OWLMapping(){
 		init();
@@ -50,6 +49,7 @@ public class ISASyntax2OWLMapping {
         protocolPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         protocolREFPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         materialNodePropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
+        assayPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
 		
 	}
 
@@ -183,6 +183,10 @@ public class ISASyntax2OWLMapping {
         return contactPropertyMappings;
     }
 
+    public Map<String,List<Pair<IRI, String>>> getAssayPropertyMappings(){
+        return assayPropertyMappings;
+    }
+
     public Map<String,List<Pair<IRI, String>>> getProtocolMappings(){
         return protocolPropertyMappings;
     }
@@ -220,6 +224,10 @@ public class ISASyntax2OWLMapping {
             materialNodePropertyMappings.put(subject, predobjs);
         }
 
+        if (subject.startsWith(ExtendedISASyntax.STUDY_ASSAY)){
+            assayPropertyMappings.put(subject, predobjs);
+        }
+
 	}
 
 
@@ -241,8 +249,8 @@ public class ISASyntax2OWLMapping {
         builder.append(this.mapToString(protocolREFPropertyMappings));
         builder.append("\nMATERIAL NODE PROPERTY MAPPINGS=\n");
         builder.append(this.mapToString(materialNodePropertyMappings));
-		builder.append("\nPATTERNS");
-		
+        builder.append("\nASSAY PROPERTY MAPPINGS=\n");
+        builder.append(this.mapToString(assayPropertyMappings));
 		return builder.toString();
 	}
 	
