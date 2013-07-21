@@ -38,13 +38,13 @@
     </build>
 
 
-<<<<<<< HEAD
+
 	<repositories>
 		<repository>
 			<id>oerc</id>
 			<url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/repositories/releases/</url>
 		</repository>
-		
+
 		<repository>
 			<id>oerc-snapshot</id>
 			<url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/repositories/snapshots/</url>
@@ -67,6 +67,12 @@
 			<name>Apaches's Maven repository</name>
 			<url>https://repository.apache.org/content/repositories/releases/</url>
 		</repository>
+
+        <repository>
+            <id>Aduna repository</id>
+            <name>Sesame's Maven repository</name>
+            <url>http://repo.aduna-software.org/maven2/releases/</url>
+        </repository>
 
 	</repositories>
 
@@ -116,6 +122,13 @@
 			<version>3.3</version>
 		</dependency>
 
+
+        <dependency>
+            <groupId>net.sourceforge.owlapi</groupId>
+            <artifactId>owlapi-tools</artifactId>
+            <version>3.4.3</version>
+        </dependency>
+
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
 			<artifactId>owlapi-tools</artifactId>
@@ -135,6 +148,7 @@
 			<version>2.10.0</version>
 		</dependency>
 
+
 		<dependency>
 			<groupId>com.owldl</groupId>
 			<artifactId>pellet</artifactId>
@@ -142,112 +156,22 @@
 			<version>2.3.0</version>
 		</dependency>
 
-	</dependencies>
 
-
-	<distributionManagement>
-		<repository>
-			<id>oerc-repo</id>
-			<name>OeRC Maven repository</name>
-			<url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases</url>
-		</repository>
-
-		<snapshotRepository>
-			<id>oerc-snapshot</id>
-			<name>Internal Releases</name>
-			<url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/snapshots/</url>
-		</snapshotRepository>
-
-	</distributionManagement>
-=======
-    <repositories>
-        <repository>
-            <id>oerc</id>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/repositories/releases/</url>
-        </repository>
-        
-        <repository>
-            <id>oerc-snapshot</id>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/repositories/snapshots/</url>
-        </repository>
-
-        <repository>
-            <id>Sonatype repository</id>
-            <name>Sonatype's Maven repository</name>
-            <url>https://oss.sonatype.org/content/repositories/releases/</url>
-        </repository>
-
-        <repository>
-            <id>Apache repository</id>
-            <name>Apaches's Maven repository</name>
-            <url>https://repository.apache.org/content/repositories/releases/</url>
-        </repository>
-
-        <repository>
-            <id>Aduna repository</id>
-            <name>Sesame's Maven repository</name>
-            <url>http://repo.aduna-software.org/maven2/releases/</url>
-        </repository>
-
-    </repositories>
-
-    <dependencies>
 
         <dependency>
-            <groupId>org.isatools</groupId>
-            <artifactId>isa-graphparser</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-runtime</artifactId>
+            <version>2.7.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.isatools</groupId>
-            <artifactId>ISAcreator</artifactId>
-            <version>1.7.1</version>
-        </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
-            <scope>test</scope>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>net.sourceforge.owlapi</groupId>
-            <artifactId>owlapi-reasoner</artifactId>
-            <version>3.3</version>
-        </dependency>
 
-        <dependency>
-            <groupId>net.sourceforge.owlapi</groupId>
-            <artifactId>owlapi-modularity</artifactId>
-            <version>3.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sourceforge.owlapi</groupId>
-            <artifactId>owlapi-apibinding</artifactId>
-            <version>3.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sourceforge.owlapi</groupId>
-            <artifactId>owlapi-tools</artifactId>
-            <version>3.4.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.14</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.jena</groupId>
-            <artifactId>apache-jena-libs</artifactId>
-            <type>pom</type>
-            <version>2.10.0</version>
-        </dependency>
 
         <dependency>
             <groupId>com.owldl</groupId>
@@ -316,60 +240,23 @@
             <version>2.7.0</version>
         </dependency>
 
-        <!--
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-rio</artifactId>
-            <version>2.7.0</version>
-        </dependency>
-        -->
-
-
-            <dependency>
-                <groupId>org.openrdf.sesame</groupId>
-                <artifactId>sesame-runtime</artifactId>
-                <version>2.7.0</version>
-            </dependency>
-
-
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-
-
-        <!--
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-        -->
 
     </dependencies>
 
 
-    <distributionManagement>
-        <repository>
-            <id>oerc-repo</id>
-            <name>OeRC Maven repository</name>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases</url>
-        </repository>
+	<distributionManagement>
+		<repository>
+			<id>oerc-repo</id>
+			<name>OeRC Maven repository</name>
+			<url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases</url>
+		</repository>
 
-        <snapshotRepository>
-            <id>oerc-snapshot</id>
-            <name>Internal Releases</name>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/snapshots/</url>
-        </snapshotRepository>
+		<snapshotRepository>
+			<id>oerc-snapshot</id>
+			<name>Internal Releases</name>
+			<url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/snapshots/</url>
+		</snapshotRepository>
 
-    </distributionManagement>
->>>>>>> 751ddc9e0a183bcd64a96d0b68023e02bcc8022b
+	</distributionManagement>
 
 </project>
