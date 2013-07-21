@@ -1,13 +1,13 @@
 package org.isatools.isa2owl.converter;
 
-import java.net.URL;
-
 import org.isatools.isa2owl.mapping.ISA2OWLMappingParser;
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMappingFiles;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.net.URL;
 
 
 /**
