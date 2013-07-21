@@ -1,5 +1,7 @@
 package org.isatools.owl;
 
+
+
 /**
  * Created by the ISATeam.
  * User: agbeltran
@@ -25,6 +27,7 @@ public class BFO {
 
     public static final String HAS_QUALITY = NAMESPACE + "0000086";
     public static final String IS_PART_OF = NAMESPACE + "0000050";
+    public static final String MATERIAL_ENTITY = NAMESPACE + "0000040";
 
 
 
