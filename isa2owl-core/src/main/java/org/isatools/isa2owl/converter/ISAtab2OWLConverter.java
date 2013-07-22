@@ -235,6 +235,10 @@ public class ISAtab2OWLConverter {
         List<Publication> publicationList = investigation.getPublications();
         convertPublications(publicationList);
 
+        //Investigation Person
+        List<Contact> contactList = investigation.getContacts();
+        convertContacts(contactList,investigationIndividual);
+
 
     }
 
@@ -384,23 +388,17 @@ public class ISAtab2OWLConverter {
 
             OWLNamedIndividual individual = publicationIndividualMap.get(pub);
 
-//            for(Publication p: publicationIndividualMap.keySet()){
-//                System.out.println("Publication... equal? "+p.equals(pub));
-//            }
-
             if (individual!=null)
                 continue;
 
             boolean investigation = (pub instanceof InvestigationPublication);
 
-            //Publication
-            //OWLNamedIndividual pubInd = ISA2OWL.createIndividual(ExtendedISASyntax.PUBLICATION, publication.getPubmedId());
             String pubmedID = pub.getPubmedId();
             OWLNamedIndividual pubInd = ISA2OWL.createIndividual(ExtendedISASyntax.PUBLICATION, pubmedID, pubmedID, ExternalRDFLinkages.getPubMedIRI(pubmedID), null);
             publicationIndividualMap.put(pub,pubInd);
 
             //Study PubMed ID
-            ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID: StudyPublication.PUBMED_ID, pub.getPubmedId());
+            ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID : StudyPublication.PUBMED_ID, pub.getPubmedId());
 
             //Study Publication DOI
             ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID: StudyPublication.PUBLICATION_DOI, pub.getPublicationDOI());
@@ -418,64 +416,65 @@ public class ISAtab2OWLConverter {
      * Converts contact information into OWL
      *
      * @param contactsList
+     * @param individual this is either an Investigation individual or a Study individual
      */
-    private void convertContacts(List<Contact> contactsList, OWLNamedIndividual studyIndividual){
+    private void convertContacts(List<Contact> contactsList, OWLNamedIndividual individual){
 
         System.out.println("Contact List->"+ contactsList);
         //process properties for the contactIndividuals
         Map<String,List<Pair<IRI, String>>> contactMappings = ISA2OWL.mapping.getContactMappings();
-        System.out.println("contactMappings ="+contactMappings);
+        //System.out.println("contactMappings ="+contactMappings);
 
         Map<String, OWLNamedIndividual> contactIndividuals = null;
 
-        for(Contact contact0: contactsList){
+        for(Contact contact: contactsList){
 
-//            for(Contact c: contactIndividualMap.keySet()){
-//                System.out.println("Contact is equal to previous one? -> "+c.equals(contact0));
-//            }
-
-            OWLNamedIndividual ind = contactIndividualMap.get(contact0);
-            if (ind!=null)
+            OWLNamedIndividual contactIndividual = contactIndividualMap.get(contact);
+            if (contactIndividual!=null)
                 continue;
 
             contactIndividuals = new HashMap<String, OWLNamedIndividual>();
-            StudyContact contact = (StudyContact) contact0;
+
+            boolean investigation = contact instanceof InvestigationContact;
 
             //Study Person
-            ind = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_PERSON, contact.getIdentifier(), contactIndividuals);
-            contactIndividualMap.put(contact0, ind);
+            contactIndividual = ISA2OWL.createIndividual(investigation ? ExtendedISASyntax.INVESTIGATION_PERSON : ExtendedISASyntax.STUDY_PERSON, contact.getIdentifier(), contactIndividuals);
+            contactIndividualMap.put(contact, contactIndividual);
 
             //Study Person Last Name
-            ISA2OWL.createIndividual(StudyContact.CONTACT_LAST_NAME, contact.getLastName(), contactIndividuals);
+            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_LAST_NAME: StudyContact.CONTACT_LAST_NAME, contact.getLastName(), contactIndividuals);
 
             //Study Person First Name
-            ISA2OWL.createIndividual(StudyContact.CONTACT_FIRST_NAME, contact.getFirstName(), contactIndividuals);
+            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_FIRST_NAME: StudyContact.CONTACT_FIRST_NAME, contact.getFirstName(), contactIndividuals);
 
             //Study Person Mid Initials
-            ISA2OWL.createIndividual(StudyContact.CONTACT_MID_INITIAL, contact.getMidInitial(), contactIndividuals);
+            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_MID_INITIAL : StudyContact.CONTACT_MID_INITIAL, contact.getMidInitial(), contactIndividuals);
 
             //Study Person Email
-            ISA2OWL.createIndividual(StudyContact.CONTACT_EMAIL, contact.getEmail(), contactIndividuals);
+            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_EMAIL :StudyContact.CONTACT_EMAIL, contact.getEmail(), contactIndividuals);
 
             //Study Person Phone
-            ISA2OWL.createIndividual(StudyContact.CONTACT_PHONE, contact.getPhone(), contactIndividuals);
+            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_PHONE :StudyContact.CONTACT_PHONE, contact.getPhone(), contactIndividuals);
 
             //Study Person Fax
-            ISA2OWL.createIndividual(StudyContact.CONTACT_FAX, contact.getFax(), contactIndividuals);
+            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_FAX :StudyContact.CONTACT_FAX, contact.getFax(), contactIndividuals);
 
             //Study Person Address
-            ISA2OWL.createIndividual(StudyContact.CONTACT_ADDRESS, contact.getAddress(), contactIndividuals);
+            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_ADDRESS :StudyContact.CONTACT_ADDRESS, contact.getAddress(), contactIndividuals);
 
             //Study Person Affiliation
-            ISA2OWL.createIndividual(StudyContact.CONTACT_AFFILIATION, contact.getAffiliation(), contactIndividuals);
+            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_AFFILIATION :StudyContact.CONTACT_AFFILIATION, contact.getAffiliation(), contactIndividuals);
 
             System.out.println("ROLE-> "+contact.getRole());
-            //Study Person Roles
-            ISA2OWL.createIndividual(StudyContact.CONTACT_ROLE, contact.getRole(), contactIndividuals);
+            //Investigation/Study Person Roles
+            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_ROLE :StudyContact.CONTACT_ROLE, contact.getRole(), contactIndividuals);
 
             System.out.println("contactIndividuals="+contactIndividuals);
 
-            contactIndividuals.put("Study", studyIndividual);
+            if (investigation)
+                contactIndividuals.put(ExtendedISASyntax.INVESTIGATION, individual);
+            else
+                contactIndividuals.put(ExtendedISASyntax.STUDY, individual);
 
             ISA2OWL.convertProperties(contactMappings, contactIndividuals);
 

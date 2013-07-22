@@ -15,6 +15,19 @@ Investigation Publication Author List,author list,http://purl.obolibrary.org/obo
 Investigation Publication Title,document title,http://purl.obolibrary.org/obo/IAO_0000305,denotes,http://purl.obolibrary.org/obo/IAO_0000219,publication,Publication,,,,,,,,
 Investigation Publication Status,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+Investigation Person,Homo Sapiens,http://purl.obolibrary.org/obo/NCBITaxon_9606,has role,http://purl.obolibrary.org/obo/BFO_0000087,role(http://purl.obolibrary.org/obo/BFO_0000023),Investigation Person Roles,is member of organization,http://purl.obolibrary.org/obo/OBI_0000846,affiliation,Investigation Person Affiliation,participates in,http://purl.obolibrary.org/obo/BFO_0000056,investigation,Investigation
+Investigation Person Full Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Home Sapiens,Investigation Person,,,,,,,,
+Investigation Person Last Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Homo Sapiens,Investigation Person,,,,,,,,
+Investigation Person First Name,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Homo Sapiens,Investigation Person,,,,,,,,
+Investigation Person Mid Initials,written name,http://purl.obolibrary.org/obo/IAO_0000590,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Homo Sapiens,Investigation Person,,,,,,,,
+Investigation Person Email,email address,http://purl.obolibrary.org/obo/IAO_0000429,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Homo Sapiens,Investigation Person,,,,,,,,
+Investigation Person Phone,information content entity,http://purl.obolibrary.org/obo/IAO_0000030,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Homo Sapiens,Investigation Person,,,,,,,,
+Investigation Person Fax,information content entity,http://purl.obolibrary.org/obo/IAO_0000030,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Homo Sapiens,Investigation Person,,,,,,,,
+Investigation Person Address,information content entity,http://purl.obolibrary.org/obo/IAO_0000030,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Homo Sapiens,Investigation Person,,,,,,,,
+Investigation Person Affiliation,organization,http://purl.obolibrary.org/obo/OBI_0000245,,,,,,,,,,,,
+Investigation Person Roles,investigation agent role,http://purl.obolibrary.org/obo/OBI_0000202,denotes,http://purl.obolibrary.org/obo/IAO_0000219,Homo Sapiens,Investigation Person,,,,,,,,
+,,,,,,,,,,,,,,
 Study,investigation,http://purl.obolibrary.org/obo/OBI_0000066,is part of,http://purl.obolibrary.org/obo/BFO_0000050,planned process,Investigation
 Study Identifier,symbol,http://purl.obolibrary.org/obo/IAO_0000577,denotes,http://purl.obolibrary.org/obo/IAO_0000219,investigation,Study,,,,,,,,
 Study Title,investigation title,http://purl.obolibrary.org/obo/OBI_0001622,denotes,http://purl.obolibrary.org/obo/IAO_0000219,investigation,Study,,,,,,,,
@@ -131,4 +144,6 @@ Study Group,study group population,http://isa-tools.org/isa/ISA0000002,,,,,,,,,,
 #Factor Value[quality],,,,,,,,,,,,,,
 #Unit,,,,,,,,,,,,,,
 #Term Source Accession,,,,,,,,,,,,,,
-#Term Source REF,,,,,,,,,,,,,,
+
+
+,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#Term Source REF,,,,,,,,,,,,,,
