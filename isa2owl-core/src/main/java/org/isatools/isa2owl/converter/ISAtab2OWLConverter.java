@@ -10,6 +10,7 @@ import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 import org.isatools.owl.ExtendedOBIVocabulary;
 import org.isatools.owl.OWLUtil;
+import org.isatools.owl.reasoner.ReasonerService;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.model.*;
@@ -190,7 +191,12 @@ public class ISAtab2OWLConverter {
     public void saveOntology(String filename){
         File file = new File(filename);
         OWLUtil.saveRDFXML(ISA2OWL.ontology, IRI.create(file.toURI()));
-        OWLUtil.systemOutputMOWLSyntax(ISA2OWL.ontology);
+        //OWLUtil.systemOutputMOWLSyntax(ISA2OWL.ontology);
+    }
+
+    public void saveInferredOntology(String filename) throws Exception{
+        ReasonerService reasoner = new ReasonerService(ISA2OWL.ontology);
+        reasoner.saveInferredOntology(filename);
     }
 
     private void convertInvestigation(Investigation investigation){

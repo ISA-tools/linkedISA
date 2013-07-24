@@ -83,17 +83,20 @@ public class ISAtab2OWLConverterTest {
 //        assert(isatab2owl.convert(isatabParentDir, iri));
         isatab2owl.convert(isatabParentDir, iri);
         isatab2owl.saveOntology(savePath+"BII-S-9.owl");
+
     }
 
 
     @Test
-    public void testConvertBII_I_1() {
+    public void testConvertBII_I_1() throws Exception {
         iri = "http://isa-tools.org/isa/BII-I-1.owl";
         isatabParentDir = getClass().getResource(path+"BII-I-1").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
         isatab2owl.convert(isatabParentDir, iri);
         isatab2owl.saveOntology(savePath+"BII-I-1.owl");
+
+        isatab2owl.saveInferredOntology(savePath+"BII-I-1-inferred.owl");
     }
 
 
