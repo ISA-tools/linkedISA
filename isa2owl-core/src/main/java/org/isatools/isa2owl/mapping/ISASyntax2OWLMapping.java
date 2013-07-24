@@ -1,19 +1,14 @@
 package org.isatools.isa2owl.mapping;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.log4j.Logger;
 import org.isatools.graph.model.impl.MaterialNode;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.model.IRI;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Encapsulates ISA to OWL mapping information. All data validation is done in this class.
@@ -39,9 +34,8 @@ public class ISASyntax2OWLMapping {
     Map<String,List<Pair<IRI, String>>> protocolPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> protocolREFPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> materialNodePropertyMappings = null;
+    Map<String,List<Pair<IRI, String>>> assayPropertyMappings = null;
 
-	Map<String, String> patternMappings = null;
-	
 
 	public ISASyntax2OWLMapping(){
 		init();
@@ -55,6 +49,7 @@ public class ISASyntax2OWLMapping {
         protocolPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         protocolREFPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         materialNodePropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
+        assayPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
 		
 	}
 
@@ -188,6 +183,10 @@ public class ISASyntax2OWLMapping {
         return contactPropertyMappings;
     }
 
+    public Map<String,List<Pair<IRI, String>>> getAssayPropertyMappings(){
+        return assayPropertyMappings;
+    }
+
     public Map<String,List<Pair<IRI, String>>> getProtocolMappings(){
         return protocolPropertyMappings;
     }
@@ -225,6 +224,10 @@ public class ISASyntax2OWLMapping {
             materialNodePropertyMappings.put(subject, predobjs);
         }
 
+        if (subject.startsWith(ExtendedISASyntax.STUDY_ASSAY)){
+            assayPropertyMappings.put(subject, predobjs);
+        }
+
 	}
 
 
@@ -246,8 +249,8 @@ public class ISASyntax2OWLMapping {
         builder.append(this.mapToString(protocolREFPropertyMappings));
         builder.append("\nMATERIAL NODE PROPERTY MAPPINGS=\n");
         builder.append(this.mapToString(materialNodePropertyMappings));
-		builder.append("\nPATTERNS");
-		
+        builder.append("\nASSAY PROPERTY MAPPINGS=\n");
+        builder.append(this.mapToString(assayPropertyMappings));
 		return builder.toString();
 	}
 	

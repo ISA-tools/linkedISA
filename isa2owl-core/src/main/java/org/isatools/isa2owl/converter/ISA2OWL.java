@@ -1,27 +1,13 @@
 package org.isatools.isa2owl.converter;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.isatools.owl.reasoner.ReasonerService;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotation;
-import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
+
+import java.util.*;
 
 /**
  * Created by the ISATeam.
@@ -292,7 +278,7 @@ public class ISA2OWL {
     public static void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
         System.out.println("============findOntologyTermAndAddClassAssertion termSourceRef="+termSourceRef + " termAccession="+termAccession + " individual="+individual);
 
-        if (termSourceRef==null || termAccession==null)
+        if (termSourceRef==null || termAccession==null || termSourceRef.equals("") || termAccession.equals(""))
             return;
 
         String purl = OntologyLookup.findOntologyPURL(termSourceRef, termAccession);
