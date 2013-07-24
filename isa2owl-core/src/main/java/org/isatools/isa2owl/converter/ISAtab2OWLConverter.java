@@ -10,6 +10,7 @@ import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 import org.isatools.owl.ExtendedOBIVocabulary;
 import org.isatools.owl.OWLUtil;
+import org.isatools.owl.reasoner.ReasonerService;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.model.*;
@@ -44,6 +45,7 @@ public class ISAtab2OWLConverter {
     private Map<Contact, OWLNamedIndividual> contactIndividualMap = null;
     private Map<String, OWLNamedIndividual> protocolIndividualMap = null;
     private Map<String, OWLNamedIndividual> sampleIndividualMap = null;
+    private Map<String, OWLNamedIndividual> measurementTechnologyIndividuals = new HashMap<String, OWLNamedIndividual>();
 
     /**
      * Constructor
@@ -189,7 +191,12 @@ public class ISAtab2OWLConverter {
     public void saveOntology(String filename){
         File file = new File(filename);
         OWLUtil.saveRDFXML(ISA2OWL.ontology, IRI.create(file.toURI()));
-        OWLUtil.systemOutputMOWLSyntax(ISA2OWL.ontology);
+        //OWLUtil.systemOutputMOWLSyntax(ISA2OWL.ontology);
+    }
+
+    public void saveInferredOntology(String filename) throws Exception{
+        ReasonerService reasoner = new ReasonerService(ISA2OWL.ontology);
+        reasoner.saveInferredOntology(filename);
     }
 
     private void convertInvestigation(Investigation investigation){
@@ -313,7 +320,8 @@ public class ISAtab2OWLConverter {
         convertProtocols(protocolList);
 
         Assay2OWLConverter assay2OWLConverter = new Assay2OWLConverter();
-        sampleIndividualMap = assay2OWLConverter.convert(study.getStudySample(), Assay2OWLConverter.AssayTableType.STUDY, null, protocolList, protocolIndividualMap,studyDesignIndividual, studyIndividual, true);
+        sampleIndividualMap = assay2OWLConverter.convert(study.getStudySample(), Assay2OWLConverter.AssayTableType.STUDY, null,
+                protocolList, protocolIndividualMap,studyDesignIndividual, studyIndividual, true, null);
 
         System.out.println("ASSAYS..." + study.getAssays());
 
@@ -329,7 +337,8 @@ public class ISAtab2OWLConverter {
             if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON) ||
                     subjectString.startsWith(ExtendedISASyntax.STUDY_PROTOCOL) ||
                     subjectString.startsWith(GeneralFieldTypes.PROTOCOL_REF.toString()) ||
-                    subjectString.matches(MaterialNode.REGEXP))
+                    subjectString.matches(MaterialNode.REGEXP) ||
+                    subjectString.startsWith(ExtendedISASyntax.STUDY_ASSAY))
                 continue;
 
             List<Pair<IRI, String>> predicateObjects = propertyMappings.get(subjectString);
@@ -614,26 +623,56 @@ public class ISAtab2OWLConverter {
      */
     private void convertAssays(Map<String, Assay> assayMap, List<Protocol> protocolList, OWLNamedIndividual studyIndividual){
 
+        Map<String, OWLNamedIndividual> assayIndividualsForProperties;
+
         for(String assayRef: assayMap.keySet()){
+            System.out.println(assayRef);
             Assay assay = assayMap.get(assayRef);
+
+            assayIndividualsForProperties = new HashMap<String, OWLNamedIndividual>();
+            assayIndividualsForProperties.put(ExtendedISASyntax.STUDY, studyIndividual);
 
             //Study Assay
             //OWLNamedIndividual studyAssayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, assay.getIdentifier());
 
-            //Study Assay Measurement Type
-            ISA2OWL.createIndividual(Assay.MEASUREMENT_ENDPOINT, assay.getMeasurementEndpoint());
+            OWLNamedIndividual measurementIndividual = measurementTechnologyIndividuals.get(assay.getMeasurementEndpoint());
 
-            //Study Assay Technology Type
-            ISA2OWL.createIndividual(Assay.TECHNOLOGY_TYPE, assay.getTechnologyType());
+            if (measurementIndividual==null){
+
+                //Study Assay Measurement Type
+                measurementIndividual = ISA2OWL.createIndividual(Assay.MEASUREMENT_ENDPOINT, assay.getMeasurementEndpoint(), assayIndividualsForProperties);
+                measurementTechnologyIndividuals.put(assay.getMeasurementEndpoint(),measurementIndividual);
+                ISA2OWL.findOntologyTermAndAddClassAssertion(assay.getMeasurementEndpointTermSourceRef(),
+                                                            assay.getMeasurementEndpointTermAccession(),
+                                                            measurementIndividual);
+
+            } else {
+                assayIndividualsForProperties.put(Assay.MEASUREMENT_ENDPOINT, measurementIndividual);
+            }
+
+            OWLNamedIndividual technologyIndividual = measurementTechnologyIndividuals.get(assay.getTechnologyType());
+
+            if (technologyIndividual==null){
+                 //Study Assay Technology Type
+                technologyIndividual = ISA2OWL.createIndividual(Assay.TECHNOLOGY_TYPE, assay.getTechnologyType(), assayIndividualsForProperties);
+                measurementTechnologyIndividuals.put(assay.getTechnologyType(),technologyIndividual);
+                ISA2OWL.findOntologyTermAndAddClassAssertion(assay.getTechnologyTypeTermSourceRef(),
+                                                             assay.getTechnologyTypeTermAccession(),
+                                                             technologyIndividual);
+            } else {
+                assayIndividualsForProperties.put(Assay.TECHNOLOGY_TYPE, technologyIndividual);
+            }
 
             //Study Assay File
-            OWLNamedIndividual studyAssayFile = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY_FILE, assay.getAssayReference());
+            OWLNamedIndividual studyAssayFile = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY_FILE, assay.getAssayReference(), assayIndividualsForProperties);
 
             //Study Assay File Name
-            ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference());
+            ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference(), assayIndividualsForProperties);
 
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
-            assayConverter.convert(assay, Assay2OWLConverter.AssayTableType.ASSAY, sampleIndividualMap, protocolList, protocolIndividualMap, null, studyIndividual, false);
+            assayConverter.convert(assay, Assay2OWLConverter.AssayTableType.ASSAY, sampleIndividualMap,
+                    protocolList, protocolIndividualMap, null, studyIndividual, false,
+                    assayIndividualsForProperties);
         }
 
     }

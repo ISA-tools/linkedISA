@@ -17,7 +17,6 @@ public class BFO {
 
 
 //    public static final IRI BFO_INDEPENDENT_CONTINUANT_IRI = IRI.create("http://purl.obolibrary.org/obo/BFO_0000004");
-//    public static final String BFO_DEPENDENT_CONTINUANT_IRI = "http://purl.obolibrary.org/obo/BFO_0000005";
 //
 //    public static final IRI BFO_REALIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000055");
 //    public static final IRI BFO_CONCRETIZES = IRI.create("http://purl.obolibrary.org/obo/BFO_0000059");
@@ -28,7 +27,8 @@ public class BFO {
     public static final String HAS_QUALITY = NAMESPACE + "0000086";
     public static final String IS_PART_OF = NAMESPACE + "0000050";
     public static final String MATERIAL_ENTITY = NAMESPACE + "0000040";
-
+    public static final String IS_BEARER_OF = NAMESPACE + "0000053";
+    public static final String DEPENDENT_CONTINUANT = NAMESPACE + "0000005";
 
 
     BFO() {

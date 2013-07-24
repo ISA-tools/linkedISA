@@ -1,26 +1,21 @@
 package org.isatools.owl.reasoner;
 
 
-import java.util.Set;
-
 import org.apache.log4j.Logger;
+import org.isatools.owl.OWLUtil;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.reasoner.ConsoleProgressMonitor;
-import org.semanticweb.owlapi.reasoner.Node;
-import org.semanticweb.owlapi.reasoner.NodeSet;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
-import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
-import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
+import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.reasoner.*;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
+import org.semanticweb.owlapi.util.InferredAxiomGenerator;
+import org.semanticweb.owlapi.util.InferredOntologyGenerator;
+import org.semanticweb.owlapi.util.InferredSubClassAxiomGenerator;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by the ISATeam.
@@ -67,10 +62,12 @@ public class ReasonerService {
     }
 
     public ReasonerService(OWLOntology ontology){
+        manager = OWLManager.createOWLOntologyManager();
         initReasoner(ontology);
     }
 
     private void initReasoner(OWLOntology ontology){
+
         //reasoner = PelletReasonerFactory.getInstance().createReasoner( ontology );
         ConsoleProgressMonitor progressMonitor = new ConsoleProgressMonitor();
         // Specify the progress monitor via a configuration. We could also
@@ -135,6 +132,55 @@ public class ReasonerService {
        System.out.println("\n");
 
    }
+
+
+    public void saveInferredOntology(String filename) throws OWLOntologyCreationException,
+            OWLOntologyStorageException {
+        // Create a reasoner factory. In this case, we will use pellet, but we
+        // could also use FaCT++ using the FaCTPlusPlusReasonerFactory. Pellet
+        // requires the Pellet libraries (pellet.jar, aterm-java-x.x.jar) and
+        // the XSD libraries that are bundled with pellet: xsdlib.jar and
+        // relaxngDatatype.jar make sure these jars are on the classpath
+
+        //OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
+
+        // Uncomment the line below reasonerFactory = new
+        // PelletReasonerFactory(); Load an example ontology - for the purposes
+        // of the example, we will just load the pizza ontology.
+
+        //OWLOntologyManager man = OWLManager.createOWLOntologyManager();
+        //OWLOntology ont = man.loadOntologyFromOntologyDocument(IRI.create());
+        // Create the reasoner and classify the ontology
+        //OWLReasoner reasoner = reasonerFactory.createNonBufferingReasoner(ont);
+
+        //reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
+
+        // To generate an inferred ontology we use implementations of inferred
+        // axiom generators to generate the parts of the ontology we want (e.g.
+        // subclass axioms, equivalent classes axioms, class assertion axiom
+        // etc. - see the org.semanticweb.owlapi.util package for more
+        // implementations). Set up our list of inferred axiom generators
+
+        List<InferredAxiomGenerator<? extends OWLAxiom>> gens = new ArrayList<InferredAxiomGenerator<? extends OWLAxiom>>();
+
+        gens.add(new InferredSubClassAxiomGenerator());
+        // Put the inferred axioms into a fresh empty ontology - note that there
+        // is nothing stopping us stuffing them back into the original asserted
+        // ontology if we wanted to do this.
+
+        OWLOntology infOnt = manager.createOntology();
+        // Now get the inferred ontology generator to generate some inferred
+        // axioms for us (into our fresh ontology). We specify the reasoner that
+        // we want to use and the inferred axiom generators that we want to use.
+        InferredOntologyGenerator iog = new InferredOntologyGenerator(reasoner, gens);
+        iog.fillOntology(manager, infOnt);
+        // Save the inferred ontology. (Replace the URI with one that is
+        // appropriate for your setup)
+
+        File file = new File(filename);
+        OWLUtil.saveRDFXML(infOnt, IRI.create(file.toURI()));
+        //manager.saveOntology(infOnt, file);
+    }
 
     public static void main(String[] args) {
 

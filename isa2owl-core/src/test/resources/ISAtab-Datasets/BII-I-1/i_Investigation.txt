@@ -1,7 +1,7 @@
 ONTOLOGY SOURCE REFERENCE
 Term Source Name	"e.g. OBI"	"OBI"	""	"CHEBI"	"RID"	"EHDAA"	"EFO"	"FYPO"	"BTO"	"NEWT"	"UO"	"PATO"	
-Term Source File	""	""	""	"http://bioportal.bioontology.org/ontologies/49736"	"http://bioportal.bioontology.org/ontologies/49816"	"http://bioportal.bioontology.org/ontologies/45254"	"http://bioportal.bioontology.org/ontologies/49794"	"http://bioportal.bioontology.org/ontologies/49892"	"ArrayExpress Experimental Factor Ontology"	""	""	""	
-Term Source Version	""	""	""	"49736"	"49816"	"45254"	"49794"	"49892"	"v 1.26"	"v 1.26"	"v 1.26"	"v 1.26"	
+Term Source File	""	"http://bioportal.bioontology.org/ontologies/47893"	""	"http://bioportal.bioontology.org/ontologies/49736"	"http://bioportal.bioontology.org/ontologies/49816"	"http://bioportal.bioontology.org/ontologies/45254"	"http://bioportal.bioontology.org/ontologies/49794"	"http://bioportal.bioontology.org/ontologies/49892"	"ArrayExpress Experimental Factor Ontology"	""	""	""
+Term Source Version	""	"47893"	""	"49736"	"49816"	"45254"	"49794"	"49892"	"v 1.26"	"v 1.26"	"v 1.26"	"v 1.26"
 Term Source Description	""	""	""	"Chemical entities of biological interest"	"RadLex"	"Human developmental anatomy, abstract version"	"Experimental Factor Ontology"	"Fission Yeast Phenotype Ontology"	"BRENDA tissue / enzyme source"	"NEWT UniProt Taxonomy Database"	"Unit Ontology"	"Phenotypic qualities (properties)"	
 INVESTIGATION
 Investigation Identifier	"BII-I-1"
