@@ -2,6 +2,7 @@ package org.isatools.isa2owl.mapping;
 
 import org.apache.log4j.Logger;
 import org.isatools.graph.model.impl.MaterialNode;
+import org.isatools.isacreator.model.InvestigationPublication;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.model.IRI;
@@ -35,6 +36,7 @@ public class ISASyntax2OWLMapping {
     Map<String,List<Pair<IRI, String>>> protocolREFPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> materialNodePropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> assayPropertyMappings = null;
+    Map<String,List<Pair<IRI, String>>> publicationPropertyMappings = null;
 
 
 	public ISASyntax2OWLMapping(){
@@ -50,6 +52,7 @@ public class ISASyntax2OWLMapping {
         protocolREFPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         materialNodePropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         assayPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
+        publicationPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
 		
 	}
 
@@ -183,6 +186,10 @@ public class ISASyntax2OWLMapping {
         return contactPropertyMappings;
     }
 
+    public Map<String,List<Pair<IRI, String>>> getPublicationPropertyMappings(){
+        return publicationPropertyMappings;
+    }
+
     public Map<String,List<Pair<IRI, String>>> getAssayPropertyMappings(){
         return assayPropertyMappings;
     }
@@ -228,6 +235,13 @@ public class ISASyntax2OWLMapping {
             assayPropertyMappings.put(subject, predobjs);
         }
 
+        if (subject.startsWith(ExtendedISASyntax.INVESTIGATION_PUBLICATION)
+                || subject.startsWith(ExtendedISASyntax.STUDY_PUBLICATION)
+                || subject.startsWith((ExtendedISASyntax.PUBLICATION))
+                || subject.startsWith(InvestigationPublication.PUBMED_ID)){
+            publicationPropertyMappings.put(subject, predobjs);
+        }
+
 	}
 
 
@@ -251,6 +265,8 @@ public class ISASyntax2OWLMapping {
         builder.append(this.mapToString(materialNodePropertyMappings));
         builder.append("\nASSAY PROPERTY MAPPINGS=\n");
         builder.append(this.mapToString(assayPropertyMappings));
+        builder.append("\nPUBLICATION PROPERTY MAPPINGS=\n");
+        builder.append(this.mapToString(publicationPropertyMappings));
 		return builder.toString();
 	}
 	

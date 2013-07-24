@@ -263,9 +263,11 @@ public class ISA2OWL {
 
                 if (subject==null || object==null || property==null){
 
-                    System.err.println("At least one is null...");
+                    System.err.println("At least one of subject/predicate/object is null...");
 
                 }else{
+                    System.out.println("subjectString=<"+subjectString+"> objectString=<"+objectString+">");
+                    System.out.println("subject="+subject+" predicate="+predicate+" object="+object);
                     OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
                     ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
                 }

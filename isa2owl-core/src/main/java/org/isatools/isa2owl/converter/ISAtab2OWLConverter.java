@@ -240,7 +240,7 @@ public class ISAtab2OWLConverter {
 
         //Publications
         List<Publication> publicationList = investigation.getPublications();
-        convertPublications(publicationList);
+        convertPublications(publicationList, investigationIndividual);
 
         //Investigation Person
         List<Contact> contactList = investigation.getContacts();
@@ -301,7 +301,7 @@ public class ISAtab2OWLConverter {
 
         //Publications
         List<Publication> publicationList = study.getPublications();
-        convertPublications(publicationList);
+        convertPublications(publicationList, studyIndividual);
 
         //Study design
         List<StudyDesign> studyDesignList = study.getStudyDesigns();
@@ -338,7 +338,11 @@ public class ISAtab2OWLConverter {
                     subjectString.startsWith(ExtendedISASyntax.STUDY_PROTOCOL) ||
                     subjectString.startsWith(GeneralFieldTypes.PROTOCOL_REF.toString()) ||
                     subjectString.matches(MaterialNode.REGEXP) ||
-                    subjectString.startsWith(ExtendedISASyntax.STUDY_ASSAY))
+                    subjectString.startsWith(ExtendedISASyntax.STUDY_ASSAY) ||
+                    subjectString.startsWith(ExtendedISASyntax.INVESTIGATION_PUBLICATION) ||
+                    subjectString.startsWith(ExtendedISASyntax.STUDY_PUBLICATION) ||
+                    subjectString.startsWith(ExtendedISASyntax.PUBLICATION) ||
+                    subjectString.startsWith(InvestigationPublication.PUBMED_ID))
                 continue;
 
             List<Pair<IRI, String>> predicateObjects = propertyMappings.get(subjectString);
@@ -386,37 +390,52 @@ public class ISAtab2OWLConverter {
     }
 
 
-    /***
-     *
+    /**
      *
      * @param publicationList
+     * @param individual the study or investigation individual
      */
-    private void convertPublications(List<Publication> publicationList){
+    private void convertPublications(List<Publication> publicationList, OWLNamedIndividual individual){
+
+        Map<String,List<Pair<IRI, String>>> publicationMappings = ISA2OWL.mapping.getPublicationPropertyMappings();
+        Map<String, OWLNamedIndividual> publicationIndividuals = null;
 
         for(Publication pub: publicationList){
 
-            OWLNamedIndividual individual = publicationIndividualMap.get(pub);
-
-            if (individual!=null)
-                continue;
-
             boolean investigation = (pub instanceof InvestigationPublication);
 
-            String pubmedID = pub.getPubmedId();
-            OWLNamedIndividual pubInd = ISA2OWL.createIndividual(ExtendedISASyntax.PUBLICATION, pubmedID, pubmedID, ExternalRDFLinkages.getPubMedIRI(pubmedID), null);
-            publicationIndividualMap.put(pub,pubInd);
+            OWLNamedIndividual publicationIndividual = publicationIndividualMap.get(pub);
 
-            //Study PubMed ID
-            ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID : StudyPublication.PUBMED_ID, pub.getPubmedId());
+            publicationIndividuals = new HashMap<String, OWLNamedIndividual>();
 
-            //Study Publication DOI
-            ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID: StudyPublication.PUBLICATION_DOI, pub.getPublicationDOI());
+            if (publicationIndividual==null) {
 
-            //Study Publication Author List
-            ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID: StudyPublication.PUBLICATION_AUTHOR_LIST, pub.getPublicationAuthorList());
+                String pubmedID = pub.getPubmedId();
+                OWLNamedIndividual pubInd = ISA2OWL.createIndividual(ExtendedISASyntax.PUBLICATION, pubmedID, pubmedID, ExternalRDFLinkages.getPubMedIRI(pubmedID), publicationIndividuals);
+                publicationIndividualMap.put(pub,pubInd);
 
-            //Study Publication Title
-            ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBLICATION_TITLE: StudyPublication.PUBLICATION_TITLE, pub.getPublicationTitle());
+                //Study PubMed ID
+                ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID : StudyPublication.PUBMED_ID, pub.getPubmedId(), publicationIndividuals);
+
+                //Study Publication DOI
+                ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID: StudyPublication.PUBLICATION_DOI, pub.getPublicationDOI(), publicationIndividuals);
+
+                //Study Publication Author List
+                ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID: StudyPublication.PUBLICATION_AUTHOR_LIST, pub.getPublicationAuthorList(), publicationIndividuals);
+
+                 //Study Publication Title
+                ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBLICATION_TITLE: StudyPublication.PUBLICATION_TITLE, pub.getPublicationTitle(), publicationIndividuals);
+            } else {
+                publicationIndividuals.put(ExtendedISASyntax.PUBLICATION, publicationIndividual);
+            }
+
+            if (investigation)
+                publicationIndividuals.put(ExtendedISASyntax.INVESTIGATION, individual);
+            else
+                publicationIndividuals.put(ExtendedISASyntax.STUDY, individual);
+
+            ISA2OWL.convertProperties(publicationMappings, publicationIndividuals);
+
         }
 
     }
@@ -429,10 +448,8 @@ public class ISAtab2OWLConverter {
      */
     private void convertContacts(List<Contact> contactsList, OWLNamedIndividual individual){
 
-        System.out.println("Contact List->"+ contactsList);
         //process properties for the contactIndividuals
         Map<String,List<Pair<IRI, String>>> contactMappings = ISA2OWL.mapping.getContactMappings();
-        //System.out.println("contactMappings ="+contactMappings);
 
         Map<String, OWLNamedIndividual> contactIndividuals = null;
 

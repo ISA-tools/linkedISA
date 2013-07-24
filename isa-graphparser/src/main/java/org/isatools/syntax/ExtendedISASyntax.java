@@ -18,6 +18,9 @@ public class ExtendedISASyntax {
     public static String INVESTIGATION_PERSON = "Investigation Person";
    public static String STUDY = "Study";
    public static String STUDY_FILE = "Study File";
+
+   public static String INVESTIGATION_PUBLICATION = "Investigation Publication";
+   public static String STUDY_PUBLICATION = "Study Publication";
    public static String PUBLICATION = "Publication";
    public static String STUDY_PERSON = "Study Person";
    public static String STUDY_FACTOR = "Study Factor";
