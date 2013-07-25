@@ -105,7 +105,6 @@ public class ISASyntax2OWLMapping {
 
 
     public IRI getPropertyIRISubjectRegexObjectRegex(String regexSubject, String regexObject){
-        //System.out.println("getPropertyIRISubjectRegexObjectRegex="+regexSubject+","+regexObject);
         ArrayList<String> candidates = new ArrayList<String>();
 
         Pattern pSubject = Pattern.compile(regexSubject);
@@ -117,25 +116,19 @@ public class ISASyntax2OWLMapping {
         while (ite.hasNext()) {
             String candidate = ite.next();
             Matcher m = pSubject.matcher(candidate);
-            //System.out.println("Attempting to match: " + candidate + " to "  + regex);
             if (m.matches()) {
-                //  System.out.println("it matches");
                 candidates.add(candidate);
             }
         }
 
         for(String candidate: candidates){
 
-            System.out.println("candidate="+candidate);
-
             List<Pair<IRI, String>> list = map.get(candidate);
             for(Pair<IRI, String> pair: list){
 
-                //System.out.println("Pair=("+pair.getFirst()+","+pair.getSecond()+")");
                 Pattern pObject = Pattern.compile(regexObject);
                 Matcher m = pObject.matcher(pair.getSecond());
                 if (m.matches()){
-                    //System.out.println("it matches... return "+pair.getFirst());
                     return pair.getFirst();
                 }
             }
@@ -165,9 +158,7 @@ public class ISASyntax2OWLMapping {
         while (ite.hasNext()) {
             String candidate = ite.next();
             Matcher m = p.matcher(candidate);
-            //System.out.println("Attempting to match: " + candidate + " to "  + regex);
             if (m.matches()) {
-              //  System.out.println("it matches");
                 candidates.add(candidate);
             }
         }

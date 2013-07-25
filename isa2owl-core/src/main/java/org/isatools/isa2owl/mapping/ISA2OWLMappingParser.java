@@ -1,13 +1,12 @@
  
 package org.isatools.isa2owl.mapping;
 
+import au.com.bytecode.opencsv.CSVReader;
+import org.apache.log4j.Logger;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
-import org.apache.log4j.Logger;
-
-import au.com.bytecode.opencsv.CSVReader;
 
 
 /**
@@ -19,8 +18,7 @@ import au.com.bytecode.opencsv.CSVReader;
 public class ISA2OWLMappingParser {
 
     private static final Logger log = Logger.getLogger(ISA2OWLMappingParser.class);
-	
-	
+
 	private ISASyntax2OWLMapping mapping = null;
 		
 	private static enum MappingFileField {
