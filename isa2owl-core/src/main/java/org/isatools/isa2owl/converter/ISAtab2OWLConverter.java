@@ -57,7 +57,6 @@ public class ISAtab2OWLConverter {
         log.debug("configDir="+configDir);
         ISA2OWL.mapping = m;
         importer = new ISAtabFilesImporter(configDir);
-        System.out.println("importer="+importer);
     }
 
 
@@ -91,7 +90,7 @@ public class ISAtab2OWLConverter {
         }
 
         if (!readInISAFiles(parentDir)){
-            System.out.println(importer.getMessagesAsString());
+            log.debug(importer.getMessagesAsString());
         }
 
         //initialise the map of individuals
@@ -139,7 +138,7 @@ public class ISAtab2OWLConverter {
      *
      */
     private void processSourceOntologies(){
-        System.out.println("PROCESS SOURCE ONTOLOGY");
+        log.debug("PROCESS SOURCE ONTOLOGY");
 
         //ontologies from the mapping
         //Map<String,IRI> sourceOntoIRIs = ISA2OWL.mapping.getSourceOntoIRIs();
@@ -155,7 +154,7 @@ public class ISAtab2OWLConverter {
             //System.out.println("iri="+iri);
             //onto = manager.loadOntology(iri);
             String sourceFile = sourceRefObject.getSourceFile();
-            System.out.println("sourceFile="+sourceFile);
+            log.debug("sourceFile="+sourceFile);
 
             if (sourceFile==null || sourceFile.equals("") || sourceFile.contains("obi"))
                 continue;
@@ -322,7 +321,7 @@ public class ISAtab2OWLConverter {
         sampleIndividualMap = assay2OWLConverter.convert(study.getStudySample(), Assay2OWLConverter.AssayTableType.STUDY, null,
                 protocolList, protocolIndividualMap,studyDesignIndividual, studyIndividual, true, null);
 
-        System.out.println("ASSAYS..." + study.getAssays());
+        log.debug("ASSAYS..." + study.getAssays());
 
         //Study Assays
         Map<String, Assay> assayMap = study.getAssays();
@@ -360,21 +359,16 @@ public class ISAtab2OWLConverter {
 
                     String objectString = predicateObject.getSecond();
 
-                    //System.out.println("objectString="+objectString);
+
                     Set<OWLNamedIndividual> objects = ISA2OWL.typeIndividualMap.get(objectString);
 
                     if (objects==null)
                         continue;
 
                     for(OWLNamedIndividual object: objects){
-//                        System.out.println("property="+property);
-//                        System.out.println("subject="+subject);
-//                        System.out.println("object="+object);
 
                         if (subject==null || object==null || property==null){
-
-                            System.err.println("At least one is null...");
-
+                            log.debug("At least one is null...");
                         }else{
                             OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
                             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
@@ -488,7 +482,6 @@ public class ISAtab2OWLConverter {
                 //Study Person Affiliation
                 ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_AFFILIATION :StudyContact.CONTACT_AFFILIATION, contact.getAffiliation(), contactIndividuals);
 
-                System.out.println("ROLE-> "+contact.getRole());
                 //Investigation/Study Person Roles
                 ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_ROLE :StudyContact.CONTACT_ROLE, contact.getRole(), contactIndividuals);
             } else {
@@ -523,11 +516,10 @@ public class ISAtab2OWLConverter {
             //Study Factor Name
             ISA2OWL.createIndividual(Factor.FACTOR_NAME, factor.getFactorName());
 
-            System.out.println("FACTOR NAME ="+factor.getFactorName());
-            System.out.println("FACTOR TYPE ="+factor.getFactorType());
-            System.out.println("FACTOR TYPE ACCESSION NUMBER="+factor.getFactorTypeTermAccession());
-            System.out.println("FACTOR TYPE TERM SOURCE"+factor.getFactorTypeTermSource());
-
+            log.debug("FACTOR NAME ="+factor.getFactorName());
+            log.debug("FACTOR TYPE ="+factor.getFactorType());
+            log.debug("FACTOR TYPE ACCESSION NUMBER="+factor.getFactorTypeTermAccession());
+            log.debug("FACTOR TYPE TERM SOURCE"+factor.getFactorTypeTermSource());
 
             //use term source and term accession to declare a more specific type for the factor
             if (factor.getFactorTypeTermAccession()!=null && !factor.getFactorTypeTermAccession().equals("")
@@ -642,7 +634,7 @@ public class ISAtab2OWLConverter {
         Map<String, OWLNamedIndividual> assayIndividualsForProperties;
 
         for(String assayRef: assayMap.keySet()){
-            System.out.println(assayRef);
+            log.debug("AssayRef="+assayRef);
             Assay assay = assayMap.get(assayRef);
 
             assayIndividualsForProperties = new HashMap<String, OWLNamedIndividual>();
