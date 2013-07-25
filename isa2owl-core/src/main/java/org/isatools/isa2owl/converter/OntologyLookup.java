@@ -83,7 +83,7 @@ public class OntologyLookup {
 
             OntologyTerm term = null;
 
-            if (termAccession!=null)
+            if (ontologyVersion!=null && termAccession!=null)
                 term = client.getTermInformation(termAccession, ontologyVersion);
 
             log.debug("term====>"+term);
