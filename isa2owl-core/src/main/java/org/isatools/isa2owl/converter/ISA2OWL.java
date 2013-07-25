@@ -1,5 +1,6 @@
 package org.isatools.isa2owl.converter;
 
+import org.apache.log4j.Logger;
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.isatools.owl.reasoner.ReasonerService;
 import org.isatools.util.Pair;
@@ -20,6 +21,9 @@ import java.util.*;
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
 public class ISA2OWL {
+
+
+    private static final Logger log = Logger.getLogger(ISA2OWL.class);
 
     public static OWLOntology ontology = null;
     public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -57,7 +61,7 @@ public class ISA2OWL {
 
 
     public static OWLClass addOWLClassAssertion(IRI owlClassIRI, OWLNamedIndividual individual) {
-        System.out.println("addOWLClass(owlClassIRI="+owlClassIRI+" individual="+individual+")");
+        log.debug("addOWLClass(owlClassIRI=" + owlClassIRI + " individual=" + individual + ")");
         if (owlClassIRI==null || owlClassIRI.equals("") || individual==null || individual.equals(""))
             return null;
 
@@ -182,14 +186,14 @@ public class ISA2OWL {
         OWLNamedIndividual individual = null;
 
         if (owlClassIRIs==null){
-            System.err.println("No IRIs for type " + typeMappingLabel);
+            log.debug("No IRIs for type " + typeMappingLabel);
             return null;
         }
 
         for(IRI owlClassIRI: owlClassIRIs){
 
             if (owlClassIRI==null){
-                System.err.println("No IRI for type " + typeMappingLabel);
+                log.debug("No IRI for type " + typeMappingLabel);
                 return null;
             }
 
@@ -245,8 +249,6 @@ public class ISA2OWL {
     public static void convertProperties(Map<String, List<Pair<IRI, String>>> propertyMappings, Map<String, OWLNamedIndividual> typeIndividualM){
 
         for(String subjectString: propertyMappings.keySet()){
-            //System.out.println("subjectString="+subjectString);
-
             List<Pair<IRI, String>> predicateObjects = propertyMappings.get(subjectString);
             OWLNamedIndividual subject = typeIndividualM.get(subjectString);
 
@@ -263,11 +265,9 @@ public class ISA2OWL {
 
                 if (subject==null || object==null || property==null){
 
-                    System.err.println("At least one of subject/predicate/object is null...");
+                    log.debug("At least one of subject/predicate/object is null...");
 
                 }else{
-                    System.out.println("subjectString=<"+subjectString+"> objectString=<"+objectString+">");
-                    System.out.println("subject="+subject+" predicate="+predicate+" object="+object);
                     OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
                     ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
                 }
@@ -278,14 +278,14 @@ public class ISA2OWL {
 
 
     public static void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
-        System.out.println("============findOntologyTermAndAddClassAssertion termSourceRef="+termSourceRef + " termAccession="+termAccession + " individual="+individual);
+        log.debug("============findOntologyTermAndAddClassAssertion termSourceRef="+termSourceRef + " termAccession="+termAccession + " individual="+individual);
 
         if (termSourceRef==null || termAccession==null || termSourceRef.equals("") || termAccession.equals(""))
             return;
 
         String purl = OntologyLookup.findOntologyPURL(termSourceRef, termAccession);
 
-        System.out.println("purl="+purl);
+        log.debug("purl="+purl);
 
         if (purl!=null && !purl.equals(""))
             ISA2OWL.addOWLClassAssertion(IRI.create(purl), individual);

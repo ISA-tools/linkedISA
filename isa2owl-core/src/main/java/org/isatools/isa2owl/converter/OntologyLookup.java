@@ -1,11 +1,12 @@
 package org.isatools.isa2owl.converter;
 
-import java.util.List;
-
+import org.apache.log4j.Logger;
 import org.isatools.isacreator.ontologymanager.BioPortalClient;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
+
+import java.util.List;
 
 /**
  * Created by the ISATeam.
@@ -17,6 +18,9 @@ import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
  */
 public class OntologyLookup {
 
+
+    private static final Logger log = Logger.getLogger(OntologyLookup.class);
+
     //this list will be populated only once with a query to bioportal
     private static List<org.isatools.isacreator.configuration.Ontology> allOntologies = null;
     private static OntologyLookupCache cache = new OntologyLookupCache();
@@ -26,15 +30,15 @@ public class OntologyLookup {
     }
 
     private static String getOntologyVersion(String ontologyAbbreviation){
-        System.out.println("getOntologyVersion("+ontologyAbbreviation+")");
+        log.debug("getOntologyVersion(" + ontologyAbbreviation + ")");
 
-        System.out.println("allOntologies="+allOntologies);
+        log.debug("allOntologies="+allOntologies);
 
         for(org.isatools.isacreator.configuration.Ontology ontology: allOntologies ){
 
             if (ontology.getOntologyAbbreviation().equals(ontologyAbbreviation)){
                 String version = ontology.getOntologyVersion();
-                System.out.println("version="+version);
+                log.debug("version="+version);
                 return version;
             }
 
@@ -44,11 +48,11 @@ public class OntologyLookup {
 
     public static String findOntologyPURL(String termSourceRef, String termAccession){
 
-        System.out.println("findOntologyPURL(termSourceRef="+termSourceRef+", termAccession="+termAccession+")");
+        log.debug("findOntologyPURL(termSourceRef=" + termSourceRef + ", termAccession=" + termAccession + ")");
 
         String purl = cache.getPurl(termSourceRef, termAccession);
         if (purl!=null) {
-            System.out.println("IN CACHE!!! "+ termSourceRef +" " + termAccession + " " + purl);
+            log.debug("IN CACHE!!! "+ termSourceRef +" " + termAccession + " " + purl);
             return purl;
         }
 
@@ -68,7 +72,7 @@ public class OntologyLookup {
         //searching term in bioportal
         if (ontologySourceRefObject!=null){
 
-            System.out.println("Found ontology "+ontologySourceRefObject);
+            log.debug("Found ontology "+ontologySourceRefObject);
             BioPortalClient client = new BioPortalClient();
 
             if (allOntologies==null){
@@ -82,7 +86,7 @@ public class OntologyLookup {
             if (termAccession!=null)
                 term = client.getTermInformation(termAccession, ontologyVersion);
 
-            System.out.println("term====>"+term);
+            log.debug("term====>"+term);
             if (term!=null) {
                 purl = term.getOntologyPurl();
                 if (purl!=null)
