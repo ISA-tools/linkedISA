@@ -8,7 +8,6 @@
     <name>isa2owl-core</name>
     <url>http://maven.apache.org</url>
 
-
     <parent>
         <artifactId>isa2owl</artifactId>
         <groupId>org.isatools</groupId>
@@ -35,9 +34,14 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
     </build>
-
-
 
     <repositories>
         <repository>
@@ -122,7 +126,6 @@
             <version>3.3</version>
         </dependency>
 
-
         <dependency>
             <groupId>net.sourceforge.owlapi</groupId>
             <artifactId>owlapi-tools</artifactId>
@@ -148,7 +151,6 @@
             <version>2.10.0</version>
         </dependency>
 
-
         <dependency>
             <groupId>com.owldl</groupId>
             <artifactId>pellet</artifactId>
@@ -156,22 +158,17 @@
             <version>2.3.0</version>
         </dependency>
 
-
-
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-runtime</artifactId>
             <version>2.7.0</version>
         </dependency>
 
-
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.1.1</version>
         </dependency>
-
-
 
         <dependency>
             <groupId>com.owldl</groupId>
@@ -195,12 +192,6 @@
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-repository-manager</artifactId>
-            <version>2.7.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-repository-http</artifactId>
             <version>2.7.0</version>
         </dependency>
 
