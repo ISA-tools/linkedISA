@@ -124,11 +124,11 @@ public class Assay2OWLConverter {
 
     private void convertAssayNodes(Map<String, OWLNamedIndividual> protocolIndividualMap, Graph graph, Map<String, OWLNamedIndividual> assayIndividualsForProperties) {
         //assay individuals
-        List<Node> assayNodes = graph.getNodes(NodeType.ASSAY_NODE);
+        List<ISANode> assayNodes = graph.getNodes(NodeType.ASSAY_NODE);
 
         //used to avoid repetitions of assayIndividuals
         Map<String, OWLNamedIndividual> assayIndividuals = new HashMap<String, OWLNamedIndividual>();
-        for(Node node: assayNodes){
+        for(ISANode node: assayNodes){
             AssayNode assayNode = (AssayNode) node;
 
             int col = assayNode.getIndex();
@@ -225,7 +225,7 @@ public class Assay2OWLConverter {
      */
     private void convertProcessNodes(List<Protocol> protocolList, Map<String, OWLNamedIndividual> protocolIndividualMap, Graph graph, AssayTableType assayTableType) {
         //Process Nodes
-        List<Node> processNodes = graph.getNodes(NodeType.PROCESS_NODE);
+        List<ISANode> processNodes = graph.getNodes(NodeType.PROCESS_NODE);
 
         Map<String, Protocol> protocolMap = new HashMap<String, Protocol>();
 
@@ -235,7 +235,7 @@ public class Assay2OWLConverter {
 
         System.out.println("protocolMap = "+protocolMap);
 
-        for(Node node: processNodes){
+        for(ISANode node: processNodes){
 
             ProcessNode processNode = (ProcessNode) node;
 
@@ -359,9 +359,9 @@ public class Assay2OWLConverter {
         OWLNamedIndividual dataNodeIndividual = null;
 
         //Data Nodes
-        List<Node> dataNodes = graph.getNodes(NodeType.DATA_NODE);
+        List<ISANode> dataNodes = graph.getNodes(NodeType.DATA_NODE);
 
-        for(Node node: dataNodes){
+        for(ISANode node: dataNodes){
             DataNode dataNode = (DataNode) node;
             System.out.println("DATA NODE="+node);
 
@@ -400,9 +400,9 @@ public class Assay2OWLConverter {
         }
 
         //Material Nodes
-        List<Node> materialNodes = graph.getNodes(NodeType.MATERIAL_NODE);
+        List<ISANode> materialNodes = graph.getNodes(NodeType.MATERIAL_NODE);
 
-        for(Node node: materialNodes){
+        for(ISANode node: materialNodes){
 
             Map<String, OWLNamedIndividual> materialNodeAndAttributesIndividuals = new HashMap<String,OWLNamedIndividual>();
             materialNodeAndAttributesIndividuals.put("Study", studyIndividual);

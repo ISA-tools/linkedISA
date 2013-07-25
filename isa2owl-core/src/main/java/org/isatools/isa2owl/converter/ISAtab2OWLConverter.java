@@ -418,10 +418,10 @@ public class ISAtab2OWLConverter {
                 ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID : StudyPublication.PUBMED_ID, pub.getPubmedId(), publicationIndividuals);
 
                 //Study Publication DOI
-                ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID: StudyPublication.PUBLICATION_DOI, pub.getPublicationDOI(), publicationIndividuals);
+                ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBLICATION_DOI: StudyPublication.PUBLICATION_DOI, pub.getPublicationDOI(), publicationIndividuals);
 
                 //Study Publication Author List
-                ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID: StudyPublication.PUBLICATION_AUTHOR_LIST, pub.getPublicationAuthorList(), publicationIndividuals);
+                ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBLICATION_AUTHOR_LIST: StudyPublication.PUBLICATION_AUTHOR_LIST, pub.getPublicationAuthorList(), publicationIndividuals);
 
                  //Study Publication Title
                 ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBLICATION_TITLE: StudyPublication.PUBLICATION_TITLE, pub.getPublicationTitle(), publicationIndividuals);
