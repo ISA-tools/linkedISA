@@ -236,7 +236,7 @@ public class Assay2OWLConverter {
                 String processName = (data[processRow][processCol]).toString();
 
                 if (processName.equals("")){
-                    System.out.println("ProcessName is empty!!!");
+                    log.debug("ProcessName is empty!!!");
                     continue;
                 }
                 Protocol protocol = protocolMap.get(processName);

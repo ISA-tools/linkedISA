@@ -35,7 +35,7 @@ public class ISAtab2OWLConverterTest {
     	System.out.println("configDir="+configDir);
         path = "/ISAtab-Datasets/";
 
-        System.out.println("Parsing the mapping...");
+        //System.out.println("Parsing the mapping...");
 
         parser = new ISA2OWLMappingParser();
         URL isa_obi_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_OBI_MAPPING_FILENAME);
