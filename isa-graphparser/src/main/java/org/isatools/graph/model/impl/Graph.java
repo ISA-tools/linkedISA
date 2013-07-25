@@ -1,9 +1,10 @@
 package org.isatools.graph.model.impl;
 
+import org.isatools.graph.model.ISAGraph;
+import org.isatools.graph.model.ISANode;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.isatools.graph.model.ISAGraph;
 
 /**
  * Created by the ISA team
@@ -16,24 +17,24 @@ import org.isatools.graph.model.ISAGraph;
  */
 public class Graph implements ISAGraph {
 
-    private List<Node> nodeList;
+    private List<ISANode> nodeList;
 
     public Graph() {
-        this.nodeList = new ArrayList<Node>();
+        this.nodeList = new ArrayList<ISANode>();
     }
 
     public void addNode(Node node) {
         nodeList.add(node);
     }
 
-    public List<Node> getNodes() {
+    public List<ISANode> getNodes() {
         return nodeList;
     }
 
-    public List<Node> getNodes(NodeType nodeType) {
-        List<Node> nodes = new ArrayList<Node>();
+    public List<ISANode> getNodes(NodeType nodeType) {
+        List<ISANode> nodes = new ArrayList<ISANode>();
 
-        for (Node n : nodeList) {
+        for (ISANode n : nodeList) {
             // there will be more materials in general, so to make this method quicker, it's good to check the most
             // expected element first.
             if (nodeType == NodeType.MATERIAL_NODE) {
@@ -58,8 +59,8 @@ public class Graph implements ISAGraph {
         return nodes;
     }
 
-    public Node getNode(int index) {
-        for (Node n : nodeList) {
+    public ISANode getNode(int index) {
+        for (ISANode n : nodeList) {
             if (n.getIndex() == index) {
                 return n;
             }
@@ -72,7 +73,7 @@ public class Graph implements ISAGraph {
      * Prints out the org.isatools.graph
      */
     public void outputGraph() {
-        for (Node n : getNodes()) {
+        for (ISANode n : getNodes()) {
             System.out.println(n);
         }
     }

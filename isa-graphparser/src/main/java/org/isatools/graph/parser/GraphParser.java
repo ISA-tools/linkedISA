@@ -153,9 +153,9 @@ public class GraphParser {
         Map<String, Map<String, Integer>> resultNodes
                 = new HashMap<String, Map<String, Integer>>();
 
-        List<Node> node = graph.getNodes(NodeType.MATERIAL_NODE);
+        List<ISANode> node = graph.getNodes(NodeType.MATERIAL_NODE);
 
-        for (Node nodeOfInterest : node) {
+        for (ISANode nodeOfInterest : node) {
             // extract the values!
             MaterialNode materialNode = (MaterialNode) nodeOfInterest;
 
@@ -195,9 +195,9 @@ public class GraphParser {
     private Map<String, Integer> extractNodes(NodeType type) {
         Map<String, Integer> resultNodes = new HashMap<String, Integer>();
 
-        List<Node> node = graph.getNodes(type);
+        List<ISANode> node = graph.getNodes(type);
 
-        for (Node nodeOfInterest : node) {
+        for (ISANode nodeOfInterest : node) {
             // extract the values!
             for (int rowIndex = 1; rowIndex < assayTable.length; rowIndex++) {
                 if (nodeOfInterest.getIndex() < assayTable[rowIndex].length) {
