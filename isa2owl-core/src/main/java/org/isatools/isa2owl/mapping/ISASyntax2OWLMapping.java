@@ -215,7 +215,8 @@ public class ISASyntax2OWLMapping {
 		}
 		propertyMappings.put(subject, predobjs);
 
-        if (subject.startsWith(ExtendedISASyntax.STUDY_PERSON)){
+        if (subject.startsWith(ExtendedISASyntax.STUDY_PERSON) ||
+                subject.startsWith(ExtendedISASyntax.INVESTIGATION_PERSON)){
             contactPropertyMappings.put(subject, predobjs);
         }
 
@@ -223,7 +224,8 @@ public class ISASyntax2OWLMapping {
             protocolPropertyMappings.put(subject, predobjs);
         }
 
-        if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL_REF.toString()) || subject.startsWith(ExtendedISASyntax.ASSAY_PROTOCOL_REF.toString())){
+        if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL_REF.toString())
+                || subject.startsWith(ExtendedISASyntax.ASSAY_PROTOCOL_REF.toString())){
             protocolREFPropertyMappings.put(subject, predobjs);
         }
 

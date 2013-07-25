@@ -134,7 +134,6 @@ public class ISAtab2OWLConverter {
 
 
 
-
     /**
      * TODO imports from mapping vs imports from ISAtab dataset
      *
@@ -334,7 +333,7 @@ public class ISAtab2OWLConverter {
         for(String subjectString: propertyMappings.keySet()){
 
             //skip Study Person properties as they are dealt with in the Contact mappings
-            if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON) ||
+            if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON) ||  subjectString.startsWith(ExtendedISASyntax.INVESTIGATION_PERSON) ||
                     subjectString.startsWith(ExtendedISASyntax.STUDY_PROTOCOL) ||
                     subjectString.startsWith(GeneralFieldTypes.PROTOCOL_REF.toString()) ||
                     subjectString.matches(MaterialNode.REGEXP) ||
@@ -456,46 +455,46 @@ public class ISAtab2OWLConverter {
         for(Contact contact: contactsList){
 
             OWLNamedIndividual contactIndividual = contactIndividualMap.get(contact);
-            if (contactIndividual!=null)
-                continue;
-
+            boolean investigation = contact instanceof InvestigationContact;
             contactIndividuals = new HashMap<String, OWLNamedIndividual>();
 
-            boolean investigation = contact instanceof InvestigationContact;
+            if (contactIndividual==null){
 
-            //Study Person
-            contactIndividual = ISA2OWL.createIndividual(investigation ? ExtendedISASyntax.INVESTIGATION_PERSON : ExtendedISASyntax.STUDY_PERSON, contact.getIdentifier(), contactIndividuals);
-            contactIndividualMap.put(contact, contactIndividual);
+                //Study Person
+                contactIndividual = ISA2OWL.createIndividual(investigation ? ExtendedISASyntax.INVESTIGATION_PERSON : ExtendedISASyntax.STUDY_PERSON, contact.getIdentifier(), contactIndividuals);
+                contactIndividualMap.put(contact, contactIndividual);
 
-            //Study Person Last Name
-            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_LAST_NAME: StudyContact.CONTACT_LAST_NAME, contact.getLastName(), contactIndividuals);
+                //Study Person Last Name
+                ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_LAST_NAME: StudyContact.CONTACT_LAST_NAME, contact.getLastName(), contactIndividuals);
 
-            //Study Person First Name
-            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_FIRST_NAME: StudyContact.CONTACT_FIRST_NAME, contact.getFirstName(), contactIndividuals);
+                //Study Person First Name
+                ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_FIRST_NAME: StudyContact.CONTACT_FIRST_NAME, contact.getFirstName(), contactIndividuals);
 
-            //Study Person Mid Initials
-            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_MID_INITIAL : StudyContact.CONTACT_MID_INITIAL, contact.getMidInitial(), contactIndividuals);
+                //Study Person Mid Initials
+                ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_MID_INITIAL : StudyContact.CONTACT_MID_INITIAL, contact.getMidInitial(), contactIndividuals);
 
-            //Study Person Email
-            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_EMAIL :StudyContact.CONTACT_EMAIL, contact.getEmail(), contactIndividuals);
+                //Study Person Email
+                ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_EMAIL :StudyContact.CONTACT_EMAIL, contact.getEmail(), contactIndividuals);
 
-            //Study Person Phone
-            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_PHONE :StudyContact.CONTACT_PHONE, contact.getPhone(), contactIndividuals);
+                //Study Person Phone
+                ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_PHONE :StudyContact.CONTACT_PHONE, contact.getPhone(), contactIndividuals);
 
-            //Study Person Fax
-            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_FAX :StudyContact.CONTACT_FAX, contact.getFax(), contactIndividuals);
+                //Study Person Fax
+                ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_FAX :StudyContact.CONTACT_FAX, contact.getFax(), contactIndividuals);
 
-            //Study Person Address
-            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_ADDRESS :StudyContact.CONTACT_ADDRESS, contact.getAddress(), contactIndividuals);
+                //Study Person Address
+                ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_ADDRESS :StudyContact.CONTACT_ADDRESS, contact.getAddress(), contactIndividuals);
 
-            //Study Person Affiliation
-            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_AFFILIATION :StudyContact.CONTACT_AFFILIATION, contact.getAffiliation(), contactIndividuals);
+                //Study Person Affiliation
+                ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_AFFILIATION :StudyContact.CONTACT_AFFILIATION, contact.getAffiliation(), contactIndividuals);
 
-            System.out.println("ROLE-> "+contact.getRole());
-            //Investigation/Study Person Roles
-            ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_ROLE :StudyContact.CONTACT_ROLE, contact.getRole(), contactIndividuals);
+                System.out.println("ROLE-> "+contact.getRole());
+                //Investigation/Study Person Roles
+                ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_ROLE :StudyContact.CONTACT_ROLE, contact.getRole(), contactIndividuals);
+            } else {
+                contactIndividuals.put(investigation ? ExtendedISASyntax.INVESTIGATION_PERSON : ExtendedISASyntax.STUDY_PERSON, contactIndividual);
+            }
 
-            System.out.println("contactIndividuals="+contactIndividuals);
 
             if (investigation)
                 contactIndividuals.put(ExtendedISASyntax.INVESTIGATION, individual);
