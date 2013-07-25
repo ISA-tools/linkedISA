@@ -1,5 +1,6 @@
 package org.isatools.isa2owl.converter;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.isatools.graph.model.ISAMaterialAttribute;
 import org.isatools.graph.model.ISAMaterialNode;
@@ -483,7 +484,8 @@ public class Assay2OWLConverter {
                    String attributeTerm = null;
                    String attributeAccession = null;
 
-                   if (attributeString.contains("-")){
+                   System.out.println("attributeString="+attributeString);
+                   if (attributeString.contains("-") && StringUtils.countMatches(attributeString, "-" )== 2){
                        attributeString = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
                        String[] parts =  attributeString.split("-");
 
