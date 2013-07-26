@@ -61,12 +61,18 @@ public class ReasonerService {
         }
     }
 
-    public ReasonerService(OWLOntology ontology){
-        manager = OWLManager.createOWLOntologyManager();
+    public ReasonerService(OWLOntologyManager m, OWLOntology ontology) throws Exception {
+        //manager = OWLManager.createOWLOntologyManager();
+        this.manager = m;
+        //manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISAtab2OWLConverter.OBI_IRI), IRI.create(getClass().getClassLoader().getResource("owl/extended-obi.owl"))));
         initReasoner(ontology);
     }
 
     private void initReasoner(OWLOntology ontology){
+
+        Set<OWLOntology> importsClosure = manager.getImportsClosure(ontology);
+        System.out.println("closure="+importsClosure);
+
 
         //reasoner = PelletReasonerFactory.getInstance().createReasoner( ontology );
         ConsoleProgressMonitor progressMonitor = new ConsoleProgressMonitor();
@@ -80,7 +86,11 @@ public class ReasonerService {
         // closure. Pass in the configuration.
         reasoner = reasonerFactory.createReasoner(ontology, config);
         // Ask the reasoner to do all the necessary work now
+        System.out.println("reasoner name="+reasoner.getReasonerName());
+        System.out.println("reaosner version="+reasoner.getReasonerVersion().getMajor());
         reasoner.precomputeInferences();
+
+        System.out.println("is consistent="+reasoner.isConsistent());
     }
 
     /**

@@ -18,9 +18,9 @@ public enum ExtendedOBIVocabulary {
 //    public static final IRI ISA_HAS_MEMBER_IRI = IRI.create("http://isa-tools.org/isa/ISA0000018");
 //    public static final IRI ISA_EXECUTES = IRI.create("http://isa-tools.org/isa/ISA0000001");
 
-    HAS_VALUE(Namespaces.ISA, "0000144"),
-    HAS_MEMBER(Namespaces.ISA, "0000018"),
-    EXECUTES(Namespaces.ISA, "0000001");
+    HAS_VALUE(Namespaces.ISA, "00000089"),
+    HAS_MEMBER(Namespaces.ISA, "00000088"),
+    EXECUTES(Namespaces.ISA, "00000070");
 
 
     final public IRI iri;

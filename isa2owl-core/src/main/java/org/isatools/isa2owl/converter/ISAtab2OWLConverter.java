@@ -156,7 +156,7 @@ public class ISAtab2OWLConverter {
             String sourceFile = sourceRefObject.getSourceFile();
             log.debug("sourceFile="+sourceFile);
 
-            if (sourceFile==null || sourceFile.equals("") || sourceFile.contains("obi"))
+            if (sourceFile==null || sourceFile.equals("") || sourceFile.contains("obi") || !sourceFile.contains("http"))
                 continue;
 
 
@@ -193,7 +193,7 @@ public class ISAtab2OWLConverter {
     }
 
     public void saveInferredOntology(String filename) throws Exception{
-        ReasonerService reasoner = new ReasonerService(ISA2OWL.ontology);
+        ReasonerService reasoner = new ReasonerService(ISA2OWL.manager,ISA2OWL.ontology);
         reasoner.saveInferredOntology(filename);
     }
 
