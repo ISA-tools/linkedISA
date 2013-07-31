@@ -13,7 +13,6 @@ import org.isatools.graph.model.impl.NodeWithComments;
  */
 public class DataNode extends NodeWithComments {
 
-    public static final String CONTAINS = "File";
 
     public DataNode(int index, String name) {
         super(index, name);

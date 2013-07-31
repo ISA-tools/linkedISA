@@ -89,13 +89,13 @@ public class OntologyLookup {
             log.debug("term====>"+term);
             if (term!=null) {
                 purl = term.getOntologyPurl();
-                if (purl!=null)
-                    cache.addSourceTermPurlMapping(termSourceRef, termAccession, purl);
+                cache.addSourceTermPurlMapping(termSourceRef, termAccession, purl);
                 return purl;
             }//term not null
 
         } //ontologySourceRefObject not null
 
+        cache.addSourceTermPurlMapping(termSourceRef, termAccession, purl);
         return null;
     }
 

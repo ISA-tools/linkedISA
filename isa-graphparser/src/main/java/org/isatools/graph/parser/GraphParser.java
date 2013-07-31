@@ -1,7 +1,7 @@
 package org.isatools.graph.parser;
 
 
-import org.isatools.graph.model.ISANode;
+import org.isatools.graph.model.*;
 import org.isatools.graph.model.impl.*;
 
 import java.util.*;
@@ -76,7 +76,7 @@ public class GraphParser {
                 lastAssayNode = assayNode;
 
 
-            }else if (column.contains(DataNode.CONTAINS)){ //&& !column.matches(DataNode.REGEXP)) {
+            }else if (column.contains(ISADataNode.CONTAINS)){ //&& !column.matches(DataNode.REGEXP)) {
                 NodeWithComments dataNode = new DataNode(index, column);
                 graph.addNode(dataNode);
                 lastMaterialOrData = dataNode;
