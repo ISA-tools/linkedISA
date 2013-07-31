@@ -56,7 +56,7 @@ public class OntologyLookup {
             return purl;
         }
 
-        if ((termSourceRef==null) || (termSourceRef=="") || (termAccession==null) || (termAccession==""))
+        if ((termSourceRef==null) || (termSourceRef.equals("")) || (termAccession==null) || (termAccession.equals("")))
             return "";
 
         List<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
@@ -95,7 +95,7 @@ public class OntologyLookup {
 
         } //ontologySourceRefObject not null
 
-        cache.addSourceTermPurlMapping(termSourceRef, termAccession, purl);
+        cache.addSourceTermPurlMapping(termSourceRef, termAccession, "");
         return null;
     }
 
