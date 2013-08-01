@@ -46,6 +46,7 @@ public class ISAtab2OWLConverter {
     private Map<String, OWLNamedIndividual> protocolIndividualMap = null;
     private Map<String, OWLNamedIndividual> sampleIndividualMap = null;
     private Map<String, OWLNamedIndividual> measurementTechnologyIndividuals = new HashMap<String, OWLNamedIndividual>();
+    private Map<String, OWLNamedIndividual> affiliationIndividualMap = null;
 
     /**
      * Constructor
@@ -98,6 +99,7 @@ public class ISAtab2OWLConverter {
         publicationIndividualMap = new HashMap<Publication, OWLNamedIndividual>();
         contactIndividualMap = new HashMap<Contact, OWLNamedIndividual>();
         protocolIndividualMap = new HashMap<String, OWLNamedIndividual>();
+        affiliationIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
         Investigation investigation = importer.getInvestigation();
         //processSourceOntologies();
@@ -480,7 +482,14 @@ public class ISAtab2OWLConverter {
                 ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_ADDRESS :StudyContact.CONTACT_ADDRESS, contact.getAddress(), contactIndividuals);
 
                 //Study Person Affiliation
-                ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_AFFILIATION :StudyContact.CONTACT_AFFILIATION, contact.getAffiliation(), contactIndividuals);
+                String affiliation = contact.getAffiliation();
+                OWLNamedIndividual affiliationIndividual = affiliationIndividualMap.get(affiliation);
+                if (affiliationIndividual!=null) {
+                   contactIndividuals.put(affiliation, affiliationIndividual);
+                }else {
+                   affiliationIndividual = ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_AFFILIATION :StudyContact.CONTACT_AFFILIATION, contact.getAffiliation(), contactIndividuals);
+                }
+                affiliationIndividualMap.put(affiliation, affiliationIndividual);
 
                 //Investigation/Study Person Roles
                 ISA2OWL.createIndividual(investigation ? InvestigationContact.CONTACT_ROLE :StudyContact.CONTACT_ROLE, contact.getRole(), contactIndividuals);

@@ -3,7 +3,6 @@ package org.isatools.isa2owl.converter;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.isatools.graph.model.ISAMaterialAttribute;
-import org.isatools.graph.model.ISAMaterialNode;
 import org.isatools.graph.model.ISANode;
 import org.isatools.graph.model.impl.*;
 import org.isatools.graph.parser.GraphParser;
@@ -48,7 +47,7 @@ public class Assay2OWLConverter {
     private Object[][] data = null;
     //a matrix will all the individuals for the data (these are MaterialNodes or ProcessNodes individuals
     private OWLNamedIndividual[][] individualMatrix = null;
-    private Map<ISAMaterialNode, Map<String,OWLNamedIndividual>> materialNodeIndividualMap = new HashMap<ISAMaterialNode, Map<String,OWLNamedIndividual>>();
+    //private Map<ISAMaterialNode, Map<String,OWLNamedIndividual>> materialNodeIndividualMap = new HashMap<ISAMaterialNode, Map<String,OWLNamedIndividual>>();
     private Map<Integer, OWLNamedIndividual> processIndividualMap = new HashMap<Integer, OWLNamedIndividual>();
 
 
@@ -135,20 +134,51 @@ public class Assay2OWLConverter {
                 if (assayIndividual==null){
                     assayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, dataValue);
                     assayIndividuals.put(dataValue, assayIndividual);
-
                     assayIndividualsForProperties.put(ExtendedISASyntax.STUDY_ASSAY, assayIndividual);
 
 
-                    Map<String,List<Pair<IRI, String>>> assayPropertyMappings = ISA2OWL.mapping.getAssayPropertyMappings();
-                    log.debug("assayPropertyMappings ="+assayPropertyMappings);
+                    //inputs & outputs
+                    //adding inputs and outputs to the assay
+                    OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_INPUT));
+                    List<ISANode> inputs = assayNode.getInputNodes();
+                    for(ISANode input: inputs){
+                        int inputCol = input.getIndex();
 
-                    ISA2OWL.convertProperties(assayPropertyMappings, assayIndividualsForProperties);
+                        if (!data[row][inputCol].toString().equals("")){
+
+                        if (individualMatrix[row][inputCol]==null){
+                            System.out.println("individualMatrix[row][inputCol]==null!!!! " + individualMatrix[row][inputCol] == null + "  row=" + row + " inputCol=" + inputCol);
+                        }else{
+                            OWLNamedIndividual inputIndividual = individualMatrix[row][inputCol];
+                            ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_input, assayIndividual, inputIndividual);
+                            }
+                        }
+
+                    }//for inputs
+
+                    OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_OUTPUT));
+                    List<ISANode> outputs = assayNode.getOutputNodes();
+                    for(ISANode output: outputs){
+                        int outputCol = output.getIndex();
+                        if (!data[row][outputCol].toString().equals("")){
+
+                            if (individualMatrix[row][outputCol]!=null){
+                                ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_output, assayIndividual, individualMatrix[row][outputCol]);
+                            }else{
+                                System.out.println("individualMatrix[row][outputCol es null!!!! "+ individualMatrix[row][outputCol]+ "  row="+row+" outputCol="+outputCol);
+                            }
+                        } else {
+                            System.out.println("the element value is empty");
+                        }
+
+                    }//for outputs
 
                     //add comments
                     for(CommentNode comment: assayNode.getComments()){
                         int comment_col = comment.getIndex();
                         ISA2OWL.addComment( comment.getName() + ":" + ((String)data[row][comment_col]), assayIndividual.getIRI());
                     }
+
 
                     //realizes o concretizes (executes) associated protocol
                     List<ProcessNode> associatedProcessNodes = assayNode.getAssociatedProcessNodes();
@@ -159,47 +189,15 @@ public class Assay2OWLConverter {
 
                         OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(protocolName);
                         OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ExtendedOBIVocabulary.EXECUTES.iri);
-                        OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,assayIndividual, protocolIndividual);
-                        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
+                        ISA2OWL.addObjectPropertyAssertionAxiom(executes, assayIndividual, protocolIndividual);
+                    }//for process node
 
-                        //inputs & outputs
-                        //adding inputs and outputs to the assay
-                        OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_INPUT));
-                        List<ISANode> inputs = assayNode.getInputNodes();
-                        for(ISANode input: inputs){
-                            int inputCol = input.getIndex();
 
-                            if (!data[row][inputCol].toString().equals("")){
+                    Map<String,List<Pair<IRI, String>>> assayPropertyMappings = ISA2OWL.mapping.getAssayPropertyMappings();
+                    ISA2OWL.convertProperties(assayPropertyMappings, assayIndividualsForProperties);
 
-                            if (individualMatrix[row][inputCol]==null){
-                                log.debug("individualMatrix[row][inputCol]==null!!!! "+ individualMatrix[row][inputCol]==null+ "  row="+row+" inputCol="+inputCol);
-                            }else{
-                                OWLObjectPropertyAssertionAxiom axiom2 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_specified_input, assayIndividual, individualMatrix[row][inputCol]);
-                                if (axiom2==null){
-                                    System.err.println("ERROR!!!! axiom2 is null... "+axiom2+" assayIndividual="+assayIndividual+" individualMatrix[row][inputCol]="+individualMatrix[row][inputCol]+" row="+row+" inputCol="+inputCol);
-                                }else{
-                                    ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom2);
-                                }
-                            }
-                        }
 
-                        }//for inputs
-
-                    OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_OUTPUT));
-                    List<ISANode> outputs = assayNode.getOutputNodes();
-                    for(ISANode output: outputs){
-                        int outputCol = output.getIndex();
-                        if (!data[row][outputCol].toString().equals("")){
-
-                            if (individualMatrix[row][outputCol]!=null){
-                                OWLObjectPropertyAssertionAxiom axiom3 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_specified_output, assayIndividual, individualMatrix[row][outputCol]);
-                                ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom3);
-                            }
-                        }
-
-                    }//for outputs
-                }//for process node
-            }
+                }
            }//if individual is null.
         }
     }
@@ -362,11 +360,12 @@ public class Assay2OWLConverter {
         for(ISANode node: materialNodes){
 
             Map<String, OWLNamedIndividual> materialNodeAndAttributesIndividuals = new HashMap<String,OWLNamedIndividual>();
-            materialNodeAndAttributesIndividuals.put("Study", studyIndividual);
+            materialNodeAndAttributesIndividuals.put(ExtendedISASyntax.STUDY, studyIndividual);
 
             MaterialNode materialNode = (MaterialNode) node;
 
-            //if the material node is a sample, and the sampleIndividualMap is not null, use the samples in the Map and only add Characteristics (but don't create new individuals)
+            //if the material node is a sample, and the sampleIndividualMap is not null,
+            // use the samples in the Map and only add Characteristics (but don't create new individuals)
             boolean createIndividualForMaterialNode = true;
             if (materialNode.getMaterialNodeType() == ExtendedISASyntax.SAMPLE && !sampleIndividualMapWasNull){
                 createIndividualForMaterialNode = false;
@@ -385,9 +384,7 @@ public class Assay2OWLConverter {
                 if ( createIndividualForMaterialNode ){
 
                     //Material Node
-
                     materialNodeIndividual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), dataValue, materialNode.getMaterialNodeType());
-                    log.debug("material node individual="+materialNode.getMaterialNodeType()+" "+ dataValue );
 
                     //add comments
                     for(CommentNode comment: materialNode.getComments()){

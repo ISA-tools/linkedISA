@@ -59,12 +59,14 @@ public class ISAtab2OWLConverterTest {
 
     //@Test
     public void consecutiveConversions() {
+        iri = "http://isa-tools.org/isa/BII-I-1.owl";
         isatabParentDir = getClass().getResource(path+"BII-I-1").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
         assert(isatab2owl.convert(isatabParentDir, iri));
         isatab2owl.saveOntology(savePath+"BII-I-1.owl");
 
+        iri = "http://isa-tools.org/isa/MTBLS6.owl";
         isatabParentDir = getClass().getResource( path+  "MTBLS6").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
@@ -125,6 +127,7 @@ public class ISAtab2OWLConverterTest {
 
     @Test
     public void testConvertMTBLS6() {
+        iri = "http://isa-tools.org/isa/MTBLS6.owl";
         isatabParentDir = getClass().getResource( path+  "MTBLS6").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
@@ -145,6 +148,7 @@ public class ISAtab2OWLConverterTest {
 
    @Test
     public void testConvertT12by2strainsex() {
+       iri = "http://isa-tools.org/isa/T1.owl";
         isatabParentDir = getClass().getResource( path + "T1-2x2-strain-sex").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
@@ -154,6 +158,7 @@ public class ISAtab2OWLConverterTest {
 
     @Test
     public void testConvertT3() {
+        iri = "http://isa-tools.org/isa/T3.owl";
         isatabParentDir = getClass().getResource( path + "T3").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
 
@@ -167,6 +172,7 @@ public class ISAtab2OWLConverterTest {
 
     @Test
     public void testConvertT4() {
+        iri = "http://isa-tools.org/isa/T4.owl";
         isatabParentDir = getClass().getResource(path + "T4").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
@@ -176,6 +182,7 @@ public class ISAtab2OWLConverterTest {
 
     @Test
     public void testConvertGWAS() {
+        iri = "http://isa-tools.org/isa/GWAS.owl";
         isatabParentDir = getClass().getResource( path +"GWAS-E-GEOD-11948-corrected-with-publication").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
@@ -185,11 +192,23 @@ public class ISAtab2OWLConverterTest {
 
     @Test
     public void testConvertEGEOD() {
+        iri = "http://isa-tools.org/isa/E-GEOD-25835-MPBRCA1.owl";
         isatabParentDir = getClass().getResource( path + "E-GEOD-25835-MPBRCA1").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
         isatab2owl.convert(isatabParentDir, iri);
         isatab2owl.saveOntology(savePath+"E-GEOD-25835-MPBRCA1.owl");
     }
+
+    @Test
+    public void testConvertMTBLS2() {
+        iri = "http://isa-tools.org/isa/MTBLS2.owl";
+        isatabParentDir = getClass().getResource( path + "MTBLS2").getFile();
+        System.out.println("isatabParentDir="+isatabParentDir);
+        System.out.println("Converting the ISA-tab dataset into OWL");
+        isatab2owl.convert(isatabParentDir, iri);
+        isatab2owl.saveOntology(savePath+"MTBLS2.owl");
+    }
+
 
 }
