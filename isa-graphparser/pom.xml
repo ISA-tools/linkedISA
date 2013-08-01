@@ -31,16 +31,15 @@
 
 
     <repositories>
-        <repository>
-            <id>oerc</id>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/repositories/releases/</url>
-        </repository>
+      	<repository>
+			<id>oerc</id>
+			<url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases/</url>
+		</repository>
 
-        <repository>
-            <id>Sonatype repository</id>
-            <name>Sonatype's Maven repository</name>
-            <url>https://oss.sonatype.org/content/repositories/releases/</url>
-        </repository>
+		<repository>
+			<id>oerc-snapshot</id>
+			<url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/snapshots/</url>
+		</repository>
 
         <repository>
             <id>on.cs.unibas.ch</id>
@@ -55,7 +54,7 @@
         <dependency>
             <groupId>org.isatools</groupId>
             <artifactId>ISAcreator</artifactId>
-            <version>1.7.1</version>
+            <version>1.7.2</version>
         </dependency>
 
         <dependency>
