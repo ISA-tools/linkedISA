@@ -97,6 +97,18 @@ public class ISAtab2OWLConverterTest {
 
         isatab2owl.saveInferredOntology(savePath+"BII-I-1-inferred.owl");
     }
+    
+    @Test
+    public void testConvertArmstrong() throws Exception {
+        iri = "http://isa-tools.org/isa/ARMSTRONG-3.owl";
+        isatabParentDir = getClass().getResource(path+"ARMSTRONG-3").getFile();
+        System.out.println("isatabParentDir="+isatabParentDir);
+        System.out.println("Converting the ISA-tab dataset into OWL");
+        isatab2owl.convert(isatabParentDir, iri);
+        isatab2owl.saveOntology(savePath+"ARMSTRONG-3.owl");
+
+        isatab2owl.saveInferredOntology(savePath+"ARMSTRONG-3-inferred.owl");
+    }
 
     @Test
     public void testConvertBII_S_3() throws Exception {
