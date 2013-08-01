@@ -163,7 +163,7 @@ public class Assay2OWLConverter {
                         if (!data[row][outputCol].toString().equals("")){
 
                             if (individualMatrix[row][outputCol]!=null){
-                                ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_input, assayIndividual, individualMatrix[row][outputCol]);
+                                ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_output, assayIndividual, individualMatrix[row][outputCol]);
                             }else{
                                 System.out.println("individualMatrix[row][outputCol es null!!!! "+ individualMatrix[row][outputCol]+ "  row="+row+" outputCol="+outputCol);
                             }
