@@ -275,7 +275,11 @@ public class ISA2OWL {
         }
     }
 
-
+    public static void addObjectPropertyAssertionAxiom(OWLObjectProperty property, OWLNamedIndividual subject, OWLNamedIndividual object){
+        OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
+        System.out.println("Adding axiom "+axiom);
+        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
+    }
 
     public static void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
         log.debug("============findOntologyTermAndAddClassAssertion termSourceRef="+termSourceRef + " termAccession="+termAccession + " individual="+individual);
