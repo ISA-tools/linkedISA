@@ -282,7 +282,6 @@ public class Assay2OWLConverter {
 
                 }//process node attributes not null
 
-
                 //inputs & outputs
                 List<ISANode> inputs = processNode.getInputNodes();
                 for(ISANode input: inputs){
@@ -291,8 +290,6 @@ public class Assay2OWLConverter {
                     if (!data[processRow][inputCol].toString().equals("")){
                         protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF_INPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_INPUT, individualMatrix[processRow][inputCol]);
                     }
-
-                    //}//for row
 
                 }//for inputs
 
@@ -397,7 +394,6 @@ public class Assay2OWLConverter {
                             sampleIndividualMap.put(dataValue, materialNodeIndividual);
                     }
 
-                    individualMatrix[row][col] = materialNodeIndividual;
                     materialNodeAndAttributesIndividuals.put(materialNode.getMaterialNodeType(), materialNodeIndividual);
 
                     //Material Node Annotation
@@ -418,8 +414,9 @@ public class Assay2OWLConverter {
 
                 } else {
                     materialNodeIndividual = sampleIndividualMap.get(dataValue);
-                }
 
+                }
+                individualMatrix[row][col] = materialNodeIndividual;
                 //material node attributes
                 List<ISAMaterialAttribute> attributeList = materialNode.getMaterialAttributes();
 

@@ -41,6 +41,7 @@ public class ExtendedISASyntax {
 
    public static String STUDY_PROTOCOL_REF = "Study Protocol REF";
    public static String ASSAY_PROTOCOL_REF = "Assay Protocol REF";
+
    public static String ASSAY_PROTOCOL_REF_INPUT = "Assay Protocol REF Input";
    public static String ASSAY_PROTOCOL_REF_OUTPUT = "Assay Protocol REF Output";
 
