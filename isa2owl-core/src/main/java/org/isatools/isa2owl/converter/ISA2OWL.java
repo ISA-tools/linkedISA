@@ -299,8 +299,6 @@ public class ISA2OWL {
 
                     for(OWLNamedIndividual subject: subjectSet){
                         for(OWLNamedIndividual object:objectSet){
-                            System.out.println("subject = "+subject + " object="+object);
-
                             OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
                             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
                         }

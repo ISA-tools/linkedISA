@@ -453,8 +453,6 @@ public class Assay2OWLConverter {
                    //row information
                    String attributeDataValue = data[row][attribute.getIndex()].toString();
 
-                   System.out.println("attributeDataValue ="+attributeDataValue+"="+" attributeTerm="+attributeTerm);
-
                    if (attributeDataValue!=null && !attributeDataValue.equals("")){
                         OWLNamedIndividual materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeTerm);
 
@@ -480,8 +478,6 @@ public class Assay2OWLConverter {
                    //deal with the attribute
                    String source = OntologyManager.getOntologyTermSource(attributeDataValue);
                    String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
-
-                   //System.out.println("MATERIAL ATTRIBUTE="+ attribute+" index="+attribute.getIndex()+" data value="+attributeDataValue+ " source="+source+" accession="+accession+ " individual"+materialAttributeIndividual);
 
                    //the attribute is annotated
                    if (source!=null && accession!=null){
@@ -510,9 +506,7 @@ public class Assay2OWLConverter {
 
                } //for attribute
 
-                //convert properties per each attribute (Characteristics gets overwritten in the HashMap)
-                System.out.println("Material Node and Attribute Individuals="+materialNodeAndAttributesIndividuals);
-
+                //convert properties per each attribute
                 Map<String, List<Pair<IRI,String>>> materialNodePropertyMapping = ISA2OWL.mapping.getMaterialNodePropertyMappings();
                 ISA2OWL.convertPropertiesMultipleIndividuals(materialNodePropertyMapping, materialNodeAndAttributesIndividuals);
 
