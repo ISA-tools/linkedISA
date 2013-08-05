@@ -55,6 +55,12 @@ public class GraphParserTest {
         graphParser(isatabParentDir);
     }
 
+    @Test
+    public void parserTest5(){
+        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/BII-I-1").getFile();
+        graphParser(isatabParentDir);
+    }
+
     private void graphParser(String isatabParentDir){
         //Import ISAtab dataset
         System.out.println("configDir="+configDir);

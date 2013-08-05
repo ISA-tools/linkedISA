@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface ISAProcessNode {
 
-    public static final String REGEXP = "Protocol REF";
+    public static final String REGEXP = "((?i)Protocol REF)|(Data Normalization.*)|(Data Transformation.*)";
 
     public void addInputNode(ISANode inputNode);
 

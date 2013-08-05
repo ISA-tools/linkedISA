@@ -50,7 +50,7 @@ public class GraphParser {
 
         for (String column : columns) {
 
-            if (column.equalsIgnoreCase(ProcessNode.REGEXP)) {
+            if (column.matches(ProcessNode.REGEXP)) {
                 ProcessNode processNode = new ProcessNode(index, column);
                 graph.addNode(processNode);
                 if (lastMaterialOrData != null) {
