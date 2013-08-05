@@ -46,6 +46,7 @@ public class Assay2OWLConverter {
     private OWLNamedIndividual[][] individualMatrix = null;
     //private Map<ISAMaterialNode, Map<String,OWLNamedIndividual>> materialNodeIndividualMap = new HashMap<ISAMaterialNode, Map<String,OWLNamedIndividual>>();
     private Map<Integer, OWLNamedIndividual> processIndividualMap = new HashMap<Integer, OWLNamedIndividual>();
+    private Map<String, OWLNamedIndividual> materialAttributeIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
 
     public Assay2OWLConverter(){
@@ -454,44 +455,38 @@ public class Assay2OWLConverter {
                    String attributeDataValue = data[row][attribute.getIndex()].toString();
 
                    if (attributeDataValue!=null && !attributeDataValue.equals("")){
-                        OWLNamedIndividual materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeTerm);
+
+                       OWLNamedIndividual materialAttributeIndividual = materialAttributeIndividualMap.get(attributeDataValue);
+                       if (materialAttributeIndividual == null)
+                            materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeTerm);
+
+                        materialAttributeIndividualMap.put(attributeDataValue, materialAttributeIndividual);
 
                         individualMatrix[row][attribute.getIndex()] = materialAttributeIndividual;
 
+                        //the column is annotated with an ontology
+                        if (attributeSource!=null && attributeAccession!=null){
+                                if (isOrganism(attributeSource, attributeAccession))  {
+                                    ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialNodeIndividual);
 
-                   //the column is annotated with an ontology
-                   if (attributeSource!=null && attributeAccession!=null){
+                                } else {
+                                    ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialAttributeIndividual);
+                                }
+                        }
 
-                       if (isOrganism(attributeSource, attributeAccession))  {
+                        //deal with the attribute
+                       String source = OntologyManager.getOntologyTermSource(attributeDataValue);
+                       String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
 
-                           ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialNodeIndividual);
+                       //the attribute is annotated
+                       if (source!=null && accession!=null){
 
-                       } else {
-
-                            ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialAttributeIndividual);
-
+                        if (isOrganism(source, accession)){
+                            ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
+                        } else {
+                            ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
+                        }
                        }
-
-                   }
-
-
-                   //deal with the attribute
-                   String source = OntologyManager.getOntologyTermSource(attributeDataValue);
-                   String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
-
-                   //the attribute is annotated
-                   if (source!=null && accession!=null){
-
-                     if (isOrganism(source, accession)){
-
-                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
-
-                     } else {
-
-                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
-
-                     }
-                   }
 
                    Set<OWLNamedIndividual> materialAttributesSet = materialNodeAndAttributesIndividuals.get(GeneralFieldTypes.CHARACTERISTIC.toString());
                    if (materialAttributesSet==null)
