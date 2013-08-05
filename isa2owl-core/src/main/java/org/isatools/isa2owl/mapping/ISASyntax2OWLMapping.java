@@ -1,7 +1,8 @@
 package org.isatools.isa2owl.mapping;
 
 import org.apache.log4j.Logger;
-import org.isatools.graph.model.impl.MaterialNode;
+import org.isatools.graph.model.ISAMaterialAttribute;
+import org.isatools.graph.model.ISAMaterialNode;
 import org.isatools.isacreator.model.InvestigationPublication;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
@@ -220,7 +221,7 @@ public class ISASyntax2OWLMapping {
             protocolREFPropertyMappings.put(subject, predobjs);
         }
 
-        if (subject.matches(MaterialNode.REGEXP)){
+        if (subject.matches(ISAMaterialNode.REGEXP) || subject.matches(ISAMaterialAttribute.REGEXP)){
             materialNodePropertyMappings.put(subject, predobjs);
         }
 

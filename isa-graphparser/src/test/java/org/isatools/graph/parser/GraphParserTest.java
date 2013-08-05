@@ -91,7 +91,7 @@ public class GraphParserTest {
             GraphParser parser = new GraphParser(data);
             parser.parse();
 
-            log.info("STUDY SAMPLE GRAPH...");
+            System.out.println("STUDY SAMPLE GRAPH...");
             parser.getGraph().outputGraph();
 
             System.out.println("GROUPS=" + parser.getGroups());

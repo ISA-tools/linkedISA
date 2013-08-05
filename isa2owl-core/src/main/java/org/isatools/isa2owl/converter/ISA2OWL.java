@@ -275,6 +275,41 @@ public class ISA2OWL {
         }
     }
 
+    public static void convertPropertiesMultipleIndividuals(Map<String, List<Pair<IRI, String>>> propertyMappings, Map<String, Set<OWLNamedIndividual>> typeIndividualM){
+        for(String subjectString: propertyMappings.keySet()){
+            List<Pair<IRI, String>> predicateObjects = propertyMappings.get(subjectString);
+            Set<OWLNamedIndividual> subjectSet = typeIndividualM.get(subjectString);
+
+
+            for(Pair<IRI,String> predicateObject: predicateObjects){
+
+                IRI predicate = predicateObject.getFirst();
+
+                OWLObjectProperty property = ISA2OWL.factory.getOWLObjectProperty(predicate);
+
+                String objectString = predicateObject.getSecond();
+
+                Set<OWLNamedIndividual> objectSet = typeIndividualM.get(objectString);
+
+                if (subjectSet==null || objectSet==null || property==null){
+
+                    log.debug("At least one of subject/predicate/object is null...");
+
+                }else{
+
+                    for(OWLNamedIndividual subject: subjectSet){
+                        for(OWLNamedIndividual object:objectSet){
+                            System.out.println("subject = "+subject + " object="+object);
+
+                            OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
+                            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
+                        }
+                    }
+                }
+            }//for
+        }
+    }
+
     public static void addObjectPropertyAssertionAxiom(OWLObjectProperty property, OWLNamedIndividual subject, OWLNamedIndividual object){
         OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
         ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
