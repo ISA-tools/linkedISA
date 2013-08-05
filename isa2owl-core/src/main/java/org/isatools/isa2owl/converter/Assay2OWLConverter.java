@@ -381,7 +381,7 @@ public class Assay2OWLConverter {
                 if ( createIndividualForMaterialNode ){
 
                     //Material Node
-                    materialNodeIndividual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), dataValue, materialNode.getMaterialNodeType());
+                    materialNodeIndividual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), dataValue +" " +materialNode.getMaterialNodeType(), materialNode.getMaterialNodeType());
 
                     //add comments
                     for(CommentNode comment: materialNode.getComments()){
