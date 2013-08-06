@@ -2,6 +2,7 @@ package org.isatools.isa2owl.converter;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.isatools.graph.model.ISAFactorValue;
 import org.isatools.graph.model.ISAMaterialAttribute;
 import org.isatools.graph.model.ISANode;
 import org.isatools.graph.model.impl.*;
@@ -418,6 +419,13 @@ public class Assay2OWLConverter {
                     set3.add(materialNodeIndividualName);
                     materialNodeAndAttributesIndividuals.put(GeneralFieldTypes.SOURCE_NAME.toString(), set3);
 
+                    //adding factor values only when creating individual (so the factors come from the study sample file
+                    if (materialNode instanceof SampleNode){
+                        List<ISAFactorValue> factorValues = ((SampleNode) materialNode).getFactorValues();
+                        convertFactorValues(materialNodeIndividual, factorValues);
+                    }
+
+
                 } else {
                     materialNodeIndividual = sampleIndividualMap.get(dataValue);
 
@@ -426,86 +434,90 @@ public class Assay2OWLConverter {
                 //material node attributes
                 List<ISAMaterialAttribute> attributeList = materialNode.getMaterialAttributes();
 
-                for(ISAMaterialAttribute attribute: attributeList){
-
-                    //column information
-                    String attributeString = attribute.getName();
-                    String attributeSource = null;
-                    String attributeTerm = null;
-                    String attributeAccession = null;
-
-                    if (attributeString.contains("-") && StringUtils.countMatches(attributeString, "-" )== 2){
-                        attributeString = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
-                        String[] parts =  attributeString.split("-");
-
-                        attributeSource = parts[0];
-                        attributeTerm = parts[1];
-                        attributeAccession = parts[2];
-
-                    }else{
-
-                        attributeTerm = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
-                    }
-
-                    //row information
-                    String attributeDataValue = data[row][attribute.getIndex()].toString();
-
-                    if (attributeDataValue!=null && !attributeDataValue.equals("")){
-
-                        OWLNamedIndividual materialAttributeIndividual = materialAttributeIndividualMap.get(attributeDataValue);
-                        if (materialAttributeIndividual == null)
-                            materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeTerm);
-
-                        materialAttributeIndividualMap.put(attributeDataValue, materialAttributeIndividual);
-
-                        individualMatrix[row][attribute.getIndex()] = materialAttributeIndividual;
-
-                        //the column is annotated with an ontology
-                        if (attributeSource!=null && attributeAccession!=null){
-                            if (isOrganism(attributeSource, attributeAccession))  {
-                                ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialNodeIndividual);
-
-                            } else {
-                                ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialAttributeIndividual);
-                            }
-                        }
-
-                        //deal with the attribute
-                        String source = OntologyManager.getOntologyTermSource(attributeDataValue);
-                        String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
-
-                        //the attribute is annotated
-                        if (source!=null && accession!=null){
-
-                            if (isOrganism(source, accession)){
-                                ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
-                            } else {
-                                ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
-                            }
-                        }
-
-                        Set<OWLNamedIndividual> materialAttributesSet = materialNodeAndAttributesIndividuals.get(GeneralFieldTypes.CHARACTERISTIC.toString());
-                        if (materialAttributesSet==null)
-                            materialAttributesSet = new HashSet<OWLNamedIndividual>();
-
-                        materialAttributesSet.add(materialAttributeIndividual);
-                        materialNodeAndAttributesIndividuals.put(GeneralFieldTypes.CHARACTERISTIC.toString(), materialAttributesSet);
-
-                    }else{
-                        System.err.println("attributeDataValue is null or empty!");
-                    }
-
-                } //for attribute
-
-                //convert properties per each attribute
-                Map<String, List<Pair<IRI,String>>> materialNodePropertyMapping = ISA2OWL.mapping.getMaterialNodePropertyMappings();
-                ISA2OWL.convertPropertiesMultipleIndividuals(materialNodePropertyMapping, materialNodeAndAttributesIndividuals);
+                convertMaterialAttributes(materialNodeIndividual, row, materialNodeAndAttributesIndividuals, attributeList);
 
             } //for each row
         }
 
         return sampleIndividualMap;
 
+    }
+
+    private void convertMaterialAttributes(OWLNamedIndividual materialNodeIndividual, int row, Map<String, Set<OWLNamedIndividual>> materialNodeAndAttributesIndividuals, List<ISAMaterialAttribute> attributeList) {
+        for(ISAMaterialAttribute attribute: attributeList){
+
+            //column information
+            String attributeString = attribute.getName();
+            String attributeSource = null;
+            String attributeTerm = null;
+            String attributeAccession = null;
+
+            if (attributeString.contains("-") && StringUtils.countMatches(attributeString, "-")== 2){
+                attributeString = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
+                String[] parts =  attributeString.split("-");
+
+                attributeSource = parts[0];
+                attributeTerm = parts[1];
+                attributeAccession = parts[2];
+
+            }else{
+
+                attributeTerm = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
+            }
+
+            //row information
+            String attributeDataValue = data[row][attribute.getIndex()].toString();
+
+            if (attributeDataValue!=null && !attributeDataValue.equals("")){
+
+                OWLNamedIndividual materialAttributeIndividual = materialAttributeIndividualMap.get(attributeDataValue);
+                if (materialAttributeIndividual == null)
+                    materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeTerm);
+
+                materialAttributeIndividualMap.put(attributeDataValue, materialAttributeIndividual);
+
+                individualMatrix[row][attribute.getIndex()] = materialAttributeIndividual;
+
+                //the column is annotated with an ontology
+                if (attributeSource!=null && attributeAccession!=null){
+                    if (isOrganism(attributeSource, attributeAccession))  {
+                        ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialNodeIndividual);
+
+                    } else {
+                        ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialAttributeIndividual);
+                    }
+                }
+
+                //deal with the attribute
+                String source = OntologyManager.getOntologyTermSource(attributeDataValue);
+                String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
+
+                //the attribute is annotated
+                if (source!=null && accession!=null){
+
+                    if (isOrganism(source, accession)){
+                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
+                    } else {
+                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
+                    }
+                }
+
+                Set<OWLNamedIndividual> materialAttributesSet = materialNodeAndAttributesIndividuals.get(GeneralFieldTypes.CHARACTERISTIC.toString());
+                if (materialAttributesSet==null)
+                    materialAttributesSet = new HashSet<OWLNamedIndividual>();
+
+                materialAttributesSet.add(materialAttributeIndividual);
+                materialNodeAndAttributesIndividuals.put(GeneralFieldTypes.CHARACTERISTIC.toString(), materialAttributesSet);
+
+            }else{
+                System.err.println("attributeDataValue is null or empty!");
+            }
+
+        } //for attribute
+
+        //convert properties per each attribute
+        Map<String, List<Pair<IRI,String>>> materialNodePropertyMapping = ISA2OWL.mapping.getMaterialNodePropertyMappings();
+        ISA2OWL.convertPropertiesMultipleIndividuals(materialNodePropertyMapping, materialNodeAndAttributesIndividuals);
     }
 
     private void convertGroups(OWLNamedIndividual studyDesignIndividual, Map<String, OWLNamedIndividual> sampleIndividualMap){
@@ -557,6 +569,12 @@ public class Assay2OWLConverter {
             return true;
 
         return false;
+    }
+
+    private void convertFactorValues(OWLNamedIndividual materialNodeIndividual, List<ISAFactorValue> factorValues){
+
+
+
     }
 
 

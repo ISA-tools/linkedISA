@@ -26,7 +26,7 @@ public class SampleNode extends MaterialNode implements ISASampleNode {
     }
 
     @Override
-    public Iterable<ISAFactorValue> getFactorValues() {
+    public List<ISAFactorValue> getFactorValues() {
         return factorValues;
     }
 
