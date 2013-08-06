@@ -573,7 +573,9 @@ public class Assay2OWLConverter {
 
     private void convertFactorValues(OWLNamedIndividual materialNodeIndividual, List<ISAFactorValue> factorValues){
 
+        for(ISAFactorValue factorValue: factorValues){
 
+        }
 
     }
 
