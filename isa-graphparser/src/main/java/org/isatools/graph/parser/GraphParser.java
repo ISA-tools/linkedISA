@@ -48,6 +48,7 @@ public class GraphParser {
         NodeWithComments lastMaterialOrData = null;
         NodeWithComments lastSample = null;
         AssayNode lastAssayNode = null;
+        ISAFactorValue lastFactorValue = null;
 
         for (String column : columns) {
 
@@ -117,11 +118,20 @@ public class GraphParser {
             } else if (column.matches(ISAFactorValue.REGEXP)) {
 
                 ISAFactorValue factorValue = new FactorValue(index, column);
+                lastFactorValue = factorValue;
                 if (lastSample != null && lastSample instanceof SampleNode) {
                     ((SampleNode) graph.getNode(lastSample.getIndex())).addFactorValue(factorValue);
                 }
 
-            }else if (column.matches(ProcessParameter.REGEXP)){
+            }else if (column.matches(ISAUnit.REGEXP)) {
+
+                ISAUnit unit = new Unit(index, column);
+                if (lastFactorValue!=null){
+                    lastFactorValue.setUnit(unit);
+                }
+
+
+            } else if (column.matches(ProcessParameter.REGEXP)){
 
                 ProcessParameter parameter = new ProcessParameter(index, column);
 

@@ -13,4 +13,8 @@ public interface ISAFactorValue extends ISANode {
     String REGEXP = "(Factor Value.*)";
 
     String toString();
+
+    ISAUnit getUnit();
+
+    void setUnit(ISAUnit unit);
 }
