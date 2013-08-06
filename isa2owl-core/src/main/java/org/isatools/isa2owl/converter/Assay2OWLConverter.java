@@ -77,11 +77,8 @@ public class Assay2OWLConverter {
                                                    boolean convertGroups,
                                                    Map<String, OWLNamedIndividual> assayIndividualsForProperties){
         log.debug("CONVERTING ASSAY ---> AssayTableType="+att);
-
         assayTableType = att;
-
         data = assay.getAssayDataMatrix();
-
         individualMatrix = new OWLNamedIndividual[data.length][data[0].length];
 
         graphParser = new GraphParser(assay.getAssayDataMatrix());
@@ -90,8 +87,8 @@ public class Assay2OWLConverter {
 
         //if it is a study table
         if (assayTableType == AssayTableType.STUDY && sampleIndividualMap!=null){
-          System.err.println("Converting STUDY table and sample individuals are not null - this cannot be possible");
-          System.exit(-1);
+            System.err.println("Converting STUDY table and sample individuals are not null - this cannot be possible");
+            System.exit(-1);
         }
 
         if (assayTableType == AssayTableType.ASSAY && sampleIndividualMap==null){
@@ -107,7 +104,6 @@ public class Assay2OWLConverter {
         if (convertGroups){
             convertGroups(studyDesignIndividual,sampleIndividualMap);
         }
-
         return sampleIndividualMap;
     }
 
@@ -144,11 +140,11 @@ public class Assay2OWLConverter {
 
                         if (!data[row][inputCol].toString().equals("")){
 
-                        if (individualMatrix[row][inputCol]==null){
-                            System.out.println("individualMatrix[row][inputCol]==null!!!! " + individualMatrix[row][inputCol] == null + "  row=" + row + " inputCol=" + inputCol);
-                        }else{
-                            OWLNamedIndividual inputIndividual = individualMatrix[row][inputCol];
-                            ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_input, assayIndividual, inputIndividual);
+                            if (individualMatrix[row][inputCol]==null){
+                                System.out.println("individualMatrix[row][inputCol]==null!!!! " + individualMatrix[row][inputCol] == null + "  row=" + row + " inputCol=" + inputCol);
+                            }else{
+                                OWLNamedIndividual inputIndividual = individualMatrix[row][inputCol];
+                                ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_input, assayIndividual, inputIndividual);
                             }
                         }
 
@@ -196,7 +192,7 @@ public class Assay2OWLConverter {
 
 
                 }
-           }//if individual is null.
+            }//if individual is null.
         }
     }
 
@@ -299,9 +295,9 @@ public class Assay2OWLConverter {
                 List<ISANode> outputs = processNode.getOutputNodes();
                 for(ISANode output: outputs){
                     int outputCol = output.getIndex();
-                     if (!data[processRow][outputCol].toString().equals("")){
+                    if (!data[processRow][outputCol].toString().equals("")){
                         protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF_OUTPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_OUTPUT, individualMatrix[processRow][outputCol]);
-                     }
+                    }
 
                 }//for inputs
 
@@ -333,8 +329,8 @@ public class Assay2OWLConverter {
                 //Data Node
                 dataNodeIndividual = ISA2OWL.createIndividual("Data File", dataValue, dataValue);
                 individualMatrix[row][col] = dataNodeIndividual;
+            }
         }
-    }
     }
 
     /***
@@ -397,7 +393,7 @@ public class Assay2OWLConverter {
 
 
                     if (materialNode.getMaterialNodeType() == ExtendedISASyntax.SAMPLE ){//&& sampleIndividualMapWasNull){
-                            sampleIndividualMap.put(dataValue, materialNodeIndividual);
+                        sampleIndividualMap.put(dataValue, materialNodeIndividual);
                     }
 
                     Set<OWLNamedIndividual> set2 = new HashSet();
@@ -430,34 +426,34 @@ public class Assay2OWLConverter {
                 //material node attributes
                 List<ISAMaterialAttribute> attributeList = materialNode.getMaterialAttributes();
 
-               for(ISAMaterialAttribute attribute: attributeList){
+                for(ISAMaterialAttribute attribute: attributeList){
 
-                   //column information
-                   String attributeString = attribute.getName();
-                   String attributeSource = null;
-                   String attributeTerm = null;
-                   String attributeAccession = null;
+                    //column information
+                    String attributeString = attribute.getName();
+                    String attributeSource = null;
+                    String attributeTerm = null;
+                    String attributeAccession = null;
 
-                   if (attributeString.contains("-") && StringUtils.countMatches(attributeString, "-" )== 2){
-                       attributeString = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
-                       String[] parts =  attributeString.split("-");
+                    if (attributeString.contains("-") && StringUtils.countMatches(attributeString, "-" )== 2){
+                        attributeString = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
+                        String[] parts =  attributeString.split("-");
 
-                       attributeSource = parts[0];
-                       attributeTerm = parts[1];
-                       attributeAccession = parts[2];
+                        attributeSource = parts[0];
+                        attributeTerm = parts[1];
+                        attributeAccession = parts[2];
 
-                   }else{
+                    }else{
 
-                       attributeTerm = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
-                   }
+                        attributeTerm = attributeString.substring(attributeString.indexOf("[")+1, attributeString.indexOf("]"));
+                    }
 
-                   //row information
-                   String attributeDataValue = data[row][attribute.getIndex()].toString();
+                    //row information
+                    String attributeDataValue = data[row][attribute.getIndex()].toString();
 
-                   if (attributeDataValue!=null && !attributeDataValue.equals("")){
+                    if (attributeDataValue!=null && !attributeDataValue.equals("")){
 
-                       OWLNamedIndividual materialAttributeIndividual = materialAttributeIndividualMap.get(attributeDataValue);
-                       if (materialAttributeIndividual == null)
+                        OWLNamedIndividual materialAttributeIndividual = materialAttributeIndividualMap.get(attributeDataValue);
+                        if (materialAttributeIndividual == null)
                             materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeTerm);
 
                         materialAttributeIndividualMap.put(attributeDataValue, materialAttributeIndividual);
@@ -466,40 +462,40 @@ public class Assay2OWLConverter {
 
                         //the column is annotated with an ontology
                         if (attributeSource!=null && attributeAccession!=null){
-                                if (isOrganism(attributeSource, attributeAccession))  {
-                                    ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialNodeIndividual);
+                            if (isOrganism(attributeSource, attributeAccession))  {
+                                ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialNodeIndividual);
 
-                                } else {
-                                    ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialAttributeIndividual);
-                                }
+                            } else {
+                                ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialAttributeIndividual);
+                            }
                         }
 
                         //deal with the attribute
-                       String source = OntologyManager.getOntologyTermSource(attributeDataValue);
-                       String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
+                        String source = OntologyManager.getOntologyTermSource(attributeDataValue);
+                        String accession = OntologyManager.getOntologyTermAccession(attributeDataValue);
 
-                       //the attribute is annotated
-                       if (source!=null && accession!=null){
+                        //the attribute is annotated
+                        if (source!=null && accession!=null){
 
-                        if (isOrganism(source, accession)){
-                            ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
-                        } else {
-                            ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
+                            if (isOrganism(source, accession)){
+                                ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
+                            } else {
+                                ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
+                            }
                         }
-                       }
 
-                   Set<OWLNamedIndividual> materialAttributesSet = materialNodeAndAttributesIndividuals.get(GeneralFieldTypes.CHARACTERISTIC.toString());
-                   if (materialAttributesSet==null)
-                         materialAttributesSet = new HashSet<OWLNamedIndividual>();
+                        Set<OWLNamedIndividual> materialAttributesSet = materialNodeAndAttributesIndividuals.get(GeneralFieldTypes.CHARACTERISTIC.toString());
+                        if (materialAttributesSet==null)
+                            materialAttributesSet = new HashSet<OWLNamedIndividual>();
 
-                   materialAttributesSet.add(materialAttributeIndividual);
-                   materialNodeAndAttributesIndividuals.put(GeneralFieldTypes.CHARACTERISTIC.toString(), materialAttributesSet);
+                        materialAttributesSet.add(materialAttributeIndividual);
+                        materialNodeAndAttributesIndividuals.put(GeneralFieldTypes.CHARACTERISTIC.toString(), materialAttributesSet);
 
-                   }else{
-                       System.err.println("attributeDataValue is null or empty!");
-                   }
+                    }else{
+                        System.err.println("attributeDataValue is null or empty!");
+                    }
 
-               } //for attribute
+                } //for attribute
 
                 //convert properties per each attribute
                 Map<String, List<Pair<IRI,String>>> materialNodePropertyMapping = ISA2OWL.mapping.getMaterialNodePropertyMappings();
