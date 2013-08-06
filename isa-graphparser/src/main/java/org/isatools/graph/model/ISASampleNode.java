@@ -13,4 +13,6 @@ public interface ISASampleNode extends ISAMaterialNode {
     public static final String REGEXP = "(Sample.*)";
 
     public Iterable<ISAFactorValue> getFactorValues();
+
+    public void addFactorValue(ISAFactorValue factorValue);
 }

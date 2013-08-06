@@ -46,6 +46,7 @@ public class GraphParser {
 
         ProcessNode lastProcess = null;
         NodeWithComments lastMaterialOrData = null;
+        NodeWithComments lastSample = null;
         AssayNode lastAssayNode = null;
 
         for (String column : columns) {
@@ -89,23 +90,38 @@ public class GraphParser {
                     lastAssayNode.addOutputNode(dataNode);
                     lastAssayNode = null;
                 }
-            } else if (column.matches(MaterialAttribute.REGEXP)) {
+            } else if (column.matches(ISAMaterialAttribute.REGEXP)) {
 
-                MaterialAttribute materialAttribute = new MaterialAttribute(index, column);
+                ISAMaterialAttribute materialAttribute = new MaterialAttribute(index, column);
                 if (lastMaterialOrData != null && lastMaterialOrData instanceof MaterialNode) {
                     ((MaterialNode) graph.getNode(lastMaterialOrData.getIndex())).addMaterialAttribute(materialAttribute);
                 }
 
             } else if (column.matches(MaterialNode.REGEXP)) {
 
-                NodeWithComments materialNode = new MaterialNode(index, column);
+                NodeWithComments materialNode = null;
+                if (column.matches(ISASampleNode.REGEXP)) {
+                    materialNode = new SampleNode(index, column);
+                    lastSample = materialNode;
+                } else {
+                    materialNode = new MaterialNode(index, column);
+
+                }
                 graph.addNode(materialNode);
                 lastMaterialOrData = materialNode;
                 if (lastProcess != null) {
                     lastProcess.addOutputNode(materialNode);
                     lastProcess = null;
                 }
-            } else if (column.matches(ProcessParameter.REGEXP)){
+
+            } else if (column.matches(ISAFactorValue.REGEXP)) {
+
+                ISAFactorValue factorValue = new FactorValue(index, column);
+                if (lastSample != null && lastSample instanceof SampleNode) {
+                    ((SampleNode) graph.getNode(lastSample.getIndex())).addFactorValue(factorValue);
+                }
+
+            }else if (column.matches(ProcessParameter.REGEXP)){
 
                 ProcessParameter parameter = new ProcessParameter(index, column);
 

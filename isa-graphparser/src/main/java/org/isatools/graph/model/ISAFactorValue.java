@@ -8,7 +8,7 @@ package org.isatools.graph.model;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public interface ISAFactorValue {
+public interface ISAFactorValue extends ISANode {
 
     String REGEXP = "(Factor Value.*)";
 
