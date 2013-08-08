@@ -108,6 +108,15 @@ public class GraphParser {
                     materialNode = new MaterialNode(index, column);
 
                 }
+                //if there is a previous material node
+                //and no process node, add a dummy process node
+                if (lastMaterialOrData !=null && lastProcess==null){
+                    ProcessNode processNode = new ProcessNode(-1, "-1");
+                    processNode.addInputNode(lastMaterialOrData);
+                    processNode.addOutputNode(materialNode);
+                    graph.addNode(processNode);
+                }
+
                 graph.addNode(materialNode);
                 lastMaterialOrData = materialNode;
                 if (lastProcess != null) {

@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.isatools.graph.model.ISAFactorValue;
 import org.isatools.graph.model.ISAMaterialAttribute;
 import org.isatools.graph.model.ISANode;
+import org.isatools.graph.model.ISAUnit;
 import org.isatools.graph.model.impl.*;
 import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
@@ -226,7 +227,12 @@ public class Assay2OWLConverter {
 
             for(int processRow=1; processRow < data.length; processRow ++){
 
-                String processName = (data[processRow][processCol]).toString();
+                String processName = null;
+                if (processCol==-1){
+                    processName = "dummy process";
+                } else {
+                 processName = (data[processRow][processCol]).toString();
+                }
 
                 if (processName.equals("")){
                     log.debug("ProcessName is empty!!!");
@@ -422,7 +428,7 @@ public class Assay2OWLConverter {
                     //adding factor values only when creating individual (so the factors come from the study sample file
                     if (materialNode instanceof SampleNode){
                         List<ISAFactorValue> factorValues = ((SampleNode) materialNode).getFactorValues();
-                        convertFactorValues(materialNodeIndividual, factorValues);
+                        convertFactorValues(materialNodeIndividual, factorValues, row);
                     }
 
 
@@ -571,10 +577,27 @@ public class Assay2OWLConverter {
         return false;
     }
 
-    private void convertFactorValues(OWLNamedIndividual materialNodeIndividual, List<ISAFactorValue> factorValues){
+    private void convertFactorValues(OWLNamedIndividual materialNodeIndividual, List<ISAFactorValue> factorValues, int row){
 
         for(ISAFactorValue factorValue: factorValues){
 
+            String fvType = factorValue.getName();
+            ISAUnit fvUnit = factorValue.getUnit();
+            int col = factorValue.getIndex();
+            String unitData = null;
+
+            //row information
+            String factorValueData = data[row][factorValue.getIndex()].toString();
+            if (fvUnit!=null)
+                unitData = data[row][fvUnit.getIndex()].toString();
+
+            System.out.println("fvName="+fvType);
+            if (fvUnit!=null)
+                System.out.println("fvUnit="+fvUnit.getName());
+            System.out.println("col="+col);
+
+            System.out.println("factorValueData="+factorValueData);
+            System.out.println("unitData="+unitData);
         }
 
     }
