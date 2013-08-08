@@ -229,7 +229,7 @@ public class Assay2OWLConverter {
 
                 String processName = null;
                 if (processCol==-1){
-                    processName = "dummy process";
+                    processName = processNode.toShortString();
                 } else {
                  processName = (data[processRow][processCol]).toString();
                 }

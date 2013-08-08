@@ -60,6 +60,30 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
         return parameters;
     }
 
+    public String toShortString(){
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(getName());
+        if (getParameters() !=null && !getParameters().isEmpty()){
+            buffer.append("[");
+            for (ProcessParameter parameter : getParameters()) {
+                buffer.append("" + parameter.getName()+",");
+            }
+            buffer.append("]");
+        }
+        buffer.append(":");
+        if (getInputNodes() != null) {
+            for (ISANode inputNode : getInputNodes()) {
+                buffer.append(" " + inputNode.getName()+"");
+            }
+        }
+        buffer.append("->");
+        if (getOutputNodes() != null) {
+            for (ISANode outputNode : getOutputNodes()) {
+                buffer.append(" " + outputNode.getName()+"");
+            }
+        }
+       return buffer.toString();
+    }
 
     public String toString(){
         StringBuffer buffer = new StringBuffer();
