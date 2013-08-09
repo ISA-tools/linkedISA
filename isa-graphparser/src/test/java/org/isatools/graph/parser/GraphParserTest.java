@@ -57,7 +57,7 @@ public class GraphParserTest {
     }
 
     @Test
-    public void parserTest5(){
+    public void parserBII_I_1Test(){
         String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/BII-I-1").getFile();
         graphParser(isatabParentDir);
     }
@@ -65,6 +65,12 @@ public class GraphParserTest {
     @Test
     public void parserEGEODTest(){
         String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/E-GEOD-25835-MPBRCA1").getFile();
+        graphParser(isatabParentDir);
+    }
+
+    @Test
+    public void parserBII_S_3Test(){
+        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/BII-S-3").getFile();
         graphParser(isatabParentDir);
     }
 
