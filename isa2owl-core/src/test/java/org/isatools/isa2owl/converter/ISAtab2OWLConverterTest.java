@@ -114,7 +114,7 @@ public class ISAtab2OWLConverterTest {
 
     @Test
     public void testConvertBII_S_3() throws Exception {
-        iri = "http://isa-tools.org/isa/BII-S-3.owl";
+        iri = "http://purl.org/isatab";
         isatabParentDir = getClass().getResource(path+"BII-S-3").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");

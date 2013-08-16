@@ -1,8 +1,8 @@
 package org.isatools.isa2owl.converter;
 
-import java.util.UUID;
-
 import org.semanticweb.owlapi.model.IRI;
+
+import java.util.UUID;
 
 /**
  * Created by the ISATeam.
@@ -19,9 +19,31 @@ public class IRIGenerator {
     }
 
     public static IRI getIRI(IRI baseIRI){
-         return IRI.create(baseIRI+UUID.randomUUID().toString());
+         return IRI.create(baseIRI+"/"+UUID.randomUUID().toString());
     }
 
+    // http://purl.org/isatab/investigation/id/BII-I-1
+    public static IRI getInvestigationIRI(IRI baseIRI, String investigationId){
+        return IRI.create(baseIRI+"/investigation/id/"+investigationId);
+    }
 
+    // http://purl.org/isatab/study/id/1234
+    public static IRI getStudyIRI(IRI baseIRI, String studyId){
+        return IRI.create(baseIRI+"/study/id/"+studyId);
+    }
 
+    // http://purl.org/isatab/study/id/123/assay/id/1234
+    public static IRI getAssayIRI(IRI baseIRI, String studyId, String assayId){
+        return IRI.create(baseIRI+"/study/id/"+studyId+"/assay/id/"+assayId);
+    }
+
+    // http://purl.org/isatab/study/id/123/sample/id/1234
+    public static IRI getSampleIRI(IRI baseIRI, String studyId, String sampleId){
+        return IRI.create(baseIRI+"/study/id/"+studyId+"/sample/id/"+sampleId);
+    }
+
+    // http://purl.org/isatab/study/id/123/source/id/1234
+    public static IRI getSourceIRI(IRI baseIRI, String investigationID, String studyId){
+        return IRI.create(baseIRI+"/"+investigationID);
+    }
 }

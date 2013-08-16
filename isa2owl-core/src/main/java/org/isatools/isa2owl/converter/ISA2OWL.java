@@ -3,6 +3,7 @@ package org.isatools.isa2owl.converter;
 import org.apache.log4j.Logger;
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.isatools.owl.reasoner.ReasonerService;
+import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
@@ -154,6 +155,25 @@ public class ISA2OWL {
 
 
     /**
+     *
+     * @param baseIRI
+     * @param typeMappingLabel
+     * @param individualLabel
+     * @return
+     */
+    private static IRI createIndividualIRI(IRI baseIRI, String typeMappingLabel, String individualLabel){
+
+        if (typeMappingLabel.equals(ExtendedISASyntax.INVESTIGATION)){
+            return IRIGenerator.getInvestigationIRI(baseIRI, individualLabel);
+        }
+        if (typeMappingLabel.equals(ExtendedISASyntax.STUDY)){
+            return IRIGenerator.getStudyIRI(baseIRI, individualLabel);
+
+        }
+        return IRIGenerator.getIRI(ISA2OWL.ontoIRI);
+    }
+
+    /**
      * It creates an OWLNamedIndividual given its type (given a string, the typeIdIndividualMap is used)
      * and its label (which should not be null, or the individual retrieved will be null)
      *
@@ -171,6 +191,7 @@ public class ISA2OWL {
                                                       IRI individualIRI,
                                                       Map<String, OWLNamedIndividual> parameterMap){
 
+        System.out.println("Create individual: "+typeMappingLabel+" "+individualLabel);
         //avoid empty individuals
         if (individualLabel.equals(""))
             return null;
@@ -198,7 +219,8 @@ public class ISA2OWL {
             }
 
             if (individual ==null)
-                individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? IRIGenerator.getIRI(ISA2OWL.ontoIRI) : individualIRI);
+                individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? createIndividualIRI(ISA2OWL.ontoIRI, typeMappingLabel, individualLabel) : individualIRI);
+                //individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? IRIGenerator.getIRI(ISA2OWL.ontoIRI) : individualIRI);
 
             //label
             OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(
