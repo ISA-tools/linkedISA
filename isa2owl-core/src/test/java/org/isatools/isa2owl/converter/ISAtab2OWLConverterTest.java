@@ -210,5 +210,15 @@ public class ISAtab2OWLConverterTest {
         isatab2owl.saveOntology(savePath+"MTBLS2.owl");
     }
 
+    @Test
+    public void testConvertHeck_ISAtab() {
+        iri = "http://isa-tools.org/isa/Heck.owl";
+        isatabParentDir = getClass().getResource( path + "Heck_ISA-tab-July10").getFile();
+        System.out.println("isatabParentDir="+isatabParentDir);
+        System.out.println("Converting the ISA-tab dataset into OWL");
+        isatab2owl.convert(isatabParentDir, iri);
+        isatab2owl.saveOntology(savePath+"Heck.owl");
+    }
+
 
 }

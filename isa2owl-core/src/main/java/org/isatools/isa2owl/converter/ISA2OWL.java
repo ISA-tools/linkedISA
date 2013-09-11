@@ -102,7 +102,7 @@ public class ISA2OWL {
 
     /**
      *
-     * Creates an individual - it relies on the more complete method
+     * Creates an individual given the type from the mapping file and a label for the individual - it relies on the more complete method
      *
      * @param typeMappingLabel a String to be used to find the type of the individual from the mapping file
      * @param individualLabel a String to be used as the label for the individual

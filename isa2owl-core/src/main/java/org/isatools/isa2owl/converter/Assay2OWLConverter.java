@@ -449,6 +449,14 @@ public class Assay2OWLConverter {
 
     }
 
+    /***
+     * It converts the Characteristics (ISAMaterialAttributes) associated with an ISAMaterialNode
+     *
+     * @param materialNodeIndividual the individual representing the material node
+     * @param row the row number in the assay table for the material node associated with these attributes
+     * @param materialNodeAndAttributesIndividuals a map to store the material attributes associated with a material node
+     * @param attributeList a list of ISAMaterialAttributes
+     */
     private void convertMaterialAttributes(OWLNamedIndividual materialNodeIndividual, int row, Map<String, Set<OWLNamedIndividual>> materialNodeAndAttributesIndividuals, List<ISAMaterialAttribute> attributeList) {
         for(ISAMaterialAttribute attribute: attributeList){
 

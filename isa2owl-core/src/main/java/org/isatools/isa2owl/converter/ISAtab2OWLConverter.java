@@ -47,6 +47,7 @@ public class ISAtab2OWLConverter {
     private Map<String, OWLNamedIndividual> sampleIndividualMap = null;
     private Map<String, OWLNamedIndividual> measurementTechnologyIndividuals = new HashMap<String, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> affiliationIndividualMap = null;
+    private Map<String, String> factorsMap = null;
 
     /**
      * Constructor
@@ -509,13 +510,15 @@ public class ISAtab2OWLConverter {
     }
 
 
-
     /**
-     *
+     * This is the declarative definition of the factors. The factor values are in the study and assay tables.
      *
      * @param factorList
      */
     private void convertFactors(List<Factor> factorList){
+
+        //map with <factor name> and <url or literal>
+        factorsMap = new HashMap<String, String>();
 
         for(Factor factor: factorList){
 
@@ -537,7 +540,12 @@ public class ISAtab2OWLConverter {
                 ISA2OWL.findOntologyTermAndAddClassAssertion(factor.getFactorTypeTermSource(), factor.getFactorTypeTermAccession(), factorIndividual);
 
             }//factors attributes not null
+
+
+
         }
+
+
 
     }
 
