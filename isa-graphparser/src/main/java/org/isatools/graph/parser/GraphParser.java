@@ -1,11 +1,9 @@
 package org.isatools.graph.parser;
 
-
 import org.isatools.graph.model.*;
 import org.isatools.graph.model.impl.*;
 
 import java.util.*;
-
 
 /**
  * Created by the ISATeam.
@@ -28,6 +26,11 @@ public class GraphParser {
     private Graph graph;
     private Map<String, Set<String>> groups;
 
+    /**
+     * Constructor
+     *
+     * @param assayTable matrix of objects - either an study sample table or an assay table
+     */
     public GraphParser(Object[][] assayTable) {
         this.assayTable = assayTable;
         groups = new HashMap<String, Set<String>>();
@@ -169,7 +172,6 @@ public class GraphParser {
      * @return Returns a Map of the processes present, and a count of how many times that process was used.
      */
     public Map<String, Integer> extractProcesses() {
-
         return extractNodes(NodeType.PROCESS_NODE);
     }
 
@@ -270,13 +272,15 @@ public class GraphParser {
 
     /***
      *
-     *
+     * Method to create the data groups.
+     * This method determines the labels to be used for groups.
      *
      * @param fileContents a matrix of Objects, which is the contents of the spreadsheet
-     * @param group a string indicating the column to consider to form the groups
+     * @param group a string indicating the column to consider to form the groups, e.g. Factor
      * @param exactMatch true or false indicating whether the string match is exact or not
-     * @param includeColumnNames true or false indicating
-     * @return
+     * @param includeColumnNames true or false indicating if the columns names are included in the result
+     *                           (e.g if true the result will be 'Factor Value[<specific value>]', otherwise it will be '<specific value>' only)
+     * @return Map<String, String>
      */
     private Map<String, Set<String>> getDataGroupsWithTypeByColumn(Object[][] fileContents,
                                                                    String group,
@@ -291,6 +295,7 @@ public class GraphParser {
         boolean allowedUnit = false;
         for (int row = 1; row < fileContents.length; row++) {
             String groupVal = "";
+            int elementsNumber = 0;
             for (int col = 0; col < columnNames.length; col++) {
                 String column = columnNames[col];
 
@@ -311,7 +316,8 @@ public class GraphParser {
                 }
 
                 if (match) {
-                    groupVal += " " + (includeColumnNames ? column : "") + " " + fileContents[row][col];
+                    groupVal += (elementsNumber>0? "|": "") + (includeColumnNames ? extractColumnType(column)+"=" : " ") + fileContents[row][col];
+                    elementsNumber++;
                     allowedUnit = true;
                 } else allowedUnit = column.contains("Term Source REF") || column.contains("Term Accession Number");
             }
@@ -327,6 +333,13 @@ public class GraphParser {
         }
 
         return groups;
+    }
+
+    private String extractColumnType(String column){
+        if (column.indexOf('[')!=-1)
+            return column.substring(column.indexOf('[')+1, column.indexOf(']'));
+        else
+            return column;
     }
 
     private String getColValAtRow(Object[][] fileContents, String[] columnNames, String colName, int rowNumber) {

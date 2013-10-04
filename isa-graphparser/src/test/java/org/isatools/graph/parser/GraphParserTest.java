@@ -37,7 +37,7 @@ public class GraphParserTest {
     }
 
     @Test
-    public void parserTest2(){
+    public void parserMTBLS6Test(){
         String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/MTBLS6").getFile();
         graphParser(isatabParentDir);
     }
