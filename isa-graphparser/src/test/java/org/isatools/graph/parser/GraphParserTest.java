@@ -56,11 +56,11 @@ public class GraphParserTest {
         graphParser(isatabParentDir);
     }
 
-    @Test
-    public void parserBII_I_1Test(){
-        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/BII-I-1").getFile();
-        graphParser(isatabParentDir);
-    }
+//    @Test
+//    public void parserBII_I_1Test(){
+//        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/BII-I-1").getFile();
+//        graphParser(isatabParentDir);
+//    }
 
     @Test
     public void parserEGEODTest(){
