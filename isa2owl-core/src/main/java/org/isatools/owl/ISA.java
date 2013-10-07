@@ -10,8 +10,11 @@ package org.isatools.owl;
  */
 public class ISA {
 
-    public static final String NAMESPACE = "http://www.purl.org/isatools/ISA_";
+    public static final String NAMESPACE = "http://purl.org/isa-tools/ISA_";
     public static final String SHORTNAME = "ISA";
 
     public static final String INVESTIGATION = NAMESPACE + "00000058";
+    public static final String FACTOR_VALUE = NAMESPACE + "00000029";
+    public static final String HAS_FACTOR_VALUE = NAMESPACE + "00000093";
+    public static final String HAS_VALUE = NAMESPACE + "00000089";
 }

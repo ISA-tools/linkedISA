@@ -1,5 +1,6 @@
 package org.isatools.isa2owl.converter;
 
+import net.sf.saxon.exslt.Random;
 import org.semanticweb.owlapi.model.IRI;
 
 import java.util.UUID;
@@ -45,5 +46,10 @@ public class IRIGenerator {
     // http://purl.org/isatab/study/id/123/source/id/1234
     public static IRI getSourceIRI(IRI baseIRI, String investigationID, String studyId){
         return IRI.create(baseIRI+"/"+investigationID);
+    }
+
+    // http://purl.org/isatab/study/id/123/quality/id/1234
+    public static IRI getQualityIRI(IRI baseIRI){
+        return IRI.create(baseIRI+"/quality/"+ Random.randomSequence(3).toString());
     }
 }

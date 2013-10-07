@@ -14,13 +14,11 @@ import org.isatools.isacreator.model.Protocol;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.owl.ExtendedOBIVocabulary;
 import org.isatools.owl.IAO;
+import org.isatools.owl.ISA;
 import org.isatools.owl.OBI;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.*;
 
 import java.util.*;
 
@@ -585,10 +583,24 @@ public class Assay2OWLConverter {
         return false;
     }
 
+    /**
+     *
+     * Method to convert the factor values.
+     *
+     * @param materialNodeIndividual an OWLNamedIndividual corresponding to the material node for which the factor values correspond
+     * @param factorValues a list of ISAFactorValue objects
+     * @param row the row number, an integer, where the material node is described
+     */
     private void convertFactorValues(OWLNamedIndividual materialNodeIndividual, List<ISAFactorValue> factorValues, int row){
+
+        //OWLClass factorValueClass = ISA2OWL.factory.getOWLClass(IRI.create(ISA.FACTOR_VALUE));
+        Map<String, OWLNamedIndividual> factorValueIndividuals = new HashMap<String, OWLNamedIndividual>();
+        OWLDataProperty hasValue = ISA2OWL.factory.getOWLDataProperty(IRI.create(ISA.HAS_VALUE));
+        OWLObjectProperty hasFactorValue =  ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_FACTOR_VALUE));
 
         for(ISAFactorValue factorValue: factorValues){
 
+            //the factor type (or factor name) is what it is found in between the square brackets in Factor Value[]
             String fvType = factorValue.getName();
             ISAUnit fvUnit = factorValue.getUnit();
             int col = factorValue.getIndex();
@@ -599,16 +611,36 @@ public class Assay2OWLConverter {
             if (fvUnit!=null)
                 unitData = data[row][fvUnit.getIndex()].toString();
 
-            System.out.println("fvName="+fvType);
-            if (fvUnit!=null)
-                System.out.println("fvUnit="+fvUnit.getName());
-            System.out.println("col="+col);
+//            if (fvUnit!=null)
+//                System.out.println("fvUnit="+fvUnit.getName());
+//            System.out.println("col="+col);
+//            System.out.println("fvType="+fvType);
+//            System.out.println("factorValueData="+factorValueData);
+//            System.out.println("unitData="+unitData);
 
-            System.out.println("factorValueData="+factorValueData);
-            System.out.println("unitData="+unitData);
+            String factorValueLabel = fvType+ factorValueData+ (fvUnit!=null? fvUnit: "");
+
+            OWLNamedIndividual factorValueIndividual = null;
+
+            if (factorValueIndividuals.get(factorValueLabel)!=null)
+                factorValueIndividual = factorValueIndividuals.get(factorValueLabel);
+            else {
+                factorValueIndividual = ISA2OWL.createIndividual(IRI.create(ISA.FACTOR_VALUE), factorValueLabel);
+                factorValueIndividuals.put(factorValueLabel, factorValueIndividual);
+            }
+            System.out.println("factor value individual="+factorValueIndividual);
+            OWLLiteral factorValueLiteral = ISA2OWL.factory.getOWLLiteral(factorValueData);
+            OWLDataPropertyAssertionAxiom dataPropertyAssertionAxiom = ISA2OWL.factory.getOWLDataPropertyAssertionAxiom(hasValue, factorValueIndividual, factorValueLiteral);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, dataPropertyAssertionAxiom);
+
+            OWLObjectPropertyAssertionAxiom objectPropertyAssertionAxiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasFactorValue, materialNodeIndividual, factorValueIndividual);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, objectPropertyAssertionAxiom);
+
+
         }
 
     }
+
 
 
 }

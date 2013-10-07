@@ -88,10 +88,12 @@ Study Protocol Components Type,,,,,,,,,,
 ,,,,,,,,,,
 Source,,,,,,,,,,
 Source Name,,,,,,,,,,
+Sample,,,has factor value,http://purl.org/isa-tools/ISA_00000093,factor value,Factor Value
 {Sample|Extract|Labeled Extract},,,,,,,,,,
 {Sample Name|Extract Name|Labeled Extract Name},,,,,,,,,,
 Characteristics,,,,,,,,,,
 {Source|Sample|Extract|Labeled Extract},,,,,,,,,,
+Factor Value,factor value,http://purl.org/isa-tools/ISA_00000029
 ,,,,,,,,,,
 Study Protocol REF,,,,,,,,,,
 Assay Protocol REF,,,,,,,,,,
