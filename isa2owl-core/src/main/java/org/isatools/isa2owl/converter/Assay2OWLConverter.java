@@ -47,7 +47,7 @@ public class Assay2OWLConverter {
     //private Map<ISAMaterialNode, Map<String,OWLNamedIndividual>> materialNodeIndividualMap = new HashMap<ISAMaterialNode, Map<String,OWLNamedIndividual>>();
     private Map<Integer, OWLNamedIndividual> processIndividualMap = new HashMap<Integer, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> materialAttributeIndividualMap = new HashMap<String, OWLNamedIndividual>();
-
+    private Map<String, OWLNamedIndividual> factorValueIndividuals = new HashMap<String, OWLNamedIndividual>();
 
     public Assay2OWLConverter(){
         log.info("Assay2OWLConverter - constructor");
@@ -594,7 +594,6 @@ public class Assay2OWLConverter {
     private void convertFactorValues(OWLNamedIndividual materialNodeIndividual, List<ISAFactorValue> factorValues, int row){
 
         //OWLClass factorValueClass = ISA2OWL.factory.getOWLClass(IRI.create(ISA.FACTOR_VALUE));
-        Map<String, OWLNamedIndividual> factorValueIndividuals = new HashMap<String, OWLNamedIndividual>();
         OWLDataProperty hasValue = ISA2OWL.factory.getOWLDataProperty(IRI.create(ISA.HAS_VALUE));
         OWLObjectProperty hasFactorValue =  ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_FACTOR_VALUE));
 
@@ -618,7 +617,7 @@ public class Assay2OWLConverter {
 //            System.out.println("factorValueData="+factorValueData);
 //            System.out.println("unitData="+unitData);
 
-            String factorValueLabel = fvType+ factorValueData+ (fvUnit!=null? fvUnit: "");
+            String factorValueLabel = fvType+ factorValueData+ (fvUnit!=null? unitData: "");
 
             OWLNamedIndividual factorValueIndividual = null;
 
