@@ -48,6 +48,7 @@ public class Assay2OWLConverter {
     private Map<Integer, OWLNamedIndividual> processIndividualMap = new HashMap<Integer, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> materialAttributeIndividualMap = new HashMap<String, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> factorValueIndividuals = new HashMap<String, OWLNamedIndividual>();
+    private Set<OWLNamedIndividual> assaySampleIndividualSet = null;
 
     public Assay2OWLConverter(){
         log.info("Assay2OWLConverter - constructor");
@@ -97,15 +98,17 @@ public class Assay2OWLConverter {
             System.exit(-1);
         }
 
-        if (assayTableType == AssayTableType.STUDY)
-            sampleIndividualMap = convertMaterialNodes(graph, sampleIndividualMap, studyIndividual);
-        else if (assayTableType == AssayTableType.ASSAY){
-            Map<String, OWLNamedIndividual> localSampleIndividualMap = convertMaterialNodes(graph, sampleIndividualMap, studyIndividual);
-            assayIndividualsForProperties.put(ExtendedISASyntax.SAMPLE, new HashSet<OWLNamedIndividual>(localSampleIndividualMap.values()));
+        //this method also sets the assaySampleIndividualSet variable, if it is an ASSAY
+        sampleIndividualMap = convertMaterialNodes(graph, sampleIndividualMap, studyIndividual);
+
+        if (assayTableType == AssayTableType.ASSAY){
+            assayIndividualsForProperties.put(ExtendedISASyntax.SAMPLE, assaySampleIndividualSet);
         }
         convertDataNodes(graph);
+
         if (assayTableType == AssayTableType.ASSAY)
             convertAssayNodes(protocolIndividualMap, graph, assayIndividualsForProperties);
+
         convertProcessNodes(protocolList, protocolIndividualMap, graph, assayTableType);
 
         if (convertGroups){
@@ -357,11 +360,11 @@ public class Assay2OWLConverter {
 
         boolean sampleIndividualMapWasNull = (sampleIndividualMap==null);
 
-        Map<String, OWLNamedIndividual> localSampleIndividualMap = null;
+
         if (sampleIndividualMapWasNull){
             sampleIndividualMap = new HashMap<String, OWLNamedIndividual>();
         } else {
-            localSampleIndividualMap = new HashMap<String, OWLNamedIndividual>();
+            assaySampleIndividualSet = new HashSet<OWLNamedIndividual>();
         }
 
         //Material Nodes
@@ -439,7 +442,7 @@ public class Assay2OWLConverter {
 
                 } else {
                     materialNodeIndividual = sampleIndividualMap.get(dataValue);
-                    localSampleIndividualMap.get(ExtendedISASyntax.SAMPLE) materialNodeIndividual);
+                    assaySampleIndividualSet.add(materialNodeIndividual);
 
                 }
                 individualMatrix[row][col] = materialNodeIndividual;
@@ -451,11 +454,8 @@ public class Assay2OWLConverter {
             } //for each row
         }
 
-        if (sampleIndividualMapWasNull)
-            return sampleIndividualMap;
-        else
-            return localSampleIndividualMap;
 
+        return sampleIndividualMap;
     }
 
     /***
