@@ -332,7 +332,7 @@ public class Assay2OWLConverter {
                     continue;
 
                 //Data Node
-                dataNodeIndividual = ISA2OWL.createIndividual("Data File", dataValue, dataValue);
+                dataNodeIndividual = ISA2OWL.createIndividual(dataNode.getName(), dataValue, dataValue);
                 individualMatrix[row][col] = dataNodeIndividual;
             }
         }
