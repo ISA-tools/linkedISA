@@ -14,11 +14,9 @@ import org.isatools.owl.reasoner.ReasonerService;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.SimpleIRIMapper;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,16 +75,18 @@ public class ISAtab2OWLConverter {
             //TODO add AutoIRIMapper
             //adding mapper for local ontologies
             //manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISAtab2OWLConverter.BFO_IRI), IRI.create(getClass().getClassLoader().getResource("owl/ruttenberg-bfo2.owl"))));
-            ISA2OWL.manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISAtab2OWLConverter.OBI_IRI), IRI.create(getClass().getClassLoader().getResource("owl/extended-obi.owl"))));
+
+            //ISA2OWL.manager.addIRIMapper(new SimpleIRIMapper(IRI.create(ISAtab2OWLConverter.OBI_IRI), IRI.create(getClass().getClassLoader().getResource("owl/extended-obi.owl"))));
 
             ISA2OWL.ontology = ISA2OWL.manager.createOntology(ISA2OWL.ontoIRI);
 
             //only import extended-obi.owl
-            OWLImportsDeclaration importDecl = ISA2OWL.factory.getOWLImportsDeclaration(IRI.create("http://purl.obolibrary.org/obo/extended-obi.owl"));
+            //OWLImportsDeclaration importDecl = ISA2OWL.factory.getOWLImportsDeclaration(IRI.create("http://purl.obolibrary.org/obo/extended-obi.owl"));
+            OWLImportsDeclaration importDecl = ISA2OWL.factory.getOWLImportsDeclaration(IRI.create("http://purl.obolibrary.org/obo/obi.owl"));
             ISA2OWL.manager.applyChange(new AddImport(ISA2OWL.ontology, importDecl));
 
-        }catch(URISyntaxException e){
-            e.printStackTrace();
+        //}catch(URISyntaxException e){
+          //  e.printStackTrace();
         }catch(OWLOntologyCreationException e){
             e.printStackTrace();
         }
