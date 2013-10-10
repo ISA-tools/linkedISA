@@ -1,6 +1,5 @@
 package org.isatools.isa2owl.converter;
 
-import net.sf.saxon.exslt.Random;
 import org.semanticweb.owlapi.model.IRI;
 
 import java.util.UUID;
@@ -20,36 +19,42 @@ public class IRIGenerator {
     }
 
     public static IRI getIRI(IRI baseIRI){
-         return IRI.create(baseIRI+"/"+UUID.randomUUID().toString());
+         return IRI.create(baseIRI+UUID.randomUUID().toString());
     }
 
-    // http://purl.org/isatab/investigation/id/BII-I-1
+    // http://purl.org/isatab/investigation/BII-I-1
     public static IRI getInvestigationIRI(IRI baseIRI, String investigationId){
-        return IRI.create(baseIRI+"/investigation/id/"+investigationId);
+        //return IRI.create(baseIRI+"/investigation/"+investigationId);
+        return getIRI(baseIRI);
     }
 
-    // http://purl.org/isatab/study/id/1234
+    // http://purl.org/isatab/study/1234
     public static IRI getStudyIRI(IRI baseIRI, String studyId){
-        return IRI.create(baseIRI+"/study/id/"+studyId);
+        //return IRI.create(baseIRI+"/study/"+studyId);
+        return getIRI(baseIRI);
     }
 
-    // http://purl.org/isatab/study/id/123/assay/id/1234
+    // http://purl.org/isatab/study/123/assay/id/1234
     public static IRI getAssayIRI(IRI baseIRI, String studyId, String assayId){
-        return IRI.create(baseIRI+"/study/id/"+studyId+"/assay/id/"+assayId);
+        //return IRI.create(baseIRI+"/study/"+studyId+"/assay/id/"+assayId);
+        return getIRI(baseIRI);
     }
 
-    // http://purl.org/isatab/study/id/123/sample/id/1234
+    // http://purl.org/isatab/study/123/sample/1234
     public static IRI getSampleIRI(IRI baseIRI, String studyId, String sampleId){
-        return IRI.create(baseIRI+"/study/id/"+studyId+"/sample/id/"+sampleId);
+        //return IRI.create(baseIRI+"/study/"+studyId+"/sample/"+sampleId);
+        return getIRI(baseIRI);
     }
 
-    // http://purl.org/isatab/study/id/123/source/id/1234
+    // http://purl.org/isatab/study/123/source/1234
     public static IRI getSourceIRI(IRI baseIRI, String investigationID, String studyId){
-        return IRI.create(baseIRI+"/"+investigationID);
+        //return IRI.create(baseIRI+"/"+investigationID);
+        return getIRI(baseIRI);
     }
 
-    // http://purl.org/isatab/study/id/123/quality/id/1234
+    // http://purl.org/isatab/study/123/quality/1234
     public static IRI getQualityIRI(IRI baseIRI){
-        return IRI.create(baseIRI+"/quality/"+ Random.randomSequence(3).toString());
+        //return IRI.create(baseIRI+"/quality/"+ Random.randomSequence(3).toString());
+        return getIRI(baseIRI);
     }
 }
