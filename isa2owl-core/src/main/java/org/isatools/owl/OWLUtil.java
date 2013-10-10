@@ -1,7 +1,5 @@
 package org.isatools.owl;
 
-import java.io.File;
-
 import org.coode.owlapi.manchesterowlsyntax.ManchesterOWLSyntaxOntologyFormat;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.OWLOntologyDocumentTarget;
@@ -12,6 +10,8 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
+
+import java.io.File;
 
 /**
  * Created by the ISATeam.
@@ -46,6 +46,15 @@ public class OWLUtil {
     public static void saveRDFXML(OWLOntology onto, IRI iri){
         OWLOntologyManager owlOntologyManager = OWLManager.createOWLOntologyManager();
         try {
+            //OWLOntologyXMLNamespaceManager ooxnm = new OWLOntologyXMLNamespaceManager(owlOntologyManager, onto);
+            //ooxnm.setPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+
+//            PrefixOWLOntologyFormat pm = (PrefixOWLOntologyFormat) owlOntologyManager.getOntologyFormat(onto);
+//            if (pm!=null){
+//                Map<String, String> prefixName2PrefixMap = pm.getPrefixName2PrefixMap();
+//                System.out.println("prefixName2PrefixMap="+prefixName2PrefixMap);
+//            }
+
             owlOntologyManager.saveOntology(onto, new RDFXMLOntologyFormat(), iri);
         } catch (OWLOntologyStorageException oosex) {
             oosex.printStackTrace();
