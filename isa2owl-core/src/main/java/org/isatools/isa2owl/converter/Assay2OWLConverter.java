@@ -138,7 +138,7 @@ public class Assay2OWLConverter {
                 if (assayIndividual==null){
                     assayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, dataValue);
                     assayIndividuals.put(dataValue, assayIndividual);
-                    assayIndividualsForProperties.put(ExtendedISASyntax.STUDY_ASSAY, Collections.singleton(assayIndividual));
+
 
                     //inputs & outputs
                     //adding inputs and outputs to the assay
@@ -195,13 +195,13 @@ public class Assay2OWLConverter {
                         ISA2OWL.addObjectPropertyAssertionAxiom(executes, assayIndividual, protocolIndividual);
                     }//for process node
 
+                }//if individual is null.
 
-                    Map<String,List<Pair<IRI, String>>> assayPropertyMappings = ISA2OWL.mapping.getAssayPropertyMappings();
-                    //ISA2OWL.convertProperties(assayPropertyMappings, assayIndividualsForProperties);
-                    ISA2OWL.convertPropertiesMultipleIndividuals(assayPropertyMappings, assayIndividualsForProperties);
+                assayIndividualsForProperties.put(ExtendedISASyntax.STUDY_ASSAY, Collections.singleton(assayIndividual));
+                Map<String,List<Pair<IRI, String>>> assayPropertyMappings = ISA2OWL.mapping.getAssayPropertyMappings();
+                ISA2OWL.convertPropertiesMultipleIndividuals(assayPropertyMappings, assayIndividualsForProperties);
 
-                }
-            }//if individual is null.
+            }//for
         }
     }
 
