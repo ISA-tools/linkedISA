@@ -109,4 +109,10 @@ Date,,,,,,,,,,
 Performer,,,,,,,,,,
 ,,,,,,,,,,
 Study Group,,,,,,,,,,
-Data File,file,http://purl.org/isa-tools/ISA_00000014
+Image File,image file,http://purl.org/isa-tools/ISA_00000034
+Raw Data File,raw data file,http://purl.org/isa-tools/ISA_00000036
+Derived Data File,derived data file,http://purl.org/isa-tools/ISA_00000033
+Raw Spectral Data File,raw spectral data file,http://purl.org/isa-tools/ISA_00000041
+Derived Spectral File,derived spectral file,http://purl.org/isa-tools/ISA_00000040
+Array Data Matrix File,array data matrix file,http://purl.org/isa-tools/ISA_00000038
+Derived Array Data Matrix File,derived array data matrix file,http://purl.org/isa-tools/ISA_00000039
