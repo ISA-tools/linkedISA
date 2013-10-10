@@ -59,7 +59,7 @@ public class ISAtab2OWLConverterTest {
 
     //@Test
     public void consecutiveConversions() {
-        iri = "http://isa-tools.org/isa/BII-I-1.owl";
+        iri = "http://isa-tools.org/isa/BII-I-1.owl#";
         isatabParentDir = getClass().getResource(path+"BII-I-1").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
