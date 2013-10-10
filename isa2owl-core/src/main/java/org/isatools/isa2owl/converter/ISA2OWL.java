@@ -171,10 +171,12 @@ public class ISA2OWL {
     private static IRI createIndividualIRI(IRI baseIRI, String typeMappingLabel, String individualLabel){
 
         if (typeMappingLabel.equals(ExtendedISASyntax.INVESTIGATION)){
-            return IRIGenerator.getInvestigationIRI(baseIRI, individualLabel);
+            //return IRIGenerator.getInvestigationIRI(baseIRI, individualLabel);
+            return IRIGenerator.getIRI(baseIRI);
         }
         if (typeMappingLabel.equals(ExtendedISASyntax.STUDY)){
-            return IRIGenerator.getStudyIRI(baseIRI, individualLabel);
+            return IRIGenerator.getIRI(baseIRI);
+            //return IRIGenerator.getStudyIRI(baseIRI, individualLabel);
 
         }
         return IRIGenerator.getIRI(ISA2OWL.ontoIRI);
