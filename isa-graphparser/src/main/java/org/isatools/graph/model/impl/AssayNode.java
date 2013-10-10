@@ -19,6 +19,7 @@ public class AssayNode extends ProcessNode {
 
     public static final String REGEXP = "(.*Assay Name)";
 
+    //the process nodes that are related to this assay
     private List<ProcessNode> processNodes = null;
 
     public AssayNode(int index, String name) {

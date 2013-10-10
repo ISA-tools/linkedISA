@@ -182,23 +182,10 @@ public class ISA2OWL {
         return IRIGenerator.getIRI(ISA2OWL.ontoIRI);
     }
 
-    /**
-     * It creates an OWLNamedIndividual given its type (given a string, the typeIdIndividualMap is used)
-     * and its label (which should not be null, or the individual retrieved will be null)
-     *
-     *
-     * @param typeMappingLabel this is a string indicating the type for the individual to be retrieved from the mapping
-     * @param individualLabel this is the label to be used for the individual
-     * @param comment this is a string that will be added as an annotation for the individual
-     * @param individualIRI this is the IRI for the individual, if null, an IRI will be generated using IRIGenerator
-     * @param parameterMap this is a map with <String, individual> given as parameter
-     * @return
-     */
-    public static OWLNamedIndividual createIndividual(String typeMappingLabel,
+    private static OWLNamedIndividual createIndividualCommon(String typeMappingLabel,
                                                       String individualLabel,
                                                       String comment,
-                                                      IRI individualIRI,
-                                                      Map<String, OWLNamedIndividual> parameterMap){
+                                                      IRI individualIRI){
 
         System.out.println("Create individual: "+typeMappingLabel+" "+individualLabel);
         //avoid empty individuals
@@ -229,12 +216,12 @@ public class ISA2OWL {
 
             if (individual ==null)
                 individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? createIndividualIRI(ISA2OWL.ontoIRI, typeMappingLabel, individualLabel) : individualIRI);
-                //individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? IRIGenerator.getIRI(ISA2OWL.ontoIRI) : individualIRI);
+            //individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? IRIGenerator.getIRI(ISA2OWL.ontoIRI) : individualIRI);
 
             //label
             OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(
-                ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),
-                ISA2OWL.factory.getOWLLiteral(individualLabel));
+                    ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),
+                    ISA2OWL.factory.getOWLLiteral(individualLabel));
             OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
 
@@ -261,14 +248,59 @@ public class ISA2OWL {
             }
             map.put(individualLabel, individual);
             typeIdIndividualMap.put(typeMappingLabel,map);
+        }//for
+            return individual;
+        }
 
+    /**
+     * It creates an OWLNamedIndividual given its type (given a string, the typeIdIndividualMap is used)
+     * and its label (which should not be null, or the individual retrieved will be null)
+     *
+     *
+     * @param typeMappingLabel this is a string indicating the type for the individual to be retrieved from the mapping
+     * @param individualLabel this is the label to be used for the individual
+     * @param comment this is a string that will be added as an annotation for the individual
+     * @param individualIRI this is the IRI for the individual, if null, an IRI will be generated using IRIGenerator
+     * @param parameterMap this is a map with <String, individual> given as parameter
+     * @return
+     */
+    public static OWLNamedIndividual createIndividual(String typeMappingLabel,
+                                                      String individualLabel,
+                                                      String comment,
+                                                      IRI individualIRI,
+                                                      Map<String, OWLNamedIndividual> parameterMap){
+
+            OWLNamedIndividual individual = createIndividualCommon(typeMappingLabel, individualLabel, comment, individualIRI);
             if (parameterMap!=null){
                 parameterMap.put(typeMappingLabel, individual);
             }
-        }//for
 
         return individual;
     }
+
+    public static OWLNamedIndividual createIndividual(String typeMappingLabel,
+                                                      String individualLabel,
+                                                      String comment,
+                                                      Map<String, Set<OWLNamedIndividual>> parameterMap,
+                                                      IRI individualIRI
+                                                      ){
+
+        OWLNamedIndividual individual = createIndividualCommon(typeMappingLabel, individualLabel, comment, individualIRI);
+
+        if (parameterMap!=null){
+            Set<OWLNamedIndividual> set = parameterMap.get(typeMappingLabel);
+            if (set!=null){
+                set.add(individual);
+            } else {
+                set = Collections.singleton(individual);
+            }
+            parameterMap.put(typeMappingLabel, set);
+        }
+
+
+        return individual;
+    }
+
 
     /**********************************************************************************************************************************************************/
     /*****                    End of methods to create individuals, relying on the mapping file                                                     ***********/
@@ -311,6 +343,13 @@ public class ISA2OWL {
         }
     }
 
+    /**
+     *
+     * This method is used to convert all the properties (as given in propertyMappings) where there might be multiple individuals of each type.
+     *
+     * @param propertyMappings
+     * @param typeIndividualM
+     */
     public static void convertPropertiesMultipleIndividuals(Map<String, List<Pair<IRI, String>>> propertyMappings, Map<String, Set<OWLNamedIndividual>> typeIndividualM){
         for(String subjectString: propertyMappings.keySet()){
             List<Pair<IRI, String>> predicateObjects = propertyMappings.get(subjectString);

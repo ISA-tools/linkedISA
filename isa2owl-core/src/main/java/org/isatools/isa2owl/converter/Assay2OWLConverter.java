@@ -75,7 +75,7 @@ public class Assay2OWLConverter {
                                                    OWLNamedIndividual studyDesignIndividual,
                                                    OWLNamedIndividual studyIndividual,
                                                    boolean convertGroups,
-                                                   Map<String, OWLNamedIndividual> assayIndividualsForProperties){
+                                                   Map<String, Set<OWLNamedIndividual>> assayIndividualsForProperties){
         log.debug("CONVERTING ASSAY ---> AssayTableType="+att);
         assayTableType = att;
         data = assay.getAssayDataMatrix();
@@ -91,14 +91,21 @@ public class Assay2OWLConverter {
             System.exit(-1);
         }
 
+        //if it is an assay table, the sampleIndividualMap cannot be null
         if (assayTableType == AssayTableType.ASSAY && sampleIndividualMap==null){
             System.err.println("Converting ASSAY table and sample individuals are null - they should have been defined in the STUDY table");
             System.exit(-1);
         }
 
-        sampleIndividualMap = convertMaterialNodes(graph, sampleIndividualMap, studyIndividual);
+        if (assayTableType == AssayTableType.STUDY)
+            sampleIndividualMap = convertMaterialNodes(graph, sampleIndividualMap, studyIndividual);
+        else if (assayTableType == AssayTableType.ASSAY){
+            Map<String, OWLNamedIndividual> localSampleIndividualMap = convertMaterialNodes(graph, sampleIndividualMap, studyIndividual);
+            assayIndividualsForProperties.put(ExtendedISASyntax.SAMPLE, new HashSet<OWLNamedIndividual>(localSampleIndividualMap.values()));
+        }
         convertDataNodes(graph);
-        convertAssayNodes(protocolIndividualMap, graph, assayIndividualsForProperties);
+        if (assayTableType == AssayTableType.ASSAY)
+            convertAssayNodes(protocolIndividualMap, graph, assayIndividualsForProperties);
         convertProcessNodes(protocolList, protocolIndividualMap, graph, assayTableType);
 
         if (convertGroups){
@@ -107,7 +114,7 @@ public class Assay2OWLConverter {
         return sampleIndividualMap;
     }
 
-    private void convertAssayNodes(Map<String, OWLNamedIndividual> protocolIndividualMap, Graph graph, Map<String, OWLNamedIndividual> assayIndividualsForProperties) {
+    private void convertAssayNodes(Map<String, OWLNamedIndividual> protocolIndividualMap, Graph graph, Map<String, Set<OWLNamedIndividual>> assayIndividualsForProperties) {
         //assay individuals
         List<ISANode> assayNodes = graph.getNodes(NodeType.ASSAY_NODE);
 
@@ -128,8 +135,7 @@ public class Assay2OWLConverter {
                 if (assayIndividual==null){
                     assayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, dataValue);
                     assayIndividuals.put(dataValue, assayIndividual);
-                    assayIndividualsForProperties.put(ExtendedISASyntax.STUDY_ASSAY, assayIndividual);
-
+                    assayIndividualsForProperties.put(ExtendedISASyntax.STUDY_ASSAY, Collections.singleton(assayIndividual));
 
                     //inputs & outputs
                     //adding inputs and outputs to the assay
@@ -188,8 +194,8 @@ public class Assay2OWLConverter {
 
 
                     Map<String,List<Pair<IRI, String>>> assayPropertyMappings = ISA2OWL.mapping.getAssayPropertyMappings();
-                    ISA2OWL.convertProperties(assayPropertyMappings, assayIndividualsForProperties);
-
+                    //ISA2OWL.convertProperties(assayPropertyMappings, assayIndividualsForProperties);
+                    ISA2OWL.convertPropertiesMultipleIndividuals(assayPropertyMappings, assayIndividualsForProperties);
 
                 }
             }//if individual is null.
@@ -340,7 +346,7 @@ public class Assay2OWLConverter {
 
     /***
      *
-     * Creates the RDF for the material nodes
+     * Creates the RDF for the material nodes (sources, samples, extracts, labeled extracts)
      *
      * @param graph the ISA-TAB files parsed as a org.isatools.graph
      * @param sampleIndividualMap a map with the individuals corresponding to samples, this is null for a STUDY table
@@ -351,15 +357,17 @@ public class Assay2OWLConverter {
 
         boolean sampleIndividualMapWasNull = (sampleIndividualMap==null);
 
+        Map<String, OWLNamedIndividual> localSampleIndividualMap = null;
         if (sampleIndividualMapWasNull){
             sampleIndividualMap = new HashMap<String, OWLNamedIndividual>();
+        } else {
+            localSampleIndividualMap = new HashMap<String, OWLNamedIndividual>();
         }
 
         //Material Nodes
         List<ISANode> materialNodes = graph.getNodes(NodeType.MATERIAL_NODE);
 
         for(ISANode node: materialNodes){
-
 
             MaterialNode materialNode = (MaterialNode) node;
 
@@ -383,7 +391,6 @@ public class Assay2OWLConverter {
 
                 if (dataValue.equals(""))
                     continue;
-
 
                 if ( createIndividualForMaterialNode ){
 
@@ -432,6 +439,7 @@ public class Assay2OWLConverter {
 
                 } else {
                     materialNodeIndividual = sampleIndividualMap.get(dataValue);
+                    localSampleIndividualMap.get(ExtendedISASyntax.SAMPLE) materialNodeIndividual);
 
                 }
                 individualMatrix[row][col] = materialNodeIndividual;
@@ -443,7 +451,10 @@ public class Assay2OWLConverter {
             } //for each row
         }
 
-        return sampleIndividualMap;
+        if (sampleIndividualMapWasNull)
+            return sampleIndividualMap;
+        else
+            return localSampleIndividualMap;
 
     }
 
