@@ -48,7 +48,7 @@ public class Assay2OWLConverter {
     private Map<Integer, OWLNamedIndividual> processIndividualMap = new HashMap<Integer, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> materialAttributeIndividualMap = new HashMap<String, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> factorValueIndividuals = new HashMap<String, OWLNamedIndividual>();
-    private Set<OWLNamedIndividual> assaySampleIndividualSet = null;
+    private Set<OWLNamedIndividual> assayFileSampleIndividualSet = null;
 
     public Assay2OWLConverter(){
         log.info("Assay2OWLConverter - constructor");
@@ -98,11 +98,11 @@ public class Assay2OWLConverter {
             System.exit(-1);
         }
 
-        //this method also sets the assaySampleIndividualSet variable, if it is an ASSAY
+        //this method also sets the assayFileSampleIndividualSet variable, if it is an ASSAY
         sampleIndividualMap = convertMaterialNodes(graph, sampleIndividualMap, studyIndividual);
 
         if (assayTableType == AssayTableType.ASSAY){
-            assayIndividualsForProperties.put(ExtendedISASyntax.SAMPLE, assaySampleIndividualSet);
+            assayIndividualsForProperties.put(ExtendedISASyntax.SAMPLE, assayFileSampleIndividualSet);
         }
         convertDataNodes(graph);
 
@@ -138,7 +138,6 @@ public class Assay2OWLConverter {
                 if (assayIndividual==null){
                     assayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, dataValue);
                     assayIndividuals.put(dataValue, assayIndividual);
-
 
                     //inputs & outputs
                     //adding inputs and outputs to the assay
@@ -364,7 +363,7 @@ public class Assay2OWLConverter {
         if (sampleIndividualMapWasNull){
             sampleIndividualMap = new HashMap<String, OWLNamedIndividual>();
         } else {
-            assaySampleIndividualSet = new HashSet<OWLNamedIndividual>();
+            assayFileSampleIndividualSet = new HashSet<OWLNamedIndividual>();
         }
 
         //Material Nodes
@@ -442,7 +441,7 @@ public class Assay2OWLConverter {
 
                 } else {
                     materialNodeIndividual = sampleIndividualMap.get(dataValue);
-                    assaySampleIndividualSet.add(materialNodeIndividual);
+                    assayFileSampleIndividualSet.add(materialNodeIndividual);
 
                 }
                 individualMatrix[row][col] = materialNodeIndividual;
