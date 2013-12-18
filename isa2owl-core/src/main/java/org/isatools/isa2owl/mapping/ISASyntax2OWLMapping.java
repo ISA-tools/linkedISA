@@ -225,7 +225,7 @@ public class ISASyntax2OWLMapping {
             materialNodePropertyMappings.put(subject, predobjs);
         }
 
-        if (subject.startsWith(ExtendedISASyntax.STUDY_ASSAY) || object.startsWith(ExtendedISASyntax.STUDY_ASSAY)){
+        if (subject.startsWith(ExtendedISASyntax.STUDY_ASSAY)){
             assayPropertyMappings.put(subject, predobjs);
         }
 
