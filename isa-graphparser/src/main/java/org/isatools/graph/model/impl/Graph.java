@@ -23,7 +23,7 @@ public class Graph implements ISAGraph {
         this.nodeList = new ArrayList<ISANode>();
     }
 
-    public void addNode(Node node) {
+    public void addNode(ISANode node) {
         nodeList.add(node);
     }
 

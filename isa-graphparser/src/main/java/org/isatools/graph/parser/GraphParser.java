@@ -2,6 +2,7 @@ package org.isatools.graph.parser;
 
 import org.isatools.graph.model.*;
 import org.isatools.graph.model.impl.*;
+import org.isatools.graph.model.impl.Date;
 
 import java.util.*;
 
@@ -55,8 +56,26 @@ public class GraphParser {
 
         for (String column : columns) {
 
-            if (column.matches(ProcessNode.REGEXP)) {
-                ProcessNode processNode = new ProcessNode(index, column);
+            if (column.matches(Date.REGEXP)) {
+                Date date = new Date(index, column);
+                if (lastProcess!=null){
+                    ((ProtocolExecution) lastProcess).addDate(date);
+                }
+
+            }else if (column.matches(Performer.REGEXP)) {
+                Performer performer = new Performer(index, column);
+                if (lastProcess!=null){
+                    ((ProtocolExecution) lastProcess).addPerformer(performer);
+                }
+
+            } else if (column.matches(ProcessNode.REGEXP)) {
+                ProcessNode processNode = null;
+
+                if (column.matches(ProtocolExecution.REGEXP))
+                    processNode = new ProtocolExecution(index, column);
+                else
+                    processNode = new ProcessNode(index, column);
+
                 graph.addNode(processNode);
                 if (lastMaterialOrData != null) {
                     processNode.addInputNode(

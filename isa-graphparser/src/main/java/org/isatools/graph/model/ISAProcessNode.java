@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public interface ISAProcessNode {
+public interface ISAProcessNode extends ISANode {
 
     public static final String REGEXP = "((?i)Protocol REF)|(Data Normalization.*)|(Data Transformation.*)";
 

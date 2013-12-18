@@ -17,16 +17,15 @@ import java.util.List;
  */
 public class ProcessNode extends NodeWithComments implements ISAProcessNode {
 
-    private List<ISANode> inputNodes = null;
-    private List<ISANode> outputNodes = null;
-    private List<ProcessParameter> parameters = null;
+    protected List<ISANode> inputNodes = null;
+    protected List<ISANode> outputNodes = null;
+    protected List<ProcessParameter> parameters = null;
 
     public ProcessNode(int index, String name) {
         super(index, name);
         inputNodes = new ArrayList<ISANode>();
         outputNodes = new ArrayList<ISANode>();
         parameters = new ArrayList<ProcessParameter>();
-
     }
 
     @Override

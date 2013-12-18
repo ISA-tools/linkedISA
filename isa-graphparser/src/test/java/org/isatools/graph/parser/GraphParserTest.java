@@ -74,6 +74,12 @@ public class GraphParserTest {
         graphParser(isatabParentDir);
     }
 
+    @Test
+    public void parserCompositeTest(){
+        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/ISA-composite-test").getFile();
+        graphParser(isatabParentDir);
+    }
+
     private void graphParser(String isatabParentDir){
         //Import ISAtab dataset
         System.out.println("configDir="+configDir);
