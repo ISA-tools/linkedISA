@@ -1,8 +1,8 @@
 ONTOLOGY SOURCE REFERENCE
-Term Source Name	"OBI"	"NCBITaxon"	"PATO"	"ERO"	"EFO"	""	
-Term Source File	"http://bioportal.bioontology.org/ontologies/47893"	"http://bioportal.bioontology.org/ontologies/47845"	"http://bioportal.bioontology.org/ontologies/50065"	"http://bioportal.bioontology.org/ontologies/50544"	"http://bioportal.bioontology.org/ontologies/50608"	""	
-Term Source Version	"47893"	"47845"	"50065"	"50544"	"50608"	""	
-Term Source Description	"Ontology for Biomedical Investigations"	"NCBI organismal classification"	"Phenotypic quality"	"Eagle-I Research Resource Ontology"	"Experimental Factor Ontology"	""	
+Term Source Name	"OBI"	"NCBITaxon"	"PATO"	"ERO"	"EFO"	
+Term Source File	"http://bioportal.bioontology.org/ontologies/47893"	"http://bioportal.bioontology.org/ontologies/47845"	"http://bioportal.bioontology.org/ontologies/50065"	"http://bioportal.bioontology.org/ontologies/50544"	"http://bioportal.bioontology.org/ontologies/50608"	
+Term Source Version	"47893"	"47845"	"50065"	"50544"	"50608"	
+Term Source Description	"Ontology for Biomedical Investigations"	"NCBI organismal classification"	"Phenotypic quality"	"Eagle-I Research Resource Ontology"	"Experimental Factor Ontology"	
 INVESTIGATION
 Investigation Identifier	""
 Investigation Title	"Investigation"
@@ -68,7 +68,7 @@ Study Assay Technology Type Term Accession Number	"obo:OBI_0000626"
 Study Assay Technology Type Term Source REF	"OBI"
 Study Assay Technology Platform	""
 STUDY PROTOCOLS
-Study Protocol Name	"sample collection"	"sequence assembly"	"nucleic acid extraction"	"library construction"	"nucleic acid sequencing"	"data download"	"mock extraction"	"mock library construction"	"mock sequencing"	"summerization comparison"
+Study Protocol Name	"sample collection"	"sequence assembly"	"nucleic acid extraction"	"library construction"	"nucleic acid sequencing"	"data download"	"mock extraction"	"mock library construction"	"mock sequencing"	"summarization comparison"
 Study Protocol Type	"specimen collection"	"data transformation"	"nucleic acid extraction"	"library preparation"	"nucleic acid sequencing"	"information acquisition"	"nucleic acid extraction"	"library preparation"	"nucleic acid sequencing"	"data transformation"
 Study Protocol Type Term Accession Number	"obo:OBI_0000659"	"obo:OBI_0200000"	"obo:OBI_0666667"	"obo:OBI_0000711"	""	"obo:OBI_0600013"	"obo:OBI_0666667"	"obo:OBI_0000711"	""	"obo:OBI_0200000"
 Study Protocol Type Term Source REF	"OBI"	"OBI"	"OBI"	"OBI"	""	"OBI"	"OBI"	"OBI"	""	"OBI"
