@@ -197,6 +197,11 @@ public class ISAtab2OWLConverter {
         reasoner.saveInferredOntology(filename);
     }
 
+    /***
+     * Converts the invetigation file.
+     *
+     * @param investigation
+     */
     private void convertInvestigation(Investigation investigation){
 
         //Investigation
@@ -384,6 +389,8 @@ public class ISAtab2OWLConverter {
 
 
     /**
+     * Converts the publications section.
+     *
      *
      * @param publicationList
      * @param individual the study or investigation individual

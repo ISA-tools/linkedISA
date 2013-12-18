@@ -223,7 +223,7 @@ public class ISAtab2OWLConverterTest {
     @Test
     public void testConvertSOAPdenovo2(){
         iri = "http://isa-tools.org/isa/Soapdenovo2.owl";
-        isatabParentDir = getClass().getResource( path + "BGI-SOAPdenovo2vsSOAPdenovo").getFile();
+        isatabParentDir = getClass().getResource( path + "BGI-SOAPdenovo2").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
         isatab2owl.convert(isatabParentDir, iri);

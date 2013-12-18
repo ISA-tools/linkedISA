@@ -59,20 +59,20 @@ public class GraphParser {
             if (column.matches(Date.REGEXP)) {
                 Date date = new Date(index, column);
                 if (lastProcess!=null){
-                    ((ProtocolExecution) lastProcess).addDate(date);
+                    ((ProtocolExecutionNode) lastProcess).addDate(date);
                 }
 
             }else if (column.matches(Performer.REGEXP)) {
                 Performer performer = new Performer(index, column);
                 if (lastProcess!=null){
-                    ((ProtocolExecution) lastProcess).addPerformer(performer);
+                    ((ProtocolExecutionNode) lastProcess).addPerformer(performer);
                 }
 
-            } else if (column.matches(ProcessNode.REGEXP)) {
+            } else if (column.matches(ISAProcessNode.REGEXP)) {
                 ProcessNode processNode = null;
 
-                if (column.matches(ProtocolExecution.REGEXP))
-                    processNode = new ProtocolExecution(index, column);
+                if (column.matches(ProtocolExecutionNode.REGEXP))
+                    processNode = new ProtocolExecutionNode(index, column);
                 else
                     processNode = new ProcessNode(index, column);
 

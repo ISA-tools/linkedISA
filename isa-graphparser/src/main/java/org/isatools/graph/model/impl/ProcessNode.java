@@ -17,6 +17,8 @@ import java.util.List;
  */
 public class ProcessNode extends NodeWithComments implements ISAProcessNode {
 
+    public static final String REGEXP = "(Data Normalization.*)|(Data Transformation.*)";
+
     protected List<ISANode> inputNodes = null;
     protected List<ISANode> outputNodes = null;
     protected List<ProcessParameter> parameters = null;
