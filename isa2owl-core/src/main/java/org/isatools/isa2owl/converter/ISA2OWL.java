@@ -386,6 +386,8 @@ public class ISA2OWL {
     }
 
     public static void addObjectPropertyAssertionAxiom(OWLObjectProperty property, OWLNamedIndividual subject, OWLNamedIndividual object){
+        if (property==null || subject ==null || object==null)
+            return;
         OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
         ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
     }
