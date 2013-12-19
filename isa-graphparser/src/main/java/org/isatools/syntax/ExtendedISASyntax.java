@@ -52,5 +52,6 @@ public class ExtendedISASyntax {
     public static String STUDY_GROUP = "Study Group";
 
    public static String DATA_TRANSFORMATION = "Data Transformation";
+    public static String NORMALIZATION_NAME = "Normalization Name";
 
 }

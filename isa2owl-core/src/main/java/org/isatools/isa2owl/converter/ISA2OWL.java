@@ -73,6 +73,11 @@ public class ISA2OWL {
 
     }
 
+    /**
+     *
+     * @param comment
+     * @param iri
+     */
     public static void addComment(String comment, IRI iri){
         OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
         OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(iri, annotation);
