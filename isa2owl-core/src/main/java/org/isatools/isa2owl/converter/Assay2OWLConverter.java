@@ -45,7 +45,8 @@ public class Assay2OWLConverter {
     //a matrix will all the individuals for the data (these are MaterialNodes or ProcessNodes individuals
     private OWLNamedIndividual[][] individualMatrix = null;
     //private Map<ISAMaterialNode, Map<String,OWLNamedIndividual>> materialNodeIndividualMap = new HashMap<ISAMaterialNode, Map<String,OWLNamedIndividual>>();
-    private Map<Integer, OWLNamedIndividual> processIndividualMap = new HashMap<Integer, OWLNamedIndividual>();
+
+    private Map<String, OWLNamedIndividual> processIndividualMap = new HashMap<String, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> materialAttributeIndividualMap = new HashMap<String, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> factorValueIndividuals = new HashMap<String, OWLNamedIndividual>();
     private Set<OWLNamedIndividual> assayFileSampleIndividualSet = null;
@@ -238,6 +239,7 @@ public class Assay2OWLConverter {
 
             for(int processRow=1; processRow < data.length; processRow ++){
 
+                log.debug("processRow="+processRow);
                 String processNodeValue = null;
                 if (processCol==-1){
                     processNodeValue = processNode.toShortString();
@@ -248,11 +250,11 @@ public class Assay2OWLConverter {
                 if (processNodeValue.equals("")){
                     log.debug("ProcessNodeValue is empty!!!");
                     continue;
-                } //else {
-                    //System.out.println("ProcessNodeValue = "+processNodeValue);
-                //}
+                } else {
+                    log.debug("ProcessNodeValue = " + processNodeValue);
+                }
 
-                OWLNamedIndividual processIndividual = processIndividualMap.get(processCol);
+                OWLNamedIndividual processIndividual = processIndividualMap.get(processNodeValue);
 
                 //material processing as the execution of the protocol
                 if (processIndividual==null){
@@ -264,7 +266,7 @@ public class Assay2OWLConverter {
                     processIndividual = ISA2OWL.createIndividual(
                             processNode.getName().startsWith(ExtendedISASyntax.DATA_TRANSFORMATION.toString()) ?
                                     ExtendedISASyntax.DATA_TRANSFORMATION : ExtendedISASyntax.NORMALIZATION_NAME , processNodeValue);
-                    processIndividualMap.put(processCol, processIndividual);
+                    processIndividualMap.put(processNodeValue, processIndividual);
                 }
 
                 processNodeIndividuals.put(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, processIndividual);
@@ -299,7 +301,7 @@ public class Assay2OWLConverter {
                 ISA2OWL.convertProperties(protocolREFmapping, processNodeIndividuals);
 
 
-            }
+            } //processRow
         }
     }
 
@@ -367,12 +369,12 @@ public class Assay2OWLConverter {
                 }
 
 
-                OWLNamedIndividual processIndividual = processIndividualMap.get(processCol);
+                OWLNamedIndividual processIndividual = processIndividualMap.get(protocolExecutionValue);
 
                 //material processing as the execution of the protocol
                 if (processIndividual==null){
                     processIndividual = ISA2OWL.createIndividual(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, protocolExecutionValue);
-                    processIndividualMap.put(processCol, processIndividual);
+                    processIndividualMap.put(protocolExecutionValue, processIndividual);
                 }
 
                 if (protocol!=null && protocol.getProtocolType()!=null){
