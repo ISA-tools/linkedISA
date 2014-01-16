@@ -44,8 +44,6 @@ public class Assay2OWLConverter {
     private Object[][] data = null;
     //a matrix will all the individuals for the data (these are MaterialNodes or ProcessNodes individuals
     private OWLNamedIndividual[][] individualMatrix = null;
-    //private Map<ISAMaterialNode, Map<String,OWLNamedIndividual>> materialNodeIndividualMap = new HashMap<ISAMaterialNode, Map<String,OWLNamedIndividual>>();
-
     private Map<String, OWLNamedIndividual> processIndividualMap = new HashMap<String, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> materialAttributeIndividualMap = new HashMap<String, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> factorValueIndividuals = new HashMap<String, OWLNamedIndividual>();
@@ -108,8 +106,10 @@ public class Assay2OWLConverter {
         convertDataNodes(graph);
 
         if (assayTableType == AssayTableType.ASSAY){
+            //Assay Name *
             convertAssayNodes(protocolIndividualMap, graph, assayIndividualsForProperties);
-            convertProcessNodes(graph, assayTableType);
+            //Data Transformation or Normalization Name
+            convertProcessNodes(graph);
         }
 
         convertProtocolExecutionNodes(protocolList, protocolIndividualMap, graph, assayTableType);
@@ -128,7 +128,10 @@ public class Assay2OWLConverter {
      * @param graph
      * @param assayIndividualsForProperties
      */
-    private void convertAssayNodes(Map<String, OWLNamedIndividual> protocolIndividualMap, Graph graph, Map<String, Set<OWLNamedIndividual>> assayIndividualsForProperties) {
+    private void convertAssayNodes(Map<String,
+                                    OWLNamedIndividual> protocolIndividualMap,
+                                    Graph graph, Map<String,
+                                    Set<OWLNamedIndividual>> assayIndividualsForProperties) {
         //assay individuals
         List<ISANode> assayNodes = graph.getNodes(NodeType.ASSAY_NODE);
 
@@ -222,9 +225,8 @@ public class Assay2OWLConverter {
      * ProcessNodes are either 'Data Transformation' or 'Normalization Name' columns
      *
      * @param graph
-     * @param assayTableType
      */
-    private void convertProcessNodes(Graph graph, AssayTableType assayTableType) {
+    private void convertProcessNodes(Graph graph) {
         //Process Nodes
         List<ISANode> processNodes = graph.getNodes(NodeType.PROCESS_NODE);
 
@@ -304,6 +306,9 @@ public class Assay2OWLConverter {
     /**
      *
      * Converts ProtocolExecutionNodes. (Among the process nodes, only the ProtocolExecutions will have an associated declared protocol.)
+     *
+     * Uniqueness of ProtocolExecutionNodes:
+     *
      *
      * @param protocolIndividualMap
      * @param graph
