@@ -519,7 +519,7 @@ public class Assay2OWLConverter {
                     materialNodeAndAttributesIndividuals.put(materialNode.getMaterialNodeType(), set2);
 
                     //Material Node Annotation
-                    String purl = OntologyManager.getOntologyTermPurl(dataValue);
+                    String purl = OntologyManager.getOntologyTermURI(dataValue);
                     if (purl!=null && !purl.equals("")){
                         log.debug("If there is a PURL, use it! "+purl);
                     }else{
