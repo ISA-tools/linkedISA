@@ -7,6 +7,7 @@ import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by the ISATeam.
@@ -59,7 +60,7 @@ public class OntologyLookup {
         if ((termSourceRef==null) || (termSourceRef.equals("")) || (termAccession==null) || (termAccession.equals("")))
             return "";
 
-        List<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
+        Set<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
 
         OntologySourceRefObject ontologySourceRefObject = null;
         for(OntologySourceRefObject ontologyRef: ontologiesUsed){
@@ -88,7 +89,7 @@ public class OntologyLookup {
 
             log.debug("term====>"+term);
             if (term!=null) {
-                purl = term.getOntologyPurl();
+                purl = term.getOntologyTermURI();
                 cache.addSourceTermPurlMapping(termSourceRef, termAccession, purl);
                 return purl;
             }//term not null
