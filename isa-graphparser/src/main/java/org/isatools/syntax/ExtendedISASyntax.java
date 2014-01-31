@@ -15,7 +15,7 @@ public class ExtendedISASyntax {
 
 
    public static String INVESTIGATION = "Investigation";
-    public static String INVESTIGATION_PERSON = "Investigation Person";
+   public static String INVESTIGATION_PERSON = "Investigation Person";
    public static String STUDY = "Study";
    public static String STUDY_FILE = "Study File";
 
@@ -49,9 +49,9 @@ public class ExtendedISASyntax {
    public static String STUDY_PROTOCOL_REF_OUTPUT = "Study Protocol REF Output";
 
 
-    public static String STUDY_GROUP = "Study Group";
+   public static String STUDY_GROUP = "Study Group";
 
    public static String DATA_TRANSFORMATION = "Data Transformation";
-    public static String NORMALIZATION_NAME = "Normalization Name";
+   public static String NORMALIZATION_NAME = "Normalization Name";
 
 }
