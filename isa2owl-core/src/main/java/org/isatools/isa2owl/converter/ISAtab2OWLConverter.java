@@ -9,6 +9,7 @@ import org.isatools.isacreator.model.*;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 import org.isatools.owl.ExtendedOBIVocabulary;
+import org.isatools.owl.ISA;
 import org.isatools.owl.OWLUtil;
 import org.isatools.owl.reasoner.ReasonerService;
 import org.isatools.syntax.ExtendedISASyntax;
@@ -105,7 +106,10 @@ public class ISAtab2OWLConverter {
         log.debug("investigation=" + investigation);
         log.debug("Ontology selection history--->" + OntologyManager.getOntologySelectionHistory());
 
-        convertInvestigation(investigation);
+        //create 'ISAtab dataset' individual
+        OWLNamedIndividual isatabDatasetIndividual = ISA2OWL.createIndividual(ISA.ISATAB_DATASET, investigation.getInvestigationId());
+
+        convertInvestigation(investigation, isatabDatasetIndividual);
 
         Map<String,Study> studies = investigation.getStudies();
 
@@ -202,10 +206,22 @@ public class ISAtab2OWLConverter {
      *
      * @param investigation
      */
-    private void convertInvestigation(Investigation investigation){
+    private void convertInvestigation(Investigation investigation, OWLNamedIndividual isatabDatasetIndividual){
 
         //Investigation
-        OWLNamedIndividual investigationIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.INVESTIGATION, investigation.getInvestigationId());
+        OWLNamedIndividual investigationIndividual = null;
+
+        if (!investigation.getInvestigationId().equals("")){
+
+            //Investigation
+            investigationIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.INVESTIGATION, investigation.getInvestigationId());
+
+            OWLObjectProperty hasPart = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_PART));
+
+            OWLNamedIndividual investigationFileIndividual = ISA2OWL.createIndividual(ISA.INVESTIGATION_FILE, investigation.getInvestigationId());
+            OWLObjectPropertyAssertionAxiom objectPropertyAssertionAxiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasPart, isatabDatasetIndividual, investigationFileIndividual);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, objectPropertyAssertionAxiom);
+        }
 
         //Investigation identifier
         ISA2OWL.createIndividual(Investigation.INVESTIGATION_ID_KEY,  investigation.getInvestigationId());
@@ -239,7 +255,6 @@ public class ISAtab2OWLConverter {
             OWLDataPropertyAssertionAxiom dataPropertyAssertionAxiom = ISA2OWL.factory.getOWLDataPropertyAssertionAxiom(hasMeasurementValue, publicReleaseDateIndividual, publicReleaseDateLiteral);
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, dataPropertyAssertionAxiom);
         }
-
 
         //Publications
         List<Publication> publicationList = investigation.getPublications();

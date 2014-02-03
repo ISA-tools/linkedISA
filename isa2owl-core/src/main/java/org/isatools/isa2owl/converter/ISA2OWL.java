@@ -192,7 +192,7 @@ public class ISA2OWL {
                                                       String comment,
                                                       IRI individualIRI){
 
-        System.out.println("Create individual: "+typeMappingLabel+" "+individualLabel);
+        System.out.println("Create individual: typeMappingLabel-"+typeMappingLabel+"- individualLabel-"+individualLabel+"-");
         //avoid empty individuals
         if (individualLabel.equals(""))
             return null;

@@ -137,7 +137,7 @@ public class ISAtab2OWLConverterTest {
 
     @Test
     public void testConvertFaahKO() {
-        iri = "http://isa-tools.org/isa/faahko.owl";
+        iri = "http://purl.org/isatab/faahko.owl";
         isatabParentDir = getClass().getResource( path +"faahKO").getFile();
         System.out.println("isatabParentDir="+isatabParentDir);
         System.out.println("Converting the ISA-tab dataset into OWL");
