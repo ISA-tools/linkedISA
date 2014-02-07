@@ -10,6 +10,7 @@ package org.isatools.owl;
  */
 public class OBI {
 
+    public static final String IRI = "http://purl.obolibrary.org/obo/obi.owl";
     public static final String NAMESPACE = "http://purl.obolibrary.org/obo/OBI_";
     public static final String SHORTNAME = "OBI";
 

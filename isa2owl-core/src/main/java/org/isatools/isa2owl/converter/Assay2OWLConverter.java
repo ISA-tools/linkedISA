@@ -75,7 +75,8 @@ public class Assay2OWLConverter {
                                                    OWLNamedIndividual studyDesignIndividual,
                                                    OWLNamedIndividual studyIndividual,
                                                    boolean convertGroups,
-                                                   Map<String, Set<OWLNamedIndividual>> assayIndividualsForProperties){
+                                                   Map<String, Set<OWLNamedIndividual>> assayIndividualsForProperties,
+                                                   OWLNamedIndividual assayFileIndividual){
         log.debug("CONVERTING ASSAY ---> AssayTableType="+att);
         assayTableType = att;
         data = assay.getAssayDataMatrix();
@@ -107,7 +108,7 @@ public class Assay2OWLConverter {
 
         if (assayTableType == AssayTableType.ASSAY){
             //Assay Name *
-            convertAssayNodes(protocolIndividualMap, graph, assayIndividualsForProperties);
+            convertAssayNodes(protocolIndividualMap, graph, assayIndividualsForProperties, assayFileIndividual);
             //Data Transformation or Normalization Name
             convertProcessNodes(graph);
         }
@@ -131,7 +132,8 @@ public class Assay2OWLConverter {
     private void convertAssayNodes(Map<String,
                                     OWLNamedIndividual> protocolIndividualMap,
                                     Graph graph, Map<String,
-                                    Set<OWLNamedIndividual>> assayIndividualsForProperties) {
+                                    Set<OWLNamedIndividual>> assayIndividualsForProperties,
+                                    OWLNamedIndividual assayFileIndividual) {
         //assay individuals
         List<ISANode> assayNodes = graph.getNodes(NodeType.ASSAY_NODE);
 
@@ -152,6 +154,10 @@ public class Assay2OWLConverter {
                 if (assayIndividual==null){
                     assayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, dataValue);
                     assayIndividuals.put(dataValue, assayIndividual);
+
+                    //assay_file describes assay
+                    ISA2OWL.createObjectPropertyAssertion(ISA.DESCRIBES, assayFileIndividual, assayIndividual);
+
 
                     //inputs & outputs
                     //adding inputs and outputs to the assay

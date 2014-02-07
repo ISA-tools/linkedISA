@@ -12,6 +12,7 @@ package org.isatools.owl;
  */
 public class BFO {
 
+    public static final String IRI = "http://purl.obolibrary.org/bfo.owl";;
     public static final String NAMESPACE = "http://purl.obolibrary.org/obo/BFO_";
     public static final String SHORTNAME = "BFO";
 

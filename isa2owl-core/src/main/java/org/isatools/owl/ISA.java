@@ -10,6 +10,7 @@ package org.isatools.owl;
  */
 public class ISA {
 
+    public static final String IRI = "http://purl.org/isaterms/";
     public static final String NAMESPACE = "http://purl.org/isaterms/";
     public static final String SHORTNAME = "ISA";
 

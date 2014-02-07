@@ -8,10 +8,7 @@ import org.isatools.isacreator.io.importisa.ISAtabImporter;
 import org.isatools.isacreator.model.*;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
-import org.isatools.owl.DCAT;
-import org.isatools.owl.ExtendedOBIVocabulary;
-import org.isatools.owl.ISA;
-import org.isatools.owl.OWLUtil;
+import org.isatools.owl.*;
 import org.isatools.owl.reasoner.ReasonerService;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
@@ -33,10 +30,6 @@ public class ISAtab2OWLConverter {
 
     private ISAtabImporter importer = null;
     private String configDir = null;
-
-    //ontologies IRIs
-    public static String BFO_IRI = "http://purl.obolibrary.org/bfo.owl";
-    public static String OBI_IRI = "http://purl.obolibrary.org/obo/isa-obi-module.owl";
 
     private Map<Publication, OWLNamedIndividual> publicationIndividualMap = null;
     private Map<Contact, OWLNamedIndividual> contactIndividualMap = null;
@@ -81,10 +74,13 @@ public class ISAtab2OWLConverter {
 
             //only import extended-obi.owl
             //OWLImportsDeclaration importDecl = ISA2OWL.factory.getOWLImportsDeclaration(IRI.create("http://purl.obolibrary.org/obo/extended-obi.owl"));
-            OWLImportsDeclaration importDecl = ISA2OWL.factory.getOWLImportsDeclaration(IRI.create("http://purl.obolibrary.org/obo/obi.owl"));
+            OWLImportsDeclaration importDecl = ISA2OWL.factory.getOWLImportsDeclaration(IRI.create(OBI.IRI));
             ISA2OWL.manager.applyChange(new AddImport(ISA2OWL.ontology, importDecl));
 
-        //}catch(URISyntaxException e){
+            OWLImportsDeclaration isaImportDecl = ISA2OWL.factory.getOWLImportsDeclaration(IRI.create(ISA.IRI));
+            ISA2OWL.manager.applyChange(new AddImport(ISA2OWL.ontology, isaImportDecl));
+
+            //}catch(URISyntaxException e){
           //  e.printStackTrace();
         }catch(OWLOntologyCreationException e){
             e.printStackTrace();
@@ -326,8 +322,9 @@ public class ISAtab2OWLConverter {
 
         //Study File
         OWLNamedIndividual studyFileIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_FILE, study.getStudySampleFileIdentifier());
-        if (investigationFileIndividual!=null)
+        if (investigationFileIndividual!=null) {
             ISA2OWL.createObjectPropertyAssertion(ISA.POINTS_TO, investigationFileIndividual, studyFileIndividual);
+        }
 
         //Study file name
         ISA2OWL.createIndividual(Study.STUDY_FILE_NAME, study.getStudySampleFileIdentifier());
@@ -366,7 +363,7 @@ public class ISAtab2OWLConverter {
 
         Assay2OWLConverter assay2OWLConverter = new Assay2OWLConverter();
         sampleIndividualMap = assay2OWLConverter.convert(study.getStudySample(), Assay2OWLConverter.AssayTableType.STUDY, null,
-                protocolList, protocolIndividualMap,studyDesignIndividual, studyIndividual, true, null);
+                protocolList, protocolIndividualMap,studyDesignIndividual, studyIndividual, true, null, null);
 
         log.debug("ASSAYS..." + study.getAssays());
 
@@ -703,9 +700,6 @@ public class ISAtab2OWLConverter {
             assayIndividualsForProperties = new HashMap<String, Set<OWLNamedIndividual>>();
             assayIndividualsForProperties.put(ExtendedISASyntax.STUDY, Collections.singleton(studyIndividual));
 
-            //Study Assay
-            //OWLNamedIndividual studyAssayIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY, assay.getIdentifier());
-
             OWLNamedIndividual measurementIndividual = measurementTechnologyIndividuals.get(assay.getMeasurementEndpoint());
 
             if (measurementIndividual==null){
@@ -735,21 +729,22 @@ public class ISAtab2OWLConverter {
             }
 
             //Study Assay File
-            OWLNamedIndividual studyAssayFile = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY_FILE, assay.getAssayReference(), null, assayIndividualsForProperties, null);
-            ISA2OWL.addOWLClassAssertion(IRI.create(ISA.ASSAY_FILE), studyAssayFile);
+            OWLNamedIndividual studyAssayFileIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY_FILE, assay.getAssayReference(), null, assayIndividualsForProperties, null);
+            ISA2OWL.addOWLClassAssertion(IRI.create(ISA.ASSAY_FILE), studyAssayFileIndividual);
 
             //Study Assay File Name
-            ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference(), null, assayIndividualsForProperties, null);
+            ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference()+" filename ", null, assayIndividualsForProperties, null);
 
 
             //ISAtab_distribution has_part assay_file
-            ISA2OWL.createObjectPropertyAssertion(ISA.HAS_PART,isatabDistributionIndividual, studyAssayFile);
-            ISA2OWL.createObjectPropertyAssertion(ISA.POINTS_TO,studyFileIndividual, studyAssayFile);
+            ISA2OWL.createObjectPropertyAssertion(ISA.HAS_PART,isatabDistributionIndividual, studyAssayFileIndividual);
+            ISA2OWL.createObjectPropertyAssertion(ISA.POINTS_TO,studyFileIndividual, studyAssayFileIndividual);
+            ISA2OWL.createObjectPropertyAssertion(ISA.DESCRIBES, studyAssayFileIndividual, studyIndividual);
 
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
             assayConverter.convert(assay, Assay2OWLConverter.AssayTableType.ASSAY, sampleIndividualMap,
                     protocolList, protocolIndividualMap, null, studyIndividual, false,
-                    assayIndividualsForProperties);
+                    assayIndividualsForProperties, studyAssayFileIndividual);
         }
 
     }
