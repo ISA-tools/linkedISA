@@ -312,6 +312,14 @@ public class ISA2OWL {
     /**********************************************************************************************************************************************************/
 
 
+    public static void createObjectPropertyAssertion(String propertyString, OWLNamedIndividual ind1, OWLNamedIndividual ind2){
+
+        OWLObjectProperty property = ISA2OWL.factory.getOWLObjectProperty(IRI.create(propertyString));
+        OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, ind1, ind2);
+        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
+
+    }
+
     /***
      *
      * Given the property mappings and the relevant individuals, it builds the OWL constructs.

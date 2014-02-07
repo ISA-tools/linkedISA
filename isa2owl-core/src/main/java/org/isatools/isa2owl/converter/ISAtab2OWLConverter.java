@@ -8,6 +8,7 @@ import org.isatools.isacreator.io.importisa.ISAtabImporter;
 import org.isatools.isacreator.model.*;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
+import org.isatools.owl.DCAT;
 import org.isatools.owl.ExtendedOBIVocabulary;
 import org.isatools.owl.ISA;
 import org.isatools.owl.OWLUtil;
@@ -101,15 +102,34 @@ public class ISAtab2OWLConverter {
         affiliationIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
         Investigation investigation = importer.getInvestigation();
+
         //processSourceOntologies();
 
         log.debug("investigation=" + investigation);
         log.debug("Ontology selection history--->" + OntologyManager.getOntologySelectionHistory());
 
-        //create 'ISAtab dataset' individual
-        OWLNamedIndividual isatabDatasetIndividual = ISA2OWL.createIndividual(ISA.ISATAB_DATASET, investigation.getInvestigationId());
+        OWLNamedIndividual isatabDistributionIndividual = null;
+        OWLNamedIndividual investigationFileIndividual = null;
+        if (investigation.getInvestigationId()!=null && !investigation.getInvestigationId().equals("")){
 
-        convertInvestigation(investigation, isatabDatasetIndividual);
+            //create 'ISA dataset' individual
+            OWLNamedIndividual isaDatasetIndividual = ISA2OWL.createIndividual(IRI.create(ISA.ISA_DATASET), investigation.getInvestigationId());
+            //create 'ISA dataset' individual
+            isatabDistributionIndividual = ISA2OWL.createIndividual(IRI.create(ISA.ISATAB_DISTRIBUTION), investigation.getInvestigationId());
+            OWLObjectProperty distribution = ISA2OWL.factory.getOWLObjectProperty(IRI.create(DCAT.DISTRIBUTION_PROPERTY));
+            OWLObjectPropertyAssertionAxiom datasetDistribution = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(distribution, isaDatasetIndividual, isatabDistributionIndividual);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, datasetDistribution);
+
+            //ISAtab_distribution has_part investigation_file
+            investigationFileIndividual = ISA2OWL.createIndividual(IRI.create(ISA.INVESTIGATION_FILE), "i_investigation.txt investigation file");
+            OWLObjectProperty has_part = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_PART));
+            OWLObjectPropertyAssertionAxiom distributionInvestigationFile = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_part, isatabDistributionIndividual, investigationFileIndividual);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, distributionInvestigationFile);
+
+
+        }
+
+        convertInvestigation(investigation, isatabDistributionIndividual, investigationFileIndividual);
 
         Map<String,Study> studies = investigation.getStudies();
 
@@ -118,7 +138,27 @@ public class ISAtab2OWLConverter {
 
         //convert each study
         for(String key: studies.keySet()){
-            convertStudy(studies.get(key));
+
+            Study study = studies.get(key);
+
+            if (isatabDistributionIndividual == null){
+                //create 'ISA dataset' individual
+                OWLNamedIndividual isaDatasetIndividual = ISA2OWL.createIndividual(IRI.create(ISA.ISA_DATASET), study.getStudySampleFileIdentifier());
+                //create 'ISA dataset' individual
+                isatabDistributionIndividual = ISA2OWL.createIndividual(IRI.create(ISA.ISATAB_DISTRIBUTION),  study.getStudySampleFileIdentifier());
+                OWLObjectProperty distribution = ISA2OWL.factory.getOWLObjectProperty(IRI.create(DCAT.DISTRIBUTION_PROPERTY));
+                OWLObjectPropertyAssertionAxiom datasetDistribution = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(distribution, isaDatasetIndividual, isatabDistributionIndividual);
+                ISA2OWL.manager.addAxiom(ISA2OWL.ontology, datasetDistribution);
+
+            }
+
+            //ISAtab_distribution has_part study_file
+            OWLNamedIndividual studyFile = ISA2OWL.createIndividual(IRI.create(ISA.STUDY_FILE), study.getStudySampleFileIdentifier());
+            OWLObjectProperty has_part = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_PART));
+            OWLObjectPropertyAssertionAxiom distributionStudyFile = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_part, isatabDistributionIndividual, studyFile);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, distributionStudyFile);
+
+            convertStudy(study, isatabDistributionIndividual);
             //reset the map of type/individuals
             //ISA2OWL.typeIndividualMap = new HashMap<String, Set<OWLNamedIndividual>>();
 
@@ -134,8 +174,6 @@ public class ISAtab2OWLConverter {
 
         return true;
     }
-
-
 
     /**
      * TODO imports from mapping vs imports from ISAtab dataset
@@ -206,7 +244,7 @@ public class ISAtab2OWLConverter {
      *
      * @param investigation
      */
-    private void convertInvestigation(Investigation investigation, OWLNamedIndividual isatabDatasetIndividual){
+    private void convertInvestigation(Investigation investigation, OWLNamedIndividual isatabDistributionIndividual, OWLNamedIndividual investigationFileIndividual){
 
         //Investigation
         OWLNamedIndividual investigationIndividual = null;
@@ -217,10 +255,15 @@ public class ISAtab2OWLConverter {
             investigationIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.INVESTIGATION, investigation.getInvestigationId());
 
             OWLObjectProperty hasPart = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_PART));
-
-            OWLNamedIndividual investigationFileIndividual = ISA2OWL.createIndividual(ISA.INVESTIGATION_FILE, investigation.getInvestigationId());
-            OWLObjectPropertyAssertionAxiom objectPropertyAssertionAxiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasPart, isatabDatasetIndividual, investigationFileIndividual);
+            OWLObjectPropertyAssertionAxiom objectPropertyAssertionAxiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasPart, isatabDistributionIndividual, investigationFileIndividual);
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, objectPropertyAssertionAxiom);
+
+            //investigationFile describes investigation
+            OWLObjectProperty describes = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.DESCRIBES));
+            OWLObjectPropertyAssertionAxiom fileDescribesInvestigation = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(describes, investigationFileIndividual, investigationIndividual);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, fileDescribesInvestigation);
+
+
         }
 
         //Investigation identifier
@@ -272,7 +315,7 @@ public class ISAtab2OWLConverter {
      *
      * @param study
      */
-    private void convertStudy(Study study){
+    private void convertStudy(Study study, OWLNamedIndividual isatabDistributionIndividual){
         log.info("Converting study " + study.getStudyId() + "...");
 
         //Study
@@ -345,7 +388,7 @@ public class ISAtab2OWLConverter {
 
         //Study Assays
         Map<String, Assay> assayMap = study.getAssays();
-        convertAssays(assayMap, protocolList, studyIndividual);
+        convertAssays(assayMap, protocolList, studyIndividual, isatabDistributionIndividual);
 
         //dealing with all property mappings
         Map<String, List<Pair<IRI, String>>> propertyMappings = ISA2OWL.mapping.getPropertyMappings();
@@ -665,7 +708,7 @@ public class ISAtab2OWLConverter {
      *
      * @param assayMap
      */
-    private void convertAssays(Map<String, Assay> assayMap, List<Protocol> protocolList, OWLNamedIndividual studyIndividual){
+    private void convertAssays(Map<String, Assay> assayMap, List<Protocol> protocolList, OWLNamedIndividual studyIndividual, OWLNamedIndividual isatabDistributionIndividual){
 
         Map<String, Set<OWLNamedIndividual>> assayIndividualsForProperties;
 
@@ -712,6 +755,15 @@ public class ISAtab2OWLConverter {
 
             //Study Assay File Name
             ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference(), null, assayIndividualsForProperties, null);
+
+
+            //ISAtab_distribution has_part assay_file
+            OWLNamedIndividual assayFile = ISA2OWL.createIndividual(IRI.create(ISA.ASSAY_FILE), assay.getAssayReference());
+            OWLObjectProperty has_part = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_PART));
+            OWLObjectPropertyAssertionAxiom distributionAssayFile = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(has_part, isatabDistributionIndividual, assayFile);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, distributionAssayFile);
+
+
 
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
             assayConverter.convert(assay, Assay2OWLConverter.AssayTableType.ASSAY, sampleIndividualMap,
