@@ -1,12 +1,13 @@
 package org.isatools.isa2owl.converter;
 
 import org.apache.log4j.Logger;
-import org.isatools.isacreator.ontologymanager.BioPortalClient;
+import org.isatools.isacreator.configuration.Ontology;
+import org.isatools.isacreator.ontologymanager.BioPortal4Client;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -23,12 +24,9 @@ public class OntologyLookup {
     private static final Logger log = Logger.getLogger(OntologyLookup.class);
 
     //this list will be populated only once with a query to bioportal
-    private static List<org.isatools.isacreator.configuration.Ontology> allOntologies = null;
+    private static Collection<Ontology> allOntologies = null;
     private static OntologyLookupCache cache = new OntologyLookupCache();
 
-    private static void getAllOntologies(BioPortalClient client) {
-        allOntologies = client.getAllOntologies();
-    }
 
     private static String getOntologyVersion(String ontologyAbbreviation){
         log.debug("getOntologyVersion(" + ontologyAbbreviation + ")");
@@ -74,10 +72,10 @@ public class OntologyLookup {
         if (ontologySourceRefObject!=null){
 
             log.debug("Found ontology "+ontologySourceRefObject);
-            BioPortalClient client = new BioPortalClient();
+            BioPortal4Client client = new BioPortal4Client();
 
             if (allOntologies==null){
-                getAllOntologies(client);
+               allOntologies = client.getAllOntologies();
             }
 
             String ontologyVersion = getOntologyVersion(ontologySourceRefObject.getSourceName());
@@ -85,7 +83,7 @@ public class OntologyLookup {
             OntologyTerm term = null;
 
             if (ontologyVersion!=null && termAccession!=null)
-                term = client.getTermInformation(termAccession, ontologyVersion);
+                term = client.getTerm(termAccession, ontologyVersion);
 
             log.debug("term====>"+term);
             if (term!=null) {

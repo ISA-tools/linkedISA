@@ -405,13 +405,26 @@ public class ISA2OWL {
         ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
     }
 
+    /**
+     *
+     * It finds the ontology term (if the termAccession is not a purl) and builds the class assertion.
+     *
+     * @param termSourceRef
+     * @param termAccession
+     * @param individual
+     */
     public static void findOntologyTermAndAddClassAssertion(String termSourceRef, String termAccession, OWLNamedIndividual individual){
         log.debug("============findOntologyTermAndAddClassAssertion termSourceRef="+termSourceRef + " termAccession="+termAccession + " individual="+individual);
 
         if (termSourceRef==null || termAccession==null || termSourceRef.equals("") || termAccession.equals(""))
             return;
 
-        String purl = OntologyLookup.findOntologyPURL(termSourceRef, termAccession);
+        String purl = null;
+
+        if (termAccession.startsWith("http://"))
+            purl = termAccession;
+        else
+            purl = OntologyLookup.findOntologyPURL(termSourceRef, termAccession);
 
         log.debug("purl="+purl);
 
