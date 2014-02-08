@@ -35,7 +35,7 @@ Study Submission Date,,,,,,,,,,
 Study Public Release Date,,,,,,,,,,
 Study Submission Date,,,,,,,,,,
 Study Release Date,,,,,,,,,,
-Study File,,,,,,,,,,
+Study File,study file,http://purl.org/isaterms/study_file,describes,http://purl.org/isaterms/describes,study,Study
 Study File Name,,,,,,,,,,
 ,,,,,,,,,,
 Publication,,,,,,,,,,
@@ -71,7 +71,7 @@ Study Assay,,,has measurement,http://purl.org/isaterms/has_measurement,measureme
 Study Assay Measurement Type,measurement,http://purl.org/isaterms/measurement,,,,,,,,
 Study Assay Technology Type,technology,http://purl.org/isaterms/technology,,,,,,,,
 Study Assay Technology Platform,,,,,,,,,,
-Study Assay File,file,http://purl.org/isaterms/file,,,,,,,,
+Study Assay File,assay_file,http://purl.org/isaterms/assay_file,describes,http://purl.org/isaterms/describes,assay,Study Assay
 Study Assay File Name,,,,,,,,,,
 ,,,,,,,,,,
 Study Protocol,,,,,,,,,,
