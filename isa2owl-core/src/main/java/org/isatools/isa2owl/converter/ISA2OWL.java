@@ -3,7 +3,6 @@ package org.isatools.isa2owl.converter;
 import org.apache.log4j.Logger;
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.isatools.owl.reasoner.ReasonerService;
-import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
@@ -97,7 +96,7 @@ public class ISA2OWL {
      * @return
      */
     public static OWLNamedIndividual createIndividual(IRI type, String name){
-        OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI));
+        OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI, type.toString(), name));
 
         OWLAnnotation annotation =
                 ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),
@@ -175,16 +174,19 @@ public class ISA2OWL {
      */
     private static IRI createIndividualIRI(IRI baseIRI, String typeMappingLabel, String individualLabel){
 
-        if (typeMappingLabel.equals(ExtendedISASyntax.INVESTIGATION)){
+        //if (typeMappingLabel.equals(ExtendedISASyntax.INVESTIGATION)){
             //return IRIGenerator.getInvestigationIRI(baseIRI, individualLabel);
-            return IRIGenerator.getIRI(baseIRI);
-        }
-        if (typeMappingLabel.equals(ExtendedISASyntax.STUDY)){
-            return IRIGenerator.getIRI(baseIRI);
+            //return IRIGenerator.getIRI(baseIRI);
+
+        //}
+        //if (typeMappingLabel.equals(ExtendedISASyntax.STUDY)){
+            //return IRIGenerator.getIRI(baseIRI);
             //return IRIGenerator.getStudyIRI(baseIRI, individualLabel);
 
-        }
-        return IRIGenerator.getIRI(ISA2OWL.ontoIRI);
+        //}
+
+        return IRIGenerator.getIRI(baseIRI, typeMappingLabel, individualLabel);
+        //return IRIGenerator.getIRI(ISA2OWL.ontoIRI);
     }
 
     private static OWLNamedIndividual createIndividualCommon(String typeMappingLabel,
