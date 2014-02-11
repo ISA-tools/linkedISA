@@ -12,7 +12,6 @@ import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.isatools.isacreator.model.Protocol;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
-import org.isatools.owl.ExtendedOBIVocabulary;
 import org.isatools.owl.IAO;
 import org.isatools.owl.ISA;
 import org.isatools.owl.OBI;
@@ -210,7 +209,7 @@ public class Assay2OWLConverter {
                         String protocolName = (String)data[row][protocolColumn];
 
                         OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(protocolName);
-                        OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ExtendedOBIVocabulary.EXECUTES.iri);
+                        OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.EXECUTES));
                         ISA2OWL.addObjectPropertyAssertionAxiom(executes, assayIndividual, protocolIndividual);
                     }//for process node
 
@@ -389,7 +388,7 @@ public class Assay2OWLConverter {
                 }
 
                 if (protocolIndividual != null){
-                    OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(ExtendedOBIVocabulary.EXECUTES.iri);
+                    OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.EXECUTES));
                     OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,processIndividual, protocolIndividual);
                     ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
 
@@ -665,7 +664,7 @@ public class Assay2OWLConverter {
             //group membership
             for(String element: elements){
                 OWLNamedIndividual memberIndividual = sampleIndividualMap.get(element);//ISA2OWL.idIndividualMap.get(element);
-                OWLObjectProperty hasMember = ISA2OWL.factory.getOWLObjectProperty(ExtendedOBIVocabulary.HAS_MEMBER.iri);
+                OWLObjectProperty hasMember = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_MEMBER));
                 OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasMember, groupIndividual, memberIndividual);
                 ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
             }
