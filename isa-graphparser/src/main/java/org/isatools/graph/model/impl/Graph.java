@@ -42,18 +42,14 @@ public class Graph implements ISAGraph {
                     nodes.add(n);
                 }
             } else if (nodeType == NodeType.PROCESS_NODE) {
-                if (n instanceof ProcessNode && !(n instanceof AssayNode) && !(n instanceof ProtocolExecutionNode)) {
+                if (n instanceof ProcessNode && !(n instanceof ProtocolExecutionNode)) {
                     nodes.add(n);
                 }
             } else if (nodeType == NodeType.DATA_NODE) {
                 if (n instanceof DataNode) {
                     nodes.add(n);
                 }
-            } else if (nodeType == NodeType.ASSAY_NODE) {
-                if (n instanceof AssayNode) {
-                    nodes.add(n);
-                }
-            } else if (nodeType == NodeType.PROTOCOL_EXECUTION_NODE){
+            }  else if (nodeType == NodeType.PROTOCOL_EXECUTION_NODE){
                 if (n instanceof ProtocolExecutionNode) {
                     nodes.add(n);
                 }

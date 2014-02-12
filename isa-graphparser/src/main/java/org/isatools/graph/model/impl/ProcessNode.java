@@ -17,7 +17,11 @@ import java.util.List;
  */
 public class ProcessNode extends NodeWithComments implements ISAProcessNode {
 
-    public static final String REGEXP = "(Data Normalization.*)|(Data Transformation.*)";
+    public static final String REGEXP = "(.*Assay Name)|(Data Normalization.*)|(Data Transformation.*)";
+
+    //the process nodes that are related to this assay
+    private List<ProtocolExecutionNode> protocolExecutionNodes = null;
+
 
     protected List<ISANode> inputNodes = null;
     protected List<ISANode> outputNodes = null;
@@ -28,7 +32,17 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
         inputNodes = new ArrayList<ISANode>();
         outputNodes = new ArrayList<ISANode>();
         parameters = new ArrayList<ProcessParameter>();
+        protocolExecutionNodes = new ArrayList<ProtocolExecutionNode>();
     }
+
+    public List<ProtocolExecutionNode> getAssociatedProcessNodes(){
+        return protocolExecutionNodes;
+    }
+
+    public void addProtocolExecutionNodes(List<ProtocolExecutionNode> list){
+        protocolExecutionNodes.addAll(list);
+    }
+
 
     @Override
     public void addInputNode(ISANode inputNode) {
@@ -104,6 +118,12 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
         if (getOutputNodes() != null) {
             for (ISANode outputNode : getOutputNodes()) {
                 buffer.append("\t output: " + outputNode.getName()+"\n");
+            }
+        }
+
+        if (getAssociatedProcessNodes() !=null) {
+            for(ProtocolExecutionNode pen : getAssociatedProcessNodes()){
+                buffer.append("\t associated protocol execution: " + pen.getName()+"\n");
             }
         }
 

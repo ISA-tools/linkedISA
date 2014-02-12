@@ -51,7 +51,7 @@ public class GraphParser {
         ProcessNode lastProcess = null;
         NodeWithComments lastMaterialOrData = null;
         NodeWithComments lastSample = null;
-        AssayNode lastAssayNode = null;
+        List<ProtocolExecutionNode> protocolExecutionNodes = new ArrayList<ProtocolExecutionNode>();
         ISAFactorValue lastFactorValue = null;
 
         for (String column : columns) {
@@ -68,13 +68,14 @@ public class GraphParser {
                     ((ProtocolExecutionNode) lastProcess).addPerformer(performer);
                 }
 
-            } else if (column.matches(ISAProcessNode.REGEXP)) {
-                ProcessNode processNode = null;
+            } else if (column.matches(ProtocolExecutionNode.REGEXP)){
+                ProtocolExecutionNode protocolExecutionNode = new ProtocolExecutionNode(index, column);
+                protocolExecutionNodes.add(protocolExecutionNode);
 
-                if (column.matches(ProtocolExecutionNode.REGEXP))
-                    processNode = new ProtocolExecutionNode(index, column);
-                else
-                    processNode = new ProcessNode(index, column);
+                graph.addNode(protocolExecutionNode);
+
+            }else if (column.matches(ProcessNode.REGEXP)) {
+                ProcessNode processNode = new ProcessNode(index, column);
 
                 graph.addNode(processNode);
                 if (lastMaterialOrData != null) {
@@ -82,25 +83,12 @@ public class GraphParser {
                             new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
                 }
                 lastProcess = processNode;
-                if (lastAssayNode!=null)
-                    lastAssayNode.addAssociatedProcessNode(processNode);
-
-            } else if (column.matches(AssayNode.REGEXP)){
-
-                AssayNode assayNode = new AssayNode(index, column);
-                if (lastMaterialOrData != null) {
-                    assayNode.addInputNode(
-                            new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
+                if (lastProcess!=null) {
+                    lastProcess.addProtocolExecutionNodes(protocolExecutionNodes);
+                    protocolExecutionNodes =  new ArrayList<ProtocolExecutionNode>();
                 }
 
-                if (lastProcess!=null)
-                    assayNode.addAssociatedProcessNode(lastProcess);
-
-                graph.addNode(assayNode);
-                lastAssayNode = assayNode;
-
-
-            }else if (column.contains(ISADataNode.CONTAINS)){ //&& !column.matches(DataNode.REGEXP)) {
+            }  else if (column.contains(ISADataNode.CONTAINS)){ //&& !column.matches(DataNode.REGEXP)) {
                 NodeWithComments dataNode = new DataNode(index, column);
                 graph.addNode(dataNode);
                 lastMaterialOrData = dataNode;
@@ -109,10 +97,7 @@ public class GraphParser {
                     lastProcess.addOutputNode(dataNode);
                     lastProcess = null;
                 }
-                if (lastAssayNode !=null){
-                    lastAssayNode.addOutputNode(dataNode);
-                    lastAssayNode = null;
-                }
+
             } else if (column.matches(ISAMaterialAttribute.REGEXP)) {
 
                 ISAMaterialAttribute materialAttribute = new MaterialAttribute(index, column);
@@ -175,9 +160,6 @@ public class GraphParser {
                 CommentNode commentNode = new CommentNode(index, column);
                 if (lastProcess != null) {
                     lastProcess.addComment(commentNode);
-                }
-                if (lastAssayNode !=null){
-                    lastAssayNode.addComment(commentNode);
                 }
                 if (lastMaterialOrData != null){
                     lastMaterialOrData.addComment(commentNode);
