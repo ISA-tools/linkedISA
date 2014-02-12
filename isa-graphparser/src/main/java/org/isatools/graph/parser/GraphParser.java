@@ -51,26 +51,33 @@ public class GraphParser {
         ProcessNode lastProcess = null;
         NodeWithComments lastMaterialOrData = null;
         NodeWithComments lastSample = null;
-        List<ProtocolExecutionNode> protocolExecutionNodes = new ArrayList<ProtocolExecutionNode>();
         ISAFactorValue lastFactorValue = null;
+        ProtocolExecutionNode lastProtocolExecutionNode = null;
+        List<ProtocolExecutionNode> protocolExecutionNodes = new ArrayList<ProtocolExecutionNode>();
 
         for (String column : columns) {
 
             if (column.matches(Date.REGEXP)) {
                 Date date = new Date(index, column);
-                if (lastProcess!=null){
-                    ((ProtocolExecutionNode) lastProcess).addDate(date);
+                if (lastProtocolExecutionNode!=null){
+                    lastProtocolExecutionNode.addDate(date);
                 }
 
             }else if (column.matches(Performer.REGEXP)) {
                 Performer performer = new Performer(index, column);
-                if (lastProcess!=null){
-                    ((ProtocolExecutionNode) lastProcess).addPerformer(performer);
+                if (lastProtocolExecutionNode!=null){
+                    lastProtocolExecutionNode.addPerformer(performer);
                 }
 
             } else if (column.matches(ProtocolExecutionNode.REGEXP)){
                 ProtocolExecutionNode protocolExecutionNode = new ProtocolExecutionNode(index, column);
                 protocolExecutionNodes.add(protocolExecutionNode);
+                lastProtocolExecutionNode = protocolExecutionNode;
+
+                if (lastMaterialOrData != null) {
+                    protocolExecutionNode.addInputNode(
+                            new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
+                }
 
                 graph.addNode(protocolExecutionNode);
 
@@ -96,6 +103,9 @@ public class GraphParser {
                 if (lastProcess != null) {
                     lastProcess.addOutputNode(dataNode);
                     lastProcess = null;
+                } else if (lastProtocolExecutionNode !=null){
+                    lastProtocolExecutionNode.addOutputNode(dataNode);
+                    lastProtocolExecutionNode = null;
                 }
 
             } else if (column.matches(ISAMaterialAttribute.REGEXP)) {
@@ -117,11 +127,11 @@ public class GraphParser {
                 }
                 //if there is a previous material node
                 //and no process node, add a dummy process node
-                if (lastMaterialOrData !=null && lastProcess==null){
-                    ProcessNode processNode = new ProcessNode(-1, "-1");
-                    processNode.addInputNode(lastMaterialOrData);
-                    processNode.addOutputNode(materialNode);
-                    graph.addNode(processNode);
+                if (lastMaterialOrData !=null && lastProcess==null && lastProtocolExecutionNode!=null){
+                    //ProcessNode processNode = new ProcessNode(-1, "-1");
+                    //lastProtocolExecutionNode.addInputNode(lastMaterialOrData);
+                    lastProtocolExecutionNode.addOutputNode(materialNode);
+                    //graph.addNode(lastProtocolExecutionNode);
                 }
 
                 graph.addNode(materialNode);
