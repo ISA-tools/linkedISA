@@ -106,6 +106,8 @@ public class Assay2OWLConverter {
         convertDataNodes(graph);
 
         if (assayTableType == AssayTableType.ASSAY){
+            //TODO CHECK THIS SPLIT BETWEEN ASSAY AND PROCESS NODES
+
             //Assay Name *
             convertAssayNodes(protocolIndividualMap, graph, assayIndividualsForProperties, assayFileIndividual);
             //Data Transformation or Normalization Name
@@ -139,7 +141,7 @@ public class Assay2OWLConverter {
         //used to avoid repetitions of assayIndividuals
         Map<String, OWLNamedIndividual> assayIndividuals = new HashMap<String, OWLNamedIndividual>();
         for(ISANode node: assayNodes){
-            AssayNode assayNode = (AssayNode) node;
+            ProcessNode assayNode = (ProcessNode) node;
 
             int col = assayNode.getIndex();
             for(int row=1; row < data.length; row++){
@@ -156,7 +158,6 @@ public class Assay2OWLConverter {
 
                     //assay_file describes assay
                     ISA2OWL.createObjectPropertyAssertion(ISA.DESCRIBES, assayFileIndividual, assayIndividual);
-
 
                     //inputs & outputs
                     //adding inputs and outputs to the assay
@@ -202,8 +203,8 @@ public class Assay2OWLConverter {
 
 
                     //realizes o concretizes (executes) associated protocol
-                    List<ProcessNode> associatedProcessNodes = assayNode.getAssociatedProcessNodes();
-                    for(ProcessNode processNode: associatedProcessNodes){
+                    List<ProtocolExecutionNode> associatedProcessNodes = assayNode.getAssociatedProcessNodes();
+                    for(ProtocolExecutionNode processNode: associatedProcessNodes){
 
                         int protocolColumn = processNode.getIndex();
                         String protocolName = (String)data[row][protocolColumn];
@@ -296,7 +297,8 @@ public class Assay2OWLConverter {
                 //add comments
                 for(CommentNode comment: processNode.getComments()){
                     int comment_col = comment.getIndex();
-                    ISA2OWL.addComment( comment.getName() + ":" + ((String) data[processRow][comment_col]),
+                    if (processIndividual !=null)
+                        ISA2OWL.addComment( comment.getName() + ":" + ((String) data[processRow][comment_col]),
                                         processIndividual.getIRI() );
                 }
 
