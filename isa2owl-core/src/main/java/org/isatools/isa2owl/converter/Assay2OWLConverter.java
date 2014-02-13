@@ -27,7 +27,7 @@ import java.util.*;
  * Date: 07/11/2012
  * Time: 16:11
  *
- * Converts the assay representation into OWL.
+ * Converts the assay representation into RDF/OWL.
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
@@ -46,6 +46,7 @@ public class Assay2OWLConverter {
     private Map<String, OWLNamedIndividual> processIndividualMap = new HashMap<String, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> materialAttributeIndividualMap = new HashMap<String, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> factorValueIndividuals = new HashMap<String, OWLNamedIndividual>();
+    private Map<String, OWLNamedIndividual> dataNodesIndividuals = new HashMap<String, OWLNamedIndividual>();
     private Set<OWLNamedIndividual> assayFileSampleIndividualSet = null;
 
     public Assay2OWLConverter(){
@@ -105,6 +106,8 @@ public class Assay2OWLConverter {
         }
         convertDataNodes(graph);
 
+        convertProtocolExecutionNodes(protocolList, protocolIndividualMap, graph, assayTableType);
+
         if (assayTableType == AssayTableType.ASSAY){
             //TODO CHECK THIS SPLIT BETWEEN ASSAY AND PROCESS NODES
 
@@ -113,8 +116,6 @@ public class Assay2OWLConverter {
             //Data Transformation or Normalization Name
             convertProcessNodes(graph);
         }
-
-        convertProtocolExecutionNodes(protocolList, protocolIndividualMap, graph, assayTableType);
 
         if (convertGroups){
             convertGroups(studyDesignIndividual,sampleIndividualMap);
@@ -274,6 +275,14 @@ public class Assay2OWLConverter {
 
                 processNodeIndividuals.put(individualType, processIndividual);
 
+                //TODO
+                //RULE: if there is only one protocol REF associated with a 'data transformation' or 'normalization' node,
+                //the data transformation can take the same type as the protocol ref
+                List<ProtocolExecutionNode> associatedNodes = processNode.getAssociatedProcessNodes();
+                if (associatedNodes.size()==1){
+
+                }
+
                 //inputs & outputs
                 List<ISANode> inputs = processNode.getInputNodes();
                 for(ISANode input: inputs){
@@ -302,6 +311,7 @@ public class Assay2OWLConverter {
                                         processIndividual.getIRI() );
                 }
 
+                //TODO revise these mappings conversion
                 Map<String, List<Pair<IRI,String>>> protocolREFmapping = ISA2OWL.mapping.getProtocolREFMappings();
                 ISA2OWL.convertProperties(protocolREFmapping, processNodeIndividuals);
 
@@ -369,17 +379,16 @@ public class Assay2OWLConverter {
                         ISA2OWL.addComment( comment.getName() + ":" + ((String)data[processRow][comment_col]), protocolIndividual.getIRI());
                     }
 
-
                     //adding Study Protocol
                     protocolREFIndividuals.put(ExtendedISASyntax.STUDY_PROTOCOL, protocolIndividual);
                 }
-
 
                 OWLNamedIndividual processIndividual = processIndividualMap.get(protocolExecutionValue);
 
                 //material processing as the execution of the protocol
                 if (processIndividual==null){
-                    processIndividual = ISA2OWL.createIndividual(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, protocolExecutionValue);
+                    processIndividual = ISA2OWL.createIndividual(assayTableType == AssayTableType.STUDY ?
+                            ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, protocolExecutionValue);
                     processIndividualMap.put(protocolExecutionValue, processIndividual);
                 }
 
@@ -403,7 +412,8 @@ public class Assay2OWLConverter {
                     }//process node attributes not null
                 }
 
-                protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, processIndividual);
+                protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ?
+                        ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, processIndividual);
 
                 //inputs & outputs
                 List<ISANode> inputs = processNode.getInputNodes();
@@ -411,7 +421,8 @@ public class Assay2OWLConverter {
                     int inputCol = input.getIndex();
 
                     if (!data[processRow][inputCol].toString().equals("")){
-                        protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF_INPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_INPUT, individualMatrix[processRow][inputCol]);
+                        protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ?
+                                ExtendedISASyntax.STUDY_PROTOCOL_REF_INPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_INPUT, individualMatrix[processRow][inputCol]);
                     }
 
                 }//for inputs
@@ -420,7 +431,8 @@ public class Assay2OWLConverter {
                 for(ISANode output: outputs){
                     int outputCol = output.getIndex();
                     if (!data[processRow][outputCol].toString().equals("")){
-                        protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF_OUTPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_OUTPUT, individualMatrix[processRow][outputCol]);
+                        protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ?
+                                ExtendedISASyntax.STUDY_PROTOCOL_REF_OUTPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_OUTPUT, individualMatrix[processRow][outputCol]);
                     }
 
                 }//for outputs
@@ -432,6 +444,13 @@ public class Assay2OWLConverter {
         }//processNode
     }
 
+    /**
+     *
+     * Converts the DATA_NODES from the graph (all the 'File' elements). The file name works as a key and only one individual is created for each file.
+     *
+     *
+     * @param graph
+     */
     private void convertDataNodes(Graph graph) {
         OWLNamedIndividual dataNodeIndividual = null;
 
@@ -451,7 +470,11 @@ public class Assay2OWLConverter {
                     continue;
 
                 //Data Node
-                dataNodeIndividual = ISA2OWL.createIndividual(dataNode.getName(), dataValue, dataValue);
+                dataNodeIndividual = dataNodesIndividuals.get(dataValue);
+                if (dataNodeIndividual == null){
+                    dataNodeIndividual = ISA2OWL.createIndividual(dataNode.getName(), dataValue, dataValue);
+                    dataNodesIndividuals.put(dataValue, dataNodeIndividual);
+                }
                 individualMatrix[row][col] = dataNodeIndividual;
             }
         }

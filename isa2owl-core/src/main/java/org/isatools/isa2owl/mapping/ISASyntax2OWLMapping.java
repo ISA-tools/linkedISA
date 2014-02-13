@@ -123,18 +123,14 @@ public class ISASyntax2OWLMapping {
         }
 
         for(String candidate: candidates){
-
             List<Pair<IRI, String>> list = map.get(candidate);
             for(Pair<IRI, String> pair: list){
-
                 Pattern pObject = Pattern.compile(regexObject);
                 Matcher m = pObject.matcher(pair.getSecond());
                 if (m.matches()){
                     return pair.getFirst();
                 }
             }
-
-
         }
         return null;
     }
