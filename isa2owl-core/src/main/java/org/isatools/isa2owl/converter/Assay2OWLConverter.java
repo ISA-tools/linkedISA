@@ -270,6 +270,8 @@ public class Assay2OWLConverter {
 
                 if (processIndividual==null){
                     processIndividual = ISA2OWL.createIndividual(individualType, processNodeValue);
+                    if (processIndividual==null)
+                        continue;
                     processIndividualMap.put(processNodeValue, processIndividual);
                 }
 
@@ -284,21 +286,38 @@ public class Assay2OWLConverter {
                 }
 
                 //inputs & outputs
+                OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_INPUT));
                 List<ISANode> inputs = processNode.getInputNodes();
                 for(ISANode input: inputs){
                     int inputCol = input.getIndex();
 
                     if (!data[processRow][inputCol].toString().equals("")){
-                        processNodeIndividuals.put(individualType, individualMatrix[processRow][inputCol]);
+
+                        if (individualMatrix[processRow][inputCol]==null){
+                            System.out.println("individualMatrix[row][inputCol]==null!!!! " + individualMatrix[processRow][inputCol] == null + "  row=" + processRow + " inputCol=" + inputCol);
+                        }else{
+                            processNodeIndividuals.put(individualType, individualMatrix[processRow][inputCol]);
+                            OWLNamedIndividual inputIndividual = individualMatrix[processRow][inputCol];
+                            if (inputIndividual != null )
+                                ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_input, processIndividual, inputIndividual);
+                        }
                     }
+
 
                 }//for inputs
 
                 List<ISANode> outputs = processNode.getOutputNodes();
+                OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_OUTPUT));
                 for(ISANode output: outputs){
                     int outputCol = output.getIndex();
                     if (!data[processRow][outputCol].toString().equals("")){
-                        processNodeIndividuals.put(individualType, individualMatrix[processRow][outputCol]);
+
+                        if (individualMatrix[processRow][outputCol]!=null){
+                            ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_output, processIndividual, individualMatrix[processRow][outputCol]);
+                        }else{
+                            System.out.println("individualMatrix[row][outputCol es null!!!! "+ individualMatrix[processRow][outputCol]+ "  row="+processRow+" outputCol="+outputCol);
+                        }
+
                     }
 
                 }//for outputs
