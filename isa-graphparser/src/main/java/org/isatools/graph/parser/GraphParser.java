@@ -165,6 +165,10 @@ public class GraphParser {
                     ((ProcessNode)graph.getNode(lastProcess.getIndex())).addParameter(parameter);
                 }
 
+                if (lastProtocolExecutionNode!=null){
+                    ((ProcessNode)graph.getNode(lastProtocolExecutionNode.getIndex())).addParameter(parameter);
+                }
+
             } else if (column.matches(CommentNode.REGEXP)){
 
                 CommentNode commentNode = new CommentNode(index, column);
