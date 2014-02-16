@@ -54,7 +54,7 @@
         <dependency>
             <groupId>org.isatools</groupId>
             <artifactId>ISAcreator</artifactId>
-            <version>1.7.2</version>
+            <version>1.7.6</version>
         </dependency>
 
         <dependency>

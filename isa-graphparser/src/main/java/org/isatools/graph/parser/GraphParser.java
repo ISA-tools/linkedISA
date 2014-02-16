@@ -161,10 +161,6 @@ public class GraphParser {
 
                 ProcessParameter parameter = new ProcessParameter(index, column);
 
-                if (lastProcess!=null){
-                    ((ProcessNode)graph.getNode(lastProcess.getIndex())).addParameter(parameter);
-                }
-
                 if (lastProtocolExecutionNode!=null){
                     ((ProcessNode)graph.getNode(lastProtocolExecutionNode.getIndex())).addParameter(parameter);
                 }
