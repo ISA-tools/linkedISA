@@ -468,7 +468,7 @@ public class ISAtab2OWLConverter {
     }
 
     /**
-     * Converts contact information into OWL
+     * Converts contact information into RDF
      *
      * @param contactsList
      * @param individual this is either an Investigation individual or a Study individual
@@ -488,8 +488,20 @@ public class ISAtab2OWLConverter {
 
             if (contactIndividual==null){
 
+                String studyPersonREF = contact.getComment("Comment[Study Person REF]");
+
                 //Study Person
-                contactIndividual = ISA2OWL.createIndividual(investigation ? ExtendedISASyntax.INVESTIGATION_PERSON : ExtendedISASyntax.STUDY_PERSON, contact.getIdentifier(), contactIndividuals);
+                if (studyPersonREF!=null && !studyPersonREF.equals("")) {
+
+                    contactIndividual = ISA2OWL.createIndividual(investigation ? ExtendedISASyntax.INVESTIGATION_PERSON : ExtendedISASyntax.STUDY_PERSON,
+                            contact.getIdentifier(),
+                            studyPersonREF,
+                            null,
+                            IRI.create(studyPersonREF));
+
+                } else {
+                    contactIndividual = ISA2OWL.createIndividual(investigation ? ExtendedISASyntax.INVESTIGATION_PERSON : ExtendedISASyntax.STUDY_PERSON, contact.getIdentifier(), contactIndividuals);
+                }
                 contactIndividualMap.put(contact, contactIndividual);
 
                 //Study Person Last Name

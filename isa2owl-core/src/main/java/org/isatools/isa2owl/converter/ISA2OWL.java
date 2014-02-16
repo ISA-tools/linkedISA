@@ -173,20 +173,7 @@ public class ISA2OWL {
      * @return
      */
     private static IRI createIndividualIRI(IRI baseIRI, String typeMappingLabel, String individualLabel){
-
-        //if (typeMappingLabel.equals(ExtendedISASyntax.INVESTIGATION)){
-            //return IRIGenerator.getInvestigationIRI(baseIRI, individualLabel);
-            //return IRIGenerator.getIRI(baseIRI);
-
-        //}
-        //if (typeMappingLabel.equals(ExtendedISASyntax.STUDY)){
-            //return IRIGenerator.getIRI(baseIRI);
-            //return IRIGenerator.getStudyIRI(baseIRI, individualLabel);
-
-        //}
-
         return IRIGenerator.getIRI(baseIRI, typeMappingLabel, individualLabel);
-        //return IRIGenerator.getIRI(ISA2OWL.ontoIRI);
     }
 
     private static OWLNamedIndividual createIndividualCommon(String typeMappingLabel,
