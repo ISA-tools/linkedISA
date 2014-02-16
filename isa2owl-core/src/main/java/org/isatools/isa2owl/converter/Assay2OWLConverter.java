@@ -456,6 +456,23 @@ public class Assay2OWLConverter {
 
                 }//for outputs
 
+                //parameters
+                List<ProcessParameter> parameters = processNode.getParameters();
+                for(ProcessParameter parameter: parameters){
+                    int parameterCol = parameter.getIndex();
+
+                    if (!data[processRow][parameterCol].toString().equals("")){
+
+                        OWLNamedIndividual parameterIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.PARAMETER_VALUE.name, data[processRow][parameterCol].toString());
+
+                        individualMatrix[processRow][parameterCol] = parameterIndividual;
+
+                        protocolREFIndividuals.put(GeneralFieldTypes.PARAMETER_VALUE.name, individualMatrix[processRow][parameterCol]);
+                    }
+
+                }
+
+
                 Map<String, List<Pair<IRI,String>>> protocolREFmapping = ISA2OWL.mapping.getProtocolREFMappings();
                 ISA2OWL.convertProperties(protocolREFmapping, protocolREFIndividuals);
             }//processRow

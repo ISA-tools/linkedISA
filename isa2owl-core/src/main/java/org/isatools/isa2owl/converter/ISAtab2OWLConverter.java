@@ -646,6 +646,7 @@ public class ISAtab2OWLConverter {
             //Study Protocol Version
             ISA2OWL.createIndividual(Protocol.PROTOCOL_VERSION, protocol.getProtocolVersion(), protocolIndividuals);
 
+            //Study Protocol Parameters
             String[] parameterNames = protocol.getProtocolParameterNames();
             String[] termAccessions = protocol.getProtocolParameterNameAccessions();
             String[] termSources = protocol.getProtocolParameterNameSources();
