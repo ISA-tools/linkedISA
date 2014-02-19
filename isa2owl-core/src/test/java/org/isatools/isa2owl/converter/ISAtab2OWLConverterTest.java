@@ -47,6 +47,10 @@ public class ISAtab2OWLConverterTest {
         //System.out.println("isa_isa_mapping_url="+isa_isa_mapping_url);
         parser.parseCSVMappingFile(isa_isa_mapping_url.toURI().getRawPath().toString());
 
+        URL isa_prov_o_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_PROV_O_MAPPING_FILENAME);
+        //System.out.println("isa_isa_mapping_url="+isa_isa_mapping_url);
+        parser.parseCSVMappingFile(isa_prov_o_mapping_url.toURI().getRawPath().toString());
+
         mapping = parser.getMapping();
         //System.out.println("MAPPING-----");
         //System.out.println(mapping);

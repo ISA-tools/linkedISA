@@ -56,7 +56,9 @@ public class ISA2OWLMappingParser {
 		return mapping;
 	}
 
-    public void parseCSVMappingFile(String csvFilename) {//throws FileNotFoundException{
+    public void parseCSVMappingFile(String csvFilename) {
+
+        mapping.addMappingFile(csvFilename.substring(csvFilename.lastIndexOf('/')+1));
 
 		try {
 		CSVReader csvReader = new CSVReader(new FileReader(csvFilename));

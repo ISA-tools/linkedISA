@@ -8,7 +8,10 @@ import org.isatools.isacreator.io.importisa.ISAtabImporter;
 import org.isatools.isacreator.model.*;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
-import org.isatools.owl.*;
+import org.isatools.owl.DCAT;
+import org.isatools.owl.ISA;
+import org.isatools.owl.OBI;
+import org.isatools.owl.OWLUtil;
 import org.isatools.owl.reasoner.ReasonerService;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
@@ -53,6 +56,19 @@ public class ISAtab2OWLConverter {
 
 
     /**
+     * Retrieves all the IRIs minted when creating the ISA-OWL representation
+     *
+     * @return
+     */
+    public Map<String, OWLNamedIndividual> getMintedIRIs(){
+
+        for(String id: ISA2OWL.idIndividualMap.keySet()){
+
+        }
+       return null;
+    }
+
+    /**
      *
      * Method to convert the ISA-TAB data set into RDF/OWL.
      *
@@ -90,7 +106,9 @@ public class ISAtab2OWLConverter {
         Investigation investigation = importer.getInvestigation();
 
         OWLNamedIndividual isatabDistributionIndividual = null;
+        OWLNamedIndividual isaowlDistributionIndividual = null;
         OWLNamedIndividual investigationFileIndividual = null;
+
         if (investigation.getInvestigationId()!=null && !investigation.getInvestigationId().equals("")){
 
             //create 'ISA dataset' individual
@@ -98,6 +116,9 @@ public class ISAtab2OWLConverter {
             //create 'ISA dataset' individual
             isatabDistributionIndividual = ISA2OWL.createIndividual(IRI.create(ISA.ISATAB_DISTRIBUTION), investigation.getInvestigationId());
             ISA2OWL.createObjectPropertyAssertion(DCAT.DISTRIBUTION_PROPERTY,isaDatasetIndividual,isatabDistributionIndividual);
+
+            isaowlDistributionIndividual = ISA2OWL.createIndividual(IRI.create(ISA.ISAOWL_DISTRIBUTION), investigation.getInvestigationId());
+            ISA2OWL.createObjectPropertyAssertion(DCAT.DISTRIBUTION_PROPERTY,isaDatasetIndividual,isaowlDistributionIndividual);
 
             //ISAtab_distribution has_part investigation_file
             investigationFileIndividual = ISA2OWL.createIndividual(IRI.create(ISA.INVESTIGATION_FILE), "i_investigation.txt investigation file");
@@ -123,14 +144,28 @@ public class ISAtab2OWLConverter {
                 isatabDistributionIndividual = ISA2OWL.createIndividual(IRI.create(ISA.ISATAB_DISTRIBUTION),  study.getStudySampleFileIdentifier());
                 ISA2OWL.createObjectPropertyAssertion(DCAT.DISTRIBUTION_PROPERTY,isaDatasetIndividual, isatabDistributionIndividual);
 
+                isaowlDistributionIndividual = ISA2OWL.createIndividual(IRI.create(ISA.ISAOWL_DISTRIBUTION),  study.getStudySampleFileIdentifier());
+                ISA2OWL.createObjectPropertyAssertion(DCAT.DISTRIBUTION_PROPERTY,isaDatasetIndividual, isaowlDistributionIndividual);
+
                 //ISAtab_distribution has_part investigation_file
                 investigationFileIndividual = ISA2OWL.createIndividual(IRI.create(ISA.INVESTIGATION_FILE), "i_investigation.txt");
                 ISA2OWL.createObjectPropertyAssertion(ISA.HAS_PART,isatabDistributionIndividual,investigationFileIndividual);
             }
 
-            //ISAtab_distribution has_part study_file
-            //OWLNamedIndividual studyFile = ISA2OWL.createIndividual(IRI.create(ISA.STUDY_FILE), study.getStudySampleFileIdentifier());
-            //ISA2OWL.createObjectPropertyAssertion(ISA.HAS_PART,isatabDistributionIndividual, studyFile);
+
+            if (isaowlDistributionIndividual!=null){
+
+                //add comment about generation with ISA2OL
+                ISA2OWL.addComment("Created with ISA2OWL converter",isaowlDistributionIndividual.getIRI());
+
+
+                //add comments about mappings used
+                Set<String> mappingFiles = ISA2OWL.mapping.getMappingFiles();
+                for(String mappingFile: mappingFiles){
+                    ISA2OWL.addComment("Using mapping file "+mappingFile,isaowlDistributionIndividual.getIRI());
+                }
+
+            }
 
             convertStudy(study, investigationFileIndividual, isatabDistributionIndividual);
 
@@ -747,6 +782,9 @@ public class ISAtab2OWLConverter {
             ISA2OWL.createObjectPropertyAssertion(ISA.POINTS_TO, investigationFileIndividual, studyAssayFileIndividual);
             ISA2OWL.createObjectPropertyAssertion(ISA.POINTS_TO, studyFileIndividual, studyAssayFileIndividual);
             ISA2OWL.createObjectPropertyAssertion(ISA.DESCRIBES, studyAssayFileIndividual, studyIndividual);
+
+            //ISAowl_distribution
+
 
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
             assayConverter.convert(assay, Assay2OWLConverter.AssayTableType.ASSAY, sampleIndividualMap,

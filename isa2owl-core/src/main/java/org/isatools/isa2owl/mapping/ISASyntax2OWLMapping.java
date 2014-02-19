@@ -24,6 +24,8 @@ public class ISASyntax2OWLMapping {
 
     public static String SEPARATOR_REGEXPR = "\\|";
     public static String CHAIN_PROPERTY = "chain";
+
+    Set<String> mappingFiles = null;
 	
 	Map<String,IRI> sourceOntoIRIs = null;
 
@@ -45,6 +47,7 @@ public class ISASyntax2OWLMapping {
 	}
 	
 	private void init(){
+        mappingFiles = new HashSet<String>();
 		sourceOntoIRIs = new HashMap<String,IRI>();
 		typeMappings = new HashMap<String, Set<IRI>>();
 		propertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
@@ -56,6 +59,14 @@ public class ISASyntax2OWLMapping {
         publicationPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
 		
 	}
+
+    public void addMappingFile(String mappingFile){
+        mappingFiles.add(mappingFile);
+    }
+
+    public Set<String> getMappingFiles(){
+        return mappingFiles;
+    }
 
 	/**
 	 * 
