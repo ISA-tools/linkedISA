@@ -97,7 +97,7 @@ public class ISA2OWL {
      * @return
      */
     public static OWLNamedIndividual createIndividual(IRI type, String name){
-        OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI, type.toString(), name));
+        OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI, type.toString()));
 
         OWLAnnotation annotation =
                 ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),
@@ -174,7 +174,7 @@ public class ISA2OWL {
      * @return
      */
     private static IRI createIndividualIRI(IRI baseIRI, String typeMappingLabel, String individualLabel){
-        return IRIGenerator.getIRI(baseIRI, typeMappingLabel, individualLabel);
+        return IRIGenerator.getIRI(baseIRI, typeMappingLabel);
     }
 
     private static OWLNamedIndividual createIndividualCommon(String typeMappingLabel,

@@ -21,7 +21,7 @@ public class IRIGenerator {
     public IRIGenerator(){
     }
 
-    public static IRI getIRI(IRI baseIRI, String type, String id){
+    public static IRI getIRI(IRI baseIRI, String type){
          //return IRI.create(baseIRI+UUID.randomUUID().toString());
 
         if (type.contains("http"))
