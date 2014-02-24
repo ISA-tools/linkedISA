@@ -34,6 +34,7 @@ public class ISA2OWL {
     //TODO move this to the mapping file so that the conversion is independent of particular resources, but the dependency is kept in the mapping
     //TODO check if this is possible given how 'Characteristics' are converted
 
+    public static boolean groupsAtStudyLevel = false;
     public static final String STUDY_DESIGN_SUFFIX = " study design";
     public static final String STUDY_DESIGN_EXECUTION_SUFFIX = " study design execution";
     public static final String TITLE_SUFFIX = " title";

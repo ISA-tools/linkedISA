@@ -118,7 +118,7 @@ public class Assay2OWLConverter {
         }
 
         if (convertGroups){
-            convertGroups(studyDesignIndividual,sampleIndividualMap);
+            ISA2OWL.groupsAtStudyLevel = convertGroups(studyDesignIndividual,sampleIndividualMap);
         }
         return sampleIndividualMap;
     }
@@ -712,19 +712,20 @@ public class Assay2OWLConverter {
         ISA2OWL.convertPropertiesMultipleIndividuals(materialNodePropertyMapping, materialNodeAndAttributesIndividuals);
     }
 
-    private void convertGroups(OWLNamedIndividual studyDesignIndividual, Map<String, OWLNamedIndividual> sampleIndividualMap){
+    private boolean convertGroups(OWLNamedIndividual studyDesignIndividual, Map<String, OWLNamedIndividual> sampleIndividualMap){
         //Treatment groups
         Map<String, Set<String>> groups = graphParser.getGroups();
+        boolean groupsCreated = false;
 
         for(String group : groups.keySet()){
 
             Set<String> elements = groups.get(group);
-
+            groupsCreated = true;
             OWLNamedIndividual groupIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_GROUP, group);
 
             //group membership
             for(String element: elements){
-                OWLNamedIndividual memberIndividual = sampleIndividualMap.get(element);//ISA2OWL.idIndividualMap.get(element);
+                OWLNamedIndividual memberIndividual = sampleIndividualMap.get(element);
                 OWLObjectProperty hasMember = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_MEMBER));
                 OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasMember, groupIndividual, memberIndividual);
                 ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
@@ -750,6 +751,7 @@ public class Assay2OWLConverter {
 //            OWLClassAssertionAxiom classAssertionAxiom = ISA2OWL.factory.getOWLClassAssertionAxiom(someSize, groupIndividual);
 //            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, classAssertionAxiom);
         }
+        return groupsCreated;
     }
 
     private boolean isOrganism(String source, String accession){

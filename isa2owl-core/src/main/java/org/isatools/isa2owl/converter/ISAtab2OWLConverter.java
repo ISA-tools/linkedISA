@@ -42,6 +42,7 @@ public class ISAtab2OWLConverter {
     private Map<String, OWLNamedIndividual> affiliationIndividualMap = null;
     private Map<String, String> factorsMap = null;
 
+
     /**
      * Constructor
      *
@@ -392,7 +393,7 @@ public class ISAtab2OWLConverter {
 
         //Study Assays
         Map<String, Assay> assayMap = study.getAssays();
-        convertAssays(assayMap, protocolList, studyIndividual, studyFileIndividual, isatabDistributionIndividual, investigationFileIndividual);
+        convertAssays(assayMap, protocolList, studyIndividual, studyDesignIndividual, studyFileIndividual, isatabDistributionIndividual, investigationFileIndividual);
 
         //dealing with all property mappings
         Map<String, List<Pair<IRI, String>>> propertyMappings = ISA2OWL.mapping.getPropertyMappings();
@@ -728,6 +729,7 @@ public class ISAtab2OWLConverter {
     private void convertAssays(Map<String, Assay> assayMap,
                                List<Protocol> protocolList,
                                OWLNamedIndividual studyIndividual,
+                               OWLNamedIndividual studyDesignIndividual,
                                OWLNamedIndividual studyFileIndividual,
                                OWLNamedIndividual isatabDistributionIndividual,
                                OWLNamedIndividual investigationFileIndividual){
@@ -771,11 +773,9 @@ public class ISAtab2OWLConverter {
 
             //Study Assay File
             OWLNamedIndividual studyAssayFileIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_ASSAY_FILE, assay.getAssayReference(), null, assayIndividualsForProperties, null);
-            //ISA2OWL.addOWLClassAssertion(IRI.create(ISA.ASSAY_FILE), studyAssayFileIndividual);
 
             //Study Assay File Name
             ISA2OWL.createIndividual(Assay.ASSAY_REFERENCE, assay.getAssayReference()+" filename ", null, assayIndividualsForProperties, null);
-
 
             //ISAtab_distribution has_part assay_file
             ISA2OWL.createObjectPropertyAssertion(ISA.HAS_PART,isatabDistributionIndividual, studyAssayFileIndividual);
@@ -785,10 +785,9 @@ public class ISAtab2OWLConverter {
 
             //ISAowl_distribution
 
-
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
             assayConverter.convert(assay, Assay2OWLConverter.AssayTableType.ASSAY, sampleIndividualMap,
-                    protocolList, protocolIndividualMap, null, studyIndividual, false,
+                    protocolList, protocolIndividualMap, studyDesignIndividual, studyIndividual, ISA2OWL.groupsAtStudyLevel ? false : true,
                     assayIndividualsForProperties, studyAssayFileIndividual);
         }
 
