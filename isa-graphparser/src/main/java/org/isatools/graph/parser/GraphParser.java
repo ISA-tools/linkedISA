@@ -269,7 +269,7 @@ public class GraphParser {
     }
 
     private void extractGroups() {
-        groups = getDataGroupsWithTypeByColumn(assayTable, "Factor", false, true);
+        groups = getDataGroupsWithTypeByColumn(assayTable, "Factor", false, false);
     }
 
     public Map<String, Set<String>> getGroups() {
