@@ -535,6 +535,8 @@ public class ISAtab2OWLConverter {
                             null,
                             IRI.create(studyPersonREF));
 
+                    contactIndividuals.put(investigation ? ExtendedISASyntax.INVESTIGATION_PERSON : ExtendedISASyntax.STUDY_PERSON, contactIndividual);
+
                 } else {
                     contactIndividual = ISA2OWL.createIndividual(investigation ? ExtendedISASyntax.INVESTIGATION_PERSON : ExtendedISASyntax.STUDY_PERSON, contact.getIdentifier(), contactIndividuals);
                 }
