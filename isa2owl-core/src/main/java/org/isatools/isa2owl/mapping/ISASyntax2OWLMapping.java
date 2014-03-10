@@ -3,6 +3,7 @@ package org.isatools.isa2owl.mapping;
 import org.apache.log4j.Logger;
 import org.isatools.graph.model.ISAMaterialAttribute;
 import org.isatools.graph.model.ISAMaterialNode;
+import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.isatools.isacreator.model.InvestigationPublication;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
@@ -224,7 +225,8 @@ public class ISASyntax2OWLMapping {
         }
 
         if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL_REF.toString())
-                || subject.startsWith(ExtendedISASyntax.ASSAY_PROTOCOL_REF.toString())){
+                || subject.startsWith(ExtendedISASyntax.ASSAY_PROTOCOL_REF.toString())
+                || subject.startsWith(GeneralFieldTypes.PARAMETER_VALUE.name)){
             protocolREFPropertyMappings.put(subject, predobjs);
         }
 
