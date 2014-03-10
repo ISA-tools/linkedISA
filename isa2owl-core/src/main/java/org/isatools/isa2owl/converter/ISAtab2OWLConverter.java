@@ -1,7 +1,6 @@
 package org.isatools.isa2owl.converter;
 
 import org.apache.log4j.Logger;
-import org.isatools.graph.model.impl.MaterialNode;
 import org.isatools.isa2owl.mapping.ISASyntax2OWLMapping;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.io.importisa.ISAtabImporter;
@@ -64,7 +63,7 @@ public class ISAtab2OWLConverter {
     public Map<String, OWLNamedIndividual> getMintedIRIs(){
 
         for(String id: ISA2OWL.idIndividualMap.keySet()){
-
+            System.out.println( id + "\t" +ISA2OWL.idIndividualMap.get(id));
         }
        return null;
     }
@@ -396,55 +395,55 @@ public class ISAtab2OWLConverter {
         convertAssays(assayMap, protocolList, studyIndividual, studyDesignIndividual, studyFileIndividual, isatabDistributionIndividual, investigationFileIndividual);
 
         //dealing with all property mappings
-        Map<String, List<Pair<IRI, String>>> propertyMappings = ISA2OWL.mapping.getPropertyMappings();
-        for(String subjectString: propertyMappings.keySet()){
-
-            //skip Study Person properties as they are dealt with in the Contact mappings
-            if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON) ||  subjectString.startsWith(ExtendedISASyntax.INVESTIGATION_PERSON) ||
-                    subjectString.startsWith(ExtendedISASyntax.STUDY_PROTOCOL) ||
-                    subjectString.startsWith(GeneralFieldTypes.PROTOCOL_REF.toString()) ||
-                    subjectString.matches(MaterialNode.REGEXP) ||
-                    subjectString.startsWith(ExtendedISASyntax.STUDY_ASSAY) ||
-                    subjectString.startsWith(ExtendedISASyntax.INVESTIGATION_PUBLICATION) ||
-                    subjectString.startsWith(ExtendedISASyntax.STUDY_PUBLICATION) ||
-                    subjectString.startsWith(ExtendedISASyntax.PUBLICATION) ||
-                    subjectString.startsWith(InvestigationPublication.PUBMED_ID))
-                continue;
-
-            List<Pair<IRI, String>> predicateObjects = propertyMappings.get(subjectString);
-            Set<OWLNamedIndividual> subjects = ISA2OWL.typeIndividualMap.get(subjectString);
-
-            if (subjects==null)
-                continue;
-
-            for(OWLIndividual subject: subjects){
-
-                for(Pair<IRI,String> predicateObject: predicateObjects){
-
-                    IRI predicate = predicateObject.getFirst();
-
-                    OWLObjectProperty property = ISA2OWL.factory.getOWLObjectProperty(predicate);
-
-                    String objectString = predicateObject.getSecond();
-
-
-                    Set<OWLNamedIndividual> objects = ISA2OWL.typeIndividualMap.get(objectString);
-
-                    if (objects==null)
-                        continue;
-
-                    for(OWLNamedIndividual object: objects){
-
-                        if (subject==null || object==null || property==null){
-                            log.debug("At least one is null...");
-                        }else{
-                            OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
-                            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
-                        }
-                    }//for
-                } //for
-            } //for
-        }
+//        Map<String, List<Pair<IRI, String>>> propertyMappings = ISA2OWL.mapping.getPropertyMappings();
+//        for(String subjectString: propertyMappings.keySet()){
+//
+//            //skip Study Person properties as they are dealt with in the Contact mappings
+//            if (subjectString.startsWith(ExtendedISASyntax.STUDY_PERSON) ||  subjectString.startsWith(ExtendedISASyntax.INVESTIGATION_PERSON) ||
+//                    subjectString.startsWith(ExtendedISASyntax.STUDY_PROTOCOL) ||
+//                    subjectString.startsWith(GeneralFieldTypes.PROTOCOL_REF.toString()) ||
+//                    subjectString.matches(MaterialNode.REGEXP) ||
+//                    subjectString.startsWith(ExtendedISASyntax.STUDY_ASSAY) ||
+//                    subjectString.startsWith(ExtendedISASyntax.INVESTIGATION_PUBLICATION) ||
+//                    subjectString.startsWith(ExtendedISASyntax.STUDY_PUBLICATION) ||
+//                    subjectString.startsWith(ExtendedISASyntax.PUBLICATION) ||
+//                    subjectString.startsWith(InvestigationPublication.PUBMED_ID))
+//                continue;
+//
+//            List<Pair<IRI, String>> predicateObjects = propertyMappings.get(subjectString);
+//            Set<OWLNamedIndividual> subjects = ISA2OWL.typeIndividualMap.get(subjectString);
+//
+//            if (subjects==null)
+//                continue;
+//
+//            for(OWLIndividual subject: subjects){
+//
+//                for(Pair<IRI,String> predicateObject: predicateObjects){
+//
+//                    IRI predicate = predicateObject.getFirst();
+//
+//                    OWLObjectProperty property = ISA2OWL.factory.getOWLObjectProperty(predicate);
+//
+//                    String objectString = predicateObject.getSecond();
+//
+//
+//                    Set<OWLNamedIndividual> objects = ISA2OWL.typeIndividualMap.get(objectString);
+//
+//                    if (objects==null)
+//                        continue;
+//
+//                    for(OWLNamedIndividual object: objects){
+//
+//                        if (subject==null || object==null || property==null){
+//                            log.debug("At least one is null...");
+//                        }else{
+//                            OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
+//                            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
+//                        }
+//                    }//for
+//                } //for
+//            } //for
+//        }
 
         log.info("... end of conversion for Study " + study.getStudyId() + ".");
 
