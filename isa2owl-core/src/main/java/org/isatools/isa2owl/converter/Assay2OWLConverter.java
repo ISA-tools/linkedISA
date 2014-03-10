@@ -283,25 +283,10 @@ public class Assay2OWLConverter {
                 }
 
                 //build a string with concatenated inputs/outputs to identify different process individuals
-                StringBuffer buffer = new StringBuffer();
                 List<ISANode> inputs = processNode.getInputNodes();
                 List<ISANode> outputs = processNode.getOutputNodes();
 
-                for(ISANode input: inputs){
-                    int inputCol = input.getIndex();
-                    if (!data[processRow][inputCol].toString().equals("")){
-                        buffer.append(data[processRow][inputCol].toString());
-                    }
-                }//for inputs
-                for(ISANode output: outputs){
-                    int outputCol = output.getIndex();
-                    if (!data[processRow][outputCol].toString().equals("")){
-                        buffer.append(data[processRow][outputCol].toString());
-                    }
-                }
-
-                buffer.append(processNodeValue);
-                String inputOutputString = buffer.toString();
+                String inputOutputString = getInputOutputMethodString(processRow, processNodeValue, inputs, outputs);
 
                 OWLNamedIndividual processIndividual = processIndividualMap.get(inputOutputString);
 
@@ -370,6 +355,24 @@ public class Assay2OWLConverter {
         }
     }
 
+    private String getInputOutputMethodString(int processRow, String processNodeValue, List<ISANode> inputs, List<ISANode> outputs) {
+        StringBuffer buffer = new StringBuffer();
+        for(ISANode input: inputs){
+            int inputCol = input.getIndex();
+            if (!data[processRow][inputCol].toString().equals("")){
+                buffer.append(data[processRow][inputCol].toString());
+            }
+        }//for inputs
+        for(ISANode output: outputs){
+            int outputCol = output.getIndex();
+            if (!data[processRow][outputCol].toString().equals("")){
+                buffer.append(data[processRow][outputCol].toString());
+            }
+        }
+
+        buffer.append(processNodeValue);
+        return buffer.toString();
+    }
 
 
     /**
@@ -441,25 +444,14 @@ public class Assay2OWLConverter {
 
 
                 //build a string with concatenated inputs/outputs to identify different process individuals
-                StringBuffer buffer = new StringBuffer();
                 List<ISANode> inputs = processNode.getInputNodes();
                 List<ISANode> outputs = processNode.getOutputNodes();
 
-                for(ISANode input: inputs){
-                    int inputCol = input.getIndex();
-                    if (!data[processRow][inputCol].toString().equals("")){
-                        buffer.append(data[processRow][inputCol].toString());
-                    }
-                }//for inputs
-                for(ISANode output: outputs){
-                    int outputCol = output.getIndex();
-                    if (!data[processRow][outputCol].toString().equals("")){
-                        buffer.append(data[processRow][outputCol].toString());
-                    }
-                }
+                String inputOutputString = getInputOutputMethodString(processRow, protocolExecutionValue, inputs, outputs);
 
-                buffer.append(protocolExecutionValue);
-                String inputOutputString = buffer.toString();
+                //if there are no inputs and outputs, do not create the processIndividual
+                if (protocolExecutionValue.equals(inputOutputString))
+                    continue;
 
                 OWLNamedIndividual processIndividual = processIndividualMap.get(inputOutputString);
 
