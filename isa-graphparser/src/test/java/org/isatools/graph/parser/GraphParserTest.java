@@ -1,6 +1,7 @@
 package org.isatools.graph.parser;
 
 import org.apache.log4j.Logger;
+import org.isatools.graph.model.impl.NodeType;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.Investigation;
@@ -86,6 +87,12 @@ public class GraphParserTest {
         graphParser(isatabParentDir);
     }
 
+    @Test
+    public void parserISATABTest1(){
+        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/isatab-test1").getFile();
+        graphParser(isatabParentDir);
+    }
+
     private void graphParser(String isatabParentDir){
         //Import ISAtab dataset
         System.out.println("configDir="+configDir);
@@ -138,8 +145,20 @@ public class GraphParserTest {
                 System.out.println("ASSAY GRAPH...");
                 parser.getGraph().outputGraph();
 
+
                 System.out.println("GROUPS=" + parser.getGroups());
                 System.out.println("Material attributes..."+parser.extractMaterialAttributes());
+
+
+                System.out.println("ASSAY NODES");
+                System.out.println(parser.getGraph().getNodes(NodeType.ASSAY_NODE));
+
+                System.out.println("PROCESS NODES");
+                System.out.println(parser.getGraph().getNodes(NodeType.PROCESS_NODE));
+
+                System.out.println("PROTOCOL EXECUTION NODES");
+                System.out.println(parser.getGraph().getNodes(NodeType.PROTOCOL_EXECUTION_NODE));
+
             }
 
         }
