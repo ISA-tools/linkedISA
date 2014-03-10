@@ -1,8 +1,8 @@
 ONTOLOGY SOURCE REFERENCE
-Term Source Name	"EFO"	"OBI"	"NCBITAXON"	"PATO"	"ERO"	
-Term Source File	"http://data.bioontology.org/ontologies/EFO"	"http://data.bioontology.org/ontologies/OBI"	"http://data.bioontology.org/ontologies/NCBITAXON"	"http://data.bioontology.org/ontologies/PATO"	"http://data.bioontology.org/ontologies/ERO"	
-Term Source Version	"110"	"21"	"2"	"160"	"13"	
-Term Source Description	"Experimental Factor Ontology"	"Ontology for Biomedical Investigations"	"National Center for Biotechnology Information (NCBI) Organismal Classification"	"Phenotypic Quality Ontology"	"Eagle-I Research Resource Ontology"	
+Term Source Name	"EFO"	"OBI"	"NCBITAXON"	"PATO"	"ERO"	"SWO"	
+Term Source File	"http://data.bioontology.org/ontologies/EFO"	"http://data.bioontology.org/ontologies/OBI"	"http://data.bioontology.org/ontologies/NCBITAXON"	"http://data.bioontology.org/ontologies/PATO"	"http://data.bioontology.org/ontologies/ERO"	"http://data.bioontology.org/ontologies/SWO"	
+Term Source Version	"111"	"21"	"2"	"160"	"13"	"19"	
+Term Source Description	"Experimental Factor Ontology"	"Ontology for Biomedical Investigations"	"National Center for Biotechnology Information (NCBI) Organismal Classification"	"Phenotypic Quality Ontology"	"Eagle-I Research Resource Ontology"	"Software Ontology"	
 INVESTIGATION
 Investigation Identifier	"1.39E+12"
 Investigation Title	"Investigation"
@@ -42,6 +42,7 @@ Comment[Study Funding Agency]	"State Key Development Program for Basic Research 
 Study Submission Date	""
 Study Public Release Date	""
 Study File Name	"s_SOAPdenovo2.txt"
+Comment[Experimental Metadata Licence]	"CC0"
 STUDY DESIGN DESCRIPTORS
 Study Design Type	"software testing objective"	"factorial design"
 Study Design Type Term Accession Number	"http://purl.obolibrary.org/obo/OBI_0000242"	"http://purl.obolibrary.org/obo/OBI_0500014"
