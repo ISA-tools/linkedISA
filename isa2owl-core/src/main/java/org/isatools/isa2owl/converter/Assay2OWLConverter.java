@@ -36,10 +36,7 @@ public class Assay2OWLConverter {
 
     private static final Logger log = Logger.getLogger(Assay2OWLConverter.class);
 
-    public enum AssayTableType { STUDY, ASSAY} ;
-
-    //private fields
-    private AssayTableType assayTableType;
+    public enum AssayTableType { STUDY, ASSAY}
     private GraphParser graphParser = null;
     private Object[][] data = null;
     //a matrix will all the individuals for the data (these are MaterialNodes or ProcessNodes individuals
@@ -49,7 +46,7 @@ public class Assay2OWLConverter {
     private Map<String, OWLNamedIndividual> processIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
     private Map<String, OWLNamedIndividual> materialAttributeIndividualMap = new HashMap<String, OWLNamedIndividual>();
-    private Map<String, OWLNamedIndividual> materialNodeIndividualMap = new HashMap<String, OWLNamedIndividual>();;
+    private Map<String, OWLNamedIndividual> materialNodeIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
 
     private Map<String, OWLNamedIndividual> factorValueIndividuals = new HashMap<String, OWLNamedIndividual>();
@@ -66,14 +63,14 @@ public class Assay2OWLConverter {
      *
      * It converts the assay information to RDF
      *
-     * @param assay
-     * @param att
-     * @param sampleIndividualMap
-     * @param protocolList
-     * @param protocolIndividualMap
-     * @param studyDesignIndividual
-     * @param studyIndividual
-     * @param convertGroups
+     * @param assay the Assay object to be converted - it is the Assay table from ISAcreator
+     * @param att the AssayTableType for the Assay object (either a STUDY or an ASSAY)
+     * @param sampleIndividualMap a Map with <sample name, sample individual>
+     * @param protocolList the list of Protocols
+     * @param protocolIndividualMap a Map for the protocol individuals
+     * @param studyDesignIndividual the individual for the study design
+     * @param studyIndividual the individual corresponding to the study
+     * @param convertGroups true or false, indicating if groups are created or not
      * @return
      */
     public Map<String, OWLNamedIndividual> convert(Assay assay,
@@ -87,7 +84,7 @@ public class Assay2OWLConverter {
                                                    Map<String, Set<OWLNamedIndividual>> assayIndividualsForProperties,
                                                    OWLNamedIndividual assayFileIndividual){
         log.debug("CONVERTING ASSAY ---> AssayTableType="+att);
-        assayTableType = att;
+        AssayTableType assayTableType = att;
         data = assay.getAssayDataMatrix();
         individualMatrix = new OWLNamedIndividual[data.length][data[0].length];
 
@@ -134,11 +131,11 @@ public class Assay2OWLConverter {
 
     /***
      *
+     * Convert Assay Nodes
      *
-     *
-     * @param protocolIndividualMap
-     * @param graph
-     * @param assayIndividualsForProperties
+     * @param protocolIndividualMap a Map with protocol individuals
+     * @param graph the Graph from the isa-graphparser
+     * @param assayIndividualsForProperties a set of OWL individuals to be used for generating the properties
      */
     private void convertAssayNodes(Map<String,
                                     OWLNamedIndividual> protocolIndividualMap,
@@ -601,7 +598,7 @@ public class Assay2OWLConverter {
      * @return
      */
     private Map<String, OWLNamedIndividual> convertMaterialNodes(Graph graph, Map<String, OWLNamedIndividual> sampleIndividualMap, OWLNamedIndividual studyIndividual) {
-        OWLNamedIndividual materialNodeIndividual = null;
+        OWLNamedIndividual materialNodeIndividual;
 
         boolean sampleIndividualMapWasNull = (sampleIndividualMap==null);
 
@@ -811,6 +808,10 @@ public class Assay2OWLConverter {
             //group membership
             for(String element: elements){
                 OWLNamedIndividual memberIndividual = sampleIndividualMap.get(element);
+
+                if (memberIndividual==null)
+                    continue;
+
                 OWLObjectProperty hasMember = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_MEMBER));
                 OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasMember, groupIndividual, memberIndividual);
                 ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
@@ -821,20 +822,6 @@ public class Assay2OWLConverter {
             OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(denotes,studyDesignIndividual, groupIndividual);
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
 
-//            //group size
-//            OWLObjectProperty hasQuality = ISA2OWL.factory.getOWLObjectProperty(ISA2OWL.BFO_HAS_QUALITY_IRI);
-//            OWLClass size = ISA2OWL.factory.getOWLClass(IRI.create(ISA2OWL.PATO_SIZE_IRI));
-//
-//            OWLDataProperty hasMeasurementValue = ISA2OWL.factory.getOWLDataProperty(ISA2OWL.IAO_HAS_MEASUREMENT_VALUE_IRI);
-//            OWLLiteral sizeValue = ISA2OWL.factory.getOWLLiteral(elements.size());
-//            OWLDataHasValue hasMeasurementValueSizeValue = ISA2OWL.factory.getOWLDataHasValue(hasMeasurementValue, sizeValue);
-//
-//            OWLObjectIntersectionOf intersectionOf = ISA2OWL.factory.getOWLObjectIntersectionOf(size, hasMeasurementValueSizeValue);
-//
-//            OWLObjectSomeValuesFrom someSize = ISA2OWL.factory.getOWLObjectSomeValuesFrom(hasQuality,intersectionOf);
-//
-//            OWLClassAssertionAxiom classAssertionAxiom = ISA2OWL.factory.getOWLClassAssertionAxiom(someSize, groupIndividual);
-//            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, classAssertionAxiom);
         }
         return groupsCreated;
     }

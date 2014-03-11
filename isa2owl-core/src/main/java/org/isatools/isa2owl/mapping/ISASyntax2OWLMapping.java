@@ -34,13 +34,14 @@ public class ISASyntax2OWLMapping {
 	Map<String, Set<IRI>> typeMappings = null;
 
     //property mappings
-	Map<String, List<Pair<IRI, String>>> propertyMappings = null;
+	Map<String,List<Pair<IRI, String>>> propertyMappings = null;
     Map<String,List<Pair<IRI, String>>> contactPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> protocolPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> protocolREFPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> materialNodePropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> assayPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> publicationPropertyMappings = null;
+    Map<String,List<Pair<IRI, String>>> otherPropertyMappings = null;
 
 
 	public ISASyntax2OWLMapping(){
@@ -58,6 +59,7 @@ public class ISASyntax2OWLMapping {
         materialNodePropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         assayPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         publicationPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
+        otherPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
 		
 	}
 
@@ -104,6 +106,10 @@ public class ISASyntax2OWLMapping {
 
     public Map<String,List<Pair<IRI, String>>> getPropertyMappings(){
         return propertyMappings;
+    }
+
+    public Map<String,List<Pair<IRI, String>>> getOtherPropertyMappings(){
+        return otherPropertyMappings;
     }
 
     public IRI getPropertyIRI(String subject, String object){
@@ -182,6 +188,8 @@ public class ISASyntax2OWLMapping {
         return propertyMappings.get(subject);
     }
 
+
+
     public Map<String,List<Pair<IRI, String>>> getContactMappings(){
         return contactPropertyMappings;
     }
@@ -218,31 +226,23 @@ public class ISASyntax2OWLMapping {
         if (subject.startsWith(ExtendedISASyntax.STUDY_PERSON) ||
                 subject.startsWith(ExtendedISASyntax.INVESTIGATION_PERSON)){
             contactPropertyMappings.put(subject, predobjs);
-        }
-
-        if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL)){
+        } else if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL)){
             protocolPropertyMappings.put(subject, predobjs);
-        }
-
-        if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL_REF.toString())
+        } else if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL_REF.toString())
                 || subject.startsWith(ExtendedISASyntax.ASSAY_PROTOCOL_REF.toString())
                 || subject.startsWith(GeneralFieldTypes.PARAMETER_VALUE.name)){
             protocolREFPropertyMappings.put(subject, predobjs);
-        }
-
-        if (subject.matches(ISAMaterialNode.REGEXP) || subject.matches(ISAMaterialAttribute.REGEXP)){
+        } else if (subject.matches(ISAMaterialNode.REGEXP) || subject.matches(ISAMaterialAttribute.REGEXP)){
             materialNodePropertyMappings.put(subject, predobjs);
-        }
-
-        if (subject.startsWith(ExtendedISASyntax.STUDY_ASSAY)){
+        } else if (subject.startsWith(ExtendedISASyntax.STUDY_ASSAY)){
             assayPropertyMappings.put(subject, predobjs);
-        }
-
-        if (subject.startsWith(ExtendedISASyntax.INVESTIGATION_PUBLICATION)
+        } else if (subject.startsWith(ExtendedISASyntax.INVESTIGATION_PUBLICATION)
                 || subject.startsWith(ExtendedISASyntax.STUDY_PUBLICATION)
                 || subject.startsWith((ExtendedISASyntax.PUBLICATION))
                 || subject.startsWith(InvestigationPublication.PUBMED_ID)){
             publicationPropertyMappings.put(subject, predobjs);
+        } else {
+            otherPropertyMappings.put(subject, predobjs);
         }
 
 	}
