@@ -236,21 +236,6 @@ public class Assay2OWLConverter {
 
     /**
      *
-     * @param nodeWithComments
-     * @param row
-     * @param individual
-     */
-    private void addComments(NodeWithComments nodeWithComments, int row, OWLNamedIndividual individual){
-        for(CommentNode comment: nodeWithComments.getComments()){
-            int comment_col = comment.getIndex();
-            ISA2OWL.addComment( comment.getName() + ":" + ((String)data[row][comment_col]), individual.getIRI());
-        }
-
-    }
-
-
-    /**
-     *
      * Converts process nodes.
      *
      * ProcessNodes are either 'Data Transformation' or 'Normalization Name' columns
@@ -367,70 +352,10 @@ public class Assay2OWLConverter {
     }
 
     /**
-     * Creates a string concatenating the inputs/outputs/process name for a ProcessNode
-     * to be used as an identity method (to identify if two process nodes are different or not)
-     *
-     *
-     * @param processRow
-     * @param processNodeValue
-     * @param inputs
-     * @param outputs
-     * @return
-     */
-    private String getInputOutputMethodString(int processRow, String processNodeValue, List<ISANode> inputs, List<ISANode> outputs) {
-        StringBuffer buffer = new StringBuffer();
-        for(ISANode input: inputs){
-            int inputCol = input.getIndex();
-            if (!data[processRow][inputCol].toString().equals("")){
-                buffer.append(data[processRow][inputCol].toString());
-            }
-        }//for inputs
-        for(ISANode output: outputs){
-            int outputCol = output.getIndex();
-            if (!data[processRow][outputCol].toString().equals("")){
-                buffer.append(data[processRow][outputCol].toString());
-            }
-        }
-
-        buffer.append(processNodeValue);
-        return buffer.toString();
-    }
-
-
-    /**
-     *
-     * Creates a string concatenating the inputs/outputs/process/parameters for ProtocolExecutionNodes
-     * It is used as an identity method for ProtocolREFs.
-     *
-     * @param processRow
-     * @param processNodeValue
-     * @param inputs
-     * @param outputs
-     * @param parameters
-     * @return
-     */
-    private String getInputOutputMethodParametersString(int processRow, String processNodeValue, List<ISANode> inputs, List<ISANode> outputs, List<ProcessParameter> parameters){
-        StringBuffer buffer = new StringBuffer();
-
-        String inputOutputMethod = getInputOutputMethodString(processRow, processNodeValue, inputs, outputs);
-        buffer.append(inputOutputMethod);
-
-        for(ProcessParameter parameter: parameters){
-            int parameterCol = parameter.getIndex();
-            if (!data[processRow][parameterCol].toString().equals("")){
-                buffer.append(data[processRow][parameterCol].toString());
-            }
-        }
-
-        return buffer.toString();
-    }
-
-
-    /**
      *
      * Converts ProtocolExecutionNodes. (Among the process nodes, only the ProtocolExecutions will have an associated declared protocol.)
      *
-     * Uniqueness of ProtocolExecutionNodes:
+     * Uniqueness of ProtocolExecutionNodes: given by analysing inputs/outputs/parameters
      *
      *
      * @param protocolIndividualMap
@@ -864,6 +789,14 @@ public class Assay2OWLConverter {
         ISA2OWL.convertPropertiesMultipleIndividuals(materialNodePropertyMapping, materialNodeAndAttributesIndividuals);
     }
 
+    /**
+     *
+     * Method to create Study Groups.
+     *
+     * @param studyDesignIndividual
+     * @param sampleIndividualMap
+     * @return
+     */
     private boolean convertGroups(OWLNamedIndividual studyDesignIndividual, Map<String, OWLNamedIndividual> sampleIndividualMap){
         //Treatment groups
         Map<String, Set<String>> groups = graphParser.getGroups();
@@ -927,7 +860,6 @@ public class Assay2OWLConverter {
      */
     private void convertFactorValues(OWLNamedIndividual materialNodeIndividual, List<ISAFactorValue> factorValues, int row){
 
-        //OWLClass factorValueClass = ISA2OWL.factory.getOWLClass(IRI.create(ISA.FACTOR_VALUE));
         OWLDataProperty hasValue = ISA2OWL.factory.getOWLDataProperty(IRI.create(ISA.HAS_VALUE));
         OWLObjectProperty hasFactorValue =  ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_FACTOR_VALUE));
 
@@ -943,13 +875,6 @@ public class Assay2OWLConverter {
             String factorValueData = data[row][factorValue.getIndex()].toString();
             if (fvUnit!=null)
                 unitData = data[row][fvUnit.getIndex()].toString();
-
-//            if (fvUnit!=null)
-//                System.out.println("fvUnit="+fvUnit.getName());
-//            System.out.println("col="+col);
-//            System.out.println("fvType="+fvType);
-//            System.out.println("factorValueData="+factorValueData);
-//            System.out.println("unitData="+unitData);
 
             String factorValueLabel = fvType+ factorValueData+ (fvUnit!=null? unitData: "");
 
@@ -974,6 +899,83 @@ public class Assay2OWLConverter {
 
     }
 
+
+    //Utility methods
+
+    /**
+     * Creates a string concatenating the inputs/outputs/process name for a ProcessNode
+     * to be used as an identity method (to identify if two process nodes are different or not)
+     *
+     *
+     * @param processRow
+     * @param processNodeValue
+     * @param inputs
+     * @param outputs
+     * @return
+     */
+    private String getInputOutputMethodString(int processRow, String processNodeValue, List<ISANode> inputs, List<ISANode> outputs) {
+        StringBuffer buffer = new StringBuffer();
+        for(ISANode input: inputs){
+            int inputCol = input.getIndex();
+            if (!data[processRow][inputCol].toString().equals("")){
+                buffer.append(data[processRow][inputCol].toString());
+            }
+        }//for inputs
+        for(ISANode output: outputs){
+            int outputCol = output.getIndex();
+            if (!data[processRow][outputCol].toString().equals("")){
+                buffer.append(data[processRow][outputCol].toString());
+            }
+        }
+
+        buffer.append(processNodeValue);
+        return buffer.toString();
+    }
+
+
+
+    /**
+     *
+     * Creates a string concatenating the inputs/outputs/process/parameters for ProtocolExecutionNodes
+     * It is used as an identity method for ProtocolREFs.
+     *
+     * @param processRow
+     * @param processNodeValue
+     * @param inputs
+     * @param outputs
+     * @param parameters
+     * @return
+     */
+    private String getInputOutputMethodParametersString(int processRow, String processNodeValue, List<ISANode> inputs, List<ISANode> outputs, List<ProcessParameter> parameters){
+        StringBuffer buffer = new StringBuffer();
+
+        String inputOutputMethod = getInputOutputMethodString(processRow, processNodeValue, inputs, outputs);
+        buffer.append(inputOutputMethod);
+
+        for(ProcessParameter parameter: parameters){
+            int parameterCol = parameter.getIndex();
+            if (!data[processRow][parameterCol].toString().equals("")){
+                buffer.append(data[processRow][parameterCol].toString());
+            }
+        }
+
+        return buffer.toString();
+    }
+
+
+    /**
+     *
+     * @param nodeWithComments
+     * @param row
+     * @param individual
+     */
+    private void addComments(NodeWithComments nodeWithComments, int row, OWLNamedIndividual individual){
+        for(CommentNode comment: nodeWithComments.getComments()){
+            int comment_col = comment.getIndex();
+            ISA2OWL.addComment( comment.getName() + ":" + ((String)data[row][comment_col]), individual.getIRI());
+        }
+
+    }
 
 
 }
