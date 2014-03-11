@@ -152,7 +152,6 @@ public class Assay2OWLConverter {
         Map<String, OWLNamedIndividual> assayIndividuals = new HashMap<String, OWLNamedIndividual>();
         for(ISANode node: assayNodes){
             ProcessNode assayNode = (ProcessNode) node;
-
             int col = assayNode.getIndex();
             for(int row=1; row < data.length; row++){
 
@@ -205,11 +204,7 @@ public class Assay2OWLConverter {
 
                     }//for outputs
 
-                    //add comments
-                    for(CommentNode comment: assayNode.getComments()){
-                        int comment_col = comment.getIndex();
-                        ISA2OWL.addComment( comment.getName() + ":" + ((String)data[row][comment_col]), assayIndividual.getIRI());
-                    }
+                    addComments(assayNode, row, assayIndividual);
 
 
                     //realizes o concretizes (executes) associated protocol
@@ -238,6 +233,22 @@ public class Assay2OWLConverter {
         }
     }
 
+
+    /**
+     *
+     * @param nodeWithComments
+     * @param row
+     * @param individual
+     */
+    private void addComments(NodeWithComments nodeWithComments, int row, OWLNamedIndividual individual){
+        for(CommentNode comment: nodeWithComments.getComments()){
+            int comment_col = comment.getIndex();
+            ISA2OWL.addComment( comment.getName() + ":" + ((String)data[row][comment_col]), individual.getIRI());
+        }
+
+    }
+
+
     /**
      *
      * Converts process nodes.
@@ -257,12 +268,10 @@ public class Assay2OWLConverter {
             //keeping all the individuals relevant for this processNode
             Map<String, OWLNamedIndividual> processNodeIndividuals = new HashMap<String,OWLNamedIndividual>();
 
-
             int processCol = processNode.getIndex();
 
             for(int processRow=1; processRow < data.length; processRow ++){
 
-                log.debug("processRow="+processRow);
                 String processNodeValue = null;
                 if (processCol==-1){
                     processNodeValue = processNode.toShortString();
@@ -313,8 +322,6 @@ public class Assay2OWLConverter {
 //
 //                }
 
-
-
                 //inputs & outputs
                 OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_INPUT));
                 for(ISANode input: inputs){
@@ -331,8 +338,6 @@ public class Assay2OWLConverter {
                                 ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_input, processIndividual, inputIndividual);
                         }
                     }
-
-
                 }//for inputs
 
                 OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_OUTPUT));
@@ -350,13 +355,7 @@ public class Assay2OWLConverter {
 
                 }//for outputs
 
-                //add comments
-                for(CommentNode comment: processNode.getComments()){
-                    int comment_col = comment.getIndex();
-                    if (processIndividual !=null)
-                        ISA2OWL.addComment( comment.getName() + ":" + ((String) data[processRow][comment_col]),
-                                        processIndividual.getIRI() );
-                }
+                addComments(processNode, processRow, processIndividual);
 
                 //TODO revise these mappings conversion
                 Map<String, List<Pair<IRI,String>>> protocolREFmapping = ISA2OWL.mapping.getProtocolREFMappings();
@@ -480,11 +479,7 @@ public class Assay2OWLConverter {
                     System.err.println("Protocol "+protocolExecutionValue+" must already exist");
                 } else {
 
-                    //add comments
-                    for(CommentNode comment: processNode.getComments()){
-                        int comment_col = comment.getIndex();
-                        ISA2OWL.addComment( comment.getName() + ":" + ((String)data[processRow][comment_col]), protocolIndividual.getIRI());
-                    }
+                    addComments(processNode, processRow, protocolIndividual);
 
                     //adding Study Protocol
                     Set<OWLNamedIndividual> set = protocolREFIndividuals.get(ExtendedISASyntax.STUDY_PROTOCOL);
@@ -730,11 +725,7 @@ public class Assay2OWLConverter {
                         materialNodeIndividualMap.put(dataValue, materialNodeIndividual);
                     }
 
-                    //add comments
-                    for(CommentNode comment: materialNode.getComments()){
-                        int comment_col = comment.getIndex();
-                        ISA2OWL.addComment( comment.getName() +":"+((String)data[row][comment_col]), materialNodeIndividual.getIRI());
-                    }
+                    addComments(materialNode, row, materialNodeIndividual);
 
 
                     if (materialNode.getMaterialNodeType() == ExtendedISASyntax.SAMPLE ){//&& sampleIndividualMapWasNull){
