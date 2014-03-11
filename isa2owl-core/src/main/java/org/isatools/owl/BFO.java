@@ -20,6 +20,7 @@ public class BFO {
     public static final String HAS_QUALITY = NAMESPACE + "0000086";
 
     public static final String IS_PART_OF = NAMESPACE + "0000050";
+    public static final String HAS_PART = NAMESPACE + "0000051";
     public static final String MATERIAL_ENTITY = NAMESPACE + "0000040";
 
     public static final String REALIZES = NAMESPACE + "0000055";

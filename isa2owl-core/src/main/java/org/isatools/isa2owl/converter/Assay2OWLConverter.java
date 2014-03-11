@@ -12,6 +12,7 @@ import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.isatools.isacreator.model.Protocol;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
+import org.isatools.owl.BFO;
 import org.isatools.owl.IAO;
 import org.isatools.owl.ISA;
 import org.isatools.owl.OBI;
@@ -213,14 +214,18 @@ public class Assay2OWLConverter {
 
                     //realizes o concretizes (executes) associated protocol
                     List<ProtocolExecutionNode> associatedProcessNodes = assayNode.getAssociatedProcessNodes();
-                    for(ProtocolExecutionNode processNode: associatedProcessNodes){
+                    for(ProtocolExecutionNode protocolExecutionNode: associatedProcessNodes){
+                        int protocolExecutionColumn = protocolExecutionNode.getIndex();
+                        String protocolExecutionName = (String)data[row][protocolExecutionColumn];
 
-                        int protocolColumn = processNode.getIndex();
-                        String protocolName = (String)data[row][protocolColumn];
-
-                        OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(protocolName);
+                        OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(protocolExecutionName);
                         OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.EXECUTES));
                         ISA2OWL.addObjectPropertyAssertionAxiom(executes, assayIndividual, protocolIndividual);
+
+                        OWLNamedIndividual protocolExecutionIndividual = individualMatrix[row][protocolExecutionColumn];
+                        OWLObjectProperty has_part = ISA2OWL.factory.getOWLObjectProperty(IRI.create(BFO.HAS_PART));
+                        ISA2OWL.addObjectPropertyAssertionAxiom(has_part, assayIndividual, protocolExecutionIndividual);
+
                     }//for process node
 
                 }//if individual is null.
@@ -273,15 +278,6 @@ public class Assay2OWLConverter {
                 }
 
 
-                //TODO
-                //TODO add associated nodes as 'has part' relationships
-                //RULE: if there is only one protocol REF associated with a 'data transformation' or 'normalization' node,
-                //the data transformation can take the same type as the protocol ref
-                List<ProtocolExecutionNode> associatedNodes = processNode.getAssociatedProcessNodes();
-                if (associatedNodes.size()==1){
-
-                }
-
                 //build a string with concatenated inputs/outputs to identify different process individuals
                 List<ISANode> inputs = processNode.getInputNodes();
                 List<ISANode> outputs = processNode.getOutputNodes();
@@ -301,6 +297,23 @@ public class Assay2OWLConverter {
                 }
 
                 processNodeIndividuals.put(individualType, processIndividual);
+
+                //TODO
+                //TODO add associated nodes as 'has part' relationships
+                //RULE: if there is only one protocol REF associated with a 'data transformation' or 'normalization' node,
+                //the data transformation can take the same type as the protocol ref
+                List<ProtocolExecutionNode> associatedNodes = processNode.getAssociatedProcessNodes();
+
+                for(ProtocolExecutionNode protocolExecutionNode: associatedNodes){
+                    int penIndex = protocolExecutionNode.getIndex();
+                    OWLNamedIndividual penIndividual = individualMatrix[processRow][penIndex];
+                    ISA2OWL.addObjectPropertyAssertionAxiom(ISA2OWL.factory.getOWLObjectProperty(IRI.create(BFO.HAS_PART)), processIndividual, penIndividual);
+                }
+
+//                if (associatedNodes.size()==1){
+//
+//                }
+
 
 
                 //inputs & outputs
@@ -460,6 +473,8 @@ public class Assay2OWLConverter {
                     processIndividual = ISA2OWL.createIndividual(assayTableType == AssayTableType.STUDY ?
                             ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, protocolExecutionValue);
                     processIndividualMap.put(inputOutputString, processIndividual);
+
+                    individualMatrix[processRow][processCol] = processIndividual;
 
 
                 if (protocol!=null && protocol.getProtocolType()!=null){
