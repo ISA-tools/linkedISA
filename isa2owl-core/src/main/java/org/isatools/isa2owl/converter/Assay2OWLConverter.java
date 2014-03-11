@@ -28,7 +28,7 @@ import java.util.*;
  * Date: 07/11/2012
  * Time: 16:11
  *
- * Converts the assay representation into RDF/OWL.
+ * Converts the assay representation into RDF/OWL, relying on the mapping files.
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
@@ -281,7 +281,6 @@ public class Assay2OWLConverter {
                 //build a string with concatenated inputs/outputs to identify different process individuals
                 List<ISANode> inputs = processNode.getInputNodes();
                 List<ISANode> outputs = processNode.getOutputNodes();
-
                 String inputOutputString = getInputOutputMethodString(processRow, processNodeValue, inputs, outputs);
 
                 OWLNamedIndividual processIndividual = processIndividualMap.get(inputOutputString);
@@ -368,6 +367,17 @@ public class Assay2OWLConverter {
         }
     }
 
+    /**
+     * Creates a string concatenating the inputs/outputs/process name for a ProcessNode
+     * to be used as an identity method (to identify if two process nodes are different or not)
+     *
+     *
+     * @param processRow
+     * @param processNodeValue
+     * @param inputs
+     * @param outputs
+     * @return
+     */
     private String getInputOutputMethodString(int processRow, String processNodeValue, List<ISANode> inputs, List<ISANode> outputs) {
         StringBuffer buffer = new StringBuffer();
         for(ISANode input: inputs){
@@ -384,6 +394,35 @@ public class Assay2OWLConverter {
         }
 
         buffer.append(processNodeValue);
+        return buffer.toString();
+    }
+
+
+    /**
+     *
+     * Creates a string concatenating the inputs/outputs/process/parameters for ProtocolExecutionNodes
+     * It is used as an identity method for ProtocolREFs.
+     *
+     * @param processRow
+     * @param processNodeValue
+     * @param inputs
+     * @param outputs
+     * @param parameters
+     * @return
+     */
+    private String getInputOutputMethodParametersString(int processRow, String processNodeValue, List<ISANode> inputs, List<ISANode> outputs, List<ProcessParameter> parameters){
+        StringBuffer buffer = new StringBuffer();
+
+        String inputOutputMethod = getInputOutputMethodString(processRow, processNodeValue, inputs, outputs);
+        buffer.append(inputOutputMethod);
+
+        for(ProcessParameter parameter: parameters){
+            int parameterCol = parameter.getIndex();
+            if (!data[processRow][parameterCol].toString().equals("")){
+                buffer.append(data[processRow][parameterCol].toString());
+            }
+        }
+
         return buffer.toString();
     }
 
@@ -456,9 +495,10 @@ public class Assay2OWLConverter {
                 }
 
 
-                //build a string with concatenated inputs/outputs to identify different process individuals
+                //build a string with concatenated inputs/outputs/process/parameters to identify different process individuals
                 List<ISANode> inputs = processNode.getInputNodes();
                 List<ISANode> outputs = processNode.getOutputNodes();
+                List<ProcessParameter> parameters = processNode.getParameters();
 
                 String inputOutputString = getInputOutputMethodString(processRow, protocolExecutionValue, inputs, outputs);
 
@@ -466,13 +506,15 @@ public class Assay2OWLConverter {
                 if (protocolExecutionValue.equals(inputOutputString))
                     continue;
 
-                OWLNamedIndividual processIndividual = processIndividualMap.get(inputOutputString);
+                String inputOutputMethodParametersString = getInputOutputMethodParametersString(processRow, protocolExecutionValue, inputs, outputs, parameters);
+
+                OWLNamedIndividual processIndividual = processIndividualMap.get(inputOutputMethodParametersString);
 
                 //material processing as the execution of the protocol
                 if (processIndividual==null){
                     processIndividual = ISA2OWL.createIndividual(assayTableType == AssayTableType.STUDY ?
                             ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, protocolExecutionValue);
-                    processIndividualMap.put(inputOutputString, processIndividual);
+                    processIndividualMap.put(inputOutputMethodParametersString, processIndividual);
 
                     individualMatrix[processRow][processCol] = processIndividual;
 
@@ -548,8 +590,6 @@ public class Assay2OWLConverter {
 
                 //parameters
                 System.out.println("=======>  processNode " +processIndividual.getIRI() + " processRow " + processRow);
-
-                List<ProcessParameter> parameters = processNode.getParameters();
                 for(ProcessParameter parameter: parameters){
                     int parameterCol = parameter.getIndex();
 
