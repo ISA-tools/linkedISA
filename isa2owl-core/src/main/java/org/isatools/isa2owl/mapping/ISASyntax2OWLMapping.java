@@ -281,7 +281,7 @@ public class ISASyntax2OWLMapping {
 
         if (subject.startsWith(ExtendedISASyntax.STUDY_FACTOR)
                 || subject.startsWith(GeneralFieldTypes.FACTOR_VALUE.name)
-                //|| subject.startsWith(StudyDesign.STUDY_DESIGN_TYPE)
+                || subject.startsWith(StudyDesign.STUDY_DESIGN_TYPE)
                 || subject.startsWith(ExtendedISASyntax.SAMPLE)){
             factorPropertyMappings.put(subject, predobjs);
             added = true;

@@ -85,7 +85,8 @@ public class Assay2OWLConverter {
                                                    OWLNamedIndividual studyIndividual,
                                                    boolean convertGroups,
                                                    Map<String, Set<OWLNamedIndividual>> assayIndividualsForProperties,
-                                                   OWLNamedIndividual assayFileIndividual){
+                                                   OWLNamedIndividual assayFileIndividual,
+                                                   Map<String, OWLNamedIndividual> factorIndividualMap){
         log.debug("CONVERTING ASSAY ---> AssayTableType="+att);
         AssayTableType assayTableType = att;
         data = assay.getAssayDataMatrix();
@@ -108,7 +109,7 @@ public class Assay2OWLConverter {
         }
 
         //this method also sets the assayFileSampleIndividualSet variable, if it is an ASSAY
-        sampleIndividualMap = convertMaterialNodes(graph, sampleIndividualMap, studyIndividual);
+        sampleIndividualMap = convertMaterialNodes(graph, sampleIndividualMap, studyIndividual, factorIndividualMap);
 
         if (assayTableType == AssayTableType.ASSAY){
             assayIndividualsForProperties.put(ExtendedISASyntax.SAMPLE, assayFileSampleIndividualSet);
@@ -600,7 +601,10 @@ public class Assay2OWLConverter {
      * @param sampleIndividualMap a map with the individuals corresponding to samples, this is null for a STUDY table
      * @return
      */
-    private Map<String, OWLNamedIndividual> convertMaterialNodes(Graph graph, Map<String, OWLNamedIndividual> sampleIndividualMap, OWLNamedIndividual studyIndividual) {
+    private Map<String, OWLNamedIndividual> convertMaterialNodes(Graph graph,
+                                                                 Map<String, OWLNamedIndividual> sampleIndividualMap,
+                                                                 OWLNamedIndividual studyIndividual,
+                                                                 Map<String, OWLNamedIndividual> factorIndividualMap) {
         OWLNamedIndividual materialNodeIndividual;
 
         boolean sampleIndividualMapWasNull = (sampleIndividualMap==null);
@@ -682,7 +686,7 @@ public class Assay2OWLConverter {
                     //adding factor values only when creating individual (so the factors come from the study sample file
                     if (materialNode instanceof SampleNode){
                         List<ISAFactorValue> factorValues = ((SampleNode) materialNode).getFactorValues();
-                        convertFactorValues(materialNodeIndividual, factorValues, row);
+                        convertFactorValues(materialNodeIndividual, factorValues, row, factorIndividualMap);
                     }
 
 
@@ -855,15 +859,19 @@ public class Assay2OWLConverter {
      * @param factorValues a list of ISAFactorValue objects
      * @param row the row number, an integer, where the material node is described
      */
-    private void convertFactorValues(OWLNamedIndividual materialNodeIndividual, List<ISAFactorValue> factorValues, int row){
-
-        Map<String, Set<OWLNamedIndividual>> factorIndividualsForProperties = new HashMap<String, Set<OWLNamedIndividual>>();
-        factorIndividualsForProperties.put(ExtendedISASyntax.SAMPLE, Collections.singleton(materialNodeIndividual));
+    private void convertFactorValues(OWLNamedIndividual materialNodeIndividual, List<ISAFactorValue> factorValues, int row, Map<String, OWLNamedIndividual> factorIndividualMap){
 
         for(ISAFactorValue factorValue: factorValues){
 
-            //the factor name is Factor Value[factor]
+            Map<String, Set<OWLNamedIndividual>> factorIndividualsForProperties = new HashMap<String, Set<OWLNamedIndividual>>();
+            factorIndividualsForProperties.put(ExtendedISASyntax.SAMPLE, Collections.singleton(materialNodeIndividual));
+
+            //fvType is 'Factor Value[factor]'
             String fvType = factorValue.getName();
+            String factorName = fvType.substring(fvType.indexOf('[')+1, fvType.indexOf(']'));
+            OWLNamedIndividual factorIndividual = factorIndividualMap.get(factorName);
+            factorIndividualsForProperties.put(ExtendedISASyntax.STUDY_FACTOR, Collections.singleton(factorIndividual));
+
             //the unit value associated with the factor
             ISAUnit fvUnit = factorValue.getUnit();
             int col = factorValue.getIndex();
@@ -874,7 +882,7 @@ public class Assay2OWLConverter {
             if (fvUnit!=null)
                 unitData = data[row][fvUnit.getIndex()].toString();
 
-            String factorValueLabel = factorValueData+ (fvUnit!=null? unitData: ""); //fvType+ factorValueData+ (fvUnit!=null? unitData: "");
+            String factorValueLabel = "factor value "+ factorValueData+ (fvUnit!=null? unitData: "");
 
             OWLNamedIndividual factorValueIndividual = null;
 
@@ -884,7 +892,6 @@ public class Assay2OWLConverter {
                 factorValueIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.FACTOR_VALUE.name, factorValueLabel);
                 factorValueIndividuals.put(factorValueLabel, factorValueIndividual);
             }
-            System.out.println("factor value individual="+factorValueIndividual);
 
             //include individual for properties
             Set<OWLNamedIndividual> set = factorIndividualsForProperties.get(GeneralFieldTypes.FACTOR_VALUE.name);
@@ -892,6 +899,7 @@ public class Assay2OWLConverter {
                 set = new HashSet<OWLNamedIndividual>();
             }
             set.add(factorValueIndividual);
+            factorIndividualsForProperties.put(GeneralFieldTypes.FACTOR_VALUE.name, set);
 
             Map<String,List<Pair<IRI, String>>> factorPropertyMappings = ISA2OWL.mapping.getFactorPropertyMappings();
             ISA2OWL.convertPropertiesMultipleIndividuals(factorPropertyMappings, factorIndividualsForProperties);
@@ -940,11 +948,11 @@ public class Assay2OWLConverter {
      * Creates a string concatenating the inputs/outputs/process/parameters for ProtocolExecutionNodes
      * It is used as an identity method for ProtocolREFs.
      *
-     * @param processRow
-     * @param processNodeValue
-     * @param inputs
-     * @param outputs
-     * @param parameters
+     * @param processRow integer indicating the table row where the process is defined
+     * @param processNodeValue a String for the process value
+     * @param inputs a list of ISANodes representing the process inputs
+     * @param outputs a list of ISANodes representing the process outputs
+     * @param parameters a list of ProcessParameter containing the parameters for this process
      * @return
      */
     private String getInputOutputMethodParametersString(int processRow, String processNodeValue, List<ISANode> inputs, List<ISANode> outputs, List<ProcessParameter> parameters){
@@ -965,15 +973,16 @@ public class Assay2OWLConverter {
 
 
     /**
+     * It add the comments from the NodeWithComments to the corresponding individual for that node.
      *
-     * @param nodeWithComments
-     * @param row
-     * @param individual
+     * @param nodeWithComments object of NodeWithComments type
+     * @param row integer denoting the row where the data is
+     * @param individual an OWL individual corresponding to the node
      */
     private void addComments(NodeWithComments nodeWithComments, int row, OWLNamedIndividual individual){
         for(CommentNode comment: nodeWithComments.getComments()){
             int comment_col = comment.getIndex();
-            ISA2OWL.addComment( comment.getName() + ":" + ((String)data[row][comment_col]), individual.getIRI());
+            ISA2OWL.addComment( comment.getName() + ":" + data[row][comment_col], individual.getIRI());
         }
 
     }

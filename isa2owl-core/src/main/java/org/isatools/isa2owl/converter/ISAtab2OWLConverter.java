@@ -40,7 +40,7 @@ public class ISAtab2OWLConverter {
     private Map<String, OWLNamedIndividual> sampleIndividualMap = null;
     private Map<String, OWLNamedIndividual> measurementTechnologyIndividuals = new HashMap<String, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> affiliationIndividualMap = null;
-    private Map<String, String> factorsMap = null;
+    private Map<String, OWLNamedIndividual> factorIndividualMap = null;
 
 
     /**
@@ -379,7 +379,7 @@ public class ISAtab2OWLConverter {
 
         //Study Factor
         List<Factor> factorList = study.getFactors();
-        convertFactors(factorList);
+        convertFactors(factorList, studyDesignIndividual);
 
         //Study Protocol
         List<Protocol> protocolList = study.getProtocols();
@@ -387,7 +387,7 @@ public class ISAtab2OWLConverter {
 
         Assay2OWLConverter assay2OWLConverter = new Assay2OWLConverter();
         sampleIndividualMap = assay2OWLConverter.convert(study.getStudySample(), Assay2OWLConverter.AssayTableType.STUDY, null,
-                protocolList, protocolIndividualMap,studyDesignIndividual, studyIndividual, true, null, null);
+                protocolList, protocolIndividualMap,studyDesignIndividual, studyIndividual, true, null, null, factorIndividualMap);
 
         log.debug("ASSAYS..." + study.getAssays());
 
@@ -597,23 +597,24 @@ public class ISAtab2OWLConverter {
      *
      * @param factorList
      */
-    private void convertFactors(List<Factor> factorList){
+    private void convertFactors(List<Factor> factorList, OWLNamedIndividual studyDesignIndividual){
 
+        factorIndividualMap = new HashMap<String, OWLNamedIndividual>();
+        Map<String, Set<OWLNamedIndividual>> factorIndividualsForProperties = new HashMap<String, Set<OWLNamedIndividual>>();
+        factorIndividualsForProperties.put(StudyDesign.STUDY_DESIGN_TYPE, Collections.singleton(studyDesignIndividual));
         //map with <factor name> and <url or literal>
-        factorsMap = new HashMap<String, String>();
+
+        Set<OWLNamedIndividual> factors = new HashSet<OWLNamedIndividual>();
 
         for(Factor factor: factorList){
 
             //Study Factor
             OWLNamedIndividual factorIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_FACTOR, factor.getFactorName());
+            factors.add(factorIndividual);
+            factorIndividualMap.put(factor.getFactorName(), factorIndividual);
 
             //Study Factor Name
-            ISA2OWL.createIndividual(Factor.FACTOR_NAME, factor.getFactorName());
-
-            System.out.println("FACTOR NAME ="+factor.getFactorName());
-            System.out.println("FACTOR TYPE =" + factor.getFactorType());
-            System.out.println("FACTOR TYPE ACCESSION NUMBER=" + factor.getFactorTypeTermAccession());
-            System.out.println("FACTOR TYPE TERM SOURCE" + factor.getFactorTypeTermSource());
+            OWLNamedIndividual factorNameIndividual = ISA2OWL.createIndividual(Factor.FACTOR_NAME, factor.getFactorName());
 
             //use term source and term accession to declare a more specific type for the factor
             if (factor.getFactorTypeTermAccession()!=null && !factor.getFactorTypeTermAccession().equals("")
@@ -627,9 +628,11 @@ public class ISAtab2OWLConverter {
             }//factors attributes not null
 
 
-
         }
+        factorIndividualsForProperties.put(ExtendedISASyntax.STUDY_FACTOR, factors);
 
+        Map<String,List<Pair<IRI, String>>> factorPropertyMappings = ISA2OWL.mapping.getFactorPropertyMappings();
+        ISA2OWL.convertPropertiesMultipleIndividuals(factorPropertyMappings, factorIndividualsForProperties);
 
 
     }
@@ -794,7 +797,7 @@ public class ISAtab2OWLConverter {
             Assay2OWLConverter assayConverter = new Assay2OWLConverter();
             assayConverter.convert(assay, Assay2OWLConverter.AssayTableType.ASSAY, sampleIndividualMap,
                     protocolList, protocolIndividualMap, studyDesignIndividual, studyIndividual, ISA2OWL.groupsAtStudyLevel ? false : true,
-                    assayIndividualsForProperties, studyAssayFileIndividual);
+                    assayIndividualsForProperties, studyAssayFileIndividual, factorIndividualMap);
         }
 
     }
