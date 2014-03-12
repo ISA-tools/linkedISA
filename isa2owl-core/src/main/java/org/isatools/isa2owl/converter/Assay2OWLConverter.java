@@ -48,7 +48,7 @@ public class Assay2OWLConverter {
     private Map<String, OWLNamedIndividual> materialAttributeIndividualMap = new HashMap<String, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> materialNodeIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
-
+    //factor value individuals identity is their own name, keep this map to create them only once
     private Map<String, OWLNamedIndividual> factorValueIndividuals = new HashMap<String, OWLNamedIndividual>();
     private Map<String, OWLNamedIndividual> dataNodesIndividuals = new HashMap<String, OWLNamedIndividual>();
     private Set<OWLNamedIndividual> assayFileSampleIndividualSet = null;
@@ -847,13 +847,14 @@ public class Assay2OWLConverter {
      */
     private void convertFactorValues(OWLNamedIndividual materialNodeIndividual, List<ISAFactorValue> factorValues, int row){
 
-        OWLDataProperty hasValue = ISA2OWL.factory.getOWLDataProperty(IRI.create(ISA.HAS_VALUE));
-        OWLObjectProperty hasFactorValue =  ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_FACTOR_VALUE));
+        Map<String, Set<OWLNamedIndividual>> factorIndividualsForProperties = new HashMap<String, Set<OWLNamedIndividual>>();
+        factorIndividualsForProperties.put(ExtendedISASyntax.SAMPLE, Collections.singleton(materialNodeIndividual));
 
         for(ISAFactorValue factorValue: factorValues){
 
-            //the factor type (or factor name) is what it is found in between the square brackets in Factor Value[]
+            //the factor name is Factor Value[factor]
             String fvType = factorValue.getName();
+            //the unit value associated with the factor
             ISAUnit fvUnit = factorValue.getUnit();
             int col = factorValue.getIndex();
             String unitData = null;
@@ -863,24 +864,27 @@ public class Assay2OWLConverter {
             if (fvUnit!=null)
                 unitData = data[row][fvUnit.getIndex()].toString();
 
-            String factorValueLabel = fvType+ factorValueData+ (fvUnit!=null? unitData: "");
+            String factorValueLabel = factorValueData+ (fvUnit!=null? unitData: ""); //fvType+ factorValueData+ (fvUnit!=null? unitData: "");
 
             OWLNamedIndividual factorValueIndividual = null;
 
             if (factorValueIndividuals.get(factorValueLabel)!=null)
                 factorValueIndividual = factorValueIndividuals.get(factorValueLabel);
             else {
-                factorValueIndividual = ISA2OWL.createIndividual(IRI.create(ISA.FACTOR_VALUE), factorValueLabel);
+                factorValueIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.FACTOR_VALUE.name, factorValueLabel);
                 factorValueIndividuals.put(factorValueLabel, factorValueIndividual);
             }
             System.out.println("factor value individual="+factorValueIndividual);
-            OWLLiteral factorValueLiteral = ISA2OWL.factory.getOWLLiteral(factorValueData);
-            OWLDataPropertyAssertionAxiom dataPropertyAssertionAxiom = ISA2OWL.factory.getOWLDataPropertyAssertionAxiom(hasValue, factorValueIndividual, factorValueLiteral);
-            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, dataPropertyAssertionAxiom);
 
-            OWLObjectPropertyAssertionAxiom objectPropertyAssertionAxiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasFactorValue, materialNodeIndividual, factorValueIndividual);
-            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, objectPropertyAssertionAxiom);
+            //include individual for properties
+            Set<OWLNamedIndividual> set = factorIndividualsForProperties.get(GeneralFieldTypes.FACTOR_VALUE.name);
+            if (set==null){
+                set = new HashSet<OWLNamedIndividual>();
+            }
+            set.add(factorValueIndividual);
 
+            Map<String,List<Pair<IRI, String>>> factorPropertyMappings = ISA2OWL.mapping.getFactorPropertyMappings();
+            ISA2OWL.convertPropertiesMultipleIndividuals(factorPropertyMappings, factorIndividualsForProperties);
 
         }
 

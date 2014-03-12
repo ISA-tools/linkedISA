@@ -67,4 +67,11 @@ public class ISA2OWLMappingParserTest {
         System.out.println(parser.getMapping());
     }
 
+    @Test
+    public void testReadISA_ISAMappingFile() throws Exception{
+        URL fileURL = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_ISA_MAPPING_FILENAME);
+        parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
+        System.out.println(parser.getMapping());
+    }
+
 }

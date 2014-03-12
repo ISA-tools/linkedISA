@@ -33,14 +33,20 @@ public class ISASyntax2OWLMapping {
     //for each type string (from the ISA syntax) there might be one or more IRIs to be used as classes
 	Map<String, Set<IRI>> typeMappings = null;
 
-    //property mappings
+    //all property mappings
 	Map<String,List<Pair<IRI, String>>> propertyMappings = null;
+
+    //property mappings divided by types
     Map<String,List<Pair<IRI, String>>> contactPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> protocolPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> protocolREFPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> materialNodePropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> assayPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> publicationPropertyMappings = null;
+
+    Map<String,List<Pair<IRI, String>>> factorPropertyMappings = null;
+
+    //the rest of the property mappings, after splitting by types
     Map<String,List<Pair<IRI, String>>> otherPropertyMappings = null;
 
 
@@ -59,6 +65,7 @@ public class ISASyntax2OWLMapping {
         materialNodePropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         assayPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         publicationPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
+        factorPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         otherPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
 		
 	}
@@ -213,6 +220,10 @@ public class ISASyntax2OWLMapping {
     public Map<String,List<Pair<IRI, String>>> getMaterialNodePropertyMappings(){
         return materialNodePropertyMappings;
     }
+
+    public Map<String,List<Pair<IRI, String>>> getFactorPropertyMappings(){
+        return factorPropertyMappings;
+    }
 	
 	public void addPropertyMapping(String subject, String predicate, String object){
 		List<Pair<IRI,String>> predobjs = propertyMappings.get(subject);
@@ -223,25 +234,54 @@ public class ISASyntax2OWLMapping {
 		}
 		propertyMappings.put(subject, predobjs);
 
+        boolean added = false;
+
         if (subject.startsWith(ExtendedISASyntax.STUDY_PERSON) ||
                 subject.startsWith(ExtendedISASyntax.INVESTIGATION_PERSON)){
             contactPropertyMappings.put(subject, predobjs);
-        } else if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL)){
+            added = true;
+        }
+
+        if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL)){
             protocolPropertyMappings.put(subject, predobjs);
-        } else if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL_REF.toString())
+            added = true;
+        }
+
+        if (subject.startsWith(ExtendedISASyntax.STUDY_PROTOCOL_REF.toString())
                 || subject.startsWith(ExtendedISASyntax.ASSAY_PROTOCOL_REF.toString())
                 || subject.startsWith(GeneralFieldTypes.PARAMETER_VALUE.name)){
             protocolREFPropertyMappings.put(subject, predobjs);
-        } else if (subject.matches(ISAMaterialNode.REGEXP) || subject.matches(ISAMaterialAttribute.REGEXP)){
+            added = true;
+        }
+
+        if (subject.matches(ISAMaterialNode.REGEXP)
+                || subject.matches(ISAMaterialAttribute.REGEXP)){
             materialNodePropertyMappings.put(subject, predobjs);
-        } else if (subject.startsWith(ExtendedISASyntax.STUDY_ASSAY)){
+            added = true;
+        }
+
+        if (subject.startsWith(ExtendedISASyntax.STUDY_ASSAY)){
             assayPropertyMappings.put(subject, predobjs);
-        } else if (subject.startsWith(ExtendedISASyntax.INVESTIGATION_PUBLICATION)
+            added = true;
+        }
+
+        if (subject.startsWith(ExtendedISASyntax.INVESTIGATION_PUBLICATION)
                 || subject.startsWith(ExtendedISASyntax.STUDY_PUBLICATION)
                 || subject.startsWith((ExtendedISASyntax.PUBLICATION))
                 || subject.startsWith(InvestigationPublication.PUBMED_ID)){
             publicationPropertyMappings.put(subject, predobjs);
-        } else {
+            added = true;
+        }
+
+        if (subject.startsWith(ExtendedISASyntax.STUDY_FACTOR)
+                || subject.startsWith(GeneralFieldTypes.FACTOR_VALUE.name)
+                //|| subject.startsWith(StudyDesign.STUDY_DESIGN_TYPE)
+                || subject.startsWith(ExtendedISASyntax.SAMPLE)){
+            factorPropertyMappings.put(subject, predobjs);
+            added = true;
+        }
+
+        if (!added) {
             otherPropertyMappings.put(subject, predobjs);
         }
 
@@ -270,7 +310,11 @@ public class ISASyntax2OWLMapping {
         builder.append(this.mapToString(assayPropertyMappings));
         builder.append("\nPUBLICATION PROPERTY MAPPINGS=\n");
         builder.append(this.mapToString(publicationPropertyMappings));
-		return builder.toString();
+        builder.append("\nFACTOR PROPERTY MAPPINGS=\n");
+        builder.append(this.mapToString(factorPropertyMappings));
+        builder.append("\nOTHER PROPERTY MAPPINGS=\n");
+        builder.append(this.mapToString(otherPropertyMappings));
+        return builder.toString();
 	}
 	
 	private <A,B> String mapToString(Map<A, B> map){

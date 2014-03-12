@@ -12,7 +12,7 @@ Investigation Public Release Date	""
 Comment [Created with configuration]	""
 Comment [Last Opened With Configuration]	""
 Comment[Created With Configuration]	""
-Comment[Last Opened With Configuration]	"isaconfig-default_v2014-01-16"
+Comment[Last Opened With Configuration]	""
 INVESTIGATION PUBLICATIONS
 Investigation PubMed ID	""
 Investigation Publication DOI	""
