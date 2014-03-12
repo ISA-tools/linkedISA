@@ -29,18 +29,24 @@ public class StudyGroup implements ISAGroup {
     //the members of the group
     private Set<String> groupMembers = null;
 
-    public StudyGroup(String criterion){
+    public StudyGroup(String criterion, String name){
         groupCriterion = criterion;
-        groupDefinition = new HashMap<String, String>();
+        groupName = name;
         groupMembers = new HashSet<String>();
+    }
+
+    public void setGroupDefinition(Map<String, String> def){
+        groupDefinition = def;
     }
 
     @Override
     public void addGroupDefinition(String k, String v){
+        if (groupDefinition==null)
+            groupDefinition = new HashMap<String, String>();
         groupDefinition.put(k, v);
     }
 
-    public void addGroupValue(String v){
+    public void addGroupMember(String v){
         groupMembers.add(v);
     }
 
@@ -62,6 +68,18 @@ public class StudyGroup implements ISAGroup {
     @Override
     public Set<String> getGroupMembers() {
         return null;
+    }
+
+    @Override
+    public String toString(){
+        StringBuffer buffer = new StringBuffer();
+
+        buffer.append("StudyGroup("+groupName+",\n");
+        buffer.append("\tcriterion="+groupCriterion);
+        buffer.append("\tdefinition="+groupDefinition);
+        buffer.append("\tmembers="+groupMembers);
+        buffer.append(")");
+        return buffer.toString();
     }
 
 

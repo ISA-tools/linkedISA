@@ -25,7 +25,7 @@ public class GraphParser {
     private Object[][] assayTable;
 
     private Graph graph;
-    private Map<String, Set<String>> groups;
+    private Map<String, StudyGroup> groups;
 
     /**
      * Constructor
@@ -34,7 +34,7 @@ public class GraphParser {
      */
     public GraphParser(Object[][] assayTable) {
         this.assayTable = assayTable;
-        groups = new HashMap<String, Set<String>>();
+        groups = new HashMap<String, StudyGroup>();
     }
 
     public void parse() {
@@ -272,7 +272,7 @@ public class GraphParser {
         groups = getDataGroupsWithTypeByColumn(assayTable, "Factor", false, false);
     }
 
-    public Map<String, Set<String>> getGroups() {
+    public Map<String, StudyGroup> getGroups() {
         return groups;
     }
 
@@ -293,18 +293,22 @@ public class GraphParser {
      *                           (e.g if true the result will be 'Factor Value[<specific value>]', otherwise it will be '<specific value>' only)
      * @return Map<String, String>
      */
-    private Map<String, Set<String>> getDataGroupsWithTypeByColumn(Object[][] fileContents,
+    private Map<String, StudyGroup> getDataGroupsWithTypeByColumn(Object[][] fileContents,
                                                                    String group,
                                                                    boolean exactMatch,
                                                                    boolean includeColumnNames) {
 
         //map for resulting groups
-        Map<String, Set<String>> groups = new HashMap<String, Set<String>>();
+        //group name, study group object
+        Map<String, StudyGroup> groups = new HashMap<String, StudyGroup>();
+
 
         String[] columnNames = Arrays.copyOf(fileContents[0],fileContents[0].length, String[].class);
 
         boolean allowedUnit = false;
         for (int row = 1; row < fileContents.length; row++) {
+            Map<String, String> groupDefinition = new HashMap<String, String>();
+
             String groupVal = "";
             int elementsNumber = 0;
             for (int col = 0; col < columnNames.length; col++) {
@@ -329,6 +333,7 @@ public class GraphParser {
                 if (match) {
                     if (!fileContents[row][col].equals("")) {
                         groupVal += (elementsNumber>0? "|": "") + (includeColumnNames ? extractColumnType(column)+"=" : " ") + fileContents[row][col];
+                        groupDefinition.put(extractColumnType(column), (String) fileContents[row][col]);
                         elementsNumber++;
                         allowedUnit = true;
                     }
@@ -337,11 +342,14 @@ public class GraphParser {
             if (!groupVal.equals("")) {
                 groupVal = groupVal.trim();
 
+
                 if (!groups.containsKey(groupVal)) {
-                    groups.put(groupVal, new HashSet<String>());
+                    groups.put(groupVal, new StudyGroup(group, groupVal));
                 }
 
-                groups.get(groupVal).add(getColValAtRow(fileContents, columnNames, "Sample Name", row));
+                StudyGroup studyGroup = groups.get(groupVal);
+                studyGroup.addGroupMember(getColValAtRow(fileContents, columnNames, "Sample Name", row));
+                studyGroup.setGroupDefinition(groupDefinition);
             }
         }
 
