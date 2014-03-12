@@ -57,7 +57,7 @@ Study Person Address,,,,,,,,,,
 Study Person Affiliation,,,,,,,,,,
 Study Person Roles,,,,,,,,,,
 ,,,,,,,,,,
-Study Factor,factor,http://purl.org/isaterms/factor,has factor value,http://purl.org/isaterms/has_factor_value,factor value,Factor Value
+Study Factor,factor,http://purl.org/isaterms/factor,has factor level,http://purl.org/isaterms/has_factor_level,factor value,Factor Value
 Study Factor Name,,,,,,,,,,
 Study Factor Type,,,,,,,,,,
 ,,,,,,,,,,

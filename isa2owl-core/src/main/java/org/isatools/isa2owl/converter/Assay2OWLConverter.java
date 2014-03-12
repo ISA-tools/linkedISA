@@ -49,7 +49,8 @@ public class Assay2OWLConverter {
     private Map<String, OWLNamedIndividual> processIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
     private Map<String, OWLNamedIndividual> materialAttributeIndividualMap = new HashMap<String, OWLNamedIndividual>();
-    private Map<String, OWLNamedIndividual> materialNodeIndividualMap = new HashMap<String, OWLNamedIndividual>();
+    //<type, <name, individual>>
+    private Map<String, Map<String, OWLNamedIndividual>> materialNodeIndividualMap = new HashMap<String, Map<String,OWLNamedIndividual>>();
 
     //factor value individuals identity is their own name, keep this map to create them only once
     private Map<String, OWLNamedIndividual> factorValueIndividuals = new HashMap<String, OWLNamedIndividual>();
@@ -647,11 +648,19 @@ public class Assay2OWLConverter {
                 if ( createIndividualForMaterialNode ){
 
                     //Material Node
-                    materialNodeIndividual = materialNodeIndividualMap.get(dataValue);
+                    Map<String, OWLNamedIndividual> namedIndividualMap = materialNodeIndividualMap.get(materialNode.getName());
+                    if (namedIndividualMap!=null) {
+                        materialNodeIndividual = namedIndividualMap.get(dataValue);
+                    } else {
+                        materialNodeIndividual = null;
+                        namedIndividualMap = new HashMap<String, OWLNamedIndividual>();
+                    }
 
                     if (materialNodeIndividual==null) {
                         materialNodeIndividual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), dataValue +" " +materialNode.getMaterialNodeType(), materialNode.getMaterialNodeType());
-                        materialNodeIndividualMap.put(dataValue, materialNodeIndividual);
+
+                        namedIndividualMap.put(dataValue, materialNodeIndividual);
+                        materialNodeIndividualMap.put(materialNode.getName(), namedIndividualMap);
                     }
 
                     addComments(materialNode, row, materialNodeIndividual);
