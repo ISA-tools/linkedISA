@@ -803,19 +803,19 @@ public class Assay2OWLConverter {
      */
     private boolean convertGroups(OWLNamedIndividual studyDesignIndividual, Map<String, OWLNamedIndividual> sampleIndividualMap){
         //Treatment groups
-        Map<String, Set<String>> groups = graphParser.getGroups();
+        Map<String, StudyGroup> groups = graphParser.getGroups();
         boolean groupsCreated = false;
 
         for(String group : groups.keySet()){
 
-
             Map<String, Set<OWLNamedIndividual>> individualsForProperties = new HashMap<String, Set<OWLNamedIndividual>>();
             individualsForProperties.put(StudyDesign.STUDY_DESIGN_TYPE, Collections.singleton(studyDesignIndividual));
 
-            Set<String> elements = groups.get(group);
-            groupsCreated = true;
             OWLNamedIndividual groupIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_GROUP, group);
             individualsForProperties.put(ExtendedISASyntax.STUDY_GROUP, Collections.singleton(groupIndividual));
+
+            StudyGroup studyGroup = groups.get(group);
+            Set<String> elements = studyGroup.getGroupMembers();
 
             //group membership
             for(String element: elements){
@@ -831,6 +831,23 @@ public class Assay2OWLConverter {
                 individualsForProperties.put(ExtendedISASyntax.SAMPLE, set);
 
             }
+
+            Map<String, String> factorFactorValue = studyGroup.getGroupDefinition();
+            for(String factor: factorFactorValue.keySet()) {
+                String factorValue = factorFactorValue.get(factor);
+                OWLNamedIndividual factorValueIndividual = factorValueIndividuals.get(factorValue);
+                if (factorValueIndividual==null)
+                    System.err.println("Theres is no individual for the factor value "+factorValue+"!");
+
+
+                Set<OWLNamedIndividual> set = individualsForProperties.get(GeneralFieldTypes.FACTOR_VALUE.name);
+                if (set==null)
+                    set = new HashSet<OWLNamedIndividual>();
+                set.add(factorValueIndividual);
+                individualsForProperties.put(GeneralFieldTypes.FACTOR_VALUE.name, set);
+            }
+
+            groupsCreated = true;
 
             //convert properties per each attribute
             Map<String, List<Pair<IRI,String>>> materialNodePropertyMapping = ISA2OWL.mapping.getGroupPropertyMappings();
@@ -882,7 +899,7 @@ public class Assay2OWLConverter {
             if (fvUnit!=null)
                 unitData = data[row][fvUnit.getIndex()].toString();
 
-            String factorValueLabel = "factor value "+ factorValueData+ (fvUnit!=null? unitData: "");
+            String factorValueLabel = factorValueData+ (fvUnit!=null? unitData: "");
 
             OWLNamedIndividual factorValueIndividual = null;
 

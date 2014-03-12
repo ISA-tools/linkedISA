@@ -67,7 +67,7 @@ public class StudyGroup implements ISAGroup {
 
     @Override
     public Set<String> getGroupMembers() {
-        return null;
+        return groupMembers;
     }
 
     @Override
