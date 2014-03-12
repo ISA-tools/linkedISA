@@ -656,7 +656,6 @@ public class Assay2OWLConverter {
 
                     addComments(materialNode, row, materialNodeIndividual);
 
-
                     if (materialNode.getMaterialNodeType() == ExtendedISASyntax.SAMPLE ){//&& sampleIndividualMapWasNull){
                         sampleIndividualMap.put(dataValue, materialNodeIndividual);
                     }
@@ -683,12 +682,6 @@ public class Assay2OWLConverter {
                     set3.add(materialNodeIndividualName);
                     materialNodeAndAttributesIndividuals.put(GeneralFieldTypes.SOURCE_NAME.toString(), set3);
 
-                    //adding factor values only when creating individual (so the factors come from the study sample file
-                    if (materialNode instanceof SampleNode){
-                        List<ISAFactorValue> factorValues = ((SampleNode) materialNode).getFactorValues();
-                        convertFactorValues(materialNodeIndividual, factorValues, row, factorIndividualMap);
-                    }
-
 
                 } else {   //createIndividualMaterialNode is false
                     materialNodeIndividual = sampleIndividualMap.get(dataValue);
@@ -696,6 +689,13 @@ public class Assay2OWLConverter {
 
                 }
                 individualMatrix[row][col] = materialNodeIndividual;
+
+                //adding factor values (so the factors may come from the study sample file or the assay file
+                if (materialNode instanceof SampleNode){
+                    List<ISAFactorValue> factorValues = ((SampleNode) materialNode).getFactorValues();
+                    convertFactorValues(materialNodeIndividual, factorValues, row, factorIndividualMap);
+                }
+
                 //material node attributes
                 List<ISAMaterialAttribute> attributeList = materialNode.getMaterialAttributes();
 
