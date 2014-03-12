@@ -11,14 +11,17 @@ import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.isatools.isacreator.model.Protocol;
+import org.isatools.isacreator.model.StudyDesign;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.owl.BFO;
-import org.isatools.owl.IAO;
 import org.isatools.owl.ISA;
 import org.isatools.owl.OBI;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 
 import java.util.*;
 
@@ -790,9 +793,9 @@ public class Assay2OWLConverter {
      *
      * Method to create Study Groups.
      *
-     * @param studyDesignIndividual
-     * @param sampleIndividualMap
-     * @return
+     * @param studyDesignIndividual the individual for 'Study Design Type' ISA element
+     * @param sampleIndividualMap a Map with all the created sample individuals
+     * @return true if groups were created, false otherwise
      */
     private boolean convertGroups(OWLNamedIndividual studyDesignIndividual, Map<String, OWLNamedIndividual> sampleIndividualMap){
         //Treatment groups
@@ -801,9 +804,14 @@ public class Assay2OWLConverter {
 
         for(String group : groups.keySet()){
 
+
+            Map<String, Set<OWLNamedIndividual>> individualsForProperties = new HashMap<String, Set<OWLNamedIndividual>>();
+            individualsForProperties.put(StudyDesign.STUDY_DESIGN_TYPE, Collections.singleton(studyDesignIndividual));
+
             Set<String> elements = groups.get(group);
             groupsCreated = true;
             OWLNamedIndividual groupIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_GROUP, group);
+            individualsForProperties.put(ExtendedISASyntax.STUDY_GROUP, Collections.singleton(groupIndividual));
 
             //group membership
             for(String element: elements){
@@ -812,15 +820,17 @@ public class Assay2OWLConverter {
                 if (memberIndividual==null)
                     continue;
 
-                OWLObjectProperty hasMember = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.HAS_MEMBER));
-                OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(hasMember, groupIndividual, memberIndividual);
-                ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
+                Set<OWLNamedIndividual> set = individualsForProperties.get(ExtendedISASyntax.SAMPLE);
+                if (set==null)
+                    set = new HashSet<OWLNamedIndividual>();
+                set.add(memberIndividual);
+                individualsForProperties.put(ExtendedISASyntax.SAMPLE, set);
+
             }
 
-            //'study design' denotes 'study group population'
-            OWLObjectProperty denotes = ISA2OWL.factory.getOWLObjectProperty(IRI.create(IAO.DENOTES));
-            OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(denotes,studyDesignIndividual, groupIndividual);
-            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
+            //convert properties per each attribute
+            Map<String, List<Pair<IRI,String>>> materialNodePropertyMapping = ISA2OWL.mapping.getGroupPropertyMappings();
+            ISA2OWL.convertPropertiesMultipleIndividuals(materialNodePropertyMapping, individualsForProperties);
 
         }
         return groupsCreated;

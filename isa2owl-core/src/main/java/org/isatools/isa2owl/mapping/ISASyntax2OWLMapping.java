@@ -5,6 +5,7 @@ import org.isatools.graph.model.ISAMaterialAttribute;
 import org.isatools.graph.model.ISAMaterialNode;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.isatools.isacreator.model.InvestigationPublication;
+import org.isatools.isacreator.model.StudyDesign;
 import org.isatools.syntax.ExtendedISASyntax;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.model.IRI;
@@ -43,8 +44,8 @@ public class ISASyntax2OWLMapping {
     Map<String,List<Pair<IRI, String>>> materialNodePropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> assayPropertyMappings = null;
     Map<String,List<Pair<IRI, String>>> publicationPropertyMappings = null;
-
     Map<String,List<Pair<IRI, String>>> factorPropertyMappings = null;
+    Map<String,List<Pair<IRI, String>>> groupPropertyMappings = null;
 
     //the rest of the property mappings, after splitting by types
     Map<String,List<Pair<IRI, String>>> otherPropertyMappings = null;
@@ -66,6 +67,7 @@ public class ISASyntax2OWLMapping {
         assayPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         publicationPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         factorPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
+        groupPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
         otherPropertyMappings = new HashMap<String, List<Pair<IRI,String>>>();
 		
 	}
@@ -224,6 +226,10 @@ public class ISASyntax2OWLMapping {
     public Map<String,List<Pair<IRI, String>>> getFactorPropertyMappings(){
         return factorPropertyMappings;
     }
+
+    public Map<String,List<Pair<IRI, String>>> getGroupPropertyMappings(){
+        return groupPropertyMappings;
+    }
 	
 	public void addPropertyMapping(String subject, String predicate, String object){
 		List<Pair<IRI,String>> predobjs = propertyMappings.get(subject);
@@ -281,6 +287,12 @@ public class ISASyntax2OWLMapping {
             added = true;
         }
 
+        if (subject.startsWith(ExtendedISASyntax.STUDY_GROUP)
+            || subject.startsWith(StudyDesign.STUDY_DESIGN_TYPE)) {
+            groupPropertyMappings.put(subject, predobjs);
+            added = true;
+        }
+
         if (!added) {
             otherPropertyMappings.put(subject, predobjs);
         }
@@ -312,6 +324,8 @@ public class ISASyntax2OWLMapping {
         builder.append(this.mapToString(publicationPropertyMappings));
         builder.append("\nFACTOR PROPERTY MAPPINGS=\n");
         builder.append(this.mapToString(factorPropertyMappings));
+        builder.append("\nGROUP PROPERTY MAPPINGS=\n");
+        builder.append(this.mapToString(groupPropertyMappings));
         builder.append("\nOTHER PROPERTY MAPPINGS=\n");
         builder.append(this.mapToString(otherPropertyMappings));
         return builder.toString();

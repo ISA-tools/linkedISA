@@ -327,9 +327,11 @@ public class GraphParser {
                 }
 
                 if (match) {
-                    groupVal += (elementsNumber>0? "|": "") + (includeColumnNames ? extractColumnType(column)+"=" : " ") + fileContents[row][col];
-                    elementsNumber++;
-                    allowedUnit = true;
+                    if (!fileContents[row][col].equals("")) {
+                        groupVal += (elementsNumber>0? "|": "") + (includeColumnNames ? extractColumnType(column)+"=" : " ") + fileContents[row][col];
+                        elementsNumber++;
+                        allowedUnit = true;
+                    }
                 } else allowedUnit = column.contains("Term Source REF") || column.contains("Term Accession Number");
             }
             if (!groupVal.equals("")) {
