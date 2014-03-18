@@ -30,6 +30,6 @@ public class ISA {
     public static final String POINTS_TO = NAMESPACE + "points_to";
     public static final String DESCRIBES = NAMESPACE + "describes";
 
-    public static final String EXECUTES = NAMESPACE + "describes";
+    public static final String EXECUTES = NAMESPACE + "executes";
     public static final String HAS_MEMBER = NAMESPACE + "has_member";
 }
