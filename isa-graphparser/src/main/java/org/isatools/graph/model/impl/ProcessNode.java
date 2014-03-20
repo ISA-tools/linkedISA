@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ProcessNode extends NodeWithComments implements ISAProcessNode {
 
-    public static final String REGEXP = "(.*Assay Name)|(Data Normalization.*)|(Data Transformation.*)";
+    public static final String REGEXP = "(.*Assay Name)|(Normalization.*)|(Data Transformation.*)";
 
     //the process nodes that are related to this assay
     private List<ProtocolExecutionNode> protocolExecutionNodes = null;
