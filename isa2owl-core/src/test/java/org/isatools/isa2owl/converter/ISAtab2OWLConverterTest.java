@@ -265,6 +265,21 @@ public class ISAtab2OWLConverterTest {
     }
 
     @Test
+    public void testConvertISATABTest3(){
+        iri = "http://w3id.org/isa/isatab-test3";
+        isatabParentDir = getClass().getResource( path + "isatab-test3").getFile();
+        System.out.println("isatabParentDir="+isatabParentDir);
+        System.out.println("Converting the ISA-tab dataset into OWL");
+        isatab2owl.convert(isatabParentDir, iri);
+        isatab2owl.saveOntology(savePath+"isatab-test3.rdf");
+
+        System.out.println();
+        System.out.println();
+        isatab2owl.getMintedIRIs();
+
+    }
+
+    @Test
     public void testConvertISACompositeTest(){
         iri = "http://w3id.org/isa/isa-composite-test";
         isatabParentDir = getClass().getResource( path + "ISA-composite-test").getFile();

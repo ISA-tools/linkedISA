@@ -45,12 +45,15 @@ public class ISA2OWL {
 
     //<type, id, individual>
     public static Map<String, Map<String,OWLNamedIndividual>> typeIdIndividualMap = null;
+
     //<type, individual>
     public static Map<String, Set<OWLNamedIndividual>> typeIndividualMap = null;
 
     public static Map<String, OWLNamedIndividual> idIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
     public static ISASyntax2OWLMapping mapping = null;
+
+    public static Map<OWLNamedIndividual, Set<IRI>> individualTypeMap = new HashMap<OWLNamedIndividual,Set<IRI>>();
 
     public static void setIRI(String iri){
         ontoIRI = IRI.create(iri);
@@ -212,6 +215,15 @@ public class ISA2OWL {
             if (individual ==null)
                 individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? createIndividualIRI(ISA2OWL.ontoIRI, typeMappingLabel, individualLabel) : individualIRI);
             //individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? IRIGenerator.getIRI(ISA2OWL.ontoIRI) : individualIRI);
+
+            Set<IRI> types = individualTypeMap.get(individual);
+
+            if (types==null){
+                types = new HashSet<IRI>();
+                types.addAll(owlClassIRIs);
+            }
+
+            individualTypeMap.put(individual, types);
 
             //label
             OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(

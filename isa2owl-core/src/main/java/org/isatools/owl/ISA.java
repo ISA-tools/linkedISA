@@ -14,10 +14,10 @@ public class ISA {
     public static final String NAMESPACE = "http://purl.org/isaterms/";
     public static final String SHORTNAME = "ISA";
 
-    public static final String INVESTIGATION = NAMESPACE + "investigation";//"00000058";
-    public static final String FACTOR_VALUE = NAMESPACE + "factor_value";//"00000029";
-    public static final String HAS_FACTOR_VALUE = NAMESPACE  + "has_factor_value";//+ "00000093";
-    public static final String HAS_VALUE = NAMESPACE + "has_value";//+ "00000089";
+    public static final String INVESTIGATION = NAMESPACE + "investigation";
+    public static final String FACTOR_VALUE = NAMESPACE + "factor_value";
+    public static final String HAS_FACTOR_VALUE = NAMESPACE  + "has_factor_value";
+    public static final String HAS_VALUE = NAMESPACE + "has_value";
 
     public static final String ISA_DATASET = NAMESPACE + "ISA_dataset";
     public static final String ISATAB_DISTRIBUTION = NAMESPACE + "ISAtab_distribution";
