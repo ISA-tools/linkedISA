@@ -87,7 +87,7 @@ public class GraphParser {
                 graph.addNode(processNode);
                 if (lastMaterialOrData != null) {
                     processNode.addInputNode(
-                            new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
+                           new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
                 }
                 lastProcess = processNode;
                 if (lastProcess!=null) {
@@ -131,6 +131,7 @@ public class GraphParser {
                     //ProcessNode processNode = new ProcessNode(-1, "-1");
                     //lastProtocolExecutionNode.addInputNode(lastMaterialOrData);
                     lastProtocolExecutionNode.addOutputNode(materialNode);
+                    protocolExecutionNodes =  new ArrayList<ProtocolExecutionNode>();
                     //graph.addNode(lastProtocolExecutionNode);
                 }
 
