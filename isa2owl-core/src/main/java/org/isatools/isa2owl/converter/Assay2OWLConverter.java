@@ -117,16 +117,14 @@ public class Assay2OWLConverter {
         convertProtocolExecutionNodes(protocolList, protocolIndividualMap, graph, assayTableType);
 
         if (assayTableType == AssayTableType.ASSAY){
-            //TODO CHECK THIS SPLIT BETWEEN ASSAY AND PROCESS NODES
 
-            List<ISANode> assayNodes = graph.getNodes(NodeType.ASSAY_NODE);
             //Assay Name *
+            List<ISANode> assayNodes = graph.getNodes(NodeType.ASSAY_NODE);
             convertProcessNodes(assayNodes, protocolIndividualMap, graph, assayIndividualsForProperties, assayFileIndividual);
 
+            //Data Transformation or Normalization Name
             List<ISANode> processNodes = graph.getNodes(NodeType.PROCESS_NODE);
             convertProcessNodes(processNodes, protocolIndividualMap, graph, assayIndividualsForProperties, assayFileIndividual);
-            //Data Transformation or Normalization Name
-            //convertProcessNodes(graph);
         }
 
         if (convertGroups){
@@ -236,6 +234,7 @@ public class Assay2OWLConverter {
 
                     //realizes o concretizes (executes) associated protocol
                     List<ProtocolExecutionNode> associatedProcessNodes = processNode.getAssociatedProcessNodes();
+                    OWLNamedIndividual lastProtocolExecutionIndividual = null;
                     for(ProtocolExecutionNode protocolExecutionNode: associatedProcessNodes){
 
                         int protocolExecutionColumn = protocolExecutionNode.getIndex();
@@ -247,6 +246,12 @@ public class Assay2OWLConverter {
                         ISA2OWL.addObjectPropertyAssertionAxiom(executes, processIndividual, protocolIndividual);
 
                         OWLNamedIndividual protocolExecutionIndividual = individualMatrix[processRow][protocolExecutionColumn];
+
+                        OWLObjectProperty isPrecededBy = ISA2OWL.factory.getOWLObjectProperty(IRI.create(BFO.IS_PRECEDED_BY));
+                        if (lastProtocolExecutionIndividual!=null)
+                            ISA2OWL.addObjectPropertyAssertionAxiom(isPrecededBy, protocolExecutionIndividual, lastProtocolExecutionIndividual);
+
+                        lastProtocolExecutionIndividual = protocolExecutionIndividual;
                         OWLObjectProperty has_part = ISA2OWL.factory.getOWLObjectProperty(IRI.create(BFO.HAS_PART));
                         ISA2OWL.addObjectPropertyAssertionAxiom(has_part, processIndividual, protocolExecutionIndividual);
 

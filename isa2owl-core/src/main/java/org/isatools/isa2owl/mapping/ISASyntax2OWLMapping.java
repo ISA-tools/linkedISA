@@ -293,7 +293,7 @@ public class ISASyntax2OWLMapping {
             added = true;
         }
 
-        if (!added) {
+        if (!added || subject.startsWith(StudyDesign.STUDY_DESIGN_TYPE)) {
             otherPropertyMappings.put(subject, predobjs);
         }
 

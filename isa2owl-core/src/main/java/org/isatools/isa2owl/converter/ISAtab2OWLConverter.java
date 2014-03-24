@@ -371,7 +371,7 @@ public class ISAtab2OWLConverter {
 
         //Study design
         List<StudyDesign> studyDesignList = study.getStudyDesigns();
-        OWLNamedIndividual studyDesignIndividual = studyDesignIndividual = convertStudyDesign(studyIndividual, study, studyDesignList);
+        OWLNamedIndividual studyDesignIndividual = convertStudyDesign(studyIndividual, study, studyDesignList);
 
         //Study Person
         List<Contact> contactList = study.getContacts();

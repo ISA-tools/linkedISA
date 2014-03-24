@@ -28,6 +28,7 @@ public class BFO {
     public static final String IS_BEARER_OF = NAMESPACE + "0000053";
     public static final String INDEPENDENT_CONTINUANT = NAMESPACE + "0000004";
     public static final String DEPENDENT_CONTINUANT = NAMESPACE + "0000005";
+    public static final String IS_PRECEDED_BY = NAMESPACE + "0000062";
 
 
     BFO() {
