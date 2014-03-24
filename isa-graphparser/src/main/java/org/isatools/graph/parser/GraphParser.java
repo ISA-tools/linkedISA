@@ -108,6 +108,11 @@ public class GraphParser {
                     lastProtocolExecutionNode = null;
                 }
 
+                if (lastMaterialOrData !=null && lastProcess==null && lastProtocolExecutionNode!=null){
+                    lastProtocolExecutionNode.addOutputNode(dataNode);
+                    protocolExecutionNodes =  new ArrayList<ProtocolExecutionNode>();
+                }
+
             } else if (column.matches(ISAMaterialAttribute.REGEXP)) {
 
                 ISAMaterialAttribute materialAttribute = new MaterialAttribute(index, column);
@@ -128,11 +133,8 @@ public class GraphParser {
                 //if there is a previous material node
                 //and no process node, add a dummy process node
                 if (lastMaterialOrData !=null && lastProcess==null && lastProtocolExecutionNode!=null){
-                    //ProcessNode processNode = new ProcessNode(-1, "-1");
-                    //lastProtocolExecutionNode.addInputNode(lastMaterialOrData);
                     lastProtocolExecutionNode.addOutputNode(materialNode);
                     protocolExecutionNodes =  new ArrayList<ProtocolExecutionNode>();
-                    //graph.addNode(lastProtocolExecutionNode);
                 }
 
                 graph.addNode(materialNode);
