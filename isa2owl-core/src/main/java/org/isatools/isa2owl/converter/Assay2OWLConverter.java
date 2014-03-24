@@ -234,7 +234,6 @@ public class Assay2OWLConverter {
 
                     addComments(processNode, processRow, processIndividual);
 
-
                     //realizes o concretizes (executes) associated protocol
                     List<ProtocolExecutionNode> associatedProcessNodes = processNode.getAssociatedProcessNodes();
                     for(ProtocolExecutionNode protocolExecutionNode: associatedProcessNodes){
@@ -242,6 +241,7 @@ public class Assay2OWLConverter {
                         int protocolExecutionColumn = protocolExecutionNode.getIndex();
                         String protocolExecutionName = (String)data[processRow][protocolExecutionColumn];
 
+                        //executes
                         OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(protocolExecutionName);
                         OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.EXECUTES));
                         ISA2OWL.addObjectPropertyAssertionAxiom(executes, processIndividual, protocolIndividual);
@@ -257,7 +257,6 @@ public class Assay2OWLConverter {
                             //Set<IRI> protocolClassIRIs = ISA2OWL.individualTypeMap.get(protocolIndividual);
                             OWLSameIndividualAxiom axiom = ISA2OWL.factory.getOWLSameIndividualAxiom(processIndividual, protocolExecutionIndividual);
                             ISA2OWL.manager.addAxiom(ISA2OWL.ontology,axiom);
-
 
                         }
 
@@ -597,6 +596,10 @@ public class Assay2OWLConverter {
                 Map<String, List<Pair<IRI,String>>> protocolREFmapping = ISA2OWL.mapping.getProtocolREFMappings();
                 ISA2OWL.convertPropertiesMultipleIndividuals(protocolREFmapping, protocolREFIndividuals);
                 }//processNode was null
+                else {
+                    individualMatrix[processRow][processCol] = processIndividual;
+                }
+
             }//processRow
 
         }//processNode
