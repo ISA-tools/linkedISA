@@ -21,6 +21,7 @@ public class ProtocolExecutionNode extends ProcessNode {
 
     public ProtocolExecutionNode(int index, String name) {
         super(index, name);
+        setType(NodeType.PROTOCOL_EXECUTION_NODE);
         inputNodes = new ArrayList<ISANode>();
         outputNodes = new ArrayList<ISANode>();
         parameters = new ArrayList<ProcessParameter>();
@@ -62,12 +63,12 @@ public class ProtocolExecutionNode extends ProcessNode {
 
         if (getInputNodes() != null) {
             for (ISANode inputNode : getInputNodes()) {
-                buffer.append("\t input: " + inputNode.getName()+"\n");
+                buffer.append("\t input: " + inputNode.getType() + " " + inputNode.getName()+"\n");
             }
         }
         if (getOutputNodes() != null) {
             for (ISANode outputNode : getOutputNodes()) {
-                buffer.append("\t output: " + outputNode.getName()+"\n");
+                buffer.append("\t output: " + outputNode.getType() + " " + outputNode.getName()+"\n");
             }
         }
 

@@ -21,6 +21,12 @@ public abstract class Node implements ISANode {
         this.name = name;
     }
 
+    public Node(int index, String name, NodeType type) {
+        this.index = index;
+        this.name = name;
+        this.type = type;
+    }
+
     @Override
     public int getIndex() {
         return index;

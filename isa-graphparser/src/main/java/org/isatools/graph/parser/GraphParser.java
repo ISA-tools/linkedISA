@@ -75,8 +75,7 @@ public class GraphParser {
                 lastProtocolExecutionNode = protocolExecutionNode;
 
                 if (lastMaterialOrData != null) {
-                    protocolExecutionNode.addInputNode(
-                            new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
+                    protocolExecutionNode.addInputNode(lastMaterialOrData);
                 }
 
                 graph.addNode(protocolExecutionNode);
@@ -95,7 +94,7 @@ public class GraphParser {
                     protocolExecutionNodes =  new ArrayList<ProtocolExecutionNode>();
                 }
 
-            }  else if (column.contains(ISADataNode.CONTAINS)){ //&& !column.matches(DataNode.REGEXP)) {
+            }  else if (column.contains(ISADataNode.CONTAINS) && !column.contains("Comment")) {
                 NodeWithComments dataNode = new DataNode(index, column);
                 graph.addNode(dataNode);
                 lastMaterialOrData = dataNode;

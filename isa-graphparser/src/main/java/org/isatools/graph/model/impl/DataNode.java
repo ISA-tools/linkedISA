@@ -11,7 +11,7 @@ package org.isatools.graph.model.impl;
 public class DataNode extends NodeWithComments {
 
     public DataNode(int index, String name) {
-        super(index, name);
+        super(index, name, NodeType.DATA_NODE);
     }
 
     public String toString(){

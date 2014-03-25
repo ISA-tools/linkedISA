@@ -1,7 +1,5 @@
 package org.isatools.graph.model.impl;
 
-import org.isatools.graph.model.impl.CommentNode;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +17,11 @@ public class NodeWithComments extends Node {
 
     public NodeWithComments(int index, String name) {
         super(index, name);
+        comments = new ArrayList<CommentNode>();
+    }
+
+    public NodeWithComments(int index, String name, NodeType type) {
+        super(index, name, type);
         comments = new ArrayList<CommentNode>();
     }
 

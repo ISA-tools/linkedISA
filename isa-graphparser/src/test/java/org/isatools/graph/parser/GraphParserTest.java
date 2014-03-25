@@ -82,6 +82,12 @@ public class GraphParserTest {
     }
 
     @Test
+    public void parserBGISoapdenovo2CompactTest(){
+        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/soapdenovo2-compact").getFile();
+        graphParser(isatabParentDir);
+    }
+
+    @Test
     public void parserCompositeTest(){
         String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/ISA-composite-test").getFile();
         graphParser(isatabParentDir);

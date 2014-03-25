@@ -23,7 +23,7 @@ public class MaterialNode extends NodeWithComments implements ISAMaterialNode {
     private List<ISAMaterialAttribute> materialAttributes;
 
     public MaterialNode(int index, String name) {
-        super(index, name);
+        super(index, name, NodeType.MATERIAL_NODE);
         materialAttributes = new ArrayList<ISAMaterialAttribute>();
     }
 

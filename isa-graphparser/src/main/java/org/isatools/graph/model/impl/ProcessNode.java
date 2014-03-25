@@ -29,6 +29,7 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
 
     public ProcessNode(int index, String name) {
         super(index, name);
+        setType(NodeType.PROCESS_NODE);
         inputNodes = new ArrayList<ISANode>();
         outputNodes = new ArrayList<ISANode>();
         parameters = new ArrayList<ProcessParameter>();
@@ -88,13 +89,13 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
         buffer.append(":");
         if (getInputNodes() != null) {
             for (ISANode inputNode : getInputNodes()) {
-                buffer.append(" " + inputNode.getName()+"");
+                buffer.append("\t input: " + inputNode.getName()+"\n");
             }
         }
         buffer.append("->");
         if (getOutputNodes() != null) {
             for (ISANode outputNode : getOutputNodes()) {
-                buffer.append(" " + outputNode.getName()+"");
+                buffer.append(" " + outputNode.getType() +" " + outputNode.getName()+"");
             }
         }
        return buffer.toString();
@@ -112,7 +113,7 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
 
         if (getInputNodes() != null) {
             for (ISANode inputNode : getInputNodes()) {
-                buffer.append("\t input: " + inputNode.getName()+"\n");
+                buffer.append(" " + inputNode.getType() +" "+ inputNode.getName()+"");
             }
         }
         if (getOutputNodes() != null) {
