@@ -111,6 +111,12 @@ public class GraphParserTest {
         graphParser(isatabParentDir);
     }
 
+    @Test
+    public void parserISATABTest4(){
+        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/isatab-test4").getFile();
+        graphParser(isatabParentDir);
+    }
+
     private void graphParser(String isatabParentDir){
         //Import ISAtab dataset
         System.out.println("configDir="+configDir);
