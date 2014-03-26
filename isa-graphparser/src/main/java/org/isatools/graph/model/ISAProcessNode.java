@@ -15,15 +15,15 @@ import java.util.List;
  */
 public interface ISAProcessNode extends ISANode {
 
-    public void addInputNode(ISANode inputNode);
+    public void setInputNode(ISANode inputNode);
 
-    public void addOutputNode(ISANode outputNode);
+    public void setOutputNode(ISANode outputNode);
 
     public void addParameter(ProcessParameter p);
 
-    public List<ISANode> getInputNodes();
+    public ISANode getInputNode();
 
-    public List<ISANode> getOutputNodes();
+    public ISANode getOutputNode();
 
     public List<ProcessParameter> getParameters();
 }

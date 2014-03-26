@@ -23,15 +23,13 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
     private List<ProtocolExecutionNode> protocolExecutionNodes = null;
 
 
-    protected List<ISANode> inputNodes = null;
-    protected List<ISANode> outputNodes = null;
+    protected ISANode inputNode = null;
+    protected ISANode outputNode = null;
     protected List<ProcessParameter> parameters = null;
 
     public ProcessNode(int index, String name) {
         super(index, name);
         setType(NodeType.PROCESS_NODE);
-        inputNodes = new ArrayList<ISANode>();
-        outputNodes = new ArrayList<ISANode>();
         parameters = new ArrayList<ProcessParameter>();
         protocolExecutionNodes = new ArrayList<ProtocolExecutionNode>();
     }
@@ -46,13 +44,13 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
 
 
     @Override
-    public void addInputNode(ISANode inputNode) {
-        inputNodes.add((Node)inputNode);
+    public void setInputNode(ISANode in) {
+        inputNode = in;
     }
 
     @Override
-    public void addOutputNode(ISANode outputNode) {
-        outputNodes.add((Node)outputNode);
+    public void setOutputNode(ISANode on) {
+        outputNode = on;
     }
 
     @Override
@@ -62,13 +60,13 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
 
 
     @Override
-    public List<ISANode> getInputNodes() {
-        return inputNodes;
+    public ISANode getInputNode() {
+        return inputNode;
     }
 
     @Override
-    public List<ISANode> getOutputNodes() {
-        return outputNodes;
+    public ISANode getOutputNode() {
+        return outputNode;
     }
 
     @Override
@@ -87,16 +85,12 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
             buffer.append("]");
         }
         buffer.append(":");
-        if (getInputNodes() != null) {
-            for (ISANode inputNode : getInputNodes()) {
-                buffer.append("\t input: " + inputNode.getName()+"\n");
-            }
+        if (inputNode != null) {
+            buffer.append("\t input: " + inputNode.getName()+"\n");
         }
         buffer.append("->");
-        if (getOutputNodes() != null) {
-            for (ISANode outputNode : getOutputNodes()) {
+        if (outputNode != null) {
                 buffer.append(" " + outputNode.getType() +" " + outputNode.getName()+"");
-            }
         }
        return buffer.toString();
     }
@@ -111,15 +105,11 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
             }
         }
 
-        if (getInputNodes() != null) {
-            for (ISANode inputNode : getInputNodes()) {
+        if (inputNode != null) {
                 buffer.append(" " + inputNode.getType() +" "+ inputNode.getName()+"");
-            }
         }
-        if (getOutputNodes() != null) {
-            for (ISANode outputNode : getOutputNodes()) {
+        if (outputNode != null) {
                 buffer.append("\t output: " + outputNode.getName()+"\n");
-            }
         }
 
         if (getAssociatedProcessNodes() !=null) {

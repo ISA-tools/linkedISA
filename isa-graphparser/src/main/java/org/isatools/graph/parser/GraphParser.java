@@ -75,7 +75,7 @@ public class GraphParser {
                 lastProtocolExecutionNode = protocolExecutionNode;
 
                 if (lastMaterialOrData != null) {
-                    protocolExecutionNode.addInputNode(lastMaterialOrData);
+                    protocolExecutionNode.setInputNode(lastMaterialOrData);
                 }
 
                 graph.addNode(protocolExecutionNode);
@@ -85,7 +85,7 @@ public class GraphParser {
 
                 graph.addNode(processNode);
                 if (lastMaterialOrData != null) {
-                    processNode.addInputNode(
+                    processNode.setInputNode(
                            new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
                 }
                 lastProcess = processNode;
@@ -100,15 +100,15 @@ public class GraphParser {
                 lastMaterialOrData = dataNode;
 
                 if (lastProcess != null) {
-                    lastProcess.addOutputNode(dataNode);
+                    lastProcess.setOutputNode(dataNode);
                     lastProcess = null;
                 } else if (lastProtocolExecutionNode !=null){
-                    lastProtocolExecutionNode.addOutputNode(dataNode);
+                    lastProtocolExecutionNode.setOutputNode(dataNode);
                     lastProtocolExecutionNode = null;
                 }
 
                 if (lastMaterialOrData !=null && lastProcess==null && lastProtocolExecutionNode!=null){
-                    lastProtocolExecutionNode.addOutputNode(dataNode);
+                    lastProtocolExecutionNode.setOutputNode(dataNode);
                     protocolExecutionNodes =  new ArrayList<ProtocolExecutionNode>();
                 }
 
@@ -132,14 +132,14 @@ public class GraphParser {
                 //if there is a previous material node
                 //and no process node, add a dummy process node
                 if (lastMaterialOrData !=null && lastProcess==null && lastProtocolExecutionNode!=null){
-                    lastProtocolExecutionNode.addOutputNode(materialNode);
+                    lastProtocolExecutionNode.setOutputNode(materialNode);
                     protocolExecutionNodes =  new ArrayList<ProtocolExecutionNode>();
                 }
 
                 graph.addNode(materialNode);
                 lastMaterialOrData = materialNode;
                 if (lastProcess != null) {
-                    lastProcess.addOutputNode(materialNode);
+                    lastProcess.setOutputNode(materialNode);
                     lastProcess = null;
                 }
 
