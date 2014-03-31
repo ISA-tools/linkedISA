@@ -86,11 +86,11 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
         }
         buffer.append(":");
         if (inputNode != null) {
-            buffer.append("\t input: " + inputNode.getName()+"\n");
+            buffer.append("\t input: " + inputNode.getType() +" "+ inputNode.getName()+"\n");
         }
         buffer.append("->");
         if (outputNode != null) {
-                buffer.append(" " + outputNode.getType() +" " + outputNode.getName()+"");
+            buffer.append("\t output: " + outputNode.getType() +" " + outputNode.getName()+"\n");
         }
        return buffer.toString();
     }
@@ -106,10 +106,10 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
         }
 
         if (inputNode != null) {
-                buffer.append(" " + inputNode.getType() +" "+ inputNode.getName()+"");
+            buffer.append("\t input: " + inputNode.getType() +" "+ inputNode.getName()+"\n");
         }
         if (outputNode != null) {
-                buffer.append("\t output: " + outputNode.getName()+"\n");
+            buffer.append("\t output: " + outputNode.getType() +" " + outputNode.getName()+"\n");
         }
 
         if (getAssociatedProcessNodes() !=null) {

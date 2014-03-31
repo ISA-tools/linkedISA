@@ -170,11 +170,61 @@ public class GraphParser {
             } else if (column.matches(CommentNode.REGEXP)){
 
                 CommentNode commentNode = new CommentNode(index, column);
-                if (lastProcess != null) {
-                    lastProcess.addComment(commentNode);
-                }
-                if (lastMaterialOrData != null){
-                    lastMaterialOrData.addComment(commentNode);
+
+                if (lastProcess != null && lastMaterialOrData!=null && lastProtocolExecutionNode!=null) {
+
+                    //lastProcess greater index
+                    if (lastProcess.getIndex() > lastMaterialOrData.getIndex() && lastProcess.getIndex() > lastProtocolExecutionNode.getIndex()){
+                        lastProcess.addComment(commentNode);
+                    }else if (lastMaterialOrData.getIndex() > lastProcess.getIndex() && lastMaterialOrData.getIndex() > lastProtocolExecutionNode.getIndex()){
+                        lastMaterialOrData.addComment(commentNode);
+                    }else if (lastProtocolExecutionNode.getIndex() > lastProcess.getIndex() && lastProtocolExecutionNode.getIndex() > lastMaterialOrData.getIndex()){
+                        lastProtocolExecutionNode.addComment(commentNode);
+                    }
+
+                }  else { //one of them is null
+
+                    if (lastProcess!=null && lastMaterialOrData!=null){
+
+                        if (lastProcess.getIndex()>lastMaterialOrData.getIndex()){
+                            lastProcess.addComment(commentNode);
+                        } else {
+                            lastMaterialOrData.addComment(commentNode);
+                        }
+
+                    } else if (lastProcess!=null && lastProtocolExecutionNode!=null){
+
+                        if (lastProcess.getIndex()>lastProtocolExecutionNode.getIndex()){
+                            lastProcess.addComment(commentNode);
+                        } else{
+                            lastProtocolExecutionNode.addComment(commentNode);
+                        }
+
+                    } else if (lastMaterialOrData!=null && lastProtocolExecutionNode!=null){
+
+                        if (lastMaterialOrData.getIndex() > lastProtocolExecutionNode.getIndex()){
+                            lastMaterialOrData.addComment(commentNode);
+                        } else {
+                            lastProtocolExecutionNode.addComment(commentNode);
+                        }
+
+                    } else {
+
+                        //only one is not null
+
+                        if (lastMaterialOrData!=null){
+                            lastMaterialOrData.addComment(commentNode);
+                        } else if (lastProcess!=null){
+                            lastProcess.addComment(commentNode);
+                        } else if (lastProtocolExecutionNode!=null){
+                            lastProtocolExecutionNode.addComment(commentNode);
+                        }
+
+
+
+                    }
+
+
                 }
             }
             index++;
