@@ -212,9 +212,11 @@ public class ISA2OWL {
                 return null;
             }
 
+            if  (individualIRI==null)
+                individualIRI =  createIndividualIRI(ISA2OWL.ontoIRI, typeMappingLabel, individualLabel);
+
             if (individual ==null)
-                individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? createIndividualIRI(ISA2OWL.ontoIRI, typeMappingLabel, individualLabel) : individualIRI);
-            //individual = ISA2OWL.factory.getOWLNamedIndividual( (individualIRI==null)? IRIGenerator.getIRI(ISA2OWL.ontoIRI) : individualIRI);
+                individual = ISA2OWL.factory.getOWLNamedIndividual(individualIRI);
 
             Set<IRI> types = individualTypeMap.get(individual);
 
@@ -225,6 +227,10 @@ public class ISA2OWL {
 
             individualTypeMap.put(individual, types);
 
+            String individualIRIString = individualIRI.toString();
+//
+//            individualLabel = individualLabel + individualIRIString.substring(individualIRIString.lastIndexOf('/')+1);
+
             //label
             OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(
                     ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),
@@ -232,11 +238,17 @@ public class ISA2OWL {
             OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
             ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
 
+
+            OWLAnnotation commentAnnotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(individualIRIString));
+            OWLAnnotationAssertionAxiom commentAnnotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), commentAnnotation);
+            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, commentAnnotationAssertionAxiom);
+
             //comment
             if (comment!=null && !comment.equals("")) {
-                OWLAnnotation commentAnnotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
-                OWLAnnotationAssertionAxiom commentAnnotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), commentAnnotation);
+                commentAnnotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
+                commentAnnotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), commentAnnotation);
                 ISA2OWL.manager.addAxiom(ISA2OWL.ontology, commentAnnotationAssertionAxiom);
+
             }
 
             OWLClass owlClass = ISA2OWL.addOWLClassAssertion(owlClassIRI, individual);

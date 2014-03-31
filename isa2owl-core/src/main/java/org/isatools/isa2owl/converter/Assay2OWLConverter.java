@@ -7,6 +7,7 @@ import org.isatools.graph.model.ISAMaterialAttribute;
 import org.isatools.graph.model.ISANode;
 import org.isatools.graph.model.ISAUnit;
 import org.isatools.graph.model.impl.*;
+import org.isatools.graph.model.impl.Date;
 import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
@@ -43,7 +44,7 @@ public class Assay2OWLConverter {
     private OWLNamedIndividual[][] individualMatrix = null;
 
     //the key is a concatenation of all the inputs and all the outputs, plus the process name, if all the inputs and outputs are the same, we don't create a new process individual
-    private Map<String, OWLNamedIndividual> processIndividualMap = new HashMap<String, OWLNamedIndividual>();
+    private Map<String, OWLNamedIndividual> processParametersPerfomerDateProcessIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
     private Map<String, OWLNamedIndividual> materialAttributeIndividualMap = new HashMap<String, OWLNamedIndividual>();
     //<type, <name, individual>>
@@ -175,9 +176,9 @@ public class Assay2OWLConverter {
                 }
 
                 OWLNamedIndividual processIndividual = processNodeIndividuals.get(processNodeValue);
-                if (processIndividual==null){
+                String individualType = null;
 
-                    String individualType = null;
+                if (processIndividual==null){
 
                     if (processNode.getName().startsWith(ExtendedISASyntax.DATA_TRANSFORMATION.toString()))
                             individualType = ExtendedISASyntax.DATA_TRANSFORMATION;
@@ -188,6 +189,8 @@ public class Assay2OWLConverter {
 
 
                     processIndividual = ISA2OWL.createIndividual(individualType, processNodeValue);
+                 }//if individual is null.
+
                     processNodeIndividuals.put(processNodeValue, processIndividual);
 
                     //assay_file describes assay
@@ -197,38 +200,35 @@ public class Assay2OWLConverter {
                     //inputs & outputs
                     //adding inputs and outputs to the assay
                     OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_INPUT));
-                    List<ISANode> inputs = processNode.getInputNodes();
-                    for(ISANode input: inputs){
-                        int inputCol = input.getIndex();
+                    ISANode input = processNode.getInputNode();
+                    int inputCol = input.getIndex();
 
-                        if (!data[processRow][inputCol].toString().equals("")){
+                    if (!data[processRow][inputCol].toString().equals("")){
 
-                            if (individualMatrix[processRow][inputCol]==null){
+                        if (individualMatrix[processRow][inputCol]==null){
                                 System.out.println("individualMatrix[row][inputCol]==null!!!! " + individualMatrix[processRow][inputCol] == null + "  row=" + processRow + " inputCol=" + inputCol);
-                            }else{
+                        }else{
                                 OWLNamedIndividual inputIndividual = individualMatrix[processRow][inputCol];
                                 ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_input, processIndividual, inputIndividual);
-                            }
                         }
+                    }
 
-                    }//for inputs
+
 
                     OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_OUTPUT));
-                    List<ISANode> outputs = processNode.getOutputNodes();
-                    for(ISANode output: outputs){
-                        int outputCol = output.getIndex();
-                        if (!data[processRow][outputCol].toString().equals("")){
+                    ISANode output = processNode.getOutputNode();
+                    int outputCol = output.getIndex();
+                    if (!data[processRow][outputCol].toString().equals("")){
 
-                            if (individualMatrix[processRow][outputCol]!=null){
-                                ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_output, processIndividual, individualMatrix[processRow][outputCol]);
-                            }else{
+                        if (individualMatrix[processRow][outputCol]!=null){
+                            ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_output, processIndividual, individualMatrix[processRow][outputCol]);
+                        }else{
                                 System.out.println("individualMatrix[row][outputCol es null!!!! "+ individualMatrix[processRow][outputCol]+ "  row="+processRow+" outputCol="+outputCol);
                             }
                         } else {
                             System.out.println("the element value is empty");
-                        }
+                    }
 
-                    }//for outputs
 
                     addComments(processNode, processRow, processIndividual);
 
@@ -267,7 +267,6 @@ public class Assay2OWLConverter {
 
                     }//for process node
 
-                }//if individual is null.
 
                 assayIndividualsForProperties.put(ExtendedISASyntax.STUDY_ASSAY, Collections.singleton(processIndividual));
                 Map<String,List<Pair<IRI, String>>> assayPropertyMappings = ISA2OWL.mapping.getAssayPropertyMappings();
@@ -466,28 +465,52 @@ public class Assay2OWLConverter {
 
 
                 //build a string with concatenated inputs/outputs/process/parameters to identify different process individuals
-                List<ISANode> inputs = processNode.getInputNodes();
-                List<ISANode> outputs = processNode.getOutputNodes();
-                List<ProcessParameter> parameters = processNode.getParameters();
-
-                String inputOutputString = getInputOutputMethodString(processRow, protocolExecutionValue, inputs, outputs);
+                String inputOutputString = getInputOutputMethodString(processRow, protocolExecutionValue, processNode);
 
                 //if there are no inputs and outputs, do not create the processIndividual
                 if (protocolExecutionValue.equals(inputOutputString))
                     continue;
 
-                String inputOutputMethodParametersString = getInputOutputMethodParametersString(processRow, protocolExecutionValue, inputs, outputs, parameters);
 
-                OWLNamedIndividual processIndividual = processIndividualMap.get(inputOutputMethodParametersString);
+                //input & output values
+                ISANode input = processNode.getInputNode();
+                int inputCol = input.getIndex();
+                String inputValue = data[processRow][inputCol].toString();
 
-                //material processing as the execution of the protocol
+                ISANode output =  processNode.getOutputNode();
+                String outputValue = null;
+                int outputCol = -1;
+                if (output!=null){
+                    outputCol = output.getIndex();
+                    outputValue = data[processRow][outputCol].toString();
+                } else {
+                    outputValue = "";
+                }
+
+
+                //check parameters + performer + date + comments, if they are different, create different individuals
+
+                //String processParametersPerformerDateString = getProcessParametersPerformerDateString(processRow, processNode);
+
+                //get all the process individuals with the same name, parameters, performer and date
+                OWLNamedIndividual processIndividual = null;//processParametersPerfomerDateProcessIndividualMap.get(processParametersPerformerDateString);
+
                 if (processIndividual==null){
-                    processIndividual = ISA2OWL.createIndividual(assayTableType == AssayTableType.STUDY ?
-                            ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, protocolExecutionValue);
-                    processIndividualMap.put(inputOutputMethodParametersString, processIndividual);
+                        //create processIndividual
+                        processIndividual = ISA2OWL.createIndividual(assayTableType == AssayTableType.STUDY ?
+                                ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, protocolExecutionValue);
+                    //processParametersPerfomerDateProcessIndividualMap.put(processParametersPerformerDateString,processIndividual);
+                }
 
-                    individualMatrix[processRow][processCol] = processIndividual;
+                individualMatrix[processRow][processCol] = processIndividual;
 
+                //adding processIndividual to protocolREFIndividuals
+                Set<OWLNamedIndividual> set = protocolREFIndividuals.get(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF);
+                if (set==null)
+                    set = new HashSet<OWLNamedIndividual>();
+                set.add(processIndividual);
+                protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ?
+                        ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, set);
 
                 if (protocol!=null && protocol.getProtocolType()!=null){
                     ISA2OWL.addComment(protocol.getProtocolType(), processIndividual.getIRI());
@@ -496,6 +519,9 @@ public class Assay2OWLConverter {
                 }
 
                 if (protocolIndividual != null){
+
+                    //TODO add protocolIndividual to protocolREFIndividuals
+
                     OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.EXECUTES));
                     OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,processIndividual, protocolIndividual);
                     ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
@@ -509,65 +535,43 @@ public class Assay2OWLConverter {
                     }//process node attributes not null
                 }
 
-                Set<OWLNamedIndividual> set = protocolREFIndividuals.get(assayTableType == AssayTableType.STUDY ? ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF);
-                if (set==null)
-                    set = new HashSet<OWLNamedIndividual>();
-                set.add(processIndividual);
-                protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ?
-                        ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, set);
+                //adding input
+                if (!inputValue.equals("")){
+                    set = protocolREFIndividuals.get(assayTableType == AssayTableType.STUDY ?
+                            ExtendedISASyntax.STUDY_PROTOCOL_REF_INPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_INPUT);
 
-                //inputs & outputs
-                //inputs
-                for(ISANode input: inputs){
-                    int inputCol = input.getIndex();
+                    if (set==null)
+                        set = new HashSet<OWLNamedIndividual>();
 
-                    if (!data[processRow][inputCol].toString().equals("")){
+                    set.add(individualMatrix[processRow][inputCol]);
 
-                        set = protocolREFIndividuals.get(assayTableType == AssayTableType.STUDY ?
-                                ExtendedISASyntax.STUDY_PROTOCOL_REF_INPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_INPUT);
+                    protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ?
+                            ExtendedISASyntax.STUDY_PROTOCOL_REF_INPUT : ExtendedISASyntax.ASSAY_PROTOCOL_REF_INPUT, set);
+                }
 
-                        if (set==null)
-                            set = new HashSet<OWLNamedIndividual>();
+                if (!outputValue.equals("")){
 
-                        set.add(individualMatrix[processRow][inputCol]);
+                    set = protocolREFIndividuals.get(assayTableType == AssayTableType.STUDY ?
+                            ExtendedISASyntax.STUDY_PROTOCOL_REF_OUTPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_OUTPUT);
 
-                        protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ?
-                                ExtendedISASyntax.STUDY_PROTOCOL_REF_INPUT : ExtendedISASyntax.ASSAY_PROTOCOL_REF_INPUT, set);
-                    }
+                    if (set==null)
+                        set = new HashSet<OWLNamedIndividual>();
 
-                }//for inputs
+                    set.add(individualMatrix[processRow][outputCol]);
 
-                //outputs
-                for(ISANode output: outputs){
-                    int outputCol = output.getIndex();
-                    if (!data[processRow][outputCol].toString().equals("")){
+                    protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ?
+                            ExtendedISASyntax.STUDY_PROTOCOL_REF_OUTPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_OUTPUT, set);
 
-
-                        set = protocolREFIndividuals.get(assayTableType == AssayTableType.STUDY ?
-                                ExtendedISASyntax.STUDY_PROTOCOL_REF_OUTPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_OUTPUT);
-
-                        if (set==null)
-                            set = new HashSet<OWLNamedIndividual>();
-
-                        set.add(individualMatrix[processRow][outputCol]);
-
-                        protocolREFIndividuals.put(assayTableType == AssayTableType.STUDY ?
-                                ExtendedISASyntax.STUDY_PROTOCOL_REF_OUTPUT: ExtendedISASyntax.ASSAY_PROTOCOL_REF_OUTPUT, set);
-
-                    }
-
-                }//for outputs
+                }
 
                 //parameters
                 System.out.println("=======>  processNode " +processIndividual.getIRI() + " processRow " + processRow);
-                for(ProcessParameter parameter: parameters){
+                for(ProcessParameter parameter: processNode.getParameters()){
                     int parameterCol = parameter.getIndex();
 
                     String parameterLabel = data[processRow][parameterCol].toString();
 
                     if (!parameterLabel.equals("")){
-
-                      //  System.out.println("=======>  parameterLabel " +parameterLabel + "  parameterCol " +parameterCol );
 
                         OWLNamedIndividual parameterIndividual = null;
 
@@ -600,10 +604,7 @@ public class Assay2OWLConverter {
 
                 Map<String, List<Pair<IRI,String>>> protocolREFmapping = ISA2OWL.mapping.getProtocolREFMappings();
                 ISA2OWL.convertPropertiesMultipleIndividuals(protocolREFmapping, protocolREFIndividuals);
-                }//processNode was null
-                else {
-                    individualMatrix[processRow][processCol] = processIndividual;
-                }
+
 
             }//processRow
 
@@ -996,26 +997,30 @@ public class Assay2OWLConverter {
      *
      * @param processRow
      * @param processNodeValue
-     * @param inputs
-     * @param outputs
+     * @param processNode
      * @return
      */
-    private String getInputOutputMethodString(int processRow, String processNodeValue, List<ISANode> inputs, List<ISANode> outputs) {
+    private String getInputOutputMethodString(int processRow, String processNodeValue, ProcessNode processNode) {
         StringBuffer buffer = new StringBuffer();
-        for(ISANode input: inputs){
+
+        buffer.append(processNodeValue);
+
+        ISANode input = processNode.getInputNode();
+        if (input!=null) {
             int inputCol = input.getIndex();
             if (!data[processRow][inputCol].toString().equals("")){
                 buffer.append(data[processRow][inputCol].toString());
             }
-        }//for inputs
-        for(ISANode output: outputs){
+        }
+
+        ISANode output = processNode.getOutputNode();
+        if (output!=null){
             int outputCol = output.getIndex();
             if (!data[processRow][outputCol].toString().equals("")){
                 buffer.append(data[processRow][outputCol].toString());
             }
         }
 
-        buffer.append(processNodeValue);
         return buffer.toString();
     }
 
@@ -1027,23 +1032,38 @@ public class Assay2OWLConverter {
      * It is used as an identity method for ProtocolREFs.
      *
      * @param processRow integer indicating the table row where the process is defined
-     * @param processNodeValue a String for the process value
-     * @param inputs a list of ISANodes representing the process inputs
-     * @param outputs a list of ISANodes representing the process outputs
-     * @param parameters a list of ProcessParameter containing the parameters for this process
+
      * @return
      */
-    private String getInputOutputMethodParametersString(int processRow, String processNodeValue, List<ISANode> inputs, List<ISANode> outputs, List<ProcessParameter> parameters){
+    private String getProcessParametersPerformerDateString(int processRow, ProtocolExecutionNode processNode){
         StringBuffer buffer = new StringBuffer();
 
-        String inputOutputMethod = getInputOutputMethodString(processRow, processNodeValue, inputs, outputs);
-        buffer.append(inputOutputMethod);
+        int processCol = processNode.getIndex();
+        buffer.append(data[processRow][processCol].toString());
+
+        List<ProcessParameter> parameters = processNode.getParameters();
 
         for(ProcessParameter parameter: parameters){
             int parameterCol = parameter.getIndex();
             if (!data[processRow][parameterCol].toString().equals("")){
                 buffer.append(data[processRow][parameterCol].toString());
             }
+        }
+
+        //perfomer
+        Performer performer = processNode.getPerformer();
+        if (performer!=null) {
+            int perfomerIndex = performer.getIndex();
+            String perfomerString = data[processRow][perfomerIndex].toString();
+            buffer.append(perfomerString);
+        }
+
+        //date
+        Date date = processNode.getDate();
+        if (date!=null){
+            int dateIndex = date.getIndex();
+            String dateString = data[processRow][dateIndex].toString();
+            buffer.append(dateString);
         }
 
         return buffer.toString();

@@ -42,6 +42,10 @@ public class ISAtab2OWLConverter {
     private Map<String, OWLNamedIndividual> affiliationIndividualMap = null;
     private Map<String, OWLNamedIndividual> factorIndividualMap = null;
 
+    private String COMMENT_EXPERIMENTAL_METADATA_LICENCE = "Comment[Experimental Metadata Licence]";
+    private String COMMENT_STUDY_GRANT_NUMBER = "Comment[Study Grant Number]";
+    private String COMMENT_STUDY_FUNDING_AGENCY = "Comment[Study Funding Agency]";
+
 
     /**
      * Constructor
