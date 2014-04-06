@@ -215,7 +215,7 @@
         <dependency>
             <groupId>net.sourceforge.owlapi</groupId>
             <artifactId>owlapi-tools</artifactId>
-            <version>3.4.5</version>
+            <version>3.4.10</version>
             <!-- <version>3.4</version> -->
         </dependency>
 

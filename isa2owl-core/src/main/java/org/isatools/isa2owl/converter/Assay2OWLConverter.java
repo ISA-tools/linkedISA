@@ -43,8 +43,12 @@ public class Assay2OWLConverter {
     //a matrix will all the individuals for the data (these are MaterialNodes or ProcessNodes individuals
     private OWLNamedIndividual[][] individualMatrix = null;
 
+    private static boolean PROTOCOL_REF_ALWAYS_NEW = false;
+
     //the key is a concatenation of all the inputs and all the outputs, plus the process name, if all the inputs and outputs are the same, we don't create a new process individual
     private Map<String, OWLNamedIndividual> processParametersPerfomerDateProcessIndividualMap = new HashMap<String, OWLNamedIndividual>();
+    private Map<String, OWLNamedIndividual> processInputProcessIndividualMap = new HashMap<String, OWLNamedIndividual>();
+    private Map<String, OWLNamedIndividual> processOutputProcessIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
     private Map<String, OWLNamedIndividual> materialAttributeIndividualMap = new HashMap<String, OWLNamedIndividual>();
     //<type, <name, individual>>
@@ -149,8 +153,6 @@ public class Assay2OWLConverter {
                                     Graph graph, Map<String,
                                     Set<OWLNamedIndividual>> assayIndividualsForProperties,
                                     OWLNamedIndividual assayFileIndividual) {
-        //assay individuals
-        //List<ISANode> assayNodes = graph.getNodes(NodeType.ASSAY_NODE);
 
         //used to avoid repetitions of processNodeIndividuals
         Map<String, OWLNamedIndividual> processNodeIndividuals = new HashMap<String, OWLNamedIndividual>();
@@ -489,17 +491,19 @@ public class Assay2OWLConverter {
 
 
                 //check parameters + performer + date + comments, if they are different, create different individuals
+                String processParametersPerformerDateString = getProcessParametersPerformerDateString(processRow, processNode);
 
-                //String processParametersPerformerDateString = getProcessParametersPerformerDateString(processRow, processNode);
-
+                OWLNamedIndividual processIndividual = null;
                 //get all the process individuals with the same name, parameters, performer and date
-                OWLNamedIndividual processIndividual = null;//processParametersPerfomerDateProcessIndividualMap.get(processParametersPerformerDateString);
+                if (!PROTOCOL_REF_ALWAYS_NEW)
+                    processIndividual = processParametersPerfomerDateProcessIndividualMap.get(processParametersPerformerDateString);
 
                 if (processIndividual==null){
                         //create processIndividual
                         processIndividual = ISA2OWL.createIndividual(assayTableType == AssayTableType.STUDY ?
                                 ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, protocolExecutionValue);
-                    //processParametersPerfomerDateProcessIndividualMap.put(processParametersPerformerDateString,processIndividual);
+                    if (!PROTOCOL_REF_ALWAYS_NEW)
+                        processParametersPerfomerDateProcessIndividualMap.put(processParametersPerformerDateString,processIndividual);
                 }
 
                 individualMatrix[processRow][processCol] = processIndividual;
@@ -643,6 +647,8 @@ public class Assay2OWLConverter {
                     dataNodesIndividuals.put(dataValue, dataNodeIndividual);
                 }
                 individualMatrix[row][col] = dataNodeIndividual;
+
+                addComments(dataNode, row, dataNodeIndividual);
             }
         }
     }

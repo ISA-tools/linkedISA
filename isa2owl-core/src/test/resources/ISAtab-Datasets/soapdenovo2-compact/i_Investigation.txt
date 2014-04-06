@@ -4,7 +4,7 @@ Term Source File	"http://data.bioontology.org/ontologies/EFO"	"http://data.bioon
 Term Source Version	"110"	"21"	"2"	"160"	"13"	
 Term Source Description	"Experimental Factor Ontology"	"Ontology for Biomedical Investigations"	"National Center for Biotechnology Information (NCBI) Organismal Classification"	"Phenotypic Quality Ontology"	"Eagle-I Research Resource Ontology"	
 INVESTIGATION
-Investigation Identifier	"1.39E+12"
+Investigation Identifier	"SOAPdenovo2"
 Investigation Title	"Investigation"
 Investigation Description	""
 Investigation Submission Date	""
@@ -48,7 +48,7 @@ Study Design Type	"software testing objective"	"factorial design"
 Study Design Type Term Accession Number	"http://purl.obolibrary.org/obo/OBI_0000242"	"http://purl.obolibrary.org/obo/OBI_0500014"
 Study Design Type Term Source REF	"OBI"	"OBI"
 STUDY PUBLICATIONS
-Study PubMed ID	""
+Study PubMed ID	"23587118"
 Study Publication DOI	"10.1186/2047-217X-1-18"
 Study Publication Author List	"Ruibang Luo et al."
 Study Publication Title	"SOAPdenovo2: an empirically improved memory-efficient short-read de novo assembler"

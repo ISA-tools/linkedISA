@@ -142,6 +142,7 @@ public class ISAtab2OWLConverter {
 
             Study study = studies.get(key);
 
+
             if (isatabDistributionIndividual == null){
                 //create 'ISA dataset' individual
                 OWLNamedIndividual isaDatasetIndividual = ISA2OWL.createIndividual(IRI.create(ISA.ISA_DATASET), study.getStudySampleFileIdentifier());
@@ -326,6 +327,20 @@ public class ISAtab2OWLConverter {
         //Study
         OWLNamedIndividual studyIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY, study.getStudyId());
 
+        String license = study.getComment("Comment[Experimental Metadata Licence]");
+        String study_grant = study.getComment("Comment[Study Grant Number]");
+        String funding_agency = study.getComment("Comment[Study Funding Agency]");
+
+        if (!license.equals(""))
+            ISA2OWL.addComment("Experimental Metadata Licence: "+license,studyIndividual.getIRI());
+
+        if (!study_grant.equals(""))
+            ISA2OWL.addComment("Study Grant Number: "+study_grant,studyIndividual.getIRI());
+
+        if (!funding_agency.equals(""))
+            ISA2OWL.addComment("Study Funding Agency: "+funding_agency,studyIndividual.getIRI());
+
+
         //Study identifier
         ISA2OWL.createIndividual(Study.STUDY_ID, study.getStudyId());
 
@@ -479,8 +494,14 @@ public class ISAtab2OWLConverter {
             if (publicationIndividual==null) {
 
                 String pubmedID = pub.getPubmedId();
-                OWLNamedIndividual pubInd = ISA2OWL.createIndividual(ExtendedISASyntax.PUBLICATION, pubmedID, pubmedID, ExternalRDFLinkages.getPubMedIRI(pubmedID), publicationIndividuals);
-                publicationIndividualMap.put(pub,pubInd);
+                if (pubmedID != null && !pubmedID.equals("")){
+                   // publicationIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.PUBLICATION, pubmedID, pubmedID, ExternalRDFLinkages.getPubMedIRI(pubmedID), publicationIndividuals);
+                    publicationIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.PUBLICATION, pubmedID, pubmedID, null, publicationIndividuals);
+                } else {
+                    //TODO
+                }
+
+                publicationIndividualMap.put(pub,publicationIndividual);
 
                 //Study PubMed ID
                 ISA2OWL.createIndividual(investigation ? InvestigationPublication.PUBMED_ID : StudyPublication.PUBMED_ID, pub.getPubmedId(), publicationIndividuals);
