@@ -75,4 +75,26 @@
     </distributionManagement>
 
 
+    
+   <dependencies>
+		<dependency>
+            <groupId>org.isatools</groupId>
+            <artifactId>ISAcreator</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+        
+        <dependency>
+                <groupId>net.sourceforge.owlapi</groupId>
+                <artifactId>owlapi-reasoner</artifactId>
+                <version>3.3</version>
+        </dependency>
+        
+        <dependency>
+                <groupId>net.sourceforge.owlapi</groupId>
+                <artifactId>owlapi-apibinding</artifactId>
+                <version>3.3</version>
+        </dependency>
+        
+	</dependencies>
+  
 </project>
