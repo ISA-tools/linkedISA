@@ -146,7 +146,7 @@ public class ISAtab2OWLConverter {
         //Map<String,IRI> sourceOntoIRIs = ISA2OWL.mapping.getSourceOntoIRIs();
 
         //ontologies from the ISAtab dataset
-        List<OntologySourceRefObject> sourceRefObjects = OntologyManager.getOntologiesUsed();
+        Set<OntologySourceRefObject> sourceRefObjects = OntologyManager.getOntologiesUsed();
 
 
         //TODO check imports from ontologies where the import chain implies that ontologies are duplicated
