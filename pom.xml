@@ -11,7 +11,7 @@
     <modules>
         <module>isa-graphparser</module>
         <module>isa2owl-core</module>
-        <module>isa2owl-batch</module>
+        <!--<module>isa2owl-batch</module>-->
         <!-- <module>owl2isa</module> -->
   </modules>
 
