@@ -11,8 +11,8 @@
     <modules>
         <module>isa-graphparser</module>
         <module>isa2owl-core</module>
-        <module>isa2owl-batch</module>
-        <module>owl2isa</module>
+        <!--<module>isa2owl-batch</module>-->
+        <!-- <module>owl2isa</module> -->
   </modules>
 
 
@@ -42,7 +42,7 @@
     <repositories>
         <repository>
             <id>oerc</id>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/repositories/releases/</url>
+            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/groups/oerc</url>
         </repository>
 
         <repository>
@@ -63,7 +63,7 @@
         <repository>
             <id>oerc-repo</id>
             <name>OeRC Maven repository</name>
-            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases</url>
+            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases/</url>
         </repository>
 
         <snapshotRepository>
@@ -80,7 +80,7 @@
 		<dependency>
             <groupId>org.isatools</groupId>
             <artifactId>ISAcreator</artifactId>
-            <version>1.7.0</version>
+            <version>1.7.7</version>
         </dependency>
         
         <dependency>

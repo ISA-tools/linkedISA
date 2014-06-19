@@ -11,6 +11,17 @@ overlays/
 
 # Files created by IntelliJ IDEA #
 ##################################
+.DS_Store
+
+####Java
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+#####IntelliJ
 *.iml
 *.ipr
 *.iws
@@ -67,3 +78,6 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
+###Eclipse
+.classpath
+.project

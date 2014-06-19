@@ -1,6 +1,10 @@
 package org.isatools.isa2owl.converter;
 
+
 import org.apache.log4j.Logger;
+
+import java.util.Collection;
+import java.util.Set;
 import org.isatools.isacreator.configuration.Ontology;
 import org.isatools.isacreator.ontologymanager.BioPortal4Client;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
@@ -27,6 +31,9 @@ public class OntologyLookup {
     private static Collection<Ontology> allOntologies = null;
     private static OntologyLookupCache cache = new OntologyLookupCache();
 
+    private static void getAllOntologies(BioPortal4Client client) {
+        allOntologies = client.getAllOntologies();
+    }
 
     private static String getOntologyVersion(String ontologyAbbreviation){
         log.debug("getOntologyVersion(" + ontologyAbbreviation + ")");
@@ -71,7 +78,7 @@ public class OntologyLookup {
         //searching term in bioportal
         if (ontologySourceRefObject!=null){
 
-            log.debug("Found ontology "+ontologySourceRefObject);
+            System.out.println("Found ontology "+ontologySourceRefObject);
             BioPortal4Client client = new BioPortal4Client();
 
             if (allOntologies==null){
@@ -82,13 +89,16 @@ public class OntologyLookup {
 
             OntologyTerm term = null;
 
-            if (ontologyVersion!=null && termAccession!=null)
+
+            if (termAccession!=null)
+
                 term = client.getTerm(termAccession, ontologyVersion);
 
             log.debug("term====>"+term);
             if (term!=null) {
                 purl = term.getOntologyTermURI();
-                cache.addSourceTermPurlMapping(termSourceRef, termAccession, purl);
+                if (purl!=null)
+                    cache.addSourceTermPurlMapping(termSourceRef, termAccession, purl);
                 return purl;
             }//term not null
 
