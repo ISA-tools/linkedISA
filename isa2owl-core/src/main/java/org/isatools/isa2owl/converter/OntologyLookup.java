@@ -1,8 +1,11 @@
 package org.isatools.isa2owl.converter;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
-import org.isatools.isacreator.ontologymanager.BioPortalClient;
+import org.isatools.isacreator.configuration.Ontology;
+import org.isatools.isacreator.ontologymanager.BioPortal4Client;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.isacreator.ontologymanager.OntologySourceRefObject;
 import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
@@ -18,10 +21,10 @@ import org.isatools.isacreator.ontologymanager.common.OntologyTerm;
 public class OntologyLookup {
 
     //this list will be populated only once with a query to bioportal
-    private static List<org.isatools.isacreator.configuration.Ontology> allOntologies = null;
+    private static Collection<Ontology> allOntologies = null;
     private static OntologyLookupCache cache = new OntologyLookupCache();
 
-    private static void getAllOntologies(BioPortalClient client) {
+    private static void getAllOntologies(BioPortal4Client client) {
         allOntologies = client.getAllOntologies();
     }
 
@@ -55,7 +58,7 @@ public class OntologyLookup {
         if ((termSourceRef==null) || (termSourceRef=="") || (termAccession==null) || (termAccession==""))
             return "";
 
-        List<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
+        Set<OntologySourceRefObject> ontologiesUsed = OntologyManager.getOntologiesUsed();
 
         OntologySourceRefObject ontologySourceRefObject = null;
         for(OntologySourceRefObject ontologyRef: ontologiesUsed){
@@ -69,7 +72,7 @@ public class OntologyLookup {
         if (ontologySourceRefObject!=null){
 
             System.out.println("Found ontology "+ontologySourceRefObject);
-            BioPortalClient client = new BioPortalClient();
+            BioPortal4Client client = new BioPortal4Client();
 
             if (allOntologies==null){
                 getAllOntologies(client);
@@ -80,11 +83,11 @@ public class OntologyLookup {
             OntologyTerm term = null;
 
             if (termAccession!=null)
-                term = client.getTermInformation(termAccession, ontologyVersion);
+                term = client.getTerm(termAccession, ontologyVersion);
 
             System.out.println("term====>"+term);
             if (term!=null) {
-                purl = term.getOntologyPurl();
+                purl = term.getOntologyTermURI();
                 if (purl!=null)
                     cache.addSourceTermPurlMapping(termSourceRef, termAccession, purl);
                 return purl;
