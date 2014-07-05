@@ -1,4 +1,4 @@
-# ISA2OWL
+# linkedISA
 
 ## License
 
