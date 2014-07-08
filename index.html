@@ -35,12 +35,20 @@
         <h3>
 <a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h3>
 
+<p>ISA-Tab is a tabular format for the description of experimental steps. It originated for describing multi-omic and multi-assay experiments in the life sciences, but since its inception has also been used in other domains.</p>
+
+<img src="https://raw.githubusercontent.com/ISA-tools/linkedISA/gh-pages/images/ISA-layers.png" align="center" width="70%" alt="ISA layers" style="border:none;box-shadow:none"/>
+
 <p>linkedISA is a Java package relying on the <a href="http://owlapi.sourceforge.net/">OWL API</a> that parses ISA-Tab files and generates an Resource Description Framework (RDF) representation, relying on mapping files from the ISA syntax to different semantic frameworks (or Web Ontology Language --- OWL --- ontologies).</p>
 
 <p>The linkedISA project was previously called ISA2OWL, but we have decided to rename it, as we think that <strong>linkedISA</strong> reflects better the objectives of the project.</p>
 
 
 <h3><a name="mappings" class="anchor" href="#mappings"><span class="octicon octicon-link"></span></a>Mapping Files</h3>
+
+The <strong>linkedISA</strong> conversion engine has been decoupled from the ontologies used in the resulting RDF representation. The conversion relies on parsing one or more mapping files, that align the ISA syntax to the specific ontology terms.
+
+We provide some mappings to a few ontologies with the implementation, namely: to the Ontology for Biomedical Investigations (OBI), the Provenance ontology (PROV-O) and the SemanticsScience Integrated Ontology (SIO). The mappings were created using the OntoMaton widget for Google Spreadsheets and are available here:
 
 <ul>
     <li><a href="https://docs.google.com/spreadsheet/ccc?key=0AmtKthYRS0f5dDVjbmpMOVpCY0w4ZndyZF95NncxUFE&usp=sharing">ISA-OBI mapping file</a></li>
