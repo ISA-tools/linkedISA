@@ -1,7 +1,7 @@
 package org.isatools.graph.model;
 
 import org.isatools.isacreator.model.GeneralFieldTypes;
-import org.isatools.isa2owl.converter.ExtendedISASyntax;
+import org.isatools.linkedISA.converter.ExtendedISASyntax;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,0 +1,19 @@
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  isa:  <http://purl.org/isaterms/>
+PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX  iao:  <http://purl.obolibrary.org/obo/IAO_>
+
+SELECT DISTINCT  ?study_iri ?study_design ?factor_iri ?factor ?factor_level_iri ?factor_level
+WHERE
+{ 
+    ?study_iri rdf:type isa:study.
+        
+    ?study_design_iri rdf:type isa:study_design .
+    ?study_design_iri iao:0000219 ?study_iri.
+    ?study_design_iri isa:declares ?factor_iri.
+    ?study_design_iri rdfs:label ?study_design.
+    
+    ?factor_iri rdfs:label ?factor .
+    ?factor_iri isa:has_factor_level ?factor_level_iri .
+    ?factor_level_iri rdfs:label ?factor_level
+}

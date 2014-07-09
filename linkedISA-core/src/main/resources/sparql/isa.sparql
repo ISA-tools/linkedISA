@@ -1,0 +1,21 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bfo: <http://purl.obolibrary.org/obo/BFO_>
+PREFIX obi: <http://purl.obolibrary.org/obo/OBI_>
+PREFIX isa:  <http://purl.org/isaterms/>
+
+SELECT DISTINCT ?investigation_iri ?investigation ?study_iri ?study ?assay_iri ?assay
+WHERE
+{
+?investigation_iri rdf:type isa:investigation.
+?investigation_iri rdfs:label ?investigation.
+
+?study_iri bfo:0000050 ?investigation_iri.
+?study_iri rdf:type isa:study.
+?study_iri rdfs:label ?study.
+
+?assay_iri bfo:0000050 ?study_iri.
+?assay_iri rdf:type obi:0000070.
+?assay_iri rdfs:label ?assay.
+}
+GROUP BY ?investigation_iri ?study_iri ?assay_iri

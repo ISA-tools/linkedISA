@@ -1,0 +1,29 @@
+<isatab-config-file xmlns="http://www.ebi.ac.uk/bii/isatab_configuration#">
+    <isatab-configuration table-name="scidata-studySample">
+        <measurement term-label="[Sample]" term-accession="" source-abbreviation=""/>
+        <technology term-label="" term-accession="" source-abbreviation=""/>
+        <field header="Source Name" data-type="String" is-file-field="false"
+            is-multiple-value="false" is-required="true" is-hidden="false"
+            is-forced-ontology="false">
+            <description><![CDATA[(mandatory) An identifier or name for the material, whether biological, environmental or other, that is considered the basis of a study: for example, a biological sample or a field site/habitat.]]></description>
+            <default-value><![CDATA[]]></default-value>
+            <generated-value-template>[INSTITUTION].Group-[GROUP_NO].Subject-[SUBJECT_NO]</generated-value-template>
+        </field>
+        <field header="Material Type" data-type="Ontology term" is-file-field="false"
+            is-multiple-value="true" is-required="false" is-hidden="false"
+            is-forced-ontology="false">
+            <description><![CDATA[This column may contain terms describing the Material Type (e.g. whole organism, organ, primary cells, immortalized cells) of the source or sample assayed. A material type that is specific to the sample(s), but not to the source material, should be added as a column to the right of the Sample Name column]]></description>
+            <default-value><![CDATA[]]></default-value>
+        </field>
+        <protocol-field protocol-type="sample collection"/>
+        <field header="Sample Name" data-type="String" is-file-field="false"
+            is-multiple-value="false" is-required="false" is-hidden="false"
+            is-forced-ontology="false">
+            <description><![CDATA[Identifiers or names for samples that represent major outputs from a particular protocol.]]></description>
+            <default-value><![CDATA[]]></default-value>
+            <generated-value-template>[INSTITUTION].Group-[GROUP_NO].Subject-[SUBJECT_NO].[SAMPLE_EXTRACT]</generated-value-template>
+        </field>
+        <structured-field name="characteristics"/>
+        <structured-field name="factors"/>
+    </isatab-configuration>
+</isatab-config-file>

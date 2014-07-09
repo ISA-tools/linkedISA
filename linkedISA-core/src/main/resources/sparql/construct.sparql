@@ -1,0 +1,53 @@
+PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX  isa:  <http://purl.org/isaterms/>
+PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX  obi:  <http://purl.obolibrary.org/obo/OBI_>
+PREFIX  iao:  <http://purl.obolibrary.org/obo/IAO_>
+PREFIX stato: <http://purl.obolibrary.org/obo/STATO_>
+
+CONSTRUCT
+  { ?study_design_iri rdf:type stato:0000003 .} #stato:0000003 is balanced design
+WHERE
+  {
+  {
+  SELECT  ?study_iri ?study_design_iri (( ?min = ?max ) AS ?result)
+  WHERE
+    {
+
+    SELECT DISTINCT ?study_iri ?study_design_iri (min(?member_count) AS ?min) (max(?member_count) AS ?max)
+    WHERE
+      {
+
+      SELECT DISTINCT ?study_iri ?study_design_iri ?study_group (count(?member_iri) AS ?member_count)
+      WHERE
+      {
+         ?study_group_iri isa:has_member ?member_iri .
+         ?member_iri rdfs:label ?member
+              { SELECT DISTINCT  ?study_iri ?study_design_iri ?study_group ?study_group_iri
+                WHERE
+                  {
+
+
+                  ?study_iri rdf:type isa:study.
+
+                  ?study_design_iri rdf:type isa:study_design .
+                  ?study_design_iri iao:0000219 ?study_iri.
+
+                  ?study_design_iri iao:0000219 ?study_group_iri.
+
+                  ?study_group_iri rdf:type isa:study_group_population .
+                  ?study_group_iri isa:has_member ?member_iri .
+                  ?study_group_iri rdfs:label ?study_group.
+                  }
+                ORDER BY ASC(?study_group_iri)
+              }
+            }
+      GROUP BY ?study_iri ?study_design_iri ?study_group ?study_group_iri
+
+
+      }
+
+    }
+    }
+    FILTER ( ?result = true )
+  }
