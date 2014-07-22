@@ -35,11 +35,21 @@
         <h3>
 <a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h3>
 
-<p>ISA-Tab is a tabular format for the description of experimental steps. It originated for describing multi-omic and multi-assay experiments in the life sciences, but since its inception has also been used in other domains.</p>
+<p><a href="http://isa-tools.org/format.html">ISA-Tab</a> is a tabular format for the description of experimental steps. It originated for describing multi-omic and multi-assay experiments in the life sciences, but since its inception has also been used in other domains.</p>
+
+<p>The ISA-Tab format constitutes ISA infrastructure syntactic layer (see the figure below), defining the syntactic elements for the description of experiments.</p>
+
+<p>The <a href="http://isatab.sourceforge.net/docs/ISA-TAB_release-candidate-1_v1.0_24nov08.pdf">ISA-Tab specification</a> defines the way in which the ISA syntactic elements can be combined, providing a grammar layer for the infrastructure. </p>
+
+<p>The <a href="https://github.com/ISA-tools/Configuration-Files">ISA configurations</a> are a set of templates or patterns that organise ISA elements for specific domains, so that they comply with the ISA grammar.</p>
+
+<p>The ISA-Tab format supports ontology-annotations, which can be embedded into the generic elements.</p>
+
+<p>On top of these layers of the ISA infrastructure, we have built a linkedISA representation, which exploits the ontology annotations and relies on the <a href="http://www.w3.org/RDF/">Resource Description Framework</a> (RDF) and semantic mappings, as a first step for applying the <a href="http://linkeddata.org/">linked data</a> approach for ISA-Tab.</p>
 
 <img src="https://raw.githubusercontent.com/ISA-tools/linkedISA/gh-pages/images/ISA-layers.png" align="center" width="70%" alt="ISA layers" style="border:none;box-shadow:none"/>
 
-<p>linkedISA is a Java package relying on the <a href="http://owlapi.sourceforge.net/">OWL API</a> that parses ISA-Tab files and generates an Resource Description Framework (RDF) representation, relying on mapping files from the ISA syntax to different semantic frameworks (or Web Ontology Language --- OWL --- ontologies).</p>
+<p>linkedISA has been implemented as a Java package relying on the <a href="http://owlapi.sourceforge.net/">OWL API</a> that parses ISA-Tab files and generates an Resource Description Framework (RDF) representation, relying on mapping files from the ISA syntax to different semantic frameworks (or <a href="http://www.w3.org/TR/owl2-overview/">Web Ontology Language</a> --- OWL --- ontologies).</p>
 
 <p>The linkedISA project was previously called ISA2OWL, but we have decided to rename it, as we think that <strong>linkedISA</strong> reflects better the objectives of the project.</p>
 
@@ -59,6 +69,27 @@ We provide some mappings to a few ontologies with the implementation, namely: to
 
 
 <h3><a name="queries" class="anchor" href="#queries"><span class="octicon octicon-link"></span></a>Queries</h3>
+
+
+<h4>SPARQL Queries for linkedISA</h4>
+
+          <p align="center"><a href="https://raw.githubusercontent.com/ISA-tools/linkedISA/master/linkedISA-core/src/main/resources/sparql/isa.sparql">isa.sparql</a></p>
+
+          <form><textarea id="code1" name="code1" rows="24" cols="100" ></textarea></form>
+          <script>
+              $.getGithubFile("ISA-tools", "linkedISA", "fc9d2c87e64a1e7fe85ee0386750b0822405e885", function(contents) {
+                  console.log(contents);
+                  $("textarea#code1").text(contents);
+
+                  CodeMirror.fromTextArea(document.getElementById("code1"), {
+                      mode: "application/x-sparql-query",
+                      matchBrackets: true,
+                      readOnly: true,
+                      lineNumbers: true
+                  });
+              });
+
+          </script>
 
 
 <h4>Queries over Scientific Data datasets</h4>
