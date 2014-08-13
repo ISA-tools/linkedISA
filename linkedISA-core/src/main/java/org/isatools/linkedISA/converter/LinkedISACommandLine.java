@@ -8,7 +8,7 @@ package org.isatools.linkedISA.converter;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public class ISA2OWLCommandLine {
+public class LinkedISACommandLine {
 
     public static boolean noArguments;
 

@@ -8,7 +8,7 @@ package org.isatools.linkedISA.mapping;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public class ISASyntax2OWLMappingFiles {
+public class ISASyntax2LinkedMappingFiles {
 
     public static final String ISA_OBI_MAPPING_FILENAME = "mappings/ISA-OBI-mapping.csv";
     public static final String ISA_SIO_MAPPING_FILENAME = "mappings/ISA-SIO-mapping.csv";

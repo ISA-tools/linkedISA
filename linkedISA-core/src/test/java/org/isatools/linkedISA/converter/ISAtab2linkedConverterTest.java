@@ -1,8 +1,8 @@
 package org.isatools.linkedISA.converter;
 
-import org.isatools.linkedISA.mapping.ISA2OWLMappingParser;
-import org.isatools.linkedISA.mapping.ISASyntax2OWLMapping;
-import org.isatools.linkedISA.mapping.ISASyntax2OWLMappingFiles;
+import org.isatools.linkedISA.mapping.ISASyntax2LinkedMapping;
+import org.isatools.linkedISA.mapping.ISASyntax2LinkedMappingFiles;
+import org.isatools.linkedISA.mapping.LinkedISAMappingParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,15 +16,15 @@ import java.net.URL;
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *
  */
-public class ISAtab2OWLConverterTest {
+public class ISAtab2LinkedConverterTest {
 
 	private String configDir = null;
 	private String isatabParentDir = null;
     private String path = "/ISAtab-Datasets/";
-    private String savePath=ISAtab2OWLConverterTest.class.getClass().getResource(path).getFile();
-    private ISAtab2OWLConverter isatab2owl = null;
-    private ISA2OWLMappingParser parser = null;
-    private ISASyntax2OWLMapping mapping = null;
+    private String savePath=ISAtab2LinkedConverterTest.class.getClass().getResource(path).getFile();
+    private ISAtab2LinkedConverter isatab2owl = null;
+    private LinkedISAMappingParser parser = null;
+    private ISASyntax2LinkedMapping mapping = null;
     private String iri = null;
 	
 	@Before
@@ -38,16 +38,16 @@ public class ISAtab2OWLConverterTest {
 
         //System.out.println("Parsing the mapping...");
 
-        parser = new ISA2OWLMappingParser();
-        URL isa_obi_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_OBI_MAPPING_FILENAME);
+        parser = new LinkedISAMappingParser();
+        URL isa_obi_mapping_url = getClass().getClassLoader().getResource(ISASyntax2LinkedMappingFiles.ISA_OBI_MAPPING_FILENAME);
         //System.out.println("isa_obi_mapping_url="+isa_obi_mapping_url);
         parser.parseCSVMappingFile(isa_obi_mapping_url.toURI().getRawPath().toString());
 
-        URL isa_isa_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_ISA_MAPPING_FILENAME);
+        URL isa_isa_mapping_url = getClass().getClassLoader().getResource(ISASyntax2LinkedMappingFiles.ISA_ISA_MAPPING_FILENAME);
         //System.out.println("isa_isa_mapping_url="+isa_isa_mapping_url);
         parser.parseCSVMappingFile(isa_isa_mapping_url.toURI().getRawPath().toString());
 
-        URL isa_prov_o_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_PROV_O_MAPPING_FILENAME);
+        URL isa_prov_o_mapping_url = getClass().getClassLoader().getResource(ISASyntax2LinkedMappingFiles.ISA_PROV_O_MAPPING_FILENAME);
         //System.out.println("isa_isa_mapping_url="+isa_isa_mapping_url);
         parser.parseCSVMappingFile(isa_prov_o_mapping_url.toURI().getRawPath().toString());
 
@@ -55,7 +55,7 @@ public class ISAtab2OWLConverterTest {
         //System.out.println("MAPPING-----");
         //System.out.println(mapping);
 
-		isatab2owl = new ISAtab2OWLConverter(configDir, mapping);
+		isatab2owl = new ISAtab2LinkedConverter(configDir, mapping);
     }
 
     @After

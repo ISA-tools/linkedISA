@@ -9,7 +9,7 @@
     <url>http://maven.apache.org</url>
 
     <parent>
-        <artifactId>isa2owl</artifactId>
+        <artifactId>linkedISA</artifactId>
         <groupId>org.isatools</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>

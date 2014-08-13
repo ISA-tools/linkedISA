@@ -15,11 +15,11 @@ import java.io.IOException;
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *
  */
-public class ISA2OWLMappingParser {
+public class LinkedISAMappingParser {
 
-    private static final Logger log = Logger.getLogger(ISA2OWLMappingParser.class);
+    private static final Logger log = Logger.getLogger(LinkedISAMappingParser.class);
 
-	private ISASyntax2OWLMapping mapping = null;
+	private ISASyntax2LinkedMapping mapping = null;
 		
 	private static enum MappingFileField {
 		ONTOLOGIES,
@@ -47,12 +47,12 @@ public class ISA2OWLMappingParser {
 	} 
 	
 	
-	public ISA2OWLMappingParser(){
-		mapping = new ISASyntax2OWLMapping();
+	public LinkedISAMappingParser(){
+		mapping = new ISASyntax2LinkedMapping();
 	}
 	
 	
-	public ISASyntax2OWLMapping getMapping(){
+	public ISASyntax2LinkedMapping getMapping(){
 		return mapping;
 	}
 
@@ -160,7 +160,7 @@ public class ISA2OWLMappingParser {
 
                 }else{
                     object = object.substring(1, object.length()-1);
-                    String[] objects = object.split(ISASyntax2OWLMapping.SEPARATOR_REGEXPR);
+                    String[] objects = object.split(ISASyntax2LinkedMapping.SEPARATOR_REGEXPR);
 
                     for(int j=0; j<types.length; j++){
                         mapping.addPropertyMapping(types[j], line[i], objects[j]);

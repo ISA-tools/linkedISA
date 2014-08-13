@@ -11,9 +11,7 @@
     <modules>
         <module>isa-graphparser</module>
         <module>linkedISA-core</module>
-        <!--<module>linkedISA-batch</module>-->
-        <!-- <module>owl2isa</module> -->
-  </modules>
+    </modules>
 
 
     <build>

@@ -8,11 +8,11 @@ import java.io.File;
  * Given a folder with many studies, it converts all the studies.
  *
  */
-public class ISAtab2OWLFolderConverter {
+public class ISAtab2LinkedFolderConverter {
 
-    private ISAtab2OWLConverter isatab2OWLConverter = null;
+    private ISAtab2LinkedConverter isatab2OWLConverter = null;
 
-    public ISAtab2OWLFolderConverter(ISAtab2OWLConverter isa2owl){
+    public ISAtab2LinkedFolderConverter(ISAtab2LinkedConverter isa2owl){
         isatab2OWLConverter = isa2owl;
     }
 

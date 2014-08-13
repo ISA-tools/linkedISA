@@ -1,7 +1,7 @@
 package org.isatools.linkedISA.converter;
 
 import org.apache.log4j.Logger;
-import org.isatools.linkedISA.mapping.ISASyntax2OWLMapping;
+import org.isatools.linkedISA.mapping.ISASyntax2LinkedMapping;
 import org.isatools.owl.reasoner.ReasonerService;
 import org.isatools.util.Pair;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -20,10 +20,10 @@ import java.util.*;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public class ISA2OWL {
+public class LinkedISA {
 
 
-    private static final Logger log = Logger.getLogger(ISA2OWL.class);
+    private static final Logger log = Logger.getLogger(LinkedISA.class);
 
     public static OWLOntology ontology = null;
     public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -51,7 +51,7 @@ public class ISA2OWL {
 
     public static Map<String, OWLNamedIndividual> idIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
-    public static ISASyntax2OWLMapping mapping = null;
+    public static ISASyntax2LinkedMapping mapping = null;
 
     public static Map<OWLNamedIndividual, Set<IRI>> individualTypeMap = new HashMap<OWLNamedIndividual,Set<IRI>>();
 
@@ -82,9 +82,9 @@ public class ISA2OWL {
      * @param iri
      */
     public static void addComment(String comment, IRI iri){
-        OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
-        OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(iri, annotation);
-        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
+        OWLAnnotation annotation = LinkedISA.factory.getOWLAnnotation(LinkedISA.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), LinkedISA.factory.getOWLLiteral(comment));
+        OWLAnnotationAssertionAxiom annotationAssertionAxiom = LinkedISA.factory.getOWLAnnotationAssertionAxiom(iri, annotation);
+        LinkedISA.manager.addAxiom(LinkedISA.ontology, annotationAssertionAxiom);
     }
 
 
@@ -100,15 +100,15 @@ public class ISA2OWL {
      * @return
      */
     public static OWLNamedIndividual createIndividual(IRI type, String name){
-        OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(ISA2OWL.ontoIRI, type.toString()));
+        OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRIGenerator.getIRI(LinkedISA.ontoIRI, type.toString()));
 
         OWLAnnotation annotation =
-                ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),
-                        ISA2OWL.factory.getOWLLiteral(name));
-        OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
-        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
+                LinkedISA.factory.getOWLAnnotation(LinkedISA.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),
+                        LinkedISA.factory.getOWLLiteral(name));
+        OWLAnnotationAssertionAxiom annotationAssertionAxiom = LinkedISA.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
+        LinkedISA.manager.addAxiom(LinkedISA.ontology, annotationAssertionAxiom);
 
-        OWLClass owlClass = ISA2OWL.addOWLClassAssertion(type, individual);
+        OWLClass owlClass = LinkedISA.addOWLClassAssertion(type, individual);
         return individual;
     }
 
@@ -213,10 +213,10 @@ public class ISA2OWL {
             }
 
             if  (individualIRI==null)
-                individualIRI =  createIndividualIRI(ISA2OWL.ontoIRI, typeMappingLabel, individualLabel);
+                individualIRI =  createIndividualIRI(LinkedISA.ontoIRI, typeMappingLabel, individualLabel);
 
             if (individual ==null)
-                individual = ISA2OWL.factory.getOWLNamedIndividual(individualIRI);
+                individual = LinkedISA.factory.getOWLNamedIndividual(individualIRI);
 
             Set<IRI> types = individualTypeMap.get(individual);
 
@@ -232,26 +232,26 @@ public class ISA2OWL {
 //            individualLabel = individualLabel + individualIRIString.substring(individualIRIString.lastIndexOf('/')+1);
 
             //label
-            OWLAnnotation annotation = ISA2OWL.factory.getOWLAnnotation(
-                    ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),
-                    ISA2OWL.factory.getOWLLiteral(individualLabel));
-            OWLAnnotationAssertionAxiom annotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
-            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, annotationAssertionAxiom);
+            OWLAnnotation annotation = LinkedISA.factory.getOWLAnnotation(
+                    LinkedISA.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()),
+                    LinkedISA.factory.getOWLLiteral(individualLabel));
+            OWLAnnotationAssertionAxiom annotationAssertionAxiom = LinkedISA.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), annotation);
+            LinkedISA.manager.addAxiom(LinkedISA.ontology, annotationAssertionAxiom);
 
 
-            OWLAnnotation commentAnnotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(individualIRIString));
-            OWLAnnotationAssertionAxiom commentAnnotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), commentAnnotation);
-            ISA2OWL.manager.addAxiom(ISA2OWL.ontology, commentAnnotationAssertionAxiom);
+            OWLAnnotation commentAnnotation = LinkedISA.factory.getOWLAnnotation(LinkedISA.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), LinkedISA.factory.getOWLLiteral(individualIRIString));
+            OWLAnnotationAssertionAxiom commentAnnotationAssertionAxiom = LinkedISA.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), commentAnnotation);
+            LinkedISA.manager.addAxiom(LinkedISA.ontology, commentAnnotationAssertionAxiom);
 
             //comment
             if (comment!=null && !comment.equals("")) {
-                commentAnnotation = ISA2OWL.factory.getOWLAnnotation(ISA2OWL.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), ISA2OWL.factory.getOWLLiteral(comment));
-                commentAnnotationAssertionAxiom = ISA2OWL.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), commentAnnotation);
-                ISA2OWL.manager.addAxiom(ISA2OWL.ontology, commentAnnotationAssertionAxiom);
+                commentAnnotation = LinkedISA.factory.getOWLAnnotation(LinkedISA.factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), LinkedISA.factory.getOWLLiteral(comment));
+                commentAnnotationAssertionAxiom = LinkedISA.factory.getOWLAnnotationAssertionAxiom(individual.getIRI(), commentAnnotation);
+                LinkedISA.manager.addAxiom(LinkedISA.ontology, commentAnnotationAssertionAxiom);
 
             }
 
-            OWLClass owlClass = ISA2OWL.addOWLClassAssertion(owlClassIRI, individual);
+            OWLClass owlClass = LinkedISA.addOWLClassAssertion(owlClassIRI, individual);
 
             Set<OWLNamedIndividual> list = typeIndividualMap.get(typeMappingLabel);
             if (list ==null){
@@ -328,9 +328,9 @@ public class ISA2OWL {
 
     public static void createObjectPropertyAssertion(String propertyString, OWLNamedIndividual ind1, OWLNamedIndividual ind2){
 
-        OWLObjectProperty property = ISA2OWL.factory.getOWLObjectProperty(IRI.create(propertyString));
-        OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, ind1, ind2);
-        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
+        OWLObjectProperty property = LinkedISA.factory.getOWLObjectProperty(IRI.create(propertyString));
+        OWLObjectPropertyAssertionAxiom axiom = LinkedISA.factory.getOWLObjectPropertyAssertionAxiom(property, ind1, ind2);
+        LinkedISA.manager.addAxiom(LinkedISA.ontology, axiom);
 
     }
 
@@ -352,7 +352,7 @@ public class ISA2OWL {
 
                 IRI predicate = predicateObject.getFirst();
 
-                OWLObjectProperty property = ISA2OWL.factory.getOWLObjectProperty(predicate);
+                OWLObjectProperty property = LinkedISA.factory.getOWLObjectProperty(predicate);
 
                 String objectString = predicateObject.getSecond();
 
@@ -363,8 +363,8 @@ public class ISA2OWL {
                     log.debug("At least one of subject/predicate/object is null...");
 
                 }else{
-                    OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
-                    ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
+                    OWLObjectPropertyAssertionAxiom axiom = LinkedISA.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
+                    LinkedISA.manager.addAxiom(LinkedISA.ontology, axiom);
                 }
             }//for
         }
@@ -387,7 +387,7 @@ public class ISA2OWL {
 
                 IRI predicate = predicateObject.getFirst();
 
-                OWLObjectProperty property = ISA2OWL.factory.getOWLObjectProperty(predicate);
+                OWLObjectProperty property = LinkedISA.factory.getOWLObjectProperty(predicate);
 
                 String objectString = predicateObject.getSecond();
 
@@ -402,8 +402,8 @@ public class ISA2OWL {
                     for(OWLNamedIndividual subject: subjectSet){
                         for(OWLNamedIndividual object:objectSet){
                             if (property!=null && subject!=null && object!=null){
-                                OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
-                                ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
+                                OWLObjectPropertyAssertionAxiom axiom = LinkedISA.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
+                                LinkedISA.manager.addAxiom(LinkedISA.ontology, axiom);
                             }
                         }
                     }
@@ -415,8 +415,8 @@ public class ISA2OWL {
     public static void addObjectPropertyAssertionAxiom(OWLObjectProperty property, OWLNamedIndividual subject, OWLNamedIndividual object){
         if (property==null || subject ==null || object==null)
             return;
-        OWLObjectPropertyAssertionAxiom axiom = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
-        ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom);
+        OWLObjectPropertyAssertionAxiom axiom = LinkedISA.factory.getOWLObjectPropertyAssertionAxiom(property, subject, object);
+        LinkedISA.manager.addAxiom(LinkedISA.ontology, axiom);
     }
 
     /**
@@ -443,7 +443,7 @@ public class ISA2OWL {
         log.debug("purl="+purl);
 
         if (purl!=null && !purl.equals(""))
-            ISA2OWL.addOWLClassAssertion(IRI.create(purl), individual);
+            LinkedISA.addOWLClassAssertion(IRI.create(purl), individual);
     }
 
 
