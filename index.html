@@ -87,23 +87,42 @@ We provide some mappings to a few ontologies with the implementation, namely: to
 
 <h4>SPARQL Queries for linkedISA</h4>
 
-          <p align="center"><a href="https://raw.githubusercontent.com/ISA-tools/linkedISA/master/linkedISA-core/src/main/resources/sparql/isa.sparql">isa.sparql</a></p>
+Retrieve investigations with related studies and assays.
+<p align="center"><a href="https://raw.githubusercontent.com/ISA-tools/linkedISA/master/linkedISA-core/src/main/resources/sparql/isa.sparql">isa.sparql</a></p>
 
-          <form><textarea id="code1" name="code1" rows="24" cols="100" ></textarea></form>
-          <script>
-              $.getGithubFile("ISA-tools", "linkedISA", "fc9d2c87e64a1e7fe85ee0386750b0822405e885", function(contents) {
+<form><textarea id="code1" name="code1" rows="24" cols="100" ></textarea></form>
+<script>
+    $.getGithubFile("ISA-tools", "linkedISA", "fc9d2c87e64a1e7fe85ee0386750b0822405e885", function(contents) {
                   console.log(contents);
-                  $("textarea#code1").text(contents);
+    $("textarea#code1").text(contents);
 
-                  CodeMirror.fromTextArea(document.getElementById("code1"), {
+    CodeMirror.fromTextArea(document.getElementById("code1"), {
+                      mode: "application/x-sparql-query",
+                      matchBrackets: true,
+                      readOnly: true,
+                      lineNumbers: true
+        });
+    });
+</script>
+
+
+Retrieve study factors and levels
+<form><textarea id="code1" name="code1" rows="24" cols="100" ></textarea></form>
+<script>
+    $.getGithubFile("ISA-tools", "linkedISA", "fc9d2c87e64a1e7fe85ee0386750b0822405e885", function(contents) {
+                  console.log(contents);
+    $("textarea#code1").text(contents);
+
+    CodeMirror.fromTextArea(document.getElementById("code1"), {
                       mode: "application/x-sparql-query",
                       matchBrackets: true,
                       readOnly: true,
                       lineNumbers: true
                   });
               });
+</script>
 
-          </script>
+
 
 
 <h4>Queries over Scientific Data datasets</h4>
@@ -111,6 +130,8 @@ We provide some mappings to a few ontologies with the implementation, namely: to
 Nature Publishing Group's <a href="">Scientific Data</a> is an open-access, peer-reviewed publication for descriptions of scientifically valuable datasets.
 
 <ul>
+    <li><a href="http://newt.oerc.ox.ac.uk:8890/sparql?default-graph-uri=http%3A%2F%2Fw3id.org%2Fisa%2Fsdata&query=PREFIX++isa%3A++%3Chttp%3A%2F%2Fpurl.org%2Fisaterms%2F%3E%0D%0A%0D%0Aselect+distinct+%3Fstudy+where+{%0D%0A%3Fstudy+rdf%3Atype+isa%3Astudy.%0D%0A}+&format=text%2Fhtml&timeout=0&debug=on">Retrieve all the studies in Scientific Data</a></li>
+
     <li><a href="http://newt.oerc.ox.ac.uk:8890/sparql?default-graph-uri=http%3A%2F%2Fw3id.org%2Fisa%2Fsdata&query=PREFIX+rdf%3A++%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0APREFIX+bfo%3A+%3Chttp%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FBFO_%3E%0D%0APREFIX+obi%3A+%3Chttp%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FOBI_%3E%0D%0APREFIX+isa%3A++%3Chttp%3A%2F%2Fpurl.org%2Fisaterms%2F%3E%0D%0A%0D%0ASELECT+DISTINCT+%3Finvestigation_iri+%3Finvestigation+%3Fstudy_iri+%3Fstudy+%3Fassay_iri+%3Fassay%0D%0AWHERE%0D%0A{%0D%0A%3Finvestigation_iri+rdf%3Atype+isa%3Ainvestigation.%0D%0A%3Finvestigation_iri+rdfs%3Alabel+%3Finvestigation.%0D%0A%0D%0A%3Fstudy_iri+bfo%3A0000050+%3Finvestigation_iri.%0D%0A%3Fstudy_iri+rdf%3Atype+isa%3Astudy.%0D%0A%3Fstudy_iri+rdfs%3Alabel+%3Fstudy.%0D%0A%0D%0A%3Fassay_iri+bfo%3A0000050+%3Fstudy_iri.%0D%0A%3Fassay_iri+rdf%3Atype+obi%3A0000070.%0D%0A%3Fassay_iri+rdfs%3Alabel+%3Fassay.%0D%0A}%0D%0AGROUP+BY+%3Finvestigation_iri+%3Fstudy_iri+%3Fassay_iri&format=text%2Fhtml&timeout=0&debug=on">Retrieve investigation with related studies and assays</a>.</li>
     <li><a href="http://newt.oerc.ox.ac.uk:8890/sparql?default-graph-uri=http%3A%2F%2Fw3id.org%2Fisa%2Fsdata&query=PREFIX++rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0APREFIX++isa%3A++%3Chttp%3A%2F%2Fpurl.org%2Fisaterms%2F%3E%0D%0APREFIX++rdf%3A++%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX++iao%3A++%3Chttp%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FIAO_%3E%0D%0A%0D%0ASELECT+DISTINCT++%3Fstudy_iri+%3Ffactor_iri+%3Ffactor+%3Ffactor_level_iri+%3Ffactor_level%0D%0AWHERE%0D%0A{+%0D%0A++++%3Fstudy_iri+rdf%3Atype+isa%3Astudy.%0D%0A++++++++%0D%0A++++%3Fstudy_design_iri+rdf%3Atype+isa%3Astudy_design+.%0D%0A++++%3Fstudy_design_iri+iao%3A0000219+%3Fstudy_iri.%0D%0A++++%3Fstudy_design_iri+isa%3Adeclares+%3Ffactor_iri.%0D%0A++++%3Fstudy_design_iri+rdfs%3Alabel+%3Fstudy_design.%0D%0A++++%0D%0A++++%3Ffactor_iri+rdfs%3Alabel+%3Ffactor+.%0D%0A++++%3Ffactor_iri+isa%3Ahas_factor_level+%3Ffactor_level_iri+.%0D%0A++++%3Ffactor_level_iri+rdfs%3Alabel+%3Ffactor_level%0D%0A}&format=text%2Fhtml&timeout=0&debug=on">Study factors and levels</a></li>
     <li><a href="http://newt.oerc.ox.ac.uk:8890/sparql?default-graph-uri=http%3A%2F%2Fw3id.org%2Fisa%2Fsdata&query=PREFIX++rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0APREFIX++isa%3A++%3Chttp%3A%2F%2Fpurl.org%2Fisaterms%2F%3E%0D%0APREFIX++rdf%3A++%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0D%0APREFIX++obi%3A++%3Chttp%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FOBI_%3E%0D%0APREFIX++iao%3A++%3Chttp%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FIAO_%3E%0D%0A%0D%0ASELECT++%3Fstudy_iri+%3Ffactor+%28count%28*%29+AS+%3Ffactor_level_count%29%0D%0AWHERE%0D%0A++{+%0D%0A++++%3Fstudy_iri+rdf%3Atype+isa%3Astudy.%0D%0A++++++++%0D%0A++++%3Fstudy_design_iri+rdf%3Atype+isa%3Astudy_design+.%0D%0A++++%3Fstudy_design_iri+iao%3A0000219+%3Fstudy_iri.%0D%0A++++%3Fstudy_design_iri+isa%3Adeclares+%3Ffactor_iri.%0D%0A++++%3Fstudy_design_iri+rdfs%3Alabel+%3Fstudy_design.%0D%0A++++%0D%0A++++%3Ffactor_iri+rdfs%3Alabel+%3Ffactor+.%0D%0A++++%3Ffactor_iri+isa%3Ahas_factor_level+%3Ffactor_level_iri+.%0D%0A++++%3Ffactor_level_iri+rdfs%3Alabel+%3Ffactor_level%0D%0A++}%0D%0AGROUP+BY+%3Fstudy_iri+%3Ffactor&format=text%2Fhtml&timeout=0&debug=on">Study factor levels count</a></li>
