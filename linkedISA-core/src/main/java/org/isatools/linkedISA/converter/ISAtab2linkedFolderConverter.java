@@ -1,6 +1,8 @@
 package org.isatools.linkedISA.converter;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by agbeltran on 19/06/2014.
@@ -16,7 +18,14 @@ public class ISAtab2LinkedFolderConverter {
         isatab2OWLConverter = isa2owl;
     }
 
-    public void convert(String inputFolder, String uriPrefix, String outputFolder) throws Exception {
+
+
+    public void convert(String inputFolder, String uriPrefix, String outputFolder) throws Exception{
+        convert(inputFolder, uriPrefix, outputFolder, null);
+    }
+
+
+    public void convert(String inputFolder, String uriPrefix, String outputFolder, String stringPattern) throws Exception {
 
         File inputFolderFile = new File(inputFolder);
 
@@ -26,18 +35,27 @@ public class ISAtab2LinkedFolderConverter {
 
         File[] inputFiles = inputFolderFile.listFiles();
 
+        Pattern pattern = null;
+
+        if (stringPattern!=null){
+            pattern = Pattern.compile(stringPattern);
+        }
+
         for(File inputFile: inputFiles){
+
+            Matcher matcher = null;
+
+            if (stringPattern!=null){
+                matcher = pattern.matcher(inputFile.getName());
+                if (!matcher.matches())
+                    continue;
+            }
+
             System.out.println("============ Converting "+inputFile);
 
             String path = inputFile.getAbsolutePath();
             String name = path.substring(path.lastIndexOf('/')+1);
-            if (!name.equals("sdata20149-isa1"))
-                continue;
             isatab2OWLConverter.convert(path, uriPrefix + name);
-
-            //System.out.println("Minted IRIs");
-            //System.out.println(isatab2OWLConverter.getMintedIRIs());
-
             isatab2OWLConverter.saveOntology(outputFolder + name + ".rdf");
         }
     }
