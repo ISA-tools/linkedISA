@@ -1,6 +1,7 @@
 package org.isatools.graph.parser;
 
 import org.apache.log4j.Logger;
+import org.isatools.graph.model.impl.Graph;
 import org.isatools.graph.model.impl.NodeType;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.model.Assay;
@@ -75,17 +76,17 @@ public class GraphParserTest {
         graphParser(isatabParentDir);
     }
 
-    @Test
-    public void parserBGISoapdenovo2Test(){
-        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/BGI-SOAPdenovo2").getFile();
-        graphParser(isatabParentDir);
-    }
+//    @Test
+//    public void parserBGISoapdenovo2Test(){
+//        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/BGI-SOAPdenovo2").getFile();
+//        graphParser(isatabParentDir);
+//    }
 
-    @Test
-    public void parserBGISoapdenovo2CompactTest(){
-        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/soapdenovo2-compact").getFile();
-        graphParser(isatabParentDir);
-    }
+//    @Test
+//    public void parserBGISoapdenovo2CompactTest(){
+//        String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/soapdenovo2-compact").getFile();
+//        graphParser(isatabParentDir);
+//    }
 
     @Test
     public void parserCompositeTest(){
@@ -114,6 +115,20 @@ public class GraphParserTest {
     @Test
     public void parserISATABTest4(){
         String isatabParentDir =   getClass().getResource("/ISAtab-Datasets/isatab-test4").getFile();
+        graphParser(isatabParentDir);
+    }
+
+
+    @Test
+    public void parserSCC(){
+        String isatabParentDir =  "/Users/agbeltran/work-datasets/StemCellCommons/isa_7068_695637/";
+        graphParser(isatabParentDir);
+    }
+
+
+    @Test
+    public void parserSCC2(){
+        String isatabParentDir =  "/Users/agbeltran/work-datasets/scc/isa_11620_879353/";
         graphParser(isatabParentDir);
     }
 
@@ -167,7 +182,8 @@ public class GraphParserTest {
                 parser.parse();
 
                 System.out.println("ASSAY GRAPH...");
-                parser.getGraph().outputGraph();
+                Graph graph = parser.getGraph();
+                graph.outputGraph();
 
 
                 System.out.println("GROUPS=" + parser.getGroups());

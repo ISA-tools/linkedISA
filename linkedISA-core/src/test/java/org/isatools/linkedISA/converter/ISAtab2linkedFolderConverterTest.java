@@ -45,14 +45,15 @@ public class ISAtab2LinkedFolderConverterTest {
         isatab2owlfolder = new ISAtab2LinkedFolderConverter(isatab2owl);
     }
 
-    @Test
-    public void convertMetabolightsDatasets() throws Exception {
-        isatab2owlfolder.convert("/Users/agbeltran/Metabolights/","http://w3id.org/isa/metabolights/","/Users/agbeltran/Metabolights/rdf/");
-    }
 
     @Test
     public void convertSDataDatasets() throws Exception {
-        isatab2owlfolder.convert("/Users/agbeltran/ScientificData/isa-tab","http://w3id.org/isa/sdata/","/Users/agbeltran/ScientificData/rdf/");
+        //isatab2owlfolder.convert("/Users/agbeltran/work-datasets/ScientificData/isa-tab","http://w3id.org/isa/sdata/","/Users/agbeltran/work-datasets/ScientificData/rdf/");
+
+        //isatab2owlfolder.convert("/Users/agbeltran/work-datasets/scc/","http://w3id.org/scc/","/Users/agbeltran/work-datasets/scc/rdf/", "isa_7068.*");
+        isatab2owlfolder.convert("/Users/agbeltran/work-datasets/scc/","http://w3id.org/scc/","/Users/agbeltran/work-datasets/scc/rdf/");
+
+
     }
 
 }

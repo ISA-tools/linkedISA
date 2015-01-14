@@ -4,9 +4,9 @@
     <groupId>org.isatools</groupId>
     <artifactId>linkedISA</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>linkedISA</name>
-    <description>Converst an ISAtab datasets into OWL.</description>
+    <description>Converts an ISAtab datasets into OWL.</description>
 
     <modules>
         <module>isa-graphparser</module>
@@ -73,26 +73,5 @@
     </distributionManagement>
 
 
-    
-   <dependencies>
-		<dependency>
-            <groupId>org.isatools</groupId>
-            <artifactId>ISAcreator</artifactId>
-            <version>1.7.7</version>
-        </dependency>
-        
-        <dependency>
-                <groupId>net.sourceforge.owlapi</groupId>
-                <artifactId>owlapi-reasoner</artifactId>
-                <version>3.3</version>
-        </dependency>
-        
-        <dependency>
-                <groupId>net.sourceforge.owlapi</groupId>
-                <artifactId>owlapi-apibinding</artifactId>
-                <version>3.3</version>
-        </dependency>
-        
-	</dependencies>
   
 </project>

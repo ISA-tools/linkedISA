@@ -331,7 +331,14 @@ public class ISAtab2LinkedConverter {
         log.info("Converting study " + study.getStudyId() + "...");
 
         //Study
-        OWLNamedIndividual studyIndividual = LinkedISA.createIndividual(ExtendedISASyntax.STUDY, study.getStudyId());
+        OWLNamedIndividual studyIndividual = null;
+
+        if (study.getStudyId().startsWith("10.1038")){
+            studyIndividual = LinkedISA.createIndividual(ExtendedISASyntax.STUDY, study.getStudyId(), "", IRI.create("http://dx.doi.org/"+study.getStudyId()), null);
+
+        } else {
+            studyIndividual = LinkedISA.createIndividual(ExtendedISASyntax.STUDY, study.getStudyId());
+        }
 
         String license = study.getComment("Comment[Experimental Metadata Licence]");
         String study_grant = study.getComment("Comment[Study Grant Number]");

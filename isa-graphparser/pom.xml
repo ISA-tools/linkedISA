@@ -4,14 +4,14 @@
     <groupId>org.isatools</groupId>
     <artifactId>isa-graphparser</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>isa-graphparser</name>
     <url>http://maven.apache.org</url>
 
     <parent>
-        <artifactId>isa2owl</artifactId>
+        <artifactId>linkedISA</artifactId>
         <groupId>org.isatools</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <build>
@@ -50,6 +50,18 @@
             <groupId>org.isatools</groupId>
             <artifactId>ISAcreator</artifactId>
             <version>1.7.7</version>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
