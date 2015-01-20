@@ -1,18 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.isatools</groupId>
-    <artifactId>linkedISA-core</artifactId>
-    <packaging>jar</packaging>
-    <version>1.0.0</version>
-    <name>linkedISA-core</name>
-    <url>http://maven.apache.org</url>
-
     <parent>
         <artifactId>linkedISA</artifactId>
         <groupId>org.isatools</groupId>
         <version>1.0.0</version>
     </parent>
+    <groupId>org.isatools</groupId>
+    <artifactId>linkedISA-core</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0.0</version>
+    <name>linkedISA-core</name>
 
     <build>
         <pluginManagement>
@@ -20,8 +18,8 @@
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
+                        <source>1.7</source>
+                        <target>1.7</target>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -81,29 +79,12 @@
             <groupId>org.isatools</groupId>
             <artifactId>isa-graphparser</artifactId>
             <version>1.0.0</version>
-
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-            </exclusions>
-
-
-
         </dependency>
 
         <dependency>
             <groupId>com.owldl</groupId>
             <artifactId>pellet</artifactId>
-            <!-- latest version is 2.2.0, or earlier 2.1.1, ... -->
             <version>2.3.0</version>
-
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -118,6 +99,7 @@
 
         </dependency>
 
+        <!--
         <dependency>
             <groupId>org.isatools</groupId>
             <artifactId>ISAcreator</artifactId>
@@ -135,6 +117,7 @@
             </exclusion>
             </exclusions>
         </dependency>
+        -->
 
         <dependency>
             <groupId>junit</groupId>
@@ -159,14 +142,12 @@
             <groupId>net.sourceforge.owlapi</groupId>
             <artifactId>owlapi-apibinding</artifactId>
             <version>3.4.5</version>
-            <!-- <version>3.3</version> -->
         </dependency>
 
         <dependency>
             <groupId>net.sourceforge.owlapi</groupId>
             <artifactId>owlapi-tools</artifactId>
             <version>3.4.10</version>
-            <!-- <version>3.4</version> -->
         </dependency>
 
         <dependency>
@@ -199,15 +180,6 @@
             </exclusions>
 
         </dependency>
-
-        <!--
-        <dependency>
-            <groupId>com.owldl</groupId>
-            <artifactId>pellet</artifactId>
-
-            <version>2.3.0</version>
-        </dependency>
--->
 
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
@@ -349,7 +321,6 @@
             <artifactId>sesame-rio-datatypes</artifactId>
             <version>2.7.0</version>
         </dependency>
-
 
     </dependencies>
 

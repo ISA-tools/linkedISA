@@ -7,7 +7,6 @@
     <version>1.0.0</version>
     <name>linkedISA</name>
     <description>Converts an ISAtab datasets into OWL.</description>
-
     <modules>
         <module>isa-graphparser</module>
         <module>linkedISA-core</module>
@@ -20,8 +19,8 @@
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
+                        <source>1.7</source>
+                        <target>1.7</target>
                     </configuration>
                 </plugin>
                 <plugin>

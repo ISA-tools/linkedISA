@@ -6,8 +6,9 @@ import org.isatools.graph.model.ISAFactorValue;
 import org.isatools.graph.model.ISAMaterialAttribute;
 import org.isatools.graph.model.ISANode;
 import org.isatools.graph.model.ISAUnit;
-import org.isatools.graph.model.impl.*;
-import org.isatools.graph.model.impl.Date;
+//import org.isatools.graph.model.impl.Date;
+import org.isatools.graph.model.impl.Graph;
+import org.isatools.graph.model.impl.ProtocolExecutionNode;
 import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
@@ -1070,7 +1071,7 @@ public class Assay2LinkedConverter {
         }
 
         //date
-        Date date = processNode.getDate();
+        org.isatools.graph.model.impl.Date date = processNode.getDate();
         if (date!=null){
             int dateIndex = date.getIndex();
             String dateString = data[processRow][dateIndex].toString();
