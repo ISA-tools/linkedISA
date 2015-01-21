@@ -85,8 +85,10 @@ public class GraphParser {
 
                 graph.addNode(processNode);
                 if (lastMaterialOrData != null) {
-                    processNode.setInputNode(
-                           new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
+                    //but it could be a DataNode rather than a material node... do I need a new object?
+                    //processNode.setInputNode(
+                    //       new MaterialNode(lastMaterialOrData.getIndex(), lastMaterialOrData.getName()));
+                    processNode.setInputNode(lastMaterialOrData);
                 }
                 lastProcess = processNode;
                 if (lastProcess!=null) {
@@ -328,7 +330,7 @@ public class GraphParser {
         return groups;
     }
 
-    public Graph getGraph() {
+    public org.isatools.graph.model.impl.Graph getGraph() {
         return graph;
     }
 

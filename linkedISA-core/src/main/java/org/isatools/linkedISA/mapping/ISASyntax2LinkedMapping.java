@@ -20,9 +20,9 @@ import java.util.regex.Pattern;
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *
  */
-public class ISASyntax2OWLMapping {
+public class ISASyntax2LinkedMapping {
 
-    private static final Logger log = Logger.getLogger(ISASyntax2OWLMapping.class);
+    private static final Logger log = Logger.getLogger(ISASyntax2LinkedMapping.class);
 
     public static String SEPARATOR_REGEXPR = "\\|";
     public static String CHAIN_PROPERTY = "chain";
@@ -51,7 +51,7 @@ public class ISASyntax2OWLMapping {
     Map<String,List<Pair<IRI, String>>> otherPropertyMappings = null;
 
 
-	public ISASyntax2OWLMapping(){
+	public ISASyntax2LinkedMapping(){
 		init();
 	}
 	

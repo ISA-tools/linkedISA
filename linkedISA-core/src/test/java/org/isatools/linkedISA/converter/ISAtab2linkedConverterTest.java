@@ -1,8 +1,8 @@
 package org.isatools.linkedISA.converter;
 
-import org.isatools.linkedISA.mapping.ISA2OWLMappingParser;
-import org.isatools.linkedISA.mapping.ISASyntax2OWLMapping;
-import org.isatools.linkedISA.mapping.ISASyntax2OWLMappingFiles;
+import org.isatools.linkedISA.mapping.ISASyntax2LinkedMapping;
+import org.isatools.linkedISA.mapping.ISASyntax2LinkedMappingFiles;
+import org.isatools.linkedISA.mapping.LinkedISAMappingParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,15 +16,15 @@ import java.net.URL;
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *
  */
-public class ISAtab2OWLConverterTest {
+public class ISAtab2LinkedConverterTest {
 
 	private String configDir = null;
 	private String isatabParentDir = null;
     private String path = "/ISAtab-Datasets/";
-    private String savePath=ISAtab2OWLConverterTest.class.getClass().getResource(path).getFile();
-    private ISAtab2OWLConverter isatab2owl = null;
-    private ISA2OWLMappingParser parser = null;
-    private ISASyntax2OWLMapping mapping = null;
+    private String savePath=ISAtab2LinkedConverterTest.class.getClass().getResource(path).getFile();
+    private ISAtab2LinkedConverter isatab2owl = null;
+    private LinkedISAMappingParser parser = null;
+    private ISASyntax2LinkedMapping mapping = null;
     private String iri = null;
 	
 	@Before
@@ -38,16 +38,16 @@ public class ISAtab2OWLConverterTest {
 
         //System.out.println("Parsing the mapping...");
 
-        parser = new ISA2OWLMappingParser();
-        URL isa_obi_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_OBI_MAPPING_FILENAME);
+        parser = new LinkedISAMappingParser();
+        URL isa_obi_mapping_url = getClass().getClassLoader().getResource(ISASyntax2LinkedMappingFiles.ISA_OBI_MAPPING_FILENAME);
         //System.out.println("isa_obi_mapping_url="+isa_obi_mapping_url);
         parser.parseCSVMappingFile(isa_obi_mapping_url.toURI().getRawPath().toString());
 
-        URL isa_isa_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_ISA_MAPPING_FILENAME);
+        URL isa_isa_mapping_url = getClass().getClassLoader().getResource(ISASyntax2LinkedMappingFiles.ISA_ISA_MAPPING_FILENAME);
         //System.out.println("isa_isa_mapping_url="+isa_isa_mapping_url);
         parser.parseCSVMappingFile(isa_isa_mapping_url.toURI().getRawPath().toString());
 
-        URL isa_prov_o_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_PROV_O_MAPPING_FILENAME);
+        URL isa_prov_o_mapping_url = getClass().getClassLoader().getResource(ISASyntax2LinkedMappingFiles.ISA_PROV_O_MAPPING_FILENAME);
         //System.out.println("isa_isa_mapping_url="+isa_isa_mapping_url);
         parser.parseCSVMappingFile(isa_prov_o_mapping_url.toURI().getRawPath().toString());
 
@@ -55,7 +55,7 @@ public class ISAtab2OWLConverterTest {
         //System.out.println("MAPPING-----");
         //System.out.println(mapping);
 
-		isatab2owl = new ISAtab2OWLConverter(configDir, mapping);
+		isatab2owl = new ISAtab2LinkedConverter(configDir, mapping);
     }
 
     @After
@@ -91,29 +91,29 @@ public class ISAtab2OWLConverterTest {
         isatab2owl.saveInferredOntology(savePath+"BII-I-1-inferred.owl");
     }
 
-    @Test
-    public void testConvertBII_S_9() {
-        iri = "http://isa-tools.org/isa/BII-S-9.owl";
-        isatabParentDir = getClass().getResource(path+"BII-S-9").getFile();
-        System.out.println("isatabParentDir="+isatabParentDir);
-        System.out.println("Converting the ISA-tab dataset into OWL");
-//        assert(isatab2owl.convert(isatabParentDir, iri));
-        isatab2owl.convert(isatabParentDir, iri);
-        isatab2owl.saveOntology(savePath+"BII-S-9.owl");
-
-    }
+//    @Test
+//    public void testConvertBII_S_9() {
+//        iri = "http://isa-tools.org/isa/BII-S-9.owl";
+//        isatabParentDir = getClass().getResource(path+"BII-S-9").getFile();
+//        System.out.println("isatabParentDir="+isatabParentDir);
+//        System.out.println("Converting the ISA-tab dataset into OWL");
+////        assert(isatab2owl.convert(isatabParentDir, iri));
+//        isatab2owl.convert(isatabParentDir, iri);
+//        isatab2owl.saveOntology(savePath+"BII-S-9.owl");
+//
+//    }
     
-    @Test
-    public void testConvertArmstrong() throws Exception {
-        iri = "http://isa-tools.org/isa/ARMSTRONG-3.owl";
-        isatabParentDir = getClass().getResource(path+"ARMSTRONG-3").getFile();
-        System.out.println("isatabParentDir="+isatabParentDir);
-        System.out.println("Converting the ISA-tab dataset into OWL");
-        isatab2owl.convert(isatabParentDir, iri);
-        isatab2owl.saveOntology(savePath+"ARMSTRONG-3.owl");
-
-        isatab2owl.saveInferredOntology(savePath+"ARMSTRONG-3-inferred.owl");
-    }
+//    @Test
+//    public void testConvertArmstrong() throws Exception {
+//        iri = "http://isa-tools.org/isa/ARMSTRONG-3.owl";
+//        isatabParentDir = getClass().getResource(path+"ARMSTRONG-3").getFile();
+//        System.out.println("isatabParentDir="+isatabParentDir);
+//        System.out.println("Converting the ISA-tab dataset into OWL");
+//        isatab2owl.convert(isatabParentDir, iri);
+//        isatab2owl.saveOntology(savePath+"ARMSTRONG-3.owl");
+//
+//        isatab2owl.saveInferredOntology(savePath+"ARMSTRONG-3-inferred.owl");
+//    }
 
     @Test
     public void testConvertBII_S_3() throws Exception {
@@ -203,25 +203,25 @@ public class ISAtab2OWLConverterTest {
         isatab2owl.saveOntology(savePath+"E-GEOD-25835-MPBRCA1.owl");
     }
 
-    @Test
-    public void testConvertMTBLS2() {
-        iri = "http://isa-tools.org/isa/MTBLS2.owl";
-        isatabParentDir = getClass().getResource( path + "MTBLS2").getFile();
-        System.out.println("isatabParentDir="+isatabParentDir);
-        System.out.println("Converting the ISA-tab dataset into OWL");
-        isatab2owl.convert(isatabParentDir, iri);
-        isatab2owl.saveOntology(savePath+"MTBLS2.owl");
-    }
+//    @Test
+//    public void testConvertMTBLS2() {
+//        iri = "http://isa-tools.org/isa/MTBLS2.owl";
+//        isatabParentDir = getClass().getResource( path + "MTBLS2").getFile();
+//        System.out.println("isatabParentDir="+isatabParentDir);
+//        System.out.println("Converting the ISA-tab dataset into OWL");
+//        isatab2owl.convert(isatabParentDir, iri);
+//        isatab2owl.saveOntology(savePath+"MTBLS2.owl");
+//    }
 
-    @Test
-    public void testConvertHeck_ISAtab() {
-        iri = "http://isa-tools.org/isa/Heck.owl";
-        isatabParentDir = getClass().getResource( path + "Heck_ISA-tab-July10").getFile();
-        System.out.println("isatabParentDir="+isatabParentDir);
-        System.out.println("Converting the ISA-tab dataset into OWL");
-        isatab2owl.convert(isatabParentDir, iri);
-        isatab2owl.saveOntology(savePath+"Heck.owl");
-    }
+//    @Test
+//    public void testConvertHeck_ISAtab() {
+//        iri = "http://isa-tools.org/isa/Heck.owl";
+//        isatabParentDir = getClass().getResource( path + "Heck_ISA-tab-July10").getFile();
+//        System.out.println("isatabParentDir="+isatabParentDir);
+//        System.out.println("Converting the ISA-tab dataset into OWL");
+//        isatab2owl.convert(isatabParentDir, iri);
+//        isatab2owl.saveOntology(savePath+"Heck.owl");
+//    }
 
     @Test
     public void testConvertSOAPdenovo2(){
@@ -304,50 +304,50 @@ public class ISAtab2OWLConverterTest {
 
     }
 
-    @Test
-    public void testConvertISATABTest5(){
-        iri = "http://w3id.org/isa/isatab-test5";
-        isatabParentDir = getClass().getResource( path + "isatab-test5").getFile();
-        System.out.println("isatabParentDir="+isatabParentDir);
-        System.out.println("Converting the ISA-tab dataset into OWL");
-        isatab2owl.convert(isatabParentDir, iri);
-        isatab2owl.saveOntology(savePath+"isatab-test5.rdf");
+//    @Test
+//    public void testConvertISATABTest5(){
+//        iri = "http://w3id.org/isa/isatab-test5";
+//        isatabParentDir = getClass().getResource( path + "isatab-test5").getFile();
+//        System.out.println("isatabParentDir="+isatabParentDir);
+//        System.out.println("Converting the ISA-tab dataset into OWL");
+//        isatab2owl.convert(isatabParentDir, iri);
+//        isatab2owl.saveOntology(savePath+"isatab-test5.rdf");
+//
+//        System.out.println();
+//        System.out.println();
+//        isatab2owl.getMintedIRIs();
+//
+//    }
 
-        System.out.println();
-        System.out.println();
-        isatab2owl.getMintedIRIs();
+//    @Test
+//    public void testConvertISATABTest6(){
+//        iri = "http://w3id.org/isa/isatab-test6";
+//        isatabParentDir = getClass().getResource( path + "isatab-test6").getFile();
+//        System.out.println("isatabParentDir="+isatabParentDir);
+//        System.out.println("Converting the ISA-tab dataset into OWL");
+//        isatab2owl.convert(isatabParentDir, iri);
+//        isatab2owl.saveOntology(savePath+"isatab-test6.rdf");
+//
+//        System.out.println();
+//        System.out.println();
+//        isatab2owl.getMintedIRIs();
+//
+//    }
 
-    }
-
-    @Test
-    public void testConvertISATABTest6(){
-        iri = "http://w3id.org/isa/isatab-test6";
-        isatabParentDir = getClass().getResource( path + "isatab-test6").getFile();
-        System.out.println("isatabParentDir="+isatabParentDir);
-        System.out.println("Converting the ISA-tab dataset into OWL");
-        isatab2owl.convert(isatabParentDir, iri);
-        isatab2owl.saveOntology(savePath+"isatab-test6.rdf");
-
-        System.out.println();
-        System.out.println();
-        isatab2owl.getMintedIRIs();
-
-    }
-
-    @Test
-    public void testConvertISATABTest7(){
-        iri = "http://w3id.org/isa/isatab-test7";
-        isatabParentDir = getClass().getResource( path + "isatab-test7").getFile();
-        System.out.println("isatabParentDir="+isatabParentDir);
-        System.out.println("Converting the ISA-tab dataset into OWL");
-        isatab2owl.convert(isatabParentDir, iri);
-        isatab2owl.saveOntology(savePath+"isatab-test7.rdf");
-
-        System.out.println();
-        System.out.println();
-        isatab2owl.getMintedIRIs();
-
-    }
+//    @Test
+//    public void testConvertISATABTest7(){
+//        iri = "http://w3id.org/isa/isatab-test7";
+//        isatabParentDir = getClass().getResource( path + "isatab-test7").getFile();
+//        System.out.println("isatabParentDir="+isatabParentDir);
+//        System.out.println("Converting the ISA-tab dataset into OWL");
+//        isatab2owl.convert(isatabParentDir, iri);
+//        isatab2owl.saveOntology(savePath+"isatab-test7.rdf");
+//
+//        System.out.println();
+//        System.out.println();
+//        isatab2owl.getMintedIRIs();
+//
+//    }
 
     @Test
     public void testConvertISACompositeTest(){

@@ -1,18 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>linkedISA</artifactId>
+        <groupId>org.isatools</groupId>
+        <version>1.0.0</version>
+    </parent>
     <groupId>org.isatools</groupId>
     <artifactId>linkedISA-core</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>linkedISA-core</name>
-    <url>http://maven.apache.org</url>
-
-    <parent>
-        <artifactId>isa2owl</artifactId>
-        <groupId>org.isatools</groupId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
 
     <build>
         <pluginManagement>
@@ -49,11 +47,13 @@
             <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/groups/oerc</url>
         </repository>
 
+        <!--
         <repository>
             <id>on.cs.unibas.ch</id>
             <name>DBIS Maven Releases Repository</name>
             <url>http://on.cs.unibas.ch/maven/repository</url>
         </repository>
+        -->
 
         <repository>
             <id>Sonatype repository</id>
@@ -80,20 +80,7 @@
         <dependency>
             <groupId>org.isatools</groupId>
             <artifactId>isa-graphparser</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.owldl</groupId>
-            <artifactId>pellet</artifactId>
-            <!-- latest version is 2.2.0, or earlier 2.1.1, ... -->
-            <version>2.2.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.isatools</groupId>
-            <artifactId>ISAcreator</artifactId>
-            <version>1.7.7</version>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>
@@ -119,14 +106,12 @@
             <groupId>net.sourceforge.owlapi</groupId>
             <artifactId>owlapi-apibinding</artifactId>
             <version>3.4.5</version>
-            <!-- <version>3.3</version> -->
         </dependency>
 
         <dependency>
             <groupId>net.sourceforge.owlapi</groupId>
             <artifactId>owlapi-tools</artifactId>
             <version>3.4.10</version>
-            <!-- <version>3.4</version> -->
         </dependency>
 
         <dependency>
@@ -140,19 +125,42 @@
             <artifactId>apache-jena-libs</artifactId>
             <type>pom</type>
             <version>2.10.0</version>
-        </dependency>
 
-        <dependency>
-            <groupId>com.owldl</groupId>
-            <artifactId>pellet</artifactId>
-            <!-- latest version is 2.2.0, or earlier 2.1.1, ... -->
-            <version>2.3.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+
         </dependency>
 
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-runtime</artifactId>
             <version>2.7.6</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+
         </dependency>
 
         <dependency>
@@ -162,22 +170,22 @@
         </dependency>
 
         <dependency>
-            <groupId>com.owldl</groupId>
-            <artifactId>pellet</artifactId>
-            <!-- latest version is 2.2.0, or earlier 2.1.1, ... -->
-            <version>2.3.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.lucene</groupId>
-                    <artifactId>lucene-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-repository-api</artifactId>
             <version>2.7.0</version>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+
         </dependency>
 
         <dependency>
@@ -190,12 +198,37 @@
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-repository-manager</artifactId>
             <version>2.7.0</version>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-repository-http</artifactId>
             <version>2.7.0</version>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+
         </dependency>
 
         <dependency>
@@ -227,7 +260,6 @@
             <artifactId>sesame-rio-datatypes</artifactId>
             <version>2.7.0</version>
         </dependency>
-
 
     </dependencies>
 

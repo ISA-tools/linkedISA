@@ -114,7 +114,7 @@ public class ProcessNode extends NodeWithComments implements ISAProcessNode {
 
         if (getAssociatedProcessNodes() !=null) {
             for(ProtocolExecutionNode pen : getAssociatedProcessNodes()){
-                buffer.append("\t associated protocol execution: " + pen.getName()+"\n");
+                buffer.append("\t associated protocol execution: [[[ " + pen.toString()+" ]]]\n");
             }
         }
 

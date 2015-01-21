@@ -2,17 +2,15 @@ package org.isatools.linkedISA.converter;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.isatools.graph.model.ISAFactorValue;
-import org.isatools.graph.model.ISAMaterialAttribute;
-import org.isatools.graph.model.ISANode;
-import org.isatools.graph.model.ISAUnit;
-import org.isatools.graph.model.impl.*;
-import org.isatools.graph.model.impl.Date;
-import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.isatools.isacreator.model.Protocol;
 import org.isatools.isacreator.model.StudyDesign;
+
+import org.isatools.graph.model.*;
+import org.isatools.graph.model.impl.*;
+
+import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.owl.BFO;
 import org.isatools.owl.ISA;
@@ -33,9 +31,9 @@ import java.util.*;
  *
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  */
-public class Assay2OWLConverter {
+public class Assay2LinkedConverter {
 
-    private static final Logger log = Logger.getLogger(Assay2OWLConverter.class);
+    private static final Logger log = Logger.getLogger(Assay2LinkedConverter.class);
 
     public enum AssayTableType { STUDY, ASSAY}
     private GraphParser graphParser = null;
@@ -61,7 +59,7 @@ public class Assay2OWLConverter {
     private Map<String, OWLNamedIndividual> parameterNameIndividualMap = new HashMap<String, OWLNamedIndividual>();
 
 
-    public Assay2OWLConverter(){
+    public Assay2LinkedConverter(){
         log.info("Assay2OWLConverter - constructor");
     }
 
@@ -133,7 +131,7 @@ public class Assay2OWLConverter {
         }
 
         if (convertGroups){
-            ISA2OWL.groupsAtStudyLevel = convertGroups(studyDesignIndividual,sampleIndividualMap);
+            LinkedISA.groupsAtStudyLevel = convertGroups(studyDesignIndividual,sampleIndividualMap);
         }
         return sampleIndividualMap;
     }
@@ -190,18 +188,18 @@ public class Assay2OWLConverter {
                         individualType = ExtendedISASyntax.STUDY_ASSAY;
 
 
-                    processIndividual = ISA2OWL.createIndividual(individualType, processNodeValue);
+                    processIndividual = LinkedISA.createIndividual(individualType, processNodeValue);
                  }//if individual is null.
 
                     processNodeIndividuals.put(processNodeValue, processIndividual);
 
                     //assay_file describes assay
                     if (individualType==ExtendedISASyntax.STUDY_ASSAY)
-                        ISA2OWL.createObjectPropertyAssertion(ISA.DESCRIBES, assayFileIndividual, processIndividual);
+                        LinkedISA.createObjectPropertyAssertion(ISA.DESCRIBES, assayFileIndividual, processIndividual);
 
                     //inputs & outputs
                     //adding inputs and outputs to the assay
-                    OWLObjectProperty has_specified_input = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_INPUT));
+                    OWLObjectProperty has_specified_input = LinkedISA.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_INPUT));
                     ISANode input = processNode.getInputNode();
                     int inputCol = input.getIndex();
 
@@ -211,19 +209,19 @@ public class Assay2OWLConverter {
                                 System.out.println("individualMatrix[row][inputCol]==null!!!! " + individualMatrix[processRow][inputCol] == null + "  row=" + processRow + " inputCol=" + inputCol);
                         }else{
                                 OWLNamedIndividual inputIndividual = individualMatrix[processRow][inputCol];
-                                ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_input, processIndividual, inputIndividual);
+                                LinkedISA.addObjectPropertyAssertionAxiom(has_specified_input, processIndividual, inputIndividual);
                         }
                     }
 
 
 
-                    OWLObjectProperty has_specified_output = ISA2OWL.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_OUTPUT));
+                    OWLObjectProperty has_specified_output = LinkedISA.factory.getOWLObjectProperty(IRI.create(OBI.HAS_SPECIFIED_OUTPUT));
                     ISANode output = processNode.getOutputNode();
                     int outputCol = output.getIndex();
                     if (!data[processRow][outputCol].toString().equals("")){
 
                         if (individualMatrix[processRow][outputCol]!=null){
-                            ISA2OWL.addObjectPropertyAssertionAxiom(has_specified_output, processIndividual, individualMatrix[processRow][outputCol]);
+                            LinkedISA.addObjectPropertyAssertionAxiom(has_specified_output, processIndividual, individualMatrix[processRow][outputCol]);
                         }else{
                                 System.out.println("individualMatrix[row][outputCol es null!!!! "+ individualMatrix[processRow][outputCol]+ "  row="+processRow+" outputCol="+outputCol);
                             }
@@ -244,18 +242,18 @@ public class Assay2OWLConverter {
 
                         //executes
                         OWLNamedIndividual protocolIndividual = protocolIndividualMap.get(protocolExecutionName);
-                        OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.EXECUTES));
-                        ISA2OWL.addObjectPropertyAssertionAxiom(executes, processIndividual, protocolIndividual);
+                        OWLObjectProperty executes = LinkedISA.factory.getOWLObjectProperty(IRI.create(ISA.EXECUTES));
+                        LinkedISA.addObjectPropertyAssertionAxiom(executes, processIndividual, protocolIndividual);
 
                         OWLNamedIndividual protocolExecutionIndividual = individualMatrix[processRow][protocolExecutionColumn];
 
-                        OWLObjectProperty isPrecededBy = ISA2OWL.factory.getOWLObjectProperty(IRI.create(BFO.IS_PRECEDED_BY));
+                        OWLObjectProperty isPrecededBy = LinkedISA.factory.getOWLObjectProperty(IRI.create(BFO.IS_PRECEDED_BY));
                         if (lastProtocolExecutionIndividual!=null)
-                            ISA2OWL.addObjectPropertyAssertionAxiom(isPrecededBy, protocolExecutionIndividual, lastProtocolExecutionIndividual);
+                            LinkedISA.addObjectPropertyAssertionAxiom(isPrecededBy, protocolExecutionIndividual, lastProtocolExecutionIndividual);
 
                         lastProtocolExecutionIndividual = protocolExecutionIndividual;
-                        OWLObjectProperty has_part = ISA2OWL.factory.getOWLObjectProperty(IRI.create(BFO.HAS_PART));
-                        ISA2OWL.addObjectPropertyAssertionAxiom(has_part, processIndividual, protocolExecutionIndividual);
+                        OWLObjectProperty has_part = LinkedISA.factory.getOWLObjectProperty(IRI.create(BFO.HAS_PART));
+                        LinkedISA.addObjectPropertyAssertionAxiom(has_part, processIndividual, protocolExecutionIndividual);
 
                         //RULE: if there is only one protocol REF associated with a 'data transformation' or 'normalization' node,
                         //the data transformation can take the same type as the protocol ref
@@ -267,8 +265,8 @@ public class Assay2OWLConverter {
                             if (protocolExecutionIndividual==null)
                                 System.out.println("this is null!!!!");
 
-                            OWLSameIndividualAxiom axiom = ISA2OWL.factory.getOWLSameIndividualAxiom(processIndividual, protocolExecutionIndividual);
-                            ISA2OWL.manager.addAxiom(ISA2OWL.ontology,axiom);
+                            OWLSameIndividualAxiom axiom = LinkedISA.factory.getOWLSameIndividualAxiom(processIndividual, protocolExecutionIndividual);
+                            LinkedISA.manager.addAxiom(LinkedISA.ontology,axiom);
 
                         }
 
@@ -276,8 +274,8 @@ public class Assay2OWLConverter {
 
 
                 assayIndividualsForProperties.put(ExtendedISASyntax.STUDY_ASSAY, Collections.singleton(processIndividual));
-                Map<String,List<Pair<IRI, String>>> assayPropertyMappings = ISA2OWL.mapping.getAssayPropertyMappings();
-                ISA2OWL.convertPropertiesMultipleIndividuals(assayPropertyMappings, assayIndividualsForProperties);
+                Map<String,List<Pair<IRI, String>>> assayPropertyMappings = LinkedISA.mapping.getAssayPropertyMappings();
+                LinkedISA.convertPropertiesMultipleIndividuals(assayPropertyMappings, assayIndividualsForProperties);
 
             }//for
         }
@@ -505,7 +503,7 @@ public class Assay2OWLConverter {
 
                 if (processIndividual==null){
                         //create processIndividual
-                        processIndividual = ISA2OWL.createIndividual(assayTableType == AssayTableType.STUDY ?
+                        processIndividual = LinkedISA.createIndividual(assayTableType == AssayTableType.STUDY ?
                                 ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, protocolExecutionValue);
                     if (!PROTOCOL_REF_ALWAYS_NEW)
                         processParametersPerfomerDateProcessIndividualMap.put(processParametersPerformerDateString,processIndividual);
@@ -522,7 +520,7 @@ public class Assay2OWLConverter {
                         ExtendedISASyntax.STUDY_PROTOCOL_REF : ExtendedISASyntax.ASSAY_PROTOCOL_REF, set);
 
                 if (protocol!=null && protocol.getProtocolType()!=null){
-                    ISA2OWL.addComment(protocol.getProtocolType(), processIndividual.getIRI());
+                    LinkedISA.addComment(protocol.getProtocolType(), processIndividual.getIRI());
                 } else{
                     System.out.println("Protocol type is null for protocol "+protocol);
                 }
@@ -531,15 +529,15 @@ public class Assay2OWLConverter {
 
                     //TODO add protocolIndividual to protocolREFIndividuals
 
-                    OWLObjectProperty executes = ISA2OWL.factory.getOWLObjectProperty(IRI.create(ISA.EXECUTES));
-                    OWLObjectPropertyAssertionAxiom axiom1 = ISA2OWL.factory.getOWLObjectPropertyAssertionAxiom(executes,processIndividual, protocolIndividual);
-                    ISA2OWL.manager.addAxiom(ISA2OWL.ontology, axiom1);
+                    OWLObjectProperty executes = LinkedISA.factory.getOWLObjectProperty(IRI.create(ISA.EXECUTES));
+                    OWLObjectPropertyAssertionAxiom axiom1 = LinkedISA.factory.getOWLObjectPropertyAssertionAxiom(executes,processIndividual, protocolIndividual);
+                    LinkedISA.manager.addAxiom(LinkedISA.ontology, axiom1);
 
                     //use term source and term accession to declare a more specific type for the process node
                     if (protocol.getProtocolTypeTermAccession()!=null && !protocol.getProtocolTypeTermAccession().equals("")
                             && protocol.getProtocolTypeTermSourceRef()!=null && !protocol.getProtocolTypeTermSourceRef().equals("")){
 
-                        ISA2OWL.findOntologyTermAndAddClassAssertion(protocol.getProtocolTypeTermSourceRef(), protocol.getProtocolTypeTermAccession(), processIndividual);
+                        LinkedISA.findOntologyTermAndAddClassAssertion(protocol.getProtocolTypeTermSourceRef(), protocol.getProtocolTypeTermAccession(), processIndividual);
 
                     }//process node attributes not null
                 }
@@ -587,7 +585,7 @@ public class Assay2OWLConverter {
                         if (parameterNameIndividualMap.containsKey(parameterLabel)) {
                             parameterIndividual = parameterNameIndividualMap.get(parameterLabel);
                         } else {
-                            parameterIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.PARAMETER_VALUE.name, parameterLabel);
+                            parameterIndividual = LinkedISA.createIndividual(GeneralFieldTypes.PARAMETER_VALUE.name, parameterLabel);
                         }
 
                         individualMatrix[processRow][parameterCol] = parameterIndividual;
@@ -611,8 +609,8 @@ public class Assay2OWLConverter {
                     }
 
 
-                Map<String, List<Pair<IRI,String>>> protocolREFmapping = ISA2OWL.mapping.getProtocolREFMappings();
-                ISA2OWL.convertPropertiesMultipleIndividuals(protocolREFmapping, protocolREFIndividuals);
+                Map<String, List<Pair<IRI,String>>> protocolREFmapping = LinkedISA.mapping.getProtocolREFMappings();
+                LinkedISA.convertPropertiesMultipleIndividuals(protocolREFmapping, protocolREFIndividuals);
 
 
             }//processRow
@@ -648,7 +646,7 @@ public class Assay2OWLConverter {
                 //Data Node
                 dataNodeIndividual = dataNodesIndividuals.get(dataValue);
                 if (dataNodeIndividual == null){
-                    dataNodeIndividual = ISA2OWL.createIndividual(dataNode.getName(), dataValue, dataValue);
+                    dataNodeIndividual = LinkedISA.createIndividual(dataNode.getName(), dataValue, dataValue);
                     dataNodesIndividuals.put(dataValue, dataNodeIndividual);
                 }
                 individualMatrix[row][col] = dataNodeIndividual;
@@ -721,7 +719,7 @@ public class Assay2OWLConverter {
                     }
 
                     if (materialNodeIndividual==null) {
-                        materialNodeIndividual = ISA2OWL.createIndividual(materialNode.getMaterialNodeType(), dataValue +" " +materialNode.getMaterialNodeType(), materialNode.getMaterialNodeType());
+                        materialNodeIndividual = LinkedISA.createIndividual(materialNode.getMaterialNodeType(), dataValue + " " + materialNode.getMaterialNodeType(), materialNode.getMaterialNodeType());
 
                         namedIndividualMap.put(dataValue, materialNodeIndividual);
                         materialNodeIndividualMap.put(materialNode.getName(), namedIndividualMap);
@@ -745,12 +743,12 @@ public class Assay2OWLConverter {
 
                         String source = OntologyManager.getOntologyTermSource(dataValue);
                         String accession = OntologyManager.getOntologyTermAccession(dataValue);
-                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
+                        LinkedISA.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
 
                     }
 
                     //Material Node Name
-                    OWLNamedIndividual materialNodeIndividualName = ISA2OWL.createIndividual(GeneralFieldTypes.SOURCE_NAME.toString(),dataValue);
+                    OWLNamedIndividual materialNodeIndividualName = LinkedISA.createIndividual(GeneralFieldTypes.SOURCE_NAME.toString(), dataValue);
                     Set<OWLNamedIndividual> set3 = new HashSet();
                     set3.add(materialNodeIndividualName);
                     materialNodeAndAttributesIndividuals.put(GeneralFieldTypes.SOURCE_NAME.toString(), set3);
@@ -818,7 +816,7 @@ public class Assay2OWLConverter {
 
                 OWLNamedIndividual materialAttributeIndividual = materialAttributeIndividualMap.get(attributeDataValue);
                 if (materialAttributeIndividual == null)
-                    materialAttributeIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeTerm);
+                    materialAttributeIndividual = LinkedISA.createIndividual(GeneralFieldTypes.CHARACTERISTIC.toString(), attributeDataValue, attributeTerm);
 
                 materialAttributeIndividualMap.put(attributeDataValue, materialAttributeIndividual);
 
@@ -827,10 +825,10 @@ public class Assay2OWLConverter {
                 //the column is annotated with an ontology
                 if (attributeSource!=null && attributeAccession!=null){
                     if (isOrganism(attributeSource, attributeAccession))  {
-                        ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialNodeIndividual);
+                        LinkedISA.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialNodeIndividual);
 
                     } else {
-                        ISA2OWL.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialAttributeIndividual);
+                        LinkedISA.findOntologyTermAndAddClassAssertion(attributeSource, attributeAccession, materialAttributeIndividual);
                     }
                 }
 
@@ -842,9 +840,9 @@ public class Assay2OWLConverter {
                 if (source!=null && accession!=null){
 
                     if (isOrganism(source, accession)){
-                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
+                        LinkedISA.findOntologyTermAndAddClassAssertion(source, accession, materialNodeIndividual);
                     } else {
-                        ISA2OWL.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
+                        LinkedISA.findOntologyTermAndAddClassAssertion(source, accession, materialAttributeIndividual);
                     }
                 }
 
@@ -862,8 +860,8 @@ public class Assay2OWLConverter {
         } //for attribute
 
         //convert properties per each attribute
-        Map<String, List<Pair<IRI,String>>> materialNodePropertyMapping = ISA2OWL.mapping.getMaterialNodePropertyMappings();
-        ISA2OWL.convertPropertiesMultipleIndividuals(materialNodePropertyMapping, materialNodeAndAttributesIndividuals);
+        Map<String, List<Pair<IRI,String>>> materialNodePropertyMapping = LinkedISA.mapping.getMaterialNodePropertyMappings();
+        LinkedISA.convertPropertiesMultipleIndividuals(materialNodePropertyMapping, materialNodeAndAttributesIndividuals);
     }
 
     /**
@@ -884,7 +882,7 @@ public class Assay2OWLConverter {
             Map<String, Set<OWLNamedIndividual>> individualsForProperties = new HashMap<String, Set<OWLNamedIndividual>>();
             individualsForProperties.put(StudyDesign.STUDY_DESIGN_TYPE, Collections.singleton(studyDesignIndividual));
 
-            OWLNamedIndividual groupIndividual = ISA2OWL.createIndividual(ExtendedISASyntax.STUDY_GROUP, group);
+            OWLNamedIndividual groupIndividual = LinkedISA.createIndividual(ExtendedISASyntax.STUDY_GROUP, group);
             individualsForProperties.put(ExtendedISASyntax.STUDY_GROUP, Collections.singleton(groupIndividual));
 
             StudyGroup studyGroup = groups.get(group);
@@ -923,8 +921,8 @@ public class Assay2OWLConverter {
             groupsCreated = true;
 
             //convert properties per each attribute
-            Map<String, List<Pair<IRI,String>>> materialNodePropertyMapping = ISA2OWL.mapping.getGroupPropertyMappings();
-            ISA2OWL.convertPropertiesMultipleIndividuals(materialNodePropertyMapping, individualsForProperties);
+            Map<String, List<Pair<IRI,String>>> materialNodePropertyMapping = LinkedISA.mapping.getGroupPropertyMappings();
+            LinkedISA.convertPropertiesMultipleIndividuals(materialNodePropertyMapping, individualsForProperties);
 
         }
         return groupsCreated;
@@ -979,7 +977,7 @@ public class Assay2OWLConverter {
             if (factorValueIndividuals.get(factorValueLabel)!=null)
                 factorValueIndividual = factorValueIndividuals.get(factorValueLabel);
             else {
-                factorValueIndividual = ISA2OWL.createIndividual(GeneralFieldTypes.FACTOR_VALUE.name, factorValueLabel);
+                factorValueIndividual = LinkedISA.createIndividual(GeneralFieldTypes.FACTOR_VALUE.name, factorValueLabel);
                 factorValueIndividuals.put(factorValueLabel, factorValueIndividual);
             }
 
@@ -991,8 +989,8 @@ public class Assay2OWLConverter {
             set.add(factorValueIndividual);
             factorIndividualsForProperties.put(GeneralFieldTypes.FACTOR_VALUE.name, set);
 
-            Map<String,List<Pair<IRI, String>>> factorPropertyMappings = ISA2OWL.mapping.getFactorPropertyMappings();
-            ISA2OWL.convertPropertiesMultipleIndividuals(factorPropertyMappings, factorIndividualsForProperties);
+            Map<String,List<Pair<IRI, String>>> factorPropertyMappings = LinkedISA.mapping.getFactorPropertyMappings();
+            LinkedISA.convertPropertiesMultipleIndividuals(factorPropertyMappings, factorIndividualsForProperties);
 
         }
 
@@ -1070,7 +1068,7 @@ public class Assay2OWLConverter {
         }
 
         //date
-        Date date = processNode.getDate();
+        org.isatools.graph.model.impl.Date date = processNode.getDate();
         if (date!=null){
             int dateIndex = date.getIndex();
             String dateString = data[processRow][dateIndex].toString();
@@ -1091,7 +1089,7 @@ public class Assay2OWLConverter {
     private void addComments(NodeWithComments nodeWithComments, int row, OWLNamedIndividual individual){
         for(CommentNode comment: nodeWithComments.getComments()){
             int comment_col = comment.getIndex();
-            ISA2OWL.addComment( comment.getName() + ":" + data[row][comment_col], individual.getIRI());
+            LinkedISA.addComment(comment.getName() + ":" + data[row][comment_col], individual.getIRI());
         }
 
     }

@@ -16,11 +16,11 @@ import java.net.URL;
  */
 public class ISA2OWLMappingParserTest {
 	
-	private ISA2OWLMappingParser parser = null;
+	private LinkedISAMappingParser parser = null;
 
 	@Before
     public void setUp() {
-        parser = new ISA2OWLMappingParser();
+        parser = new LinkedISAMappingParser();
     }
 
     @After
@@ -31,11 +31,11 @@ public class ISA2OWLMappingParserTest {
 	@Test
 	public void testReadISA_OBIMappingFile() throws Exception{
 		//TODO add assertions
-		URL fileURL = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_OBI_MAPPING_FILENAME);
+		URL fileURL = getClass().getClassLoader().getResource(ISASyntax2LinkedMappingFiles.ISA_OBI_MAPPING_FILENAME);
 		parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
 		System.out.println(parser.getMapping());
 
-        ISASyntax2OWLMapping mapping = parser.getMapping();
+        ISASyntax2LinkedMapping mapping = parser.getMapping();
 
         System.out.println("propertyIRI="+mapping.getPropertyIRI("Source", "Characteristics"));
 
@@ -48,13 +48,13 @@ public class ISA2OWLMappingParserTest {
 
     @Test
     public void testLoadTwoMappings() throws Exception {
-        URL isa_obi_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_OBI_MAPPING_FILENAME);
+        URL isa_obi_mapping_url = getClass().getClassLoader().getResource(ISASyntax2LinkedMappingFiles.ISA_OBI_MAPPING_FILENAME);
         parser.parseCSVMappingFile(isa_obi_mapping_url.toURI().getRawPath().toString());
 
-        URL isa_isa_mapping_url = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_ISA_MAPPING_FILENAME);
+        URL isa_isa_mapping_url = getClass().getClassLoader().getResource(ISASyntax2LinkedMappingFiles.ISA_ISA_MAPPING_FILENAME);
         parser.parseCSVMappingFile(isa_isa_mapping_url.toURI().getRawPath().toString());
 
-        ISASyntax2OWLMapping mapping = parser.getMapping();
+        ISASyntax2LinkedMapping mapping = parser.getMapping();
 
         System.out.println("mapping="+mapping);
     }
@@ -62,14 +62,14 @@ public class ISA2OWLMappingParserTest {
     @Test
     public void testReadISA_SIOMappingFile() throws Exception{
         //TODO add assertions
-        URL fileURL = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_SIO_MAPPING_FILENAME);
+        URL fileURL = getClass().getClassLoader().getResource(ISASyntax2LinkedMappingFiles.ISA_SIO_MAPPING_FILENAME);
         parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
         System.out.println(parser.getMapping());
     }
 
     @Test
     public void testReadISA_ISAMappingFile() throws Exception{
-        URL fileURL = getClass().getClassLoader().getResource(ISASyntax2OWLMappingFiles.ISA_ISA_MAPPING_FILENAME);
+        URL fileURL = getClass().getClassLoader().getResource(ISASyntax2LinkedMappingFiles.ISA_ISA_MAPPING_FILENAME);
         parser.parseCSVMappingFile(fileURL.toURI().getRawPath().toString());
         System.out.println(parser.getMapping());
     }

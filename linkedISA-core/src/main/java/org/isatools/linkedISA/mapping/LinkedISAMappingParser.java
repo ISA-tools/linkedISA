@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-//import org.isatools.isacreator.model.*;
 
 /**
  * Mapping from ISA format to OWL.
@@ -16,12 +15,11 @@ import java.io.IOException;
  * @author <a href="mailto:alejandra.gonzalez.beltran@gmail.com">Alejandra Gonzalez-Beltran</a>
  *
  */
-public class ISA2OWLMappingParser {
+public class LinkedISAMappingParser {
 
-    private static final Logger log = Logger.getLogger(ISA2OWLMappingParser.class);
-	
-	
-	private ISASyntax2OWLMapping mapping = null;
+    private static final Logger log = Logger.getLogger(LinkedISAMappingParser.class);
+
+	private ISASyntax2LinkedMapping mapping = null;
 		
 	private static enum MappingFileField {
 		ONTOLOGIES,
@@ -49,18 +47,19 @@ public class ISA2OWLMappingParser {
 	} 
 	
 	
-	public ISA2OWLMappingParser(){
-		mapping = new ISASyntax2OWLMapping();
+	public LinkedISAMappingParser(){
+		mapping = new ISASyntax2LinkedMapping();
 	}
 	
 	
-	public ISASyntax2OWLMapping getMapping(){
+	public ISASyntax2LinkedMapping getMapping(){
 		return mapping;
 	}
-	
-	
-	public void parseCSVMappingFile(String csvFilename) {//throws FileNotFoundException{
-		
+
+    public void parseCSVMappingFile(String csvFilename) {
+
+        mapping.addMappingFile(csvFilename.substring(csvFilename.lastIndexOf('/')+1));
+
 		try {
 		CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
 		
@@ -68,11 +67,12 @@ public class ISA2OWLMappingParser {
 	    MappingFileField currentField = null;
 	    
 	    	while ((nextLine = csvReader.readNext()) != null) {
-	    		//System.out.println("nextLine="+nextLine[0]);
+
+                if (nextLine!=null && nextLine[0].startsWith("#"))
+                  continue;
 
 	    		if (nextLine!=null && MappingFileField.isMappingField(nextLine[0])){
 	    			currentField = MappingFileField.getField(nextLine[0]);
-	    			System.out.println("currentField="+currentField);
 	    			
 	    		}else{
 	    			if (nextLine[0].equals(""))
@@ -126,7 +126,8 @@ public class ISA2OWLMappingParser {
 
         if (!line[0].startsWith("{")){
 
-            mapping.addTypeMapping(line[0], line[2]);
+            if (!line[2].equals(""))
+                mapping.addTypeMapping(line[0], line[2]);
 
             //parsing property mappings
             int i = 4;
@@ -142,7 +143,8 @@ public class ISA2OWLMappingParser {
             String[] types = element.split("\\|");
 
             for(int i=0; i<types.length; i++){
-                mapping.addTypeMapping(types[i],line[2]);
+                if (!line[2].equals(""))
+                    mapping.addTypeMapping(types[i],line[2]);
             }
 
             //parsing property mappings
@@ -158,7 +160,7 @@ public class ISA2OWLMappingParser {
 
                 }else{
                     object = object.substring(1, object.length()-1);
-                    String[] objects = object.split(ISASyntax2OWLMapping.SEPARATOR_REGEXPR);
+                    String[] objects = object.split(ISASyntax2LinkedMapping.SEPARATOR_REGEXPR);
 
                     for(int j=0; j<types.length; j++){
                         mapping.addPropertyMapping(types[j], line[i], objects[j]);
