@@ -63,14 +63,6 @@
             <url>https://oss.sonatype.org/content/repositories/releases/</url>
         </repository>
 
-        <!--
-        <repository>
-            <id>on.cs.unibas.ch</id>
-            <name>DBIS Maven Releases Repository</name>
-            <url>http://on.cs.unibas.ch/maven/repository</url>
-        </repository>
-        -->
-
     </repositories>
 
     <distributionManagement>
