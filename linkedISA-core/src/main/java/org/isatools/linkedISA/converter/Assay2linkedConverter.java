@@ -2,18 +2,15 @@ package org.isatools.linkedISA.converter;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.isatools.graph.model.ISAFactorValue;
-import org.isatools.graph.model.ISAMaterialAttribute;
-import org.isatools.graph.model.ISANode;
-import org.isatools.graph.model.ISAUnit;
-//import org.isatools.graph.model.impl.Date;
-import org.isatools.graph.model.impl.Graph;
-import org.isatools.graph.model.impl.ProtocolExecutionNode;
-import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.GeneralFieldTypes;
 import org.isatools.isacreator.model.Protocol;
 import org.isatools.isacreator.model.StudyDesign;
+
+import org.isatools.graph.model.*;
+import org.isatools.graph.model.impl.*;
+
+import org.isatools.graph.parser.GraphParser;
 import org.isatools.isacreator.ontologymanager.OntologyManager;
 import org.isatools.owl.BFO;
 import org.isatools.owl.ISA;

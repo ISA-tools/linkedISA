@@ -330,7 +330,7 @@ public class GraphParser {
         return groups;
     }
 
-    public Graph getGraph() {
+    public org.isatools.graph.model.impl.Graph getGraph() {
         return graph;
     }
 
