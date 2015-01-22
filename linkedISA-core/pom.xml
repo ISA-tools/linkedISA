@@ -4,12 +4,12 @@
     <parent>
         <artifactId>linkedISA</artifactId>
         <groupId>org.isatools</groupId>
-        <version>1.0.0</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <groupId>org.isatools</groupId>
     <artifactId>linkedISA-core</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>linkedISA-core</name>
 
     <build>
@@ -47,14 +47,6 @@
             <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/groups/oerc</url>
         </repository>
 
-        <!--
-        <repository>
-            <id>on.cs.unibas.ch</id>
-            <name>DBIS Maven Releases Repository</name>
-            <url>http://on.cs.unibas.ch/maven/repository</url>
-        </repository>
-        -->
-
         <repository>
             <id>Sonatype repository</id>
             <name>Sonatype's Maven repository</name>
@@ -84,6 +76,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.isatools</groupId>
+            <artifactId>ISacreator</artifactId>
+            <version>1.7.8</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.10</version>
@@ -105,7 +103,13 @@
         <dependency>
             <groupId>net.sourceforge.owlapi</groupId>
             <artifactId>owlapi-apibinding</artifactId>
-            <version>3.4.5</version>
+            <version>3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.owlapi</groupId>
+            <artifactId>owlapi-api</artifactId>
+            <version>3.3</version>
         </dependency>
 
         <dependency>
@@ -262,6 +266,13 @@
         </dependency>
 
     </dependencies>
+
+
+    <scm>
+        <connection>scm:git@github.com:ISA-tools/linkedISA.git</connection>
+        <url>scm:git@github.com:ISA-tools/linkedISA.git</url>
+        <developerConnection>scm:git:git@github.com:ISA-tools/linkedISA.git</developerConnection>
+    </scm>
 
 
     <distributionManagement>

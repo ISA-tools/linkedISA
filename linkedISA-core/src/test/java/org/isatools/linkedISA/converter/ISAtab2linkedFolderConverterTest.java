@@ -46,7 +46,7 @@ public class ISAtab2LinkedFolderConverterTest {
     }
 
 
-    @Test
+    //@Test
     public void convertSDataDatasets() throws Exception {
         //isatab2owlfolder.convert("/Users/agbeltran/work-datasets/ScientificData/isa-tab","http://w3id.org/isa/sdata/","/Users/agbeltran/work-datasets/ScientificData/rdf/");
 

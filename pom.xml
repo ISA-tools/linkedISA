@@ -4,7 +4,7 @@
     <groupId>org.isatools</groupId>
     <artifactId>linkedISA</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>linkedISA</name>
     <description>Converts an ISAtab datasets into OWL.</description>
     <modules>
@@ -43,14 +43,6 @@
         </pluginManagement>
     </build>
 
-
-    <scm>
-        <connection>scm:git@github.com:ISA-tools/linkedISA.git</connection>
-        <url>scm:git@github.com:ISA-tools/linkedISA.git</url>
-        <developerConnection>scm:git:git@github.com:ISA-tools/linkedISA.git</developerConnection>
-    </scm>
-
-
     <repositories>
         <repository>
             <id>oerc</id>
@@ -64,6 +56,13 @@
         </repository>
 
     </repositories>
+
+    <scm>
+        <connection>scm:git@github.com:ISA-tools/linkedISA.git</connection>
+        <url>scm:git@github.com:ISA-tools/linkedISA.git</url>
+        <developerConnection>scm:git:git@github.com:ISA-tools/linkedISA.git</developerConnection>
+    </scm>
+
 
     <distributionManagement>
         <repository>

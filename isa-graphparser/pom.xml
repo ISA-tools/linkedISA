@@ -4,12 +4,12 @@
     <parent>
         <artifactId>linkedISA</artifactId>
         <groupId>org.isatools</groupId>
-        <version>1.0.0</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <groupId>org.isatools</groupId>
     <artifactId>isa-graphparser</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>isa-graphparser</name>
 
     <build>
@@ -33,14 +33,6 @@
             <id>oerc</id>
             <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/groups/oerc</url>
         </repository>
-
-        <!--
-        <repository>
-            <id>on.cs.unibas.ch</id>
-            <name>DBIS Maven Releases Repository</name>
-            <url>http://on.cs.unibas.ch/maven/repository</url>
-        </repository>
-        -->
 
         <repository>
             <id>mvnrepository</id>
@@ -88,6 +80,13 @@
         </dependency>
 
     </dependencies>
+
+
+    <scm>
+        <connection>scm:git@github.com:ISA-tools/linkedISA.git</connection>
+        <url>scm:git@github.com:ISA-tools/linkedISA.git</url>
+        <developerConnection>scm:git:git@github.com:ISA-tools/linkedISA.git</developerConnection>
+    </scm>
 
 
     <distributionManagement>
