@@ -58,10 +58,11 @@
     </repositories>
 
     <scm>
-        <connection>scm:git@github.com:ISA-tools/linkedISA.git</connection>
-        <url>scm:git@github.com:ISA-tools/linkedISA.git</url>
-        <developerConnection>scm:git:git@github.com:ISA-tools/linkedISA.git</developerConnection>
+        <connection>scm:git:https://github.com/ISA-tools/linkedISA.git</connection>
+        <url>scm:git:https://github.com/ISA-tools/linkedISA.git</url>
+        <developerConnection>scm:git:https://github.com/ISA-tools/linkedISA.git</developerConnection>
     </scm>
+
 
 
     <distributionManagement>
