@@ -3,12 +3,12 @@
     <parent>
         <artifactId>linkedISA</artifactId>
         <groupId>org.isatools</groupId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
     <groupId>org.isatools</groupId>
     <artifactId>isa-graphparser</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>isa-graphparser</name>
 
     <build>

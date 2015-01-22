@@ -4,7 +4,7 @@
     <groupId>org.isatools</groupId>
     <artifactId>linkedISA</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>linkedISA</name>
     <description>Converts an ISAtab datasets into OWL.</description>
     <modules>
