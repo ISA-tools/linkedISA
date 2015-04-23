@@ -49,11 +49,11 @@
         <h3>
 <a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h3>
 
-<p><a href="http://isa-tools.org/format.html">ISA-Tab</a> is a tabular format for the description of experimental steps. It originated for describing multi-omic and multi-assay experiments in the life sciences, but since its inception has also been used in other domains.</p>
+<p><a href="http://www.isa-tools.org/format/specification/">ISA-Tab</a> is a tabular format for the description of experimental steps. It originated for describing multi-omic and multi-assay experiments in the life sciences, but since its inception has also been used in other domains.</p>
 
-<p>The ISA-Tab format constitutes ISA infrastructure syntactic layer (see the figure below), defining the syntactic elements for the description of experiments.</p>
+<p>The ISA-Tab format constitutes <a href="http://www.isa-tools.org/software-suite/">ISA infrastructure</a> syntactic layer (see the figure below), defining the syntactic elements for the description of experiments.</p>
 
-<p>The <a href="http://isatab.sourceforge.net/docs/ISA-TAB_release-candidate-1_v1.0_24nov08.pdf">ISA-Tab specification</a> defines the way in which the ISA syntactic elements can be combined, providing a grammar layer for the infrastructure. </p>
+<p>The <a href="http://www.isa-tools.org/format/specification/">ISA-Tab specification</a> defines the way in which the ISA syntactic elements can be combined, providing a grammar layer for the infrastructure. </p>
 
 <p>The <a href="https://github.com/ISA-tools/Configuration-Files">ISA configurations</a> are a set of templates or patterns that organise ISA elements for specific domains, so that they comply with the ISA grammar.</p>
 
@@ -66,6 +66,13 @@
 <p>linkedISA has been implemented as a Java package relying on the <a href="http://owlapi.sourceforge.net/">OWL API</a> that parses ISA-Tab files and generates an Resource Description Framework (RDF) representation, relying on mapping files from the ISA syntax to different semantic frameworks (or <a href="http://www.w3.org/TR/owl2-overview/">Web Ontology Language</a> --- OWL --- ontologies).</p>
 
 <p>The linkedISA project was previously called ISA2OWL, but we have decided to rename it, as we think that <strong>linkedISA</strong> reflects better the objectives of the project.</p>
+
+<p>For more details, read the linkedISA publication:</p>
+
+          <object data="http://www.biomedcentral.com/1471-2105/15/S14/S4" width="600" height="400" align="center">
+              <embed src="http://www.biomedcentral.com/1471-2105/15/S14/S4" width="600" height="400"> </embed>
+              Error: Embedded publication could not be displayed.
+          </object>
 
 
 <h3><a name="mappings" class="anchor" href="#mappings"><span class="octicon octicon-link"></span></a>Mapping Files</h3>
@@ -166,7 +173,7 @@ $ git checkout gh-pages
 <h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>linkedISA is a project by the <a href="http://isatab.sourceforge.net/support.html">core ISA-tools team</a>.</p>
+<p>linkedISA is a project by the <a href="http://www.isa-tools.org/team/">core ISA-tools team</a>.</p>
 
 <p>The mappings from the ISA syntax to multiple ontologies and SPARQL queries were developed by <a href="http://www.oerc.ox.ac.uk/people/philippe-rocca-serra">Philippe Rocca-Serra</a> (<a href="https://github.com/proccaserra" class="user-mention">@proccaserra</a>) and <a href="http://www.oerc.ox.ac.uk/people/alejandra">Alejandra Gonzalez-Beltran</a> (<a href="https://github.com/agbeltran" class="user-mention">@agbeltran</a>).</p>
 
