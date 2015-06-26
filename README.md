@@ -2,7 +2,7 @@
 
 linkedISA is a package to convert ISA-TAB files into RDF data relying on different semantic frameworks (OWL ontologies).
 
-For more information, please visit the [linkedISA webiste](http://isa-tools.github.io/linkedISA/).
+For more information, please visit the [linkedISA website](http://isa-tools.github.io/linkedISA/).
 
 ### Read the Publication...
 Access the Open Access BMc Bioinformatics article on linkedISA [here](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4255742/)
